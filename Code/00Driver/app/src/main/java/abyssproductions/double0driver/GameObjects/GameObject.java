@@ -49,20 +49,20 @@ public class GameObject {
 
     }
 
+    /*  PURPOSE:    Set's the game object's current position and size
+            INPUT:      newDimension    - The new position and size to set
+            OUTPUT:     NONE
+        */
+    public void setMyDimensions(Rect newDimension){
+
+    }
+
     /*  PURPOSE:    Return's the game object's current location and size
         INPUT:      NONE
         OUTPUT:     A Rect object with the data
     */
     public Rect getDimensions(){
         return myDimensions;
-    }
-
-    /*  PURPOSE:    Set's the game object's current position and size
-        INPUT:      newDimension    - The new position and size to set
-        OUTPUT:     NONE
-    */
-    public void setMyDimensions(Rect newDimension){
-
     }
 
     /*  PURPOSE:    Move's the game object vertically by the amount given
