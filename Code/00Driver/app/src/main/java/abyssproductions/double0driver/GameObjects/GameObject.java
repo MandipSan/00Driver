@@ -26,7 +26,7 @@ public class GameObject {
     }
 
     /*  PURPOSE:    Draws the game object's image to the screen
-        INPUT:      Canvas          - Pointer to the surface screen's canvas
+        INPUT:      canvas          - Pointer to the surface screen's canvas
         OUTPUT:     NONE
     */
     public void draw(Canvas canvas){
