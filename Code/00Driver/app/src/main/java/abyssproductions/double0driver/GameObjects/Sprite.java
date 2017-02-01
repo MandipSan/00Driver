@@ -11,6 +11,8 @@ public class Sprite extends GameObject {
     private int myMaxHealth;
     //  PURPOSE:    Holds the ammo amount for the different type of weapons
     private int [] myAmmo;
+    //  PURPOSE:    Holds the max ammo amount for the different type of weapons
+    private int [] myMaxAmmo;
     //  PURPOSE:    Holds the current active weapon
     private WeaponTypes myWeapon;
     //  PURPOSE:    Holds the different types of weapons
@@ -56,20 +58,21 @@ public class Sprite extends GameObject {
 
     }
 
-    /*  PURPOSE:    Set's the weapon type of the current active weapon
-        INPUT:      weaponType          - The weapon type to change too
-        OUTPUT:     NONE
-     */
-    public void setWeaponType(WeaponTypes weaponType){
-
-    }
-
     /*  PURPOSE:    Increase the ammo amount for the give weapon type
         INPUT:      weaponType          - The weapon type to increase the ammo for
                     increaseBy          - The amount to increase he ammo by
         OUTPUT:     NONE
      */
     public void increaseAmmo(WeaponTypes weaponType, int increaseBy){
+
+    }
+
+    /*  PURPOSE:    Set’s the max ammo by amount given for the given weapon type
+        INPUT:      weaponType          - The weapon type to increase the ammo for
+                    amount              - The amount to set max ammo
+        OUTPUT:     NONE
+     */
+    public void setMaxAmmo(WeaponTypes weaponType, int amount){
 
     }
 
@@ -106,4 +109,19 @@ public class Sprite extends GameObject {
         return 0;
     }
 
+    /*  PURPOSE:    Set's the weapon type of the current active weapon
+        INPUT:      weaponType          - The weapon type to change too
+        OUTPUT:     NONE
+     */
+    protected void setWeaponType(WeaponTypes weaponType){
+
+    }
+
+    /*  PURPOSE:    Returns the current weapon type
+        INPUT:      NONE
+        OUTPUT:     Returns an WeaponType var of the current weapon type
+     */
+    protected WeaponTypes getWeaponType(){
+        return myWeapon;
+    }
 }
