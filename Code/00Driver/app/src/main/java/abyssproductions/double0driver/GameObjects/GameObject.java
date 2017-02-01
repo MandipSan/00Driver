@@ -50,9 +50,9 @@ public class GameObject {
     }
 
     /*  PURPOSE:    Set's the game object's current position and size
-            INPUT:      newDimension    - The new position and size to set
-            OUTPUT:     NONE
-        */
+        INPUT:      newDimension    - The new position and size to set
+        OUTPUT:     NONE
+    */
     public void setMyDimensions(Rect newDimension){
 
     }
