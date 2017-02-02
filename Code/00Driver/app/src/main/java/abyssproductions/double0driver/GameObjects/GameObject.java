@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+
 /**
  * Created by Mandip Sangha on 1/31/2017.
  */
@@ -14,15 +15,17 @@ import android.graphics.RectF;
 public class GameObject {
     //  PURPOSE:    Holds the object's left, top, right, bottom coordinates
     private RectF myDimensions;
-
+    //  PURPOSE:    Holds the object's image style and color information
     private Paint myPaint;
     //  PURPOSE:    Holds the object's current frame image location
     private Rect myCurFrameLoc;
+    //  PURPOSE:    Holds the object's current frame image number
+    private int myCurFrameNum;
     //  PURPOSE:    Holds the object's images
     protected Bitmap myImage;
     //  PURPOSE:    Holds the object's movement velocity
     protected Point myVelocity;
-
+    //  PURPOSE:    Hold the object’s current animate state
     protected AnimateState myCurAniState;
     public enum AnimateState{Normal,Destroyed}
 
@@ -31,8 +34,12 @@ public class GameObject {
         OUTPUT:     NONE
      */
     public GameObject(){
-        myDimensions.set(0,0,0,0);
-        myVelocity.set(0,0);
+        myDimensions = new RectF(0,0,0,0);
+        myCurFrameLoc = new Rect(0,0,0,0);
+        myVelocity = new Point(0,0);
+        myPaint = new Paint();
+        myCurFrameNum = 0;
+        myCurAniState = AnimateState.Normal;
     }
 
     /*  PURPOSE:    Draws the game object's image to the screen
@@ -48,14 +55,6 @@ public class GameObject {
         OUTPUT:     NONE
     */
     public void update(){
-
-    }
-
-    /*  PURPOSE:    Runs the animation for the game object
-        INPUT:      NONE
-        OUTPUT:     NONE
-    */
-    public void animate(){
 
     }
 
@@ -89,5 +88,13 @@ public class GameObject {
     */
     protected void moveHorizontal(float moveBy){
         myDimensions.offset(moveBy,0);
+    }
+    
+    /*  PURPOSE:    Runs the animation for the game object
+        INPUT:      NONE
+        OUTPUT:     NONE
+    */
+    protected void animate(){
+
     }
 }
