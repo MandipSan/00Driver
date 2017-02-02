@@ -27,6 +27,7 @@ public class GameObject {
     protected Point myVelocity;
     //  PURPOSE:    Hold the object’s current animate state
     protected AnimateState myCurAniState;
+    //  PURPOSE:    The different states for the animation
     public enum AnimateState{Normal,Destroyed}
 
     /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
@@ -55,7 +56,7 @@ public class GameObject {
         OUTPUT:     NONE
     */
     public void update(){
-
+        animate();
     }
 
     /*  PURPOSE:    Set's the game object's current position and size
@@ -89,12 +90,22 @@ public class GameObject {
     protected void moveHorizontal(float moveBy){
         myDimensions.offset(moveBy,0);
     }
-    
+
     /*  PURPOSE:    Runs the animation for the game object
+                        (NOTE: Image Frame must be in right order of Normal state row 0 and
+                        Destroyed state row 1 and only four frames per row and follow all guidelines
+                        for image frames)
         INPUT:      NONE
         OUTPUT:     NONE
     */
     protected void animate(){
-
+        switch (myCurAniState){
+            case Normal:
+                myCurFrameLoc.set(50*myCurFrameNum,0,50*(myCurFrameNum+1),50);
+                break;
+            case Destroyed:
+                myCurFrameLoc.set(50*myCurFrameNum,50,50*(myCurFrameNum+1),100);
+                break;
+        }
     }
 }
