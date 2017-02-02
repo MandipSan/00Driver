@@ -58,8 +58,8 @@ public class Player extends Sprite {
 
     /*  PURPOSE:    Increase the player’s max ammo capacity by amount given for the weapon type
                         given
-        INPUT:      weaponType       - The weapon type to increase the max ammo for capacity
-                    upgradeMaxAmmoBy - THe amount to increase the max ammo capacity by
+        INPUT:      weaponType          - The weapon type to increase the max ammo for capacity
+                    upgradeMaxAmmoBy    - THe amount to increase the max ammo capacity by
         OUTPUT:     NONE
      */
     public void upgradeAmmo(WeaponTypes weaponType, int upgradeMaxAmmoBy){
