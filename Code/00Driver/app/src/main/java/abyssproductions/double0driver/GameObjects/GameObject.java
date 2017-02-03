@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 
+import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.R;
 
 
@@ -39,14 +40,15 @@ public class GameObject {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public GameObject(/*Resources myImageResources*/){
+    public GameObject(){
         myDimensions = new RectF(0,0,0,0);
-        myCurFrameLoc = new Rect(0,0,0,0);
+        myCurFrameLoc = new Rect(0,0,50,50);
         myVelocity = new Point(0,0);
         myPaint = new Paint();
         myCurFrameNum = 0;
         myCurAniState = AnimateState.Normal;
-        //myImage = BitmapFactory.decodeResource(myImageResources,R.mipmap.ic_launcher);
+        myImage = BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
+                R.mipmap.ic_launcher);
 
     }
 
