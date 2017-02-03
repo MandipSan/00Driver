@@ -1,5 +1,7 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.Rect;
+
 /**
  * Created by Mandip Sangha on 2/1/2017.
  */
@@ -8,14 +10,15 @@ public class Items extends GameObject {
     //  PURPOSE:    Holds the item’s type
     private ItemTypes myType;
     //  PURPOSE:    Holds the different type of items
-    public enum ItemTypes{HealthBox}
+    public enum ItemTypes{HealthBox, AmmoBox, MysteryBox}
 
     /*  PURPOSE:    Constructor for the items that sets the default values for the object
         INPUT:      NONE
         OUTPUT:     NONE
      */
     public Items(){
-
+        myVelocity.set(0,1);
+        myType = ItemTypes.HealthBox;
     }
 
     /*  PURPOSE:    Updates the item's logic
@@ -33,7 +36,10 @@ public class Items extends GameObject {
         OUTPUT:     NONE
      */
     public void spawn(ItemTypes itemType, float x, float y){
-
+        myType = itemType;
+        Rect temp = new Rect(getDimensions());
+        temp.offset((int)x,(int)y);
+        setMyDimensions(temp);
     }
 
     /*  PURPOSE:    Returns the type of item the item is
