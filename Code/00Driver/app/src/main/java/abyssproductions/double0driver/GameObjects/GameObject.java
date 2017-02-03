@@ -51,7 +51,7 @@ public class GameObject {
     }
 
     /*  PURPOSE:    Draws the game object's image to the screen
-        INPUT:      canvas          - Pointer to the surface screen's canvas
+        INPUT:      canvas              - Pointer to the surface screen's canvas
         OUTPUT:     NONE
     */
     public void draw(Canvas canvas){
@@ -67,7 +67,7 @@ public class GameObject {
     }
 
     /*  PURPOSE:    Set's the game object's current position and size
-        INPUT:      newDimension    - The new position and size to set
+        INPUT:      newDimension        - The new position and size to set
         OUTPUT:     NONE
     */
     public void setMyDimensions(RectF newDimension){
@@ -83,7 +83,7 @@ public class GameObject {
     }
 
     /*  PURPOSE:    Move's the game object vertically by the amount given
-        INPUT:      moveBy          - The amount to move the game object by
+        INPUT:      moveBy              - The amount to move the game object by
         OUTPUT:     NONE
     */
     protected void moveVertical(float moveBy){
@@ -91,7 +91,7 @@ public class GameObject {
     }
 
     /*  PURPOSE:    Move's the game object horizontally by the amount given
-        INPUT:      moveBy          - The amount to move the game object by
+        INPUT:      moveBy              - The amount to move the game object by
         OUTPUT:     NONE
     */
     protected void moveHorizontal(float moveBy){
