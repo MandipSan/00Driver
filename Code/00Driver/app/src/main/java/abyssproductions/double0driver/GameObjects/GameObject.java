@@ -1,11 +1,16 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
+
+import abyssproductions.double0driver.R;
 
 
 /**
@@ -34,13 +39,15 @@ public class GameObject {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public GameObject(){
+    public GameObject(/*Resources myImageResources*/){
         myDimensions = new RectF(0,0,0,0);
         myCurFrameLoc = new Rect(0,0,0,0);
         myVelocity = new Point(0,0);
         myPaint = new Paint();
         myCurFrameNum = 0;
         myCurAniState = AnimateState.Normal;
+        //myImage = BitmapFactory.decodeResource(myImageResources,R.mipmap.ic_launcher);
+
     }
 
     /*  PURPOSE:    Draws the game object's image to the screen
@@ -107,5 +114,7 @@ public class GameObject {
                 myCurFrameLoc.set(50*myCurFrameNum,50,50*(myCurFrameNum+1),100);
                 break;
         }
+        myCurFrameNum++;
+        if(myCurFrameNum==4)myCurFrameNum=0;
     }
 }
