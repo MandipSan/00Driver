@@ -26,7 +26,8 @@ public class Items extends GameObject {
         OUTPUT:     NONE
      */
     public void update(){
-
+        super.update();
+        moveVertical(myVelocity.y);
     }
 
     /*  PURPOSE:    Spawn the item of the type given at the location given
