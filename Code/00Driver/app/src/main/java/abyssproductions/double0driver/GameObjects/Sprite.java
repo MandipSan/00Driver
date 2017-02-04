@@ -16,7 +16,7 @@ public class Sprite extends GameObject {
     //  PURPOSE:    Holds the current active weapon
     private WeaponTypes myWeapon;
     //  PURPOSE:    Holds the different types of weapons
-    public enum WeaponTypes{MachineGun}
+    public enum WeaponTypes{MachineGun, Missile, Flamethrower, Laser}
 
     /*  PURPOSE:    Constructor for the sprite that sets the default values for the object
         INPUT:      NONE
