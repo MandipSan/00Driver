@@ -23,7 +23,15 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public Sprite(){
-
+        myHealth = 100;
+        myMaxHealth = 100;
+        myWeapon = WeaponTypes.MachineGun;
+        myAmmo = new int[WeaponTypes.values().length];
+        myMaxAmmo = new int[WeaponTypes.values().length];
+        for(int i = 0; i < WeaponTypes.values().length; i++){
+            myAmmo[i] = 10;
+            myMaxAmmo[i] = 10;
+        }
     }
 
     /*  PURPOSE:    Updates the sprite's logic
