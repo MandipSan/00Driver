@@ -114,7 +114,7 @@ public class Sprite extends GameObject {
         OUTPUT:     Returns an int with the amount of the current health
      */
     public int getHealth(){
-        return 0;
+        return myHealth;
     }
 
     /*  PURPOSE:    Returns the max health
@@ -122,7 +122,7 @@ public class Sprite extends GameObject {
         OUTPUT:     Returns an int with the amount of the max health
      */
     public int getMaxHealth(){
-        return 0;
+        return myMaxHealth;
     }
 
     /*  PURPOSE:    Returns the amount of ammo for the selected weapon type
@@ -130,6 +130,11 @@ public class Sprite extends GameObject {
         OUTPUT:     Returns an int of the ammo amount
      */
     public int getAmmo(WeaponTypes weaponType){
+        int i = 0;
+        for (WeaponTypes Type : WeaponTypes.values()){
+            if(Type == weaponType) return myMaxAmmo[i];
+            i++;
+        }
         return 0;
     }
 
@@ -138,7 +143,7 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     protected void setWeaponType(WeaponTypes weaponType){
-
+        myWeapon = weaponType;
     }
 
     /*  PURPOSE:    Returns the current weapon type
