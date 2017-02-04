@@ -72,7 +72,16 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void increaseAmmo(WeaponTypes weaponType, int increaseBy){
-
+        int i = 0;
+        for (WeaponTypes Type : WeaponTypes.values()){
+            if(Type == weaponType){
+                if(myAmmo[i] + increaseBy <= myMaxAmmo[i]){
+                    myAmmo[i] += increaseBy;
+                    break;
+                }
+            }
+            i++;
+        }
     }
 
     /*  PURPOSE:    Set’s the max ammo by amount given for the given weapon type
@@ -81,7 +90,14 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void setMaxAmmo(WeaponTypes weaponType, int amount){
-
+        int i = 0;
+        for (WeaponTypes Type : WeaponTypes.values()){
+            if(Type == weaponType){
+                myMaxAmmo[i] = amount;
+                break;
+            }
+            i++;
+        }
     }
 
     /*  PURPOSE:    Fires a projectile from the X and Y position given
