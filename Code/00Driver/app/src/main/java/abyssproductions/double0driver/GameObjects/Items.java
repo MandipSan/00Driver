@@ -1,6 +1,7 @@
 package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
@@ -38,8 +39,8 @@ public class Items extends GameObject {
      */
     public void spawn(ItemTypes itemType, float x, float y){
         myType = itemType;
-        Rect temp = new Rect(getDimensions());
-        temp.offset((int)x,(int)y);
+        RectF temp = new RectF(getDimensions());
+        temp.offset(x,y);
         setMyDimensions(temp);
     }
 
