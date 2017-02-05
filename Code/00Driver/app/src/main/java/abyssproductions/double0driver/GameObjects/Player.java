@@ -13,7 +13,7 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public Player(){
-
+        mySecondaryWeapon = WeaponTypes.MachineGun;
     }
 
     /*  PURPOSE:    Updates the player's logic
