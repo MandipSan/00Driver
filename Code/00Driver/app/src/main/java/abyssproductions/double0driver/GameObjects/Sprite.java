@@ -58,12 +58,12 @@ public class Sprite extends GameObject {
         if(myHealth - decreaseBy >= 0) myHealth -= decreaseBy;
     }
 
-    /*  PURPOSE:    Set’s the sprite’s max health by amount given
+    /*  PURPOSE:    Increase the sprite’s max health by amount given
         INPUT:      amount              - The amount to set max health
         OUTPUT:     NONE
      */
-    public void setMaxHealth(int amount){
-        myMaxHealth = amount;
+    public void increaseMaxHealth(int amount){
+        myMaxHealth += amount;
     }
 
     /*  PURPOSE:    Increase the ammo amount for the give weapon type up to its max ammo
@@ -84,16 +84,16 @@ public class Sprite extends GameObject {
         }
     }
 
-    /*  PURPOSE:    Set’s the max ammo by amount given for the given weapon type
+    /*  PURPOSE:    Increase the max ammo by amount given for the given weapon type
         INPUT:      weaponType          - The weapon type to increase the ammo for
                     amount              - The amount to set max ammo
         OUTPUT:     NONE
      */
-    public void setMaxAmmo(WeaponTypes weaponType, int amount){
+    public void increaseMaxAmmo(WeaponTypes weaponType, int amount){
         int i = 0;
         for (WeaponTypes Type : WeaponTypes.values()){
             if(Type == weaponType){
-                myMaxAmmo[i] = amount;
+                myMaxAmmo[i] += amount;
                 break;
             }
             i++;
