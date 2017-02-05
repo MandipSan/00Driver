@@ -1,5 +1,7 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.RectF;
+
 /**
  * Created by Mandip Sangha on 2/1/2017.
  */
@@ -45,7 +47,8 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void fireWeapon(){
-
+        RectF tempPosition = getDimensions();
+        fire(tempPosition.centerX(), tempPosition.top);
     }
 
     /*  PURPOSE:    Switch the primary and secondary weapons
@@ -53,7 +56,9 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void switchWeapon(){
-
+        WeaponTypes temp = getWeaponType();
+        setWeaponType(mySecondaryWeapon);
+        mySecondaryWeapon = temp;
     }
 
     /*  PURPOSE:    Increase the player’s max ammo capacity by amount given for the weapon type
@@ -74,6 +79,13 @@ public class Player extends Sprite {
         OUTPUT:     Returns true if changed; else false
      */
     public boolean changeWeaponLoadOut(int weaponPos, WeaponTypes newWeaponType){
+        if(weaponPos == 1){
+            setWeaponType(newWeaponType);
+            return true;
+        }else if(weaponPos == 2){
+            mySecondaryWeapon = newWeaponType;
+            return true;
+        }
         return false;
     }
 }
