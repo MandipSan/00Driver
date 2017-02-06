@@ -1,5 +1,7 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.RectF;
+
 /**
  * Created by Mandip Sangha on 1/31/2017.
  */
@@ -13,6 +15,8 @@ public class Sprite extends GameObject {
     private int [] myAmmo;
     //  PURPOSE:    Holds the max ammo amount for the different type of weapons
     private int [] myMaxAmmo;
+    //  PURPOSE:    Holds the delay between the firing for the different type of weapons
+    private int [] myFireDelay;
     //  PURPOSE:    Holds the current active weapon
     private WeaponTypes myWeapon;
     //  PURPOSE:    Holds the different types of weapons
@@ -28,9 +32,11 @@ public class Sprite extends GameObject {
         myWeapon = WeaponTypes.MachineGun;
         myAmmo = new int[WeaponTypes.values().length];
         myMaxAmmo = new int[WeaponTypes.values().length];
+        myFireDelay = new int[WeaponTypes.values().length];
         for(int i = 0; i < WeaponTypes.values().length; i++){
             myAmmo[i] = 10;
             myMaxAmmo[i] = 10;
+            myFireDelay[i] = 0;
         }
     }
 
@@ -39,7 +45,10 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void update(){
-
+        super.update();
+        for(int i = 0; i < WeaponTypes.values().length; i++){
+            if(myFireDelay[i] > 0)myFireDelay[i]--;
+        }
     }
 
     /*  PURPOSE:    Increase the current health by the amount given up to the max health
@@ -106,7 +115,34 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void fire(float x, float y){
-
+        RectF temp = getDimensions();
+        switch (myWeapon){
+            case MachineGun:
+                if(myAmmo[0]>1 && myFireDelay[0] == 0){
+                    //launched(temp.left+2,temp.top);
+                    //launched(temp.right-2,temp.top);
+                    //myFireDelay[0] =
+                }
+                break;
+            case Missile:
+                if(myAmmo[1]>0 && myFireDelay[1] == 0){
+                    //launched(temp.centerX(),temp.centerY());
+                    //myFireDelay[1] =
+                }
+                break;
+            case Flamethrower:
+                if(myAmmo[2]>0 && myFireDelay[2] == 0){
+                    //launched(temp.centerX(),temp.top);
+                    //myFireDelay[2] =
+                }
+                break;
+            case Laser:
+                if(myAmmo[3]>0 && myFireDelay[3] == 0){
+                    //launched(temp.centerX(),temp.centerY());
+                    //myFireDelay[3] =
+                }
+                break;
+        }
     }
 
     /*  PURPOSE:    Returns the current health
