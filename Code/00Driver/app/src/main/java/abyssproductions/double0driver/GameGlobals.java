@@ -10,6 +10,10 @@ public class GameGlobals {
     private Resources imageResources;
     //  PURPOSE:    Creates the one instance of the class
     private static GameGlobals ourInstance = new GameGlobals();
+    //  PURPOSE:    Holds the screen height
+    private int screenHeight;
+    //  PURPOSE:    Holds the y velocity for all enemies
+    public final static int enemiesUniVelocity = 5;
 
     /*  PURPOSE:    Constructor for the game globals that sets the default values for the object
         INPUT:      NONE
@@ -28,6 +32,14 @@ public class GameGlobals {
         imageResources = newImageResources;
     }
 
+    /*  PURPOSE:    Set the screen height
+        INPUT:      height    - The height of the screen
+        OUTPUT:     NONE
+     */
+    public void setScreenHeight(int height){
+        screenHeight = height;
+    }
+
     /*  PURPOSE:    Returns the instance of the class
         INPUT:      NONE
         OUTPUT:     Return GameGlobals type instance
@@ -42,5 +54,13 @@ public class GameGlobals {
      */
     public Resources getImageResources(){
         return imageResources;
+    }
+
+    /*  PURPOSE:    Returns the screen height
+        INPUT:      NONE
+        OUTPUT:     Return int of the screen height
+     */
+    public int getScreenHeight(){
+        return screenHeight;
     }
 }
