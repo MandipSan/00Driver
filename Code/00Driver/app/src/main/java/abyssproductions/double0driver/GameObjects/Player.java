@@ -2,6 +2,8 @@ package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.RectF;
 
+import abyssproductions.double0driver.GameGlobals;
+
 /**
  * Created by Mandip Sangha on 2/1/2017.
  */
@@ -26,7 +28,9 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void update(){
-
+        if(velocityReset > 0)moveHorizontal(myVelocity.x);
+        if(velocityReset < 0)myVelocity.set(0, 0);
+        velocityReset-=myVelocity.x;
     }
 
     /*  PURPOSE:    Moves the player to the left
@@ -34,7 +38,8 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveLeft(){
-
+        myVelocity.set(-1*GameGlobals.playerHorizontalVel,0);
+        velocityReset = GameGlobals.playerVelocityReset - velocityReset;
     }
 
     /*  PURPOSE:    Moves the player to the right
@@ -42,7 +47,8 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveRight(){
-
+        myVelocity.set(GameGlobals.playerHorizontalVel,0);
+        velocityReset = GameGlobals.playerVelocityReset - velocityReset;
     }
 
     /*  PURPOSE:    Fires the primary weapon
