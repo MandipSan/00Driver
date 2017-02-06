@@ -8,7 +8,7 @@ public class Enemy extends Sprite {
     //  PURPOSE:    Holds the enemy's type
     private EnemyType myType;
     //  PURPOSE:    Holds the different type of enemies
-    public enum EnemyType{car}
+    public enum EnemyType{BasicCar, MachineGunCar, DronePickup, SpikeVan, Helicopter}
 
     /*  PURPOSE:    Constructor for the basic enemy that sets the default values for the object
         INPUT:      NONE
