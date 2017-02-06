@@ -9,6 +9,8 @@ import android.graphics.RectF;
 public class Player extends Sprite {
     //  PURPOSE:    Holds the player's secondary weapon type
     private WeaponTypes mySecondaryWeapon;
+    //  PURPOSE:    Holds the player's count for when the player is done transitioning between lanes
+    private int velocityReset;
 
     /*  PURPOSE:    Constructor for the player that sets the default values for the object
         INPUT:      NONE
@@ -16,6 +18,7 @@ public class Player extends Sprite {
      */
     public Player(){
         mySecondaryWeapon = WeaponTypes.MachineGun;
+        velocityReset = 0;
     }
 
     /*  PURPOSE:    Updates the player's logic
