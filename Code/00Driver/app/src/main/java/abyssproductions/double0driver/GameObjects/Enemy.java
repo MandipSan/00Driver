@@ -28,6 +28,12 @@ public class Enemy extends Sprite {
      */
     public void update(){
 
+        if(myType != EnemyType.Helicopter){
+            moveVertical(myVelocity.y);
+        }else{
+            moveHorizontal(myVelocity.x);
+            moveVertical(myVelocity.y);
+        }
     }
 
     /*  PURPOSE:    Spawn the enemy of the type given at the location given
