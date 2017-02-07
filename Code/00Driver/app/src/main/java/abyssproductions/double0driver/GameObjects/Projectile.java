@@ -41,4 +41,12 @@ public class Projectile extends GameObject {
         if(direction == 0)myVelocity.set(0,1);
         else myVelocity.set(0,-1);
     }
+
+    /*  PURPOSE:    Returns if the projectile is active
+        INPUT:      NONE
+        OUTPUT:     Returns boolean of whether active if yes true; if not false
+     */
+    public boolean getActive(){
+        return !myVelocity.equals(0,0);
+    }
 }
