@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -28,7 +29,7 @@ public class GameObject {
     //  PURPOSE:    Holds the object's current frame image number
     private int myCurFrameNum;
     //  PURPOSE:    Holds the object's images
-    protected Bitmap myImage;
+    private Bitmap myImage;
     //  PURPOSE:    Holds the object's movement velocity
     protected Point myVelocity;
     //  PURPOSE:    Hold the object’s current animate state
@@ -47,8 +48,8 @@ public class GameObject {
         myPaint = new Paint();
         myCurFrameNum = 0;
         myCurAniState = AnimateState.Normal;
-        myImage = BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
-                R.mipmap.ic_launcher);
+        setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
+                R.mipmap.ic_launcher));
 
     }
 
@@ -74,6 +75,32 @@ public class GameObject {
     */
     public void setMyDimensions(RectF newDimension){
         myDimensions.set(newDimension);
+    }
+
+    /*  PURPOSE:    Set's the game object's image and  proper scaling
+        INPUT:      image               - The image to set myImage too
+        OUTPUT:     NONE
+    */
+    public void setMyImage(Bitmap image){
+        Matrix tempMatrix = new Matrix();
+        tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
+                new RectF(0, 0, 200, 100), Matrix.ScaleToFit.CENTER);
+        this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
+                tempMatrix, true);
+    }
+
+    /*  PURPOSE:    Set's the game object's image and  proper scaling
+        INPUT:      image               - The image to set myImage too
+                    row                 - The number of row in image frame
+                    column              - The number of column in image frame
+        OUTPUT:     NONE
+    */
+    public void setMyImage(Bitmap image, int row, int column){
+        Matrix tempMatrix = new Matrix();
+        tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
+                new RectF(0, 0, 50*row, 50*column), Matrix.ScaleToFit.CENTER);
+        this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
+                tempMatrix, true);
     }
 
     /*  PURPOSE:    Return's the game object's left, top, right, bottom coordinates
