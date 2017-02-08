@@ -26,6 +26,7 @@ public class Projectile extends GameObject {
         OUTPUT:     NONE
      */
     public void update(){
+        super.update();
         RectF tempDim = getDimensions();
         moveVertical(myVelocity.y);
         if(tempDim.bottom < 0 || tempDim.top > 555/*NEED TO CHANGE VAR*/)myVelocity.set(0,0);
@@ -42,8 +43,8 @@ public class Projectile extends GameObject {
         RectF temp = getDimensions();
         temp.offsetTo(x,y);
         setMyDimensions(temp);
-        if(direction == 0)myVelocity.set(0,1);
-        else myVelocity.set(0,-1);
+        if(direction == 0)myVelocity.set(0,5);
+        else myVelocity.set(0,-5);
     }
 
     /*  PURPOSE:    Returns if the projectile is active
