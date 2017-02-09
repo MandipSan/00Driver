@@ -1,8 +1,6 @@
 package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.RectF;
-import android.graphics.BitmapFactory;
-import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.R;
 
 /**
@@ -17,6 +15,10 @@ public class Projectile extends GameObject {
      */
     public Projectile(int imageReference, int width, int height){
         super(imageReference, width, height);
+    }
+
+    public Projectile() {
+        this(R.drawable.Test, 50, 50);
     }
 
     /*  PURPOSE:    Updates the projectile's logic
