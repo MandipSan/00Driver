@@ -153,10 +153,10 @@ public class GameObject {
     protected void animate(){
         switch (myCurAniState){
             case Normal:
-                myCurFrameLoc.set(50*myCurFrameNum,0,50*(myCurFrameNum+1),50);
+                myCurFrameLoc.set(myWidth*myCurFrameNum,0,myWidth*(myCurFrameNum+1),myHeight);
                 break;
             case Destroyed:
-                myCurFrameLoc.set(50*myCurFrameNum,50,50*(myCurFrameNum+1),100);
+                myCurFrameLoc.set(myWidth*myCurFrameNum,myHeight,myWidth*(myCurFrameNum+1),myHeight*2);
                 break;
         }
         myCurFrameNum++;
