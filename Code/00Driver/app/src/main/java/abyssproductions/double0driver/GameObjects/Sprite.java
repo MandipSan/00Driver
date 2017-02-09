@@ -2,6 +2,7 @@ package abyssproductions.double0driver.GameObjects;
 
 /**
  * Created by Mandip Sangha on 1/31/2017.
+ * Edited by Mark Reffel on 2/9/2017
  */
 
 public class Sprite extends GameObject {
@@ -22,7 +23,8 @@ public class Sprite extends GameObject {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public Sprite(){
+    public Sprite(int imageReference, int width, int height){
+        super(imageReference, width, height);
 
     }
 
