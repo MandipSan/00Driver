@@ -1,13 +1,13 @@
 package abyssproductions.double0driver.GameObjects;
 
-import android.graphics.BitmapFactory;
 import android.graphics.RectF;
-
+import android.graphics.BitmapFactory;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
+ * Edited by Mark Reffel on 2/9/2017
  */
 
 public class Projectile extends GameObject {
@@ -15,10 +15,8 @@ public class Projectile extends GameObject {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public Projectile(){
-        setMyDimensions(new RectF(0, 0, 50, 50));
-        setMyImage(BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
-                R.drawable.test));
+    public Projectile(int imageReference, int width, int height){
+        super(imageReference, width, height);
     }
 
     /*  PURPOSE:    Updates the projectile's logic
