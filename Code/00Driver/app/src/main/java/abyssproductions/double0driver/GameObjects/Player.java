@@ -6,6 +6,7 @@ import abyssproductions.double0driver.GameGlobals;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
+ * Edited by Mark Reffel on 2/9/2017
  */
 
 public class Player extends Sprite {
@@ -18,7 +19,8 @@ public class Player extends Sprite {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public Player(){
+    public Player(int imageReference, int width, int height){
+        super(imageReference, width, height);
         mySecondaryWeapon = WeaponTypes.MachineGun;
         velocityReset = 0;
     }
