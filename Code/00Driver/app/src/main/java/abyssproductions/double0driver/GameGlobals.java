@@ -2,6 +2,8 @@ package abyssproductions.double0driver;
 
 import android.content.res.Resources;
 
+import abyssproductions.double0driver.GameObjects.Projectile;
+
 /**
  * Created by Mandip Sangha on 2/3/2017.
  */
@@ -10,6 +12,10 @@ public class GameGlobals {
     private Resources imageResources;
     //  PURPOSE:    Creates the one instance of the class
     private static GameGlobals ourInstance = new GameGlobals();
+    //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
+    public Projectile [] myProjectiles;
+    //  PURPOSE:    Holds the number of projectiles in the projectile's array
+    public final static int myProjectileArrSize = 10;
 
     /*  PURPOSE:    Constructor for the game globals that sets the default values for the object
         INPUT:      NONE
@@ -17,6 +23,23 @@ public class GameGlobals {
      */
     private GameGlobals() {
         imageResources = null;
+
+    }
+
+    /*  PURPOSE:    Loads the pointer variables only if imageResource is set and returns true else
+                        returns false
+        INPUT:      NONE
+        OUTPUT:     Returns true if imageResources is load else false
+     */
+    public boolean loadPointers(){
+        if(imageResources != null){
+            myProjectiles = new Projectile[myProjectileArrSize];
+            for(int i =0; i < myProjectileArrSize; i++){
+                myProjectiles[i] = new Projectile();
+            }
+            return true;
+        }
+        return false;
     }
 
     /*  PURPOSE:    Set the image resource variable to a new resource (this is so that the app
