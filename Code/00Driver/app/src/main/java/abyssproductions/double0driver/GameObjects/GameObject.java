@@ -42,7 +42,9 @@ public class GameObject {
     public enum AnimateState{Normal,Destroyed}
 
     /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
-        INPUT:      int, int, int       -Image Reference, Image Width, Image Height
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
     public GameObject(int imageReference, int width, int height){
@@ -60,8 +62,8 @@ public class GameObject {
     }
 
     /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
-    INPUT:      NONE
-    OUTPUT:     NONE
+        INPUT:      NONE
+        OUTPUT:     NONE
     */
     public GameObject () {
         this(R.mipmap.ic_launcher, 50, 50);
