@@ -2,6 +2,7 @@ package abyssproductions.double0driver.GameObjects;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
+ * Edited by Mark Reffel on 2/9/2017
  */
 
 public class Enemy extends Sprite {
@@ -14,8 +15,8 @@ public class Enemy extends Sprite {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public Enemy(){
-
+    public Enemy(int imageReference, int width, int height){
+        super(imageReference, width, height);
     }
 
     /*  PURPOSE:    Updates the basic enemy's logic

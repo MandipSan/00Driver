@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -16,9 +17,13 @@ import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 1/31/2017.
+ * Edited by Mark Reffel on 2/9/2017
  */
 
 public class GameObject {
+
+    //  PURPOSE:    Hold the Width and Height values for the game object
+    private int myWidth, myHeight;
     //  PURPOSE:    Holds the object's left, top, right, bottom coordinates
     private RectF myDimensions;
     //  PURPOSE:    Holds the object's image style and color information
@@ -28,7 +33,7 @@ public class GameObject {
     //  PURPOSE:    Holds the object's current frame image number
     private int myCurFrameNum;
     //  PURPOSE:    Holds the object's images
-    protected Bitmap myImage;
+    private Bitmap myImage;
     //  PURPOSE:    Holds the object's movement velocity
     protected Point myVelocity;
     //  PURPOSE:    Hold the object’s current animate state
@@ -36,20 +41,32 @@ public class GameObject {
     //  PURPOSE:    The different states for the animation
     public enum AnimateState{Normal,Destroyed}
 
-    /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
-        INPUT:      NONE
+    /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public GameObject(){
+    public GameObject(int imageReference, int width, int height){
+        myWidth = width;
+        myHeight = height;
         myDimensions = new RectF(0,0,0,0);
         myCurFrameLoc = new Rect(0,0,50,50);
         myVelocity = new Point(0,0);
         myPaint = new Paint();
         myCurFrameNum = 0;
         myCurAniState = AnimateState.Normal;
-        myImage = BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
-                R.mipmap.ic_launcher);
+        setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
+                imageReference), 4, 2);
 
+    }
+
+    /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
+        INPUT:      NONE
+        OUTPUT:     NONE
+    */
+    public GameObject () {
+        this(R.mipmap.ic_launcher, 50, 50);
     }
 
     /*  PURPOSE:    Draws the game object's image to the screen
@@ -74,6 +91,20 @@ public class GameObject {
     */
     public void setMyDimensions(RectF newDimension){
         myDimensions.set(newDimension);
+    }
+
+    /*  PURPOSE:    Set's the game object's image and  proper scaling
+        INPUT:      image               - The image to set myImage too
+                    row                 - The number of row in image frame
+                    column              - The number of column in image frame
+        OUTPUT:     NONE
+    */
+    public void setMyImage(Bitmap image, int row, int column){
+        Matrix tempMatrix = new Matrix();
+        tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
+                new RectF(0, 0, myWidth*row, myHeight*column), Matrix.ScaleToFit.CENTER);
+        this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
+                tempMatrix, true);
     }
 
     /*  PURPOSE:    Return's the game object's left, top, right, bottom coordinates
@@ -110,10 +141,10 @@ public class GameObject {
     protected void animate(){
         switch (myCurAniState){
             case Normal:
-                myCurFrameLoc.set(50*myCurFrameNum,0,50*(myCurFrameNum+1),50);
+                myCurFrameLoc.set(myWidth*myCurFrameNum,0,myWidth*(myCurFrameNum+1),myHeight);
                 break;
             case Destroyed:
-                myCurFrameLoc.set(50*myCurFrameNum,50,50*(myCurFrameNum+1),100);
+                myCurFrameLoc.set(myWidth*myCurFrameNum,myHeight,myWidth*(myCurFrameNum+1),myHeight*2);
                 break;
         }
         myCurFrameNum++;
