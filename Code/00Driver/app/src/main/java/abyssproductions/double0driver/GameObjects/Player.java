@@ -16,7 +16,9 @@ public class Player extends Sprite {
     private int velocityReset;
 
     /*  PURPOSE:    Constructor for the player that sets the default values for the object
-        INPUT:      NONE
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
     public Player(int imageReference, int width, int height){
