@@ -16,7 +16,9 @@ public class Enemy extends Sprite {
     public enum EnemyType{BasicCar, MachineGunCar, DronePickup, SpikeVan, Helicopter}
 
     /*  PURPOSE:    Constructor for the basic enemy that sets the default values for the object
-        INPUT:      NONE
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
     public Enemy(int imageReference, int width, int height){
