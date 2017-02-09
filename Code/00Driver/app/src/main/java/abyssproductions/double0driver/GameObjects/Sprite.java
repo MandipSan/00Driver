@@ -101,9 +101,12 @@ public class Sprite extends GameObject {
     public void fire(float x, float y) {
         RectF temp = getDimensions();
         if (myWeapons[myWeapon.ordinal()].ammo > 1 && myWeapons[myWeapon.ordinal()].delayFire == 0){
-            //launched(temp.left+2,temp.top);
-            //launched(temp.right-2,temp.top);
-            //myFireDelay[0] =
+            if(myWeapon == WeaponTypes.MachineGun) {
+                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left + 2, temp.top);
+                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left - 2, temp.top);
+            }else{
+                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.centerX(), temp.top);
+            }
         }
     }
 
