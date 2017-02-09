@@ -77,7 +77,7 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void upgradeAmmo(WeaponTypes weaponType, int upgradeMaxAmmoBy){
-
+        increaseMaxAmmo(weaponType,upgradeMaxAmmoBy);
     }
 
     /*  PURPOSE:    Changes the weapon load out for the weapon position given primary or secondary
