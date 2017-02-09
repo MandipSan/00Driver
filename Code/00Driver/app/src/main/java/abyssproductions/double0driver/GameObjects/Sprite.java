@@ -12,16 +12,12 @@ public class Sprite extends GameObject {
     private int myHealth;
     //  PURPOSE:    Holds the sprite's max health
     private int myMaxHealth;
-    //  PURPOSE:    Holds the ammo amount for the different type of weapons
-    private int [] myAmmo;
-    //  PURPOSE:    Holds the max ammo amount for the different type of weapons
-    private int [] myMaxAmmo;
-    //  PURPOSE:    Holds the delay between the firing for the different type of weapons
-    private int [] myFireDelay;
+    //  PURPOSE:    Holds an array of the different weapons
+    private Weapon [] myWeapons;
     //  PURPOSE:    Holds the current active weapon
     private WeaponTypes myWeapon;
     //  PURPOSE:    Holds the different types of weapons
-    public enum WeaponTypes{MachineGun, Missile, Flamethrower, Laser}
+    public enum WeaponTypes {MachineGun, Missile, Flamethrower, Laser}
 
     /*  PURPOSE:    Constructor for the sprite that sets the default values for the object
         INPUT:      imageReference      - Reference's the image to be load
@@ -29,30 +25,26 @@ public class Sprite extends GameObject {
                     imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-
     public Sprite(int imageReference, int width, int height) {
         super(imageReference, width, height);
         myHealth = 100;
         myMaxHealth = 100;
         myWeapon = WeaponTypes.MachineGun;
-        myAmmo = new int[WeaponTypes.values().length];
-        myMaxAmmo = new int[WeaponTypes.values().length];
-        myFireDelay = new int[WeaponTypes.values().length];
-        for (int i = 0; i < WeaponTypes.values().length; i++) {
-            myAmmo[i] = 10;
-            myMaxAmmo[i] = 10;
-            myFireDelay[i] = 0;
-        }
+        myWeapons = new Weapon[WeaponTypes.values().length];
+        //myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,30,WeaponTypes.MachineGun, new );
+        //myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(10,10,30,WeaponTypes.Missile, new );
+        //myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(10,10,30,WeaponTypes.Flamethrower, new );
+        //myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,30,WeaponTypes.Laser, new );
     }
 
     /*  PURPOSE:    Updates the sprite's logic
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public void update(){
+    public void update() {
         super.update();
-        for(int i = 0; i < WeaponTypes.values().length; i++){
-            if(myFireDelay[i] > 0)myFireDelay[i]--;
+        for (int i = 0; i < WeaponTypes.values().length; i++) {
+            if (myWeapons[i].delayFire > 0) myWeapons[i].delayFire--;
         }
     }
 
@@ -60,23 +52,23 @@ public class Sprite extends GameObject {
         INPUT:      increaseBy          - The amount the current health is to be increased by
         OUTPUT:     NONE
      */
-    public void increaseHealth(int increaseBy){
-        if(myHealth + increaseBy <= myMaxHealth) myHealth += increaseBy;
+    public void increaseHealth(int increaseBy) {
+        if (myHealth + increaseBy <= myMaxHealth) myHealth += increaseBy;
     }
 
     /*  PURPOSE:    Decrease the current health by amount given up to zero
         INPUT:      decreaseBy          - The amount the current health is to be decreased by
         OUTPUT:     NONE
      */
-    public void decreaseHealth(int decreaseBy){
-        if(myHealth - decreaseBy >= 0) myHealth -= decreaseBy;
+    public void decreaseHealth(int decreaseBy) {
+        if (myHealth - decreaseBy >= 0) myHealth -= decreaseBy;
     }
 
     /*  PURPOSE:    Increase the sprite’s max health by amount given
         INPUT:      amount              - The amount to set max health
         OUTPUT:     NONE
      */
-    public void increaseMaxHealth(int amount){
+    public void increaseMaxHealth(int amount) {
         myMaxHealth += amount;
     }
 
@@ -85,16 +77,10 @@ public class Sprite extends GameObject {
                     increaseBy          - The amount to increase he ammo by
         OUTPUT:     NONE
      */
-    public void increaseAmmo(WeaponTypes weaponType, int increaseBy){
-        int i = 0;
-        for (WeaponTypes Type : WeaponTypes.values()){
-            if(Type == weaponType){
-                if(myAmmo[i] + increaseBy <= myMaxAmmo[i]){
-                    myAmmo[i] += increaseBy;
-                    break;
-                }
-            }
-            i++;
+    public void increaseAmmo(WeaponTypes weaponType, int increaseBy) {
+        if (myWeapons[weaponType.ordinal()].ammo +
+                increaseBy <= myWeapons[weaponType.ordinal()].maxAmmo) {
+            myWeapons[weaponType.ordinal()].ammo += increaseBy;
         }
     }
 
@@ -103,15 +89,8 @@ public class Sprite extends GameObject {
                     amount              - The amount to set max ammo
         OUTPUT:     NONE
      */
-    public void increaseMaxAmmo(WeaponTypes weaponType, int amount){
-        int i = 0;
-        for (WeaponTypes Type : WeaponTypes.values()){
-            if(Type == weaponType){
-                myMaxAmmo[i] += amount;
-                break;
-            }
-            i++;
-        }
+    public void increaseMaxAmmo(WeaponTypes weaponType, int amount) {
+        myWeapons[weaponType.ordinal()].maxAmmo += amount;
     }
 
     /*  PURPOSE:    Fires a projectile from the X and Y position given
@@ -119,34 +98,12 @@ public class Sprite extends GameObject {
                     y                   - The Y position to launch the projectile from
         OUTPUT:     NONE
      */
-    public void fire(float x, float y){
+    public void fire(float x, float y) {
         RectF temp = getDimensions();
-        switch (myWeapon){
-            case MachineGun:
-                if(myAmmo[0]>1 && myFireDelay[0] == 0){
-                    //launched(temp.left+2,temp.top);
-                    //launched(temp.right-2,temp.top);
-                    //myFireDelay[0] =
-                }
-                break;
-            case Missile:
-                if(myAmmo[1]>0 && myFireDelay[1] == 0){
-                    //launched(temp.centerX(),temp.centerY());
-                    //myFireDelay[1] =
-                }
-                break;
-            case Flamethrower:
-                if(myAmmo[2]>0 && myFireDelay[2] == 0){
-                    //launched(temp.centerX(),temp.top);
-                    //myFireDelay[2] =
-                }
-                break;
-            case Laser:
-                if(myAmmo[3]>0 && myFireDelay[3] == 0){
-                    //launched(temp.centerX(),temp.centerY());
-                    //myFireDelay[3] =
-                }
-                break;
+        if (myWeapons[myWeapon.ordinal()].ammo > 1 && myWeapons[myWeapon.ordinal()].delayFire == 0){
+            //launched(temp.left+2,temp.top);
+            //launched(temp.right-2,temp.top);
+            //myFireDelay[0] =
         }
     }
 
@@ -154,7 +111,7 @@ public class Sprite extends GameObject {
         INPUT:      NONE
         OUTPUT:     Returns an int with the amount of the current health
      */
-    public int getHealth(){
+    public int getHealth() {
         return myHealth;
     }
 
@@ -162,7 +119,7 @@ public class Sprite extends GameObject {
         INPUT:      NONE
         OUTPUT:     Returns an int with the amount of the max health
      */
-    public int getMaxHealth(){
+    public int getMaxHealth() {
         return myMaxHealth;
     }
 
@@ -170,20 +127,15 @@ public class Sprite extends GameObject {
         INPUT:      weaponType          - The weapon type of the ammo amount to return
         OUTPUT:     Returns an int of the ammo amount
      */
-    public int getAmmo(WeaponTypes weaponType){
-        int i = 0;
-        for (WeaponTypes Type : WeaponTypes.values()){
-            if(Type == weaponType) return myMaxAmmo[i];
-            i++;
-        }
-        return 0;
+    public int getAmmo(WeaponTypes weaponType) {
+        return myWeapons[myWeapon.ordinal()].ammo;
     }
 
     /*  PURPOSE:    Set's the weapon type of the current active weapon
         INPUT:      weaponType          - The weapon type to change too
         OUTPUT:     NONE
      */
-    protected void setWeaponType(WeaponTypes weaponType){
+    protected void setWeaponType(WeaponTypes weaponType) {
         myWeapon = weaponType;
     }
 
@@ -191,7 +143,38 @@ public class Sprite extends GameObject {
         INPUT:      NONE
         OUTPUT:     Returns an WeaponType var of the current weapon type
      */
-    protected WeaponTypes getWeaponType(){
+    protected WeaponTypes getWeaponType() {
         return myWeapon;
+    }
+
+    //  Purpose:    Class hold information for the different weapons types
+    private class Weapon {
+        //  PURPOSE:    Holds the ammo amount
+        public int ammo;
+        //  PURPOSE:    Holds the max ammo amount
+        public int maxAmmo;
+        //  PURPOSE:    Holds the delay between the firing
+        public int delayFire;
+        //  PURPOSE:    Holds the weapon type
+        public Sprite.WeaponTypes myType;
+        //  PURPOSE:    Holds the projectile for the weapon
+        public Projectile myProjectile;
+
+        /*  PURPOSE:    Constructor for the weapon that sets the default values for the object
+            INPUT:      newAmmo             - The new ammo amount to set
+                        newMaxAmmo          - The new max ammo amount to set
+                        newDelayFire        - The new delay amount for the weapon
+                        newType             - The type of weapon it is
+                        newProjectile       - The projectile for this type of weapon
+            OUTPUT:     NONE
+         */
+        public Weapon(int newAmmo, int newMaxAmmo, int newDelayFire, Sprite.WeaponTypes newType,
+                      Projectile newProjectile) {
+            ammo = newAmmo;
+            maxAmmo = newMaxAmmo;
+            delayFire = newDelayFire;
+            myType = newType;
+            myProjectile = newProjectile;
+        }
     }
 }
