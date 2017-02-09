@@ -57,7 +57,7 @@ public class GameObject {
         myCurFrameNum = 0;
         myCurAniState = AnimateState.Normal;
         setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
-                imageReference));
+                imageReference), 4, 2);
 
     }
 
@@ -95,18 +95,6 @@ public class GameObject {
 
     /*  PURPOSE:    Set's the game object's image and  proper scaling
         INPUT:      image               - The image to set myImage too
-        OUTPUT:     NONE
-    */
-    public void setMyImage(Bitmap image){
-        Matrix tempMatrix = new Matrix();
-        tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
-                new RectF(0, 0, 200, 100), Matrix.ScaleToFit.CENTER);
-        this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
-                tempMatrix, true);
-    }
-
-    /*  PURPOSE:    Set's the game object's image and  proper scaling
-        INPUT:      image               - The image to set myImage too
                     row                 - The number of row in image frame
                     column              - The number of column in image frame
         OUTPUT:     NONE
@@ -114,7 +102,7 @@ public class GameObject {
     public void setMyImage(Bitmap image, int row, int column){
         Matrix tempMatrix = new Matrix();
         tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
-                new RectF(0, 0, 50*row, 50*column), Matrix.ScaleToFit.CENTER);
+                new RectF(0, 0, myWidth*row, myHeight*column), Matrix.ScaleToFit.CENTER);
         this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
                 tempMatrix, true);
     }
