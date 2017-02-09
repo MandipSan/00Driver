@@ -17,9 +17,13 @@ import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 1/31/2017.
+ * Edited by Mark Reffel on 2/9/2017
  */
 
 public class GameObject {
+
+    //  PURPOSE:    Hold the Width and Height values for the game object
+    private int myWidth, myHeight;
     //  PURPOSE:    Holds the object's left, top, right, bottom coordinates
     private RectF myDimensions;
     //  PURPOSE:    Holds the object's image style and color information
@@ -37,11 +41,13 @@ public class GameObject {
     //  PURPOSE:    The different states for the animation
     public enum AnimateState{Normal,Destroyed}
 
-    /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
-        INPUT:      NONE
+    /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
+        INPUT:      int, int, int       -Image Reference, Image Width, Image Height
         OUTPUT:     NONE
      */
-    public GameObject(){
+    public GameObject(int imageReference, int width, int height){
+        myWidth = width;
+        myHeight = height;
         myDimensions = new RectF(0,0,0,0);
         myCurFrameLoc = new Rect(0,0,50,50);
         myVelocity = new Point(0,0);
@@ -49,8 +55,16 @@ public class GameObject {
         myCurFrameNum = 0;
         myCurAniState = AnimateState.Normal;
         setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
-                R.mipmap.ic_launcher));
+                imageReference));
 
+    }
+
+    /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
+    INPUT:      NONE
+    OUTPUT:     NONE
+    */
+    public GameObject () {
+        this(R.mipmap.ic_launcher, 50, 50);
     }
 
     /*  PURPOSE:    Draws the game object's image to the screen

@@ -2,6 +2,7 @@ package abyssproductions.double0driver.GameObjects;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
+ * Edited by Mark Reffel on 2/9/2017
  */
 
 public class Items extends GameObject {
@@ -14,8 +15,8 @@ public class Items extends GameObject {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public Items(){
-
+    public Items(int imageReference, int width, int height){
+        super(imageReference, width, height);
     }
 
     /*  PURPOSE:    Updates the item's logic
