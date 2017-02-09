@@ -5,6 +5,7 @@ import android.graphics.RectF;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
+ * Edited by Mark Reffel on 2/9/2017
  */
 
 public class Items extends GameObject {
@@ -14,10 +15,13 @@ public class Items extends GameObject {
     public enum ItemTypes{HealthBox, AmmoBox, MysteryBox}
 
     /*  PURPOSE:    Constructor for the items that sets the default values for the object
-        INPUT:      NONE
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public Items(){
+    public Items(int imageReference, int width, int height){
+        super(imageReference, width, height);
         myVelocity.set(0,1);
         myType = ItemTypes.HealthBox;
     }
