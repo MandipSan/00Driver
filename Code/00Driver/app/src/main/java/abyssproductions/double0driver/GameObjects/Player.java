@@ -32,9 +32,10 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void update(){
+        super.update();
         if(velocityReset > 0)moveHorizontal(myVelocity.x);
         if(velocityReset < 0)myVelocity.set(0, 0);
-        velocityReset-=myVelocity.x;
+        velocityReset-=Math.abs(myVelocity.x);
     }
 
     /*  PURPOSE:    Moves the player to the left
