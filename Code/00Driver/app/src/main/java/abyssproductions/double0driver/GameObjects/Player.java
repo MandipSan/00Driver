@@ -62,7 +62,7 @@ public class Player extends Sprite {
      */
     public void fireWeapon(){
         RectF tempPosition = getDimensions();
-        fire(tempPosition.centerX(), tempPosition.top);
+        fire(tempPosition.centerX(), tempPosition.top,-1);
     }
 
     /*  PURPOSE:    Switch the primary and secondary weapons
