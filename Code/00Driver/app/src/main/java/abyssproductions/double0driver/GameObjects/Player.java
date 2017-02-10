@@ -1,5 +1,9 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.RectF;
+
+import abyssproductions.double0driver.GameGlobals;
+
 /**
  * Created by Mandip Sangha on 2/1/2017.
  * Edited by Mark Reffel on 2/9/2017
@@ -8,13 +12,19 @@ package abyssproductions.double0driver.GameObjects;
 public class Player extends Sprite {
     //  PURPOSE:    Holds the player's secondary weapon type
     private WeaponTypes mySecondaryWeapon;
+    //  PURPOSE:    Holds the player's count for when the player is done transitioning between lanes
+    private int velocityReset;
 
     /*  PURPOSE:    Constructor for the player that sets the default values for the object
-        INPUT:      NONE
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
     public Player(int imageReference, int width, int height){
         super(imageReference, width, height);
+        mySecondaryWeapon = WeaponTypes.MachineGun;
+        velocityReset = 0;
     }
 
     /*  PURPOSE:    Updates the player's logic
@@ -22,7 +32,9 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void update(){
-
+        if(velocityReset > 0)moveHorizontal(myVelocity.x);
+        if(velocityReset < 0)myVelocity.set(0, 0);
+        velocityReset-=myVelocity.x;
     }
 
     /*  PURPOSE:    Moves the player to the left
@@ -30,7 +42,8 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveLeft(){
-
+        myVelocity.set(-1*GameGlobals.playerHorizontalVel,0);
+        velocityReset = GameGlobals.playerVelocityReset - velocityReset;
     }
 
     /*  PURPOSE:    Moves the player to the right
@@ -38,7 +51,8 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveRight(){
-
+        myVelocity.set(GameGlobals.playerHorizontalVel,0);
+        velocityReset = GameGlobals.playerVelocityReset - velocityReset;
     }
 
     /*  PURPOSE:    Fires the primary weapon
@@ -46,7 +60,8 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void fireWeapon(){
-
+        RectF tempPosition = getDimensions();
+        fire(tempPosition.centerX(), tempPosition.top);
     }
 
     /*  PURPOSE:    Switch the primary and secondary weapons
@@ -54,7 +69,9 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void switchWeapon(){
-
+        WeaponTypes temp = getWeaponType();
+        setWeaponType(mySecondaryWeapon);
+        mySecondaryWeapon = temp;
     }
 
     /*  PURPOSE:    Increase the player’s max ammo capacity by amount given for the weapon type
@@ -64,7 +81,7 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void upgradeAmmo(WeaponTypes weaponType, int upgradeMaxAmmoBy){
-
+        increaseMaxAmmo(weaponType,upgradeMaxAmmoBy);
     }
 
     /*  PURPOSE:    Changes the weapon load out for the weapon position given primary or secondary
@@ -75,6 +92,13 @@ public class Player extends Sprite {
         OUTPUT:     Returns true if changed; else false
      */
     public boolean changeWeaponLoadOut(int weaponPos, WeaponTypes newWeaponType){
+        if(weaponPos == 1){
+            setWeaponType(newWeaponType);
+            return true;
+        }else if(weaponPos == 2){
+            mySecondaryWeapon = newWeaponType;
+            return true;
+        }
         return false;
     }
 }

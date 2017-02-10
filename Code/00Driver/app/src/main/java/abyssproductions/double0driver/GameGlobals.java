@@ -10,6 +10,11 @@ public class GameGlobals {
     private Resources imageResources;
     //  PURPOSE:    Creates the one instance of the class
     private static GameGlobals ourInstance = new GameGlobals();
+    //  PURPOSE:    Holds the default player's horizontal velocity
+    public final static int playerHorizontalVel = 5;
+    //  PURPOSE:    Holds the distance of the lane transfers
+    public final static int playerVelocityReset = 30;
+
 
     /*  PURPOSE:    Constructor for the game globals that sets the default values for the object
         INPUT:      NONE
