@@ -2,6 +2,7 @@ package abyssproductions.double0driver.GameObjects.ProjectileObjects;
 
 import android.graphics.RectF;
 
+import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Projectile;
 import abyssproductions.double0driver.R;
 
@@ -11,6 +12,7 @@ import abyssproductions.double0driver.R;
  */
 
 public class MachineGunProjectile extends Projectile {
+
 
     /*  PURPOSE:    Constructor for the Flame Thrower Projectile is to set the default values for the object
         INPUT:      imageReference      - The image reference for the projectile
@@ -44,6 +46,13 @@ public class MachineGunProjectile extends Projectile {
         temp.offsetTo(x, y);
         setMyDimensions(temp);
         myVelocity.set(0,direction*5);
+        //Find first empty spot in projectiles array
+        for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++) {
+            if(GameGlobals.getInstance().myProjectiles[i] == null) {
+                GameGlobals.getInstance().myProjectiles[i] = this;
+                break;
+            }
+        }
 
     }
 
