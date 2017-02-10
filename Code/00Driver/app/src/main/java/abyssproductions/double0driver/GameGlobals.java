@@ -40,7 +40,7 @@ public class GameGlobals {
         if(imageResources != null){
             myProjectiles = new Projectile[myProjectileArrSize];
             for(int i =0; i < myProjectileArrSize; i++){
-                myProjectiles[i] = new Projectile();
+                myProjectiles[i] = null;
             }
             return true;
         }

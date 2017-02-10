@@ -1,6 +1,9 @@
 package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.RectF;
+import android.util.Log;
+
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
 
 /**
  * Created by Mandip Sangha on 1/31/2017.
@@ -31,11 +34,14 @@ public class Sprite extends GameObject {
         myMaxHealth = 100;
         myWeapon = WeaponTypes.MachineGun;
         myWeapons = new Weapon[WeaponTypes.values().length];
-        myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,30,WeaponTypes.MachineGun,
+        myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,0,WeaponTypes.MachineGun,
                 new MachineGunProjectile());
-        //myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(10,10,30,WeaponTypes.Missile, new );
-        //myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(10,10,30,WeaponTypes.Flamethrower, new );
-        //myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,30,WeaponTypes.Laser, new );
+        myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(10,10,0,WeaponTypes.Missile,
+                new MachineGunProjectile() );
+        myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(10,10,0,WeaponTypes.Flamethrower,
+                new MachineGunProjectile() );
+        myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,0,WeaponTypes.Laser,
+                new MachineGunProjectile() );
     }
 
     /*  PURPOSE:    Updates the sprite's logic
@@ -141,15 +147,16 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     protected void fire(float x, float y, int direction) {
+
         RectF temp = getDimensions();
         if (myWeapons[myWeapon.ordinal()].ammo > 1 && myWeapons[myWeapon.ordinal()].delayFire == 0){
             if(myWeapon == WeaponTypes.MachineGun) {
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left + 2, temp.top,
+                myWeapons[myWeapon.ordinal()].myProjectile.launch(temp.left + 2, temp.top,
                         direction);
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left - 2, temp.top,
+                myWeapons[myWeapon.ordinal()].myProjectile.launch(temp.left - 2, temp.top,
                         direction);
             }else{
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.centerX(), temp.top,
+                myWeapons[myWeapon.ordinal()].myProjectile.launch(temp.centerX(), temp.top,
                         direction);
             }
         }
