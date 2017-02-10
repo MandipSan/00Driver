@@ -42,7 +42,9 @@ public class GameObject {
     public enum AnimateState{Normal,Destroyed}
 
     /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
-        INPUT:      int, int, int       -Image Reference, Image Width, Image Height
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
     public GameObject(int imageReference, int width, int height){
@@ -55,13 +57,13 @@ public class GameObject {
         myCurFrameNum = 0;
         myCurAniState = AnimateState.Normal;
         setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
-                imageReference));
+                imageReference), 4, 2);
 
     }
 
     /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
-    INPUT:      NONE
-    OUTPUT:     NONE
+        INPUT:      NONE
+        OUTPUT:     NONE
     */
     public GameObject () {
         this(R.mipmap.ic_launcher, 50, 50);
@@ -93,18 +95,6 @@ public class GameObject {
 
     /*  PURPOSE:    Set's the game object's image and  proper scaling
         INPUT:      image               - The image to set myImage too
-        OUTPUT:     NONE
-    */
-    public void setMyImage(Bitmap image){
-        Matrix tempMatrix = new Matrix();
-        tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
-                new RectF(0, 0, 200, 100), Matrix.ScaleToFit.CENTER);
-        this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
-                tempMatrix, true);
-    }
-
-    /*  PURPOSE:    Set's the game object's image and  proper scaling
-        INPUT:      image               - The image to set myImage too
                     row                 - The number of row in image frame
                     column              - The number of column in image frame
         OUTPUT:     NONE
@@ -112,7 +102,7 @@ public class GameObject {
     public void setMyImage(Bitmap image, int row, int column){
         Matrix tempMatrix = new Matrix();
         tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
-                new RectF(0, 0, 50*row, 50*column), Matrix.ScaleToFit.CENTER);
+                new RectF(0, 0, myWidth*row, myHeight*column), Matrix.ScaleToFit.CENTER);
         this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
                 tempMatrix, true);
     }
@@ -151,10 +141,10 @@ public class GameObject {
     protected void animate(){
         switch (myCurAniState){
             case Normal:
-                myCurFrameLoc.set(50*myCurFrameNum,0,50*(myCurFrameNum+1),50);
+                myCurFrameLoc.set(myWidth*myCurFrameNum,0,myWidth*(myCurFrameNum+1),myHeight);
                 break;
             case Destroyed:
-                myCurFrameLoc.set(50*myCurFrameNum,50,50*(myCurFrameNum+1),100);
+                myCurFrameLoc.set(myWidth*myCurFrameNum,myHeight,myWidth*(myCurFrameNum+1),myHeight*2);
                 break;
         }
         myCurFrameNum++;

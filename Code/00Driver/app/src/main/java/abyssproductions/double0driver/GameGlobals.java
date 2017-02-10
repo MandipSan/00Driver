@@ -16,6 +16,11 @@ public class GameGlobals {
     public Projectile [] myProjectiles;
     //  PURPOSE:    Holds the number of projectiles in the projectile's array
     public final static int myProjectileArrSize = 10;
+    //  PURPOSE:    Holds the default player's horizontal velocity
+    public final static int playerHorizontalVel = 5;
+    //  PURPOSE:    Holds the distance of the lane transfers
+    public final static int playerVelocityReset = 30;
+
 
     /*  PURPOSE:    Constructor for the game globals that sets the default values for the object
         INPUT:      NONE
