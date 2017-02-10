@@ -24,6 +24,7 @@ public class MachineGunProjectile extends Projectile {
         super(ImageReference, width, height);
     }
 
+
     /*  PURPOSE:    Default constructor creates default projector using above constructor
         INPUT:      NONE
         OUTPUT:     NONE
@@ -44,12 +45,14 @@ public class MachineGunProjectile extends Projectile {
     public void launch(float x, float y, int direction) {
         RectF temp = getDimensions();
         temp.offsetTo(x, y);
-        setMyDimensions(temp);
-        myVelocity.set(0,direction*5);
+        MachineGunProjectile tempProjectile = new MachineGunProjectile();
+
+        tempProjectile.setMyDimensions(temp);
+        tempProjectile.myVelocity.set(0,direction*20);
         //Find first empty spot in projectiles array
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++) {
             if(GameGlobals.getInstance().myProjectiles[i] == null) {
-                GameGlobals.getInstance().myProjectiles[i] = this;
+                GameGlobals.getInstance().myProjectiles[i] = tempProjectile;
                 break;
             }
         }
