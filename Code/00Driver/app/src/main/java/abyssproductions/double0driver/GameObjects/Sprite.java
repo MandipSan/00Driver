@@ -31,7 +31,8 @@ public class Sprite extends GameObject {
         myMaxHealth = 100;
         myWeapon = WeaponTypes.MachineGun;
         myWeapons = new Weapon[WeaponTypes.values().length];
-        //myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,30,WeaponTypes.MachineGun, new );
+        myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,30,WeaponTypes.MachineGun,
+                new MachineGunProjectile());
         //myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(10,10,30,WeaponTypes.Missile, new );
         //myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(10,10,30,WeaponTypes.Flamethrower, new );
         //myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,30,WeaponTypes.Laser, new );
@@ -93,23 +94,6 @@ public class Sprite extends GameObject {
         myWeapons[weaponType.ordinal()].maxAmmo += amount;
     }
 
-    /*  PURPOSE:    Fires a projectile from the X and Y position given
-        INPUT:      x                   - The X position to launch the projectile from
-                    y                   - The Y position to launch the projectile from
-        OUTPUT:     NONE
-     */
-    public void fire(float x, float y) {
-        RectF temp = getDimensions();
-        if (myWeapons[myWeapon.ordinal()].ammo > 1 && myWeapons[myWeapon.ordinal()].delayFire == 0){
-            if(myWeapon == WeaponTypes.MachineGun) {
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left + 2, temp.top);
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left - 2, temp.top);
-            }else{
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.centerX(), temp.top);
-            }
-        }
-    }
-
     /*  PURPOSE:    Returns the current health
         INPUT:      NONE
         OUTPUT:     Returns an int with the amount of the current health
@@ -148,6 +132,27 @@ public class Sprite extends GameObject {
      */
     protected WeaponTypes getWeaponType() {
         return myWeapon;
+    }
+
+    /*  PURPOSE:    Fires a projectile from the X and Y position given
+        INPUT:      x                   - The X position to launch the projectile from
+                    y                   - The Y position to launch the projectile from
+                    direction           - The direction that the projectile will fly
+        OUTPUT:     NONE
+     */
+    protected void fire(float x, float y, int direction) {
+        RectF temp = getDimensions();
+        if (myWeapons[myWeapon.ordinal()].ammo > 1 && myWeapons[myWeapon.ordinal()].delayFire == 0){
+            if(myWeapon == WeaponTypes.MachineGun) {
+                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left + 2, temp.top,
+                        direction);
+                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left - 2, temp.top,
+                        direction);
+            }else{
+                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.centerX(), temp.top,
+                        direction);
+            }
+        }
     }
 
     //  Purpose:    Class hold information for the different weapons types
