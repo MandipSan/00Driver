@@ -18,7 +18,7 @@ public class Projectile extends GameObject {
     }
 
     public Projectile() {
-        this(R.drawable.Test, 50, 50);
+        this(R.drawable.test, 50, 50);
     }
 
     /*  PURPOSE:    Updates the projectile's logic
@@ -35,16 +35,15 @@ public class Projectile extends GameObject {
     /*  PURPOSE:    Launches the projectile from the X and Y position given 
         INPUT:      x                   - The X position to launch the projectile from
                     y                   - The Y position to launch the projectile from
-                    direction           - The direction the projectile will travel (0 for down, 1
+                    direction           - The direction the projectile will travel (-1 for down, 1
                                             for up)
         OUTPUT:     NONE
      */
-    public void launched(float x, float y,int direction){
+    public void launch(float x, float y,int direction){
         RectF temp = getDimensions();
         temp.offsetTo(x,y);
         setMyDimensions(temp);
-        if(direction == 0)myVelocity.set(0,5);
-        else myVelocity.set(0,-5);
+        myVelocity.set(0,direction*5);
     }
 
     /*  PURPOSE:    Returns if the projectile is active
