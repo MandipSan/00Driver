@@ -3,6 +3,7 @@ package abyssproductions.double0driver.GameObjects;
 import android.graphics.RectF;
 
 import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
@@ -30,7 +31,7 @@ public class Enemy extends Sprite {
         OUTPUT:     NONE
      */
     public void update(){
-
+        super.update();
         if(myType != EnemyType.Helicopter){
             moveVertical(myVelocity.y);
         }else{
@@ -59,7 +60,33 @@ public class Enemy extends Sprite {
                 myVelocity.set(0,GameGlobals.enemiesUniVelocity);
             }
         }else {
-            //HELICOPTER SPAWNING STILL TO BE DESIGNED
+            //TODO:HELICOPTER SPAWNING STILL TO BE DESIGNED
         }
+    }
+
+    /*  PURPOSE:    Fire the enemy projectiles
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    public void fire(){
+        //TODO:TO BE DISCUSS FIRST THEN DESIGNED
+        switch(myType){
+            case MachineGunCar:
+                break;
+            case DronePickup:
+                break;
+            case SpikeVan:
+                break;
+            case Helicopter:
+                break;
+        }
+    }
+
+    /*  PURPOSE:    Return the enemy type
+        INPUT:      NONE
+        OUTPUT:     Return a EnemyType variable back with the enemy's type
+     */
+    public EnemyType getMyType(){
+        return myType;
     }
 }
