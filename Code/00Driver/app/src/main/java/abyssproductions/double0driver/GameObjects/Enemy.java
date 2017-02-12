@@ -28,37 +28,23 @@ public class Enemy extends Sprite {
 
 
     /*  PURPOSE:    Constructor for the basic enemy that sets the default values for the object
+                        and the point it is suppose to spawn from
         INPUT:      imageReference      - Reference's the image to be load
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
-        OUTPUT:     NONE
-     */
-    public Enemy(int imageReference, int width, int height){
-        super(imageReference, width, height);
-        changeMovement = 0;
-        random = new Random();
-    }
-
-    /*  PURPOSE:    Updates the basic enemy's logic
-        INPUT:      NONE
-        OUTPUT:     NONE
-     */
-    public void update(){
-        super.update();
-        move();
-
-    }
-
-    /*  PURPOSE:    Spawn the enemy of the type given at the location given
-        INPUT:      enemyType           - The type of enemy to spawn
+                    enemyType           - The type of enemy to spawn
                     x                   - The x location to spawn the enemy from(The left in rect
                                             object)
                     y                   - The y location to spawn the enemy from(The top in rect
                                             object)
         OUTPUT:     NONE
      */
-    public void spawn(EnemyType enemyType, float x, float y){
+    public Enemy(int imageReference, int width, int height, EnemyType enemyType, float x, float y){
+        super(imageReference, width, height);
+        changeMovement = 0;
+        random = new Random();
         myType = enemyType;
+
         RectF temp = getDimensions();
         if(enemyType != EnemyType.Helicopter) {
             temp.offsetTo(x,y);
@@ -73,6 +59,16 @@ public class Enemy extends Sprite {
             setMyDimensions(temp);
             myVelocity.set(0,GameGlobals.enemiesUniVelocity);
         }
+    }
+
+    /*  PURPOSE:    Updates the basic enemy's logic
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    public void update(){
+        super.update();
+        move();
+
     }
 
     /*  PURPOSE:    Fire the enemy projectiles
