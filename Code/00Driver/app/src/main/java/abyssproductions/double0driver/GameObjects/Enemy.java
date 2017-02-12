@@ -68,6 +68,7 @@ public class Enemy extends Sprite {
     public void update(int playerX, int playerY){
         super.update();
         move( playerX, playerY);
+        fire( playerX, playerY);
 
     }
 
@@ -75,10 +76,22 @@ public class Enemy extends Sprite {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public void fire(){
+    public void fire(int playerX, int playerY){
+        RectF myDim = getDimensions();
         //TODO:TO BE DISCUSS FIRST THEN DESIGNED
         switch(myType){
             case MachineGunCar:
+
+                if(myDim.left < playerX && myDim.right > playerX){
+
+                    if(myVelocity.y <= 0 && myDim.top > playerY){
+                        Log.d("fire: ", "in");
+                        fire(myDim.centerX(),myDim.centerY(),-1);
+                    }else if(myVelocity.y > 0 && myDim.bottom < playerY){
+                        fire(myDim.centerX(),myDim.centerY(),1);
+                    }
+                }
+
                 break;
             case DronePickup:
                 break;

@@ -15,6 +15,8 @@ public class GameGlobals {
     private static GameGlobals ourInstance = new GameGlobals();
     //  PURPOSE:    Holds the screen height
     private int screenHeight;
+    //  PURPOSE:    Holds the screen width
+    private int screenWidth;
     //  PURPOSE:    Holds the y velocity for all enemies
     public final static int enemiesUniVelocity = 20;
     //  PURPOSE:    Holds an array of the enemies
@@ -77,6 +79,14 @@ public class GameGlobals {
         screenHeight = height;
     }
 
+    /*  PURPOSE:    Set the screen width
+        INPUT:      width    - The width of the screen
+        OUTPUT:     NONE
+     */
+    public void setScreenWidth(int width){
+        screenWidth = width;
+    }
+
     /*  PURPOSE:    Returns the instance of the class
         INPUT:      NONE
         OUTPUT:     Return GameGlobals type instance
@@ -99,5 +109,13 @@ public class GameGlobals {
      */
     public int getScreenHeight(){
         return screenHeight;
+    }
+
+    /*  PURPOSE:    Returns the screen width
+        INPUT:      NONE
+        OUTPUT:     Return int of the screen width
+     */
+    public int getScreenWidth(){
+        return screenWidth;
     }
 }
