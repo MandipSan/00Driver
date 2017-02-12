@@ -49,7 +49,7 @@ public class Enemy extends Sprite {
         if(enemyType != EnemyType.Helicopter) {
             temp.offsetTo(x,y);
             setMyDimensions(temp);
-            if(y < (GameGlobals.getInstance().getScreenHeight()/2)){
+            if(y > (GameGlobals.getInstance().getScreenHeight()/2)){
                 myVelocity.set(0,-1*GameGlobals.enemiesUniVelocity);
             }else{
                 myVelocity.set(0,GameGlobals.enemiesUniVelocity);
@@ -65,9 +65,9 @@ public class Enemy extends Sprite {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public void update(){
+    public void update(int playerX, int playerY){
         super.update();
-        move();
+        move( playerX, playerY);
 
     }
 
@@ -101,12 +101,20 @@ public class Enemy extends Sprite {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    private void move(){
+    private void move(int playerX, int playerY){
+        RectF temp = getDimensions();
         boolean heliReady = false;
         if(myType != EnemyType.Helicopter){
+            //Stop enemy car that aren't the basic car from running into the player from behind if
+            //  they are in the same lane
+            if(temp.left < playerX && temp.right > playerX && myVelocity.y <= 0
+                    && playerY < temp.top && myType != EnemyType.BasicCar){
+                    myVelocity.set(0,0);
+            }else{
+                if(myVelocity.y == 0)myVelocity.set(0,-GameGlobals.enemiesUniVelocity);
+            }
             moveVertical(myVelocity.y);
         }else{
-            RectF temp = getDimensions();
             //Stops the helicopter from making random movement until the helicopter is full on the
             // game screen
             if(temp.top >= 0){
