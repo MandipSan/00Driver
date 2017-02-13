@@ -89,20 +89,30 @@ public class Enemy extends Sprite {
                 }
                 break;
             case DronePickup:
-                break;
-            case SpikeVan:
-                break;
-            case Helicopter:
-                if(myDim.left < playerX && myDim.right > playerX){
-                    setWeaponType(WeaponTypes.MachineGun);
+                //TODO:Uncomment when merge to test with Drone projectile
+                /*if(myDim.left < playerX && myDim.right > playerX){
                     if(myVelocity.y <= 0 && myDim.top > playerY){
                         fire(myDim.centerX(),myDim.centerY(),-1);
                     }else if(myVelocity.y > 0 && myDim.bottom < playerY){
                         fire(myDim.centerX(),myDim.centerY(),1);
                     }
+                }*/
+                break;
+            case SpikeVan:
+                //TODO:Uncomment when merge to test with Spike projectile
+                /*if(myDim.left < playerX && myDim.right > playerX && myVelocity.y < 0
+                    && myDim.top > playerY){
+                    fire(myDim.centerX(),myDim.centerY(),-1);
+                }*/
+                break;
+            case Helicopter:
+                if(myDim.left < playerX && myDim.right > playerX){
+                    setWeaponType(WeaponTypes.MachineGun);
                 }else{
-                    setWeaponType(WeaponTypes.Missile);
+                    //TODO:Uncomment when merge to test with missile projectile
+                    //setWeaponType(WeaponTypes.Missile);
                 }
+                fire(myDim.centerX(),myDim.centerY(),-1);
                 break;
         }
     }
@@ -121,12 +131,14 @@ public class Enemy extends Sprite {
      */
     private void move(int playerX, int playerY){
         RectF temp = getDimensions();
+        //Use indicate if helicopter is fully on the screen
         boolean heliReady = false;
         if(myType != EnemyType.Helicopter){
             //Stop enemy car that aren't the basic car from running into the player from behind if
             //  they are in the same lane
             if(temp.left < playerX && temp.right > playerX && myVelocity.y <= 0
-                    && playerY < temp.top && myType != EnemyType.BasicCar){
+                    && playerY < temp.top && myType != EnemyType.BasicCar
+                    && myType != EnemyType.SpikeVan){
                     myVelocity.set(0,0);
             }else{
                 if(myVelocity.y == 0)myVelocity.set(0,-GameGlobals.enemiesUniVelocity);
