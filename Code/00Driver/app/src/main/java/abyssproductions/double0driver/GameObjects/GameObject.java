@@ -37,9 +37,7 @@ public class GameObject {
     //  PURPOSE:    Holds the object's movement velocity
     protected Point myVelocity;
     //  PURPOSE:    Hold the object’s current animate state
-    protected AnimateState myCurAniState;
-    //  PURPOSE:    The different states for the animation
-    public enum AnimateState{Normal,Destroyed}
+    protected int myCurAniState;
 
     /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
         INPUT:      imageReference      - Reference's the image to be load
@@ -55,7 +53,7 @@ public class GameObject {
         myVelocity = new Point(0,0);
         myPaint = new Paint();
         myCurFrameNum = 0;
-        myCurAniState = AnimateState.Normal;
+        myCurAniState = R.integer.NormalAnimateState;
         setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
                 imageReference), 4, 2);
 
@@ -139,14 +137,8 @@ public class GameObject {
         OUTPUT:     NONE
     */
     protected void animate(){
-        switch (myCurAniState){
-            case Normal:
-                myCurFrameLoc.set(myWidth*myCurFrameNum,0,myWidth*(myCurFrameNum+1),myHeight);
-                break;
-            case Destroyed:
-                myCurFrameLoc.set(myWidth*myCurFrameNum,myHeight,myWidth*(myCurFrameNum+1),myHeight*2);
-                break;
-        }
+        myCurFrameLoc.set(myWidth*myCurFrameNum,myCurAniState,myWidth*(myCurFrameNum+1),
+                myHeight*(myCurAniState+1));
         myCurFrameNum++;
         if(myCurFrameNum==4)myCurFrameNum=0;
     }
