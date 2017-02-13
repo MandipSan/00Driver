@@ -44,7 +44,6 @@ public class Enemy extends Sprite {
         changeMovement = 0;
         random = new Random();
         myType = enemyType;
-
         RectF temp = getDimensions();
         if(enemyType != EnemyType.Helicopter) {
             temp.offsetTo(x,y);
@@ -68,7 +67,7 @@ public class Enemy extends Sprite {
     public void update(int playerX, int playerY){
         super.update();
         move( playerX, playerY);
-        fire( playerX, playerY);
+        if(myType != EnemyType.BasicCar)fire( playerX, playerY);
 
     }
 
@@ -81,23 +80,29 @@ public class Enemy extends Sprite {
         //TODO:TO BE DISCUSS FIRST THEN DESIGNED
         switch(myType){
             case MachineGunCar:
-
                 if(myDim.left < playerX && myDim.right > playerX){
-
                     if(myVelocity.y <= 0 && myDim.top > playerY){
-                        Log.d("fire: ", "in");
                         fire(myDim.centerX(),myDim.centerY(),-1);
                     }else if(myVelocity.y > 0 && myDim.bottom < playerY){
                         fire(myDim.centerX(),myDim.centerY(),1);
                     }
                 }
-
                 break;
             case DronePickup:
                 break;
             case SpikeVan:
                 break;
             case Helicopter:
+                if(myDim.left < playerX && myDim.right > playerX){
+                    setWeaponType(WeaponTypes.MachineGun);
+                    if(myVelocity.y <= 0 && myDim.top > playerY){
+                        fire(myDim.centerX(),myDim.centerY(),-1);
+                    }else if(myVelocity.y > 0 && myDim.bottom < playerY){
+                        fire(myDim.centerX(),myDim.centerY(),1);
+                    }
+                }else{
+                    setWeaponType(WeaponTypes.Missile);
+                }
                 break;
         }
     }
