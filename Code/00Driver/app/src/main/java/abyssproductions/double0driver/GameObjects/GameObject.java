@@ -50,7 +50,7 @@ public class GameObject {
     public GameObject(int imageReference, int width, int height){
         myWidth = width;
         myHeight = height;
-        myDimensions = new RectF(0,0,0,0);
+        myDimensions = new RectF(0,0,width,height);
         myCurFrameLoc = new Rect(0,0,50,50);
         myVelocity = new Point(0,0);
         myPaint = new Paint();
