@@ -44,6 +44,7 @@ public class GameThread extends Thread {
         Canvas newCanvas = null;
         while(gameRunning){
             newCanvas = null;
+            gameView.update();
             try{
                 newCanvas = gameSurfaceHolder.lockCanvas(null);
                 synchronized(gameSurfaceHolder) {

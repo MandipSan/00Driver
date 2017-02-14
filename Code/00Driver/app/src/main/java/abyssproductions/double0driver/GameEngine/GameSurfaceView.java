@@ -75,4 +75,12 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         gameEngine.draw(canvas);
     }
+
+    /** PURPOSE:    Calls the game engine update
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void update(){
+        gameEngine.update();
+    }
 }
