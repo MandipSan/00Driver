@@ -22,14 +22,15 @@ public class Sprite extends GameObject {
     //  PURPOSE:    Holds the different types of weapons
     public enum WeaponTypes {MachineGun, Missile, Flamethrower, Laser}
 
-    /*  PURPOSE:    Constructor for the sprite that sets the default values for the object
+    /*  PURPOSE:    Constructor for the sprite that sets the default values for the object and all
+                        the different weapon types
         INPUT:      imageReference      - Reference's the image to be load
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public Sprite(int imageReference, int width, int height) {
-        super(imageReference, width, height);
+    public Sprite(int imageReference, int imageWidth, int imageHeight) {
+        super(imageReference, imageWidth, imageHeight);
         myHealth = 100;
         myMaxHealth = 100;
         myWeapon = WeaponTypes.MachineGun;
@@ -42,6 +43,38 @@ public class Sprite extends GameObject {
                 new MachineGunProjectile() );
         myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,10,WeaponTypes.Laser,
                 new MachineGunProjectile() );
+    }
+
+    /*  PURPOSE:    Constructor for the sprite that sets the default values for the object and the
+                        specified weapon types
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
+                    weaponType          - The weapon type to loaded
+        OUTPUT:     NONE
+     */
+    public Sprite(int imageReference, int imageWidth, int imageHeight, WeaponTypes weaponType) {
+        super(imageReference, imageWidth, imageHeight);
+        myHealth = 100;
+        myMaxHealth = 100;
+        myWeapon = weaponType;
+        myWeapons = new Weapon[1];
+        switch(myWeapon){
+            case MachineGun:
+                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.MachineGun,
+                        new MachineGunProjectile());
+                break;
+            case Missile:
+                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Missile, new MachineGunProjectile());
+                break;
+            case Flamethrower:
+                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Flamethrower,
+                    new MachineGunProjectile());
+                break;
+            case Laser:
+                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Laser, new MachineGunProjectile());
+                break;
+        }
     }
 
     /*  PURPOSE:    Updates the sprite's logic
