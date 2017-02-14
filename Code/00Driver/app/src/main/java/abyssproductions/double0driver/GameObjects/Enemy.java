@@ -14,7 +14,7 @@ import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunPr
  */
 
 public class Enemy extends Sprite {
-
+    //  PURPOSE:    The max amount of time that the helicopter does one movement pattern
     private final static int changeMovementMax = 15;
     //  PURPOSE:    Timer before helicopter changes it movement
     private int changeMovement;
