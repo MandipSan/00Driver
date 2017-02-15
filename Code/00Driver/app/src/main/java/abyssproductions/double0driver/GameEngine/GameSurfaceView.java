@@ -19,7 +19,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private GameThread gameThread;
     private GameEngine gameEngine;
     //  PURPOSE:    The pointer that is used to detect gestures
-    private GestureDetectorCompat mDetector;
+    public GestureDetectorCompat mDetector;
 
     /** PURPOSE:    Constructor for the GameSurfaceView that set the default value for the view
      *  INPUT:      context             - The context from the activity
@@ -28,9 +28,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     public GameSurfaceView(Context context){
         super(context);
         getHolder().addCallback(this);
+        GameGlobals.getInstance().setImageResources(getResources());
         gameEngine = new GameEngine();
         gameThread = null;
-        GameGlobals.getInstance().setImageResources(getResources());
         mDetector = new GestureDetectorCompat(context,gameEngine.new GameGestureListener());
     }
 
@@ -70,16 +70,6 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     public void surfaceDestroyed(SurfaceHolder holder){
         gameThread.setGameRunning(false);
         gameThread.interrupt();
-    }
-
-    /** PURPOSE:    Detects the touch inputs and returns the super methods event
-     *  INPUT:      event               - Holds the type of event that happened
-     *  OUTPUT:     Returns a boolean
-     */
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        mDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
     }
 
     /** PURPOSE:    Draws what is to be displayed on the screen

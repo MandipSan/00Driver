@@ -66,9 +66,9 @@ public class GameEngine {
             float leftSwipeDiff = event2.getX() - event1.getX();
 
             if(rightSwipeDiff >= swipeMinDiff){
-                Log.d("Swiped","Right");
-            }else if(leftSwipeDiff >= swipeMinDiff){
                 Log.d("Swiped","Left");
+            }else if(leftSwipeDiff >= swipeMinDiff){
+                Log.d("Swiped","Right");
             }
 
             return true;
