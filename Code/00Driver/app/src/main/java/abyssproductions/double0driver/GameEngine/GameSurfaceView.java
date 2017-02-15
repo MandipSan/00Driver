@@ -3,6 +3,9 @@ package abyssproductions.double0driver.GameEngine;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
+import android.support.v4.view.GestureDetectorCompat;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
@@ -15,6 +18,8 @@ import abyssproductions.double0driver.GameGlobals;
 public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private GameThread gameThread;
     private GameEngine gameEngine;
+    //  PURPOSE:    The pointer that is used to detect gestures
+    private GestureDetectorCompat mDetector;
 
     /** PURPOSE:    Constructor for the GameSurfaceView that set the default value for the view
      *  INPUT:      context             - The context from the activity
@@ -26,6 +31,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         gameEngine = new GameEngine();
         gameThread = null;
         GameGlobals.getInstance().setImageResources(getResources());
+        mDetector = new GestureDetectorCompat(context,gameEngine.new GameGestureListener());
     }
 
     /** PURPOSE:    Starts the thread and set the other variable need when the surface is created
@@ -57,7 +63,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     /** PURPOSE:    Stop the thread and set the other variable need when the surface is destroyed
-     *  INPUT:      holder             -
+     *  INPUT:      holder              -
      *  OUTPUT:     NONE
      */
     @Override
@@ -66,8 +72,18 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         gameThread.interrupt();
     }
 
+    /** PURPOSE:    Detects the touch inputs and returns the super methods event
+     *  INPUT:      event               - Holds the type of event that happened
+     *  OUTPUT:     Returns a boolean
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        mDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
     /** PURPOSE:    Draws what is to be displayed on the screen
-     *  INPUT:      canvas             - Pointer to the surface screen's canvas
+     *  INPUT:      canvas              - Pointer to the surface screen's canvas
      *  OUTPUT:     NONE
      */
     @Override
