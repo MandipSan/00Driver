@@ -1,6 +1,9 @@
 package abyssproductions.double0driver.GameEngine;
 
 import android.graphics.Canvas;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Player;
@@ -31,7 +34,7 @@ public class GameEngine {
                 GameGlobals.getInstance().myProjectiles[i].update();
         }
 
-        player.update();
+        //player.update();
     }
 
     /** PURPOSE:    Draws the whole game world
@@ -44,8 +47,31 @@ public class GameEngine {
                 GameGlobals.getInstance().myProjectiles[i].draw(canvas);
         }
 
-        player.draw(canvas);
+        //player.draw(canvas);
     }
 
+    public class GameGestureListener extends GestureDetector.SimpleOnGestureListener{
 
+        @Override
+        public boolean onDown(MotionEvent event){
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX,
+                               float velocityY){
+            //The max difference in the swipe need
+            int swipeMinDiff = 200;
+            float rightSwipeDiff = event1.getX() - event2.getX();
+            float leftSwipeDiff = event2.getX() - event1.getX();
+
+            if(rightSwipeDiff >= swipeMinDiff){
+                Log.d("Swiped","Left");
+            }else if(leftSwipeDiff >= swipeMinDiff){
+                Log.d("Swiped","Right");
+            }
+
+            return true;
+        }
+    }
 }
