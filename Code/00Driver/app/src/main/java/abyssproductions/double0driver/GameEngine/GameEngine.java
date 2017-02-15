@@ -15,13 +15,18 @@ import abyssproductions.double0driver.GameObjects.Player;
 public class GameEngine {
     //  PURPOSE:    Holds the pointer to the player object
     private Player player;
+    //  PURPOSE:    Holds whether the fire button is pressed down
+    private boolean playerFire;
 
     /** PURPOSE:    Constructor for the GameEngine that set the default value for the object
      *  INPUT:      NONE
      *  OUTPUT:     NONE
      */
     public GameEngine(){
+        GameGlobals.getInstance().loadPointers();
         //player = new Player();
+        playerFire = false;
+
     }
 
     /** PURPOSE:    Updates the logic for the game
@@ -34,6 +39,7 @@ public class GameEngine {
                 GameGlobals.getInstance().myProjectiles[i].update();
         }
 
+        if(playerFire)Log.d("fire","ya");
         //player.update();
     }
 
@@ -50,13 +56,24 @@ public class GameEngine {
         //player.draw(canvas);
     }
 
+    /** PURPOSE:    Calls the players fire when the pressed is set true
+     *  INPUT:      pressed             - Holds whether the screen is pressed
+     *  OUTPUT:     NONE
+     */
+    public void isPressed(boolean pressed){
+        playerFire = pressed;
+    }
+
+    //  PURPOSE:    Class used to detected if the fling gesture occurred
     public class GameGestureListener extends GestureDetector.SimpleOnGestureListener{
 
-        @Override
-        public boolean onDown(MotionEvent event){
-            return true;
-        }
-
+        /** PURPOSE:    Calls the players movement method when fling
+         *  INPUT:      event1          -
+         *              event2          -
+         *              velocityX       -
+         *              velocityY       -
+         *  OUTPUT:     Returns true
+         */
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX,
                                float velocityY){

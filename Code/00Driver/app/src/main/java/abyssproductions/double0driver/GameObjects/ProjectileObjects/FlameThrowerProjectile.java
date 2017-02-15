@@ -25,6 +25,6 @@ public class FlameThrowerProjectile extends Projectile {
         OUTPUT:     NONE
      */
     public FlameThrowerProjectile () {
-        this(R.drawable.Flames, 50, 50);
+        this(R.drawable.flames, 50, 50);
     }
 }

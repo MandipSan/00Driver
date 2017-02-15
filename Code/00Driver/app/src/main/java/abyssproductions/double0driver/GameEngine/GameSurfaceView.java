@@ -16,10 +16,12 @@ import abyssproductions.double0driver.GameGlobals;
  */
 
 public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+    //  PURPOSE:    Pointer to the thread that cause the game loop
     private GameThread gameThread;
+    //  PURPOSE:    Pointer to the game engine
     private GameEngine gameEngine;
     //  PURPOSE:    The pointer that is used to detect gestures
-    public GestureDetectorCompat mDetector;
+    private GestureDetectorCompat mDetector;
 
     /** PURPOSE:    Constructor for the GameSurfaceView that set the default value for the view
      *  INPUT:      context             - The context from the activity
@@ -88,5 +90,20 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
      */
     public void update(){
         gameEngine.update();
+    }
+
+    /** PURPOSE:    Detects the touch inputs and returns the super methods event
+     *  INPUT:      event               - Holds the type of event that happened
+     *  OUTPUT:     Returns a boolean
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            gameEngine.isPressed(true);
+        }else if(event.getAction() == MotionEvent.ACTION_UP){
+            gameEngine.isPressed(false);
+        }
+        mDetector.onTouchEvent(event);
+        return true;
     }
 }
