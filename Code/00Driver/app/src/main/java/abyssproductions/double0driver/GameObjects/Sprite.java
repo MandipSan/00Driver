@@ -1,6 +1,9 @@
 package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.RectF;
+import android.util.Log;
+
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
 
 /**
  * Created by Mandip Sangha on 1/31/2017.
@@ -31,10 +34,14 @@ public class Sprite extends GameObject {
         myMaxHealth = 100;
         myWeapon = WeaponTypes.MachineGun;
         myWeapons = new Weapon[WeaponTypes.values().length];
-        //myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,30,WeaponTypes.MachineGun, new );
-        //myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(10,10,30,WeaponTypes.Missile, new );
-        //myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(10,10,30,WeaponTypes.Flamethrower, new );
-        //myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,30,WeaponTypes.Laser, new );
+        myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,10,WeaponTypes.MachineGun,
+                new MachineGunProjectile());
+        myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(10,10,10,WeaponTypes.Missile,
+                new MachineGunProjectile() );
+        myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(10,10,10,WeaponTypes.Flamethrower,
+                new MachineGunProjectile() );
+        myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,10,WeaponTypes.Laser,
+                new MachineGunProjectile() );
     }
 
     /*  PURPOSE:    Updates the sprite's logic
@@ -44,7 +51,7 @@ public class Sprite extends GameObject {
     public void update() {
         super.update();
         for (int i = 0; i < WeaponTypes.values().length; i++) {
-            if (myWeapons[i].delayFire > 0) myWeapons[i].delayFire--;
+            if (myWeapons[i].sinceDelay > 0) myWeapons[i].sinceDelay--;
         }
     }
 
@@ -93,23 +100,6 @@ public class Sprite extends GameObject {
         myWeapons[weaponType.ordinal()].maxAmmo += amount;
     }
 
-    /*  PURPOSE:    Fires a projectile from the X and Y position given
-        INPUT:      x                   - The X position to launch the projectile from
-                    y                   - The Y position to launch the projectile from
-        OUTPUT:     NONE
-     */
-    public void fire(float x, float y) {
-        RectF temp = getDimensions();
-        if (myWeapons[myWeapon.ordinal()].ammo > 1 && myWeapons[myWeapon.ordinal()].delayFire == 0){
-            if(myWeapon == WeaponTypes.MachineGun) {
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left + 2, temp.top);
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left - 2, temp.top);
-            }else{
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.centerX(), temp.top);
-            }
-        }
-    }
-
     /*  PURPOSE:    Returns the current health
         INPUT:      NONE
         OUTPUT:     Returns an int with the amount of the current health
@@ -150,6 +140,29 @@ public class Sprite extends GameObject {
         return myWeapon;
     }
 
+    /*  PURPOSE:    Fires a projectile from the X and Y position given
+        INPUT:      x                   - The X position to launch the projectile from
+                    y                   - The Y position to launch the projectile from
+                    direction           - The direction that the projectile will fly
+        OUTPUT:     NONE
+     */
+    protected void fire(float x, float y, int direction) {
+
+        RectF temp = getDimensions();
+        if (myWeapons[myWeapon.ordinal()].ammo > 1 && myWeapons[myWeapon.ordinal()].sinceDelay == 0){
+            if(myWeapon == WeaponTypes.MachineGun) {
+                myWeapons[myWeapon.ordinal()].myProjectile.launch(temp.left + 2, temp.top,
+                        direction);
+                myWeapons[myWeapon.ordinal()].myProjectile.launch(temp.right - 2, temp.top,
+                        direction);
+            }else{
+                myWeapons[myWeapon.ordinal()].myProjectile.launch(temp.centerX(), temp.top,
+                        direction);
+            }
+            myWeapons[myWeapon.ordinal()].sinceDelay = myWeapons[myWeapon.ordinal()].delayFire;
+        }
+    }
+
     //  Purpose:    Class hold information for the different weapons types
     private class Weapon {
         //  PURPOSE:    Holds the ammo amount
@@ -158,6 +171,8 @@ public class Sprite extends GameObject {
         public int maxAmmo;
         //  PURPOSE:    Holds the delay between the firing
         public int delayFire;
+        //  PURPOSE:    Holds the time since delay
+        public int sinceDelay;
         //  PURPOSE:    Holds the weapon type
         public Sprite.WeaponTypes myType;
         //  PURPOSE:    Holds the projectile for the weapon
@@ -178,6 +193,7 @@ public class Sprite extends GameObject {
             delayFire = newDelayFire;
             myType = newType;
             myProjectile = newProjectile;
+            sinceDelay = 0;
         }
     }
 }

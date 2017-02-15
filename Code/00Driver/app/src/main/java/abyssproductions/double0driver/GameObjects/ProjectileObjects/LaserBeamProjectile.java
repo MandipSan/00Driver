@@ -1,8 +1,5 @@
 package abyssproductions.double0driver.GameObjects.ProjectileObjects;
 
-import android.graphics.RectF;
-
-import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Projectile;
 import abyssproductions.double0driver.R;
 
@@ -11,7 +8,7 @@ import abyssproductions.double0driver.R;
  * Edited by Mark Reffel on 2/9/2017
  */
 
-public class MachineGunProjectile extends Projectile {
+public class LaserBeamProjectile extends Projectile {
 
 
     /*  PURPOSE:    Constructor for the Flame Thrower Projectile is to set the default values for the object
@@ -20,7 +17,7 @@ public class MachineGunProjectile extends Projectile {
                     height              - The height of the projectile
         OUTPUT:     NONE
         */
-    private MachineGunProjectile(int ImageReference, int width, int height) {
+    private LaserBeamProjectile(int ImageReference, int width, int height) {
         super(ImageReference, width, height);
     }
 
@@ -29,7 +26,7 @@ public class MachineGunProjectile extends Projectile {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public MachineGunProjectile() {
+    public LaserBeamProjectile() {
         this(R.drawable.test, 50, 50);
     }
 
@@ -43,9 +40,8 @@ public class MachineGunProjectile extends Projectile {
     OUTPUT:     NONE
     */
     public void launch(float x, float y, int direction) {
-        MachineGunProjectile p = new MachineGunProjectile();
-        p.myVelocity.set(0,direction*20);
-        super.launch(x, y, direction, p);
-    }
+        LaserBeamProjectile p = new LaserBeamProjectile();
+        p.myVelocity.set(0,direction*200);
+        super.launch(x, y, direction, p);    }
 
 }
