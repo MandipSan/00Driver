@@ -1,7 +1,6 @@
 package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.RectF;
-
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
 import abyssproductions.double0driver.R;
@@ -53,6 +52,7 @@ public class Projectile extends GameObject {
                 break;
             }
         }
+
     }
 
     /*  PURPOSE:    Returns if the projectile is active
