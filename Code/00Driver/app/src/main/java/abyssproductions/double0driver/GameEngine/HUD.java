@@ -27,7 +27,7 @@ public class HUD {
      */
     public HUD(){
         score = 0;
-        healthBar = new Rect(0,50,1000,100);
+        healthBar = new Rect(0,50,1200,100);
         fireButtonDim = new Rect(0,0,300,100);
         fireButtonDim.offset(100,1500);
         switchButtonDim = new Rect(0,0,300,100);
@@ -57,7 +57,7 @@ public class HUD {
      *  OUTPUT:     NONE
      */
     public void setHealthLevels(int curHealth, int maxHealth){
-        healthBar.right = (curHealth/maxHealth)*1000;
+        healthBar.right = (curHealth/maxHealth)*1200;
     }
 
     /** PURPOSE:    Increase the score

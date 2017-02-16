@@ -20,6 +20,7 @@ public class GameEngine {
     //  PURPOSE:    Holds whether the fire button is pressed down
     private boolean playerFire;
 
+
     private HUD gHUD;
 
     /** PURPOSE:    Constructor for the GameEngine that set the default value for the object
@@ -48,8 +49,13 @@ public class GameEngine {
         gHUD.updateScore();
 
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
-            if(GameGlobals.getInstance().myProjectiles[i]!=null)
+            if(GameGlobals.getInstance().myProjectiles[i]!=null) {
                 GameGlobals.getInstance().myProjectiles[i].update();
+                if(GameGlobals.getInstance().myProjectiles[i].getDimensions().top >= 1800 ||
+                        GameGlobals.getInstance().myProjectiles[i].getDimensions().bottom <=0 ){
+                    GameGlobals.getInstance().myProjectiles[i] = null;
+                }
+            }
         }
 
         if(playerFire)player.fireWeapon();
@@ -81,6 +87,7 @@ public class GameEngine {
      */
     public void isPressed(boolean pressed, float x, float y){
         playerFire = pressed && gHUD.buttonPressed(0,x,y);
+        if(gHUD.buttonPressed(1,x,y))player.switchWeapon();
     }
 
     //  PURPOSE:    Class used to detected if the fling gesture occurred
@@ -112,4 +119,14 @@ public class GameEngine {
             return true;
         }
     }
+
+    /** PURPOSE:    Checks the collision of the various game objects
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    private void checkCollision(){
+
+    }
+
+
 }
