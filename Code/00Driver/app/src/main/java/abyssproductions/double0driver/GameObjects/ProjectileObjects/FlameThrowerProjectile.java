@@ -4,6 +4,10 @@ package abyssproductions.double0driver.GameObjects.ProjectileObjects;
 import abyssproductions.double0driver.GameObjects.Projectile;
 import abyssproductions.double0driver.R;
 
+import static android.R.attr.direction;
+import static android.R.attr.x;
+import static android.R.attr.y;
+
 /**
  * Created by Mark Reffel on 2/8/17.
  * Edited by Mark Reffel on 2/9/2017
@@ -31,7 +35,6 @@ public class FlameThrowerProjectile extends Projectile {
     }
 
 
-
     /*  PURPOSE:    Launches the projectile from the X and Y position given
     INPUT:      x                   - The X position to launch the projectile from
                 y                   - The Y position to launch the projectile from
@@ -39,9 +42,11 @@ public class FlameThrowerProjectile extends Projectile {
                                         for up)
     OUTPUT:     NONE
     */
+    @Override
     public void launch(float x, float y, int direction) {
         FlameThrowerProjectile p = new FlameThrowerProjectile();
         p.myVelocity.set(0,direction*25);
-        super.launch(x, y, direction, p);    }
+        super.launch(x, y, direction, p);
+    }
 
 }
