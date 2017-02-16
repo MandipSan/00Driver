@@ -1,12 +1,14 @@
 package abyssproductions.double0driver.GameEngine;
 
 import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Player;
+import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/14/2017.
@@ -26,7 +28,13 @@ public class GameEngine {
      */
     public GameEngine(){
         GameGlobals.getInstance().loadPointers();
-        //player = new Player();
+        //TODO:Value need to be changed
+        player = new Player(R.drawable.test,50,50);
+        RectF temp = player.getDimensions();
+        temp.offset(500,500);
+        player.setMyDimensions(temp);
+
+
         gHUD = new HUD();
         playerFire = false;
 
@@ -37,13 +45,17 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     public void update(){
+        gHUD.updateScore();
+
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
             if(GameGlobals.getInstance().myProjectiles[i]!=null)
                 GameGlobals.getInstance().myProjectiles[i].update();
         }
 
-        if(playerFire)Log.d("fire","ya");
-        //player.update();
+        if(playerFire)player.fireWeapon();
+        player.update();
+
+        gHUD.setHealthLevels(player.getHealth(),player.getMaxHealth());
     }
 
     /** PURPOSE:    Draws the whole game world
@@ -56,7 +68,7 @@ public class GameEngine {
                 GameGlobals.getInstance().myProjectiles[i].draw(canvas);
         }
 
-        //player.draw(canvas);
+        player.draw(canvas);
 
         gHUD.draw(canvas);
     }
@@ -90,8 +102,10 @@ public class GameEngine {
             float leftSwipeDiff = event2.getX() - event1.getX();
 
             if(rightSwipeDiff >= swipeMinDiff){
+                player.moveLeft();
                 Log.d("Swiped","Left");
             }else if(leftSwipeDiff >= swipeMinDiff){
+                player.moveRight();
                 Log.d("Swiped","Right");
             }
 

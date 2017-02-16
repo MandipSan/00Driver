@@ -10,15 +10,24 @@ import android.graphics.Rect;
  */
 
 public class HUD {
+    //  PURPOSE:    Holds the dimension of the health bar
     private Rect healthBar;
+    //  PURPOSE:    Holds the dimension of the fire button
     private Rect fireButtonDim;
+    //  PURPOSE:    Holds the dimension of the switch button
     private Rect switchButtonDim;
+    //  PURPOSE:    Holds the current score
     private int score;
+    //  PURPOSE:    Holds the paint setting for the drawable objects
     private Paint paint;
 
+    /** PURPOSE:    Constructor for the HUD that set the default value for the object
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
     public HUD(){
         score = 0;
-        healthBar = new Rect(0,50,800,100);
+        healthBar = new Rect(0,50,1000,100);
         fireButtonDim = new Rect(0,0,300,100);
         fireButtonDim.offset(100,1500);
         switchButtonDim = new Rect(0,0,300,100);
@@ -28,6 +37,10 @@ public class HUD {
         paint.setTextSize(50);
     }
 
+    /** PURPOSE:    Draws the HUD
+     *  INPUT:      canvas              - Pointer to the surface screen's canvas
+     *  OUTPUT:     NONE
+     */
     public void draw(Canvas canvas){
         paint.setColor(Color.WHITE);
         canvas.drawText("Score: " + score,0,40,paint);
@@ -38,17 +51,49 @@ public class HUD {
         canvas.drawRect(switchButtonDim,paint);
     }
 
+    /** PURPOSE:    Calculates the length of the health bar
+     *  INPUT:      curHealth           - The current health value
+     *              maxHealth           - The maximum health value
+     *  OUTPUT:     NONE
+     */
     public void setHealthLevels(int curHealth, int maxHealth){
-        healthBar.right = (curHealth/maxHealth)*800;
+        healthBar.right = (curHealth/maxHealth)*1000;
     }
 
+    /** PURPOSE:    Increase the score
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
     public void updateScore(){
         score++;
     }
 
+    /** PURPOSE:    Reduce the score by the amount given
+     *  INPUT:      reduceBy            - The amount to reduce the score by
+     *  OUTPUT:     NONE
+     */
+    public void reduceScoreBy(int reduceBy){
+        score -=reduceBy;
+    }
+
+    /** PURPOSE:    Checks if the a button was pressed returns the result
+     *  INPUT:      button              - The button to check(NOTE:0 is the fire button and 1 is the
+     *                                      switch button)
+     *              x                   - The x value of the press location
+     *              y                   - The y value of the press location
+     *  OUTPUT:     Returns a boolean value of true when pressed else false
+     */
     public boolean buttonPressed(int button, float x, float y){
         if(button == 0 && fireButtonDim.contains((int)x,(int)y))return true;
         else if(button == 1 && switchButtonDim.contains((int)x,(int)y))return true;
         return false;
+    }
+
+    /** PURPOSE:    Returns the score
+     *  INPUT:      NONE
+     *  OUTPUT:     Returns an int with the value of the score
+     */
+    public int getScore(){
+        return score;
     }
 }
