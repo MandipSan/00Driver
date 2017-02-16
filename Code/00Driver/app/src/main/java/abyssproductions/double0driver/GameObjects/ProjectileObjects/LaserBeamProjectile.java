@@ -39,6 +39,7 @@ public class LaserBeamProjectile extends Projectile {
                                         for up)
     OUTPUT:     NONE
     */
+    @Override
     public void launch(float x, float y, int direction) {
         LaserBeamProjectile p = new LaserBeamProjectile();
         p.myVelocity.set(0,direction*200);

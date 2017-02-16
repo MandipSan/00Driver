@@ -41,7 +41,7 @@ public class Projectile extends GameObject {
                                             for up)
         OUTPUT:     NONE
      */
-    public void launch(float x, float y,int direction, Projectile p){
+    protected void launch(float x, float y,int direction, Projectile p){
         RectF temp = getDimensions();
         temp.offsetTo(x, y);
         p.setMyDimensions(temp);
@@ -52,8 +52,14 @@ public class Projectile extends GameObject {
                 break;
             }
         }
-
     }
+    /*  PURPOSE: Method to be overriden by subclasses
+        INPUT:  float x
+                float y
+                int direction
+        OUTPUT: NONE
+     */
+    protected void launch(float x, float y, int direction) {}
 
     /*  PURPOSE:    Returns if the projectile is active
         INPUT:      NONE
