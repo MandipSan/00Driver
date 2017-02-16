@@ -25,8 +25,8 @@ public class Sprite extends GameObject {
     //  PURPOSE:    Holds the different types of weapons
     public enum WeaponTypes {MachineGun, Missile, Flamethrower, Laser}
 
-    /*  PURPOSE:    Constructor for the sprite that sets the default values for the object and the
-                    specified weapon types
+    /*  PURPOSE:    Constructor for the sprite that sets the default values for the object and loads
+                        the weapons if indicated
         INPUT:      imageReference      - Reference's the image to be load
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
