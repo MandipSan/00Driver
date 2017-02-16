@@ -39,6 +39,7 @@ public class MissileLauncherProjectile extends Projectile {
                                         for up)
     OUTPUT:     NONE
     */
+    @Override
     public void launch(float x, float y, int direction) {
         MissileLauncherProjectile p = new MissileLauncherProjectile();
         p.myVelocity.set(0,direction*10);
