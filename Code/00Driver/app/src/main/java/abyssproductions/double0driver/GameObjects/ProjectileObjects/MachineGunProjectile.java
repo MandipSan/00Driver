@@ -42,6 +42,7 @@ public class MachineGunProjectile extends Projectile {
                                         for up)
     OUTPUT:     NONE
     */
+    @Override
     public void launch(float x, float y, int direction) {
         MachineGunProjectile p = new MachineGunProjectile();
         p.myVelocity.set(0,direction*20);
