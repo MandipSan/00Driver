@@ -99,9 +99,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public boolean onTouchEvent(MotionEvent event){
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-            gameEngine.isPressed(true);
+            gameEngine.isPressed(true,event.getX(),event.getY());
         }else if(event.getAction() == MotionEvent.ACTION_UP){
-            gameEngine.isPressed(false);
+            gameEngine.isPressed(false,event.getX(),event.getY());
         }
         mDetector.onTouchEvent(event);
         return true;

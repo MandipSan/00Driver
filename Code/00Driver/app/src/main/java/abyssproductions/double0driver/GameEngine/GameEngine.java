@@ -18,6 +18,8 @@ public class GameEngine {
     //  PURPOSE:    Holds whether the fire button is pressed down
     private boolean playerFire;
 
+    private HUD gHUD;
+
     /** PURPOSE:    Constructor for the GameEngine that set the default value for the object
      *  INPUT:      NONE
      *  OUTPUT:     NONE
@@ -25,6 +27,7 @@ public class GameEngine {
     public GameEngine(){
         GameGlobals.getInstance().loadPointers();
         //player = new Player();
+        gHUD = new HUD();
         playerFire = false;
 
     }
@@ -54,14 +57,18 @@ public class GameEngine {
         }
 
         //player.draw(canvas);
+
+        gHUD.draw(canvas);
     }
 
     /** PURPOSE:    Calls the players fire when the pressed is set true
      *  INPUT:      pressed             - Holds whether the screen is pressed
+     *              x                   - The x point that was pressed
+     *              y                   - The y point that was pressed
      *  OUTPUT:     NONE
      */
-    public void isPressed(boolean pressed){
-        playerFire = pressed;
+    public void isPressed(boolean pressed, float x, float y){
+        playerFire = pressed && gHUD.buttonPressed(0,x,y);
     }
 
     //  PURPOSE:    Class used to detected if the fling gesture occurred
