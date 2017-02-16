@@ -24,6 +24,8 @@ public class GameObject {
 
     //  PURPOSE:    Hold the Width and Height values for the game object
     private int myWidth, myHeight;
+    //  PURPOSE:    Hold the number of row and column in the image sheet
+    private int myRow, myColumn;
     //  PURPOSE:    Holds the object's left, top, right, bottom coordinates
     private RectF myDimensions;
     //  PURPOSE:    Holds the object's image style and color information
@@ -37,9 +39,32 @@ public class GameObject {
     //  PURPOSE:    Holds the object's movement velocity
     protected Point myVelocity;
     //  PURPOSE:    Hold the object’s current animate state
-    protected AnimateState myCurAniState;
-    //  PURPOSE:    The different states for the animation
-    public enum AnimateState{Normal,Destroyed}
+    protected int myCurAniState;
+
+    /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
+                    imageSheetRow       - The number of rows in the image sheet
+                    imageSheetColumn    - The number of columns in the image sheet
+        OUTPUT:     NONE
+     */
+    public GameObject(int imageReference, int imageWidth, int imageHeight, int imageSheetRow,
+                      int imageSheetColumn){
+        myWidth = imageWidth;
+        myHeight = imageHeight;
+        myRow = imageSheetRow;
+        myColumn = imageSheetColumn;
+        myDimensions = new RectF(0,0,imageWidth,imageHeight);
+        myCurFrameLoc = new Rect(0,0,50,50);
+        myVelocity = new Point(0,0);
+        myPaint = new Paint();
+        myCurFrameNum = 0;
+        myCurAniState = R.integer.NormalAnimateState;
+        setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
+                imageReference), imageSheetRow, imageSheetColumn);
+
+    }
 
     /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
         INPUT:      imageReference      - Reference's the image to be load
@@ -47,18 +72,8 @@ public class GameObject {
                     imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public GameObject(int imageReference, int width, int height){
-        myWidth = width;
-        myHeight = height;
-        myDimensions = new RectF(0,0,width,height);
-        myCurFrameLoc = new Rect(0,0,50,50);
-        myVelocity = new Point(0,0);
-        myPaint = new Paint();
-        myCurFrameNum = 0;
-        myCurAniState = AnimateState.Normal;
-        setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
-                imageReference), 4, 2);
-
+    public GameObject(int imageReference, int imageWidth, int imageHeight){
+        this(imageReference,imageWidth,imageHeight,4,2);
     }
 
     /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
@@ -139,15 +154,10 @@ public class GameObject {
         OUTPUT:     NONE
     */
     protected void animate(){
-        switch (myCurAniState){
-            case Normal:
-                myCurFrameLoc.set(myWidth*myCurFrameNum,0,myWidth*(myCurFrameNum+1),myHeight);
-                break;
-            case Destroyed:
-                myCurFrameLoc.set(myWidth*myCurFrameNum,myHeight,myWidth*(myCurFrameNum+1),myHeight*2);
-                break;
-        }
+        if(myCurAniState >= myColumn)myCurAniState=0;
+        myCurFrameLoc.set(myWidth*myCurFrameNum,myCurAniState,myWidth*(myCurFrameNum+1),
+                myHeight*(myCurAniState+1));
         myCurFrameNum++;
-        if(myCurFrameNum==4)myCurFrameNum=0;
+        if(myCurFrameNum==myRow)myCurFrameNum=0;
     }
 }
