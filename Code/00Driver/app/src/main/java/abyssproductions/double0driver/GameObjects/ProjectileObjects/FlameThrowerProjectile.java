@@ -33,8 +33,7 @@ public class FlameThrowerProjectile extends Projectile {
     public FlameThrowerProjectile() {
         this(R.drawable.test, 50, 50);
     }
-
-
+    
     /*  PURPOSE:    Launches the projectile from the X and Y position given
     INPUT:      x                   - The X position to launch the projectile from
                 y                   - The Y position to launch the projectile from
