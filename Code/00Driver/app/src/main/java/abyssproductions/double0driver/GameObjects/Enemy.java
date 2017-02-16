@@ -40,10 +40,28 @@ public class Enemy extends Sprite {
         OUTPUT:     NONE
      */
     public Enemy(int imageReference, int width, int height, EnemyType enemyType, float x, float y){
-        super(imageReference, width, height);
+        super(imageReference, width, height,false);
         changeMovement = 0;
         random = new Random();
         myType = enemyType;
+        switch (myType){
+            case MachineGunCar:
+                loadSingleWeapon(WeaponTypes.MachineGun);
+                break;
+            case DronePickup:
+                loadSingleWeapon(WeaponTypes.Missile);
+                break;
+            case SpikeVan:
+                loadSingleWeapon(WeaponTypes.Missile);
+                break;
+        }
+        //TODO:Double check on final pass
+        increaseMaxAmmo(getWeaponType(),1000);
+        increaseAmmo(getWeaponType(),1000);
+        increaseHealth(20);
+        increaseMaxHealth(20);
+        //TODO:^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
         RectF temp = getDimensions();
         if(enemyType != EnemyType.Helicopter) {
             temp.offsetTo(x,y);
@@ -109,10 +127,13 @@ public class Enemy extends Sprite {
                 if(myDim.left < playerX && myDim.right > playerX){
                     setWeaponType(WeaponTypes.MachineGun);
                 }else{
-                    //TODO:Uncomment when merge to test with missile projectile
+                    //TODO:Uncomment when merge to test with missile projectile NOTE:
+                    //TODO: Still not decide if this will be kepted
                     //setWeaponType(WeaponTypes.Missile);
                 }
-                fire(myDim.centerX(),myDim.centerY(),-1);
+                fire(myDim.centerX(),myDim.bottom,-1);
+                fire(myDim.left,myDim.bottom,-1);
+                fire(myDim.right,myDim.bottom,-1);
                 break;
         }
     }
