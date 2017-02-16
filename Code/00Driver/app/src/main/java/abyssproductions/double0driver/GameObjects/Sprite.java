@@ -68,6 +68,7 @@ public class Sprite extends GameObject {
      */
     public void loadSingleWeapon(WeaponTypes weapon){
         myWeapons = new Weapon[1];
+        myWeapon = weapon;
         switch (weapon){
             case MachineGun:
                 myWeapons[0] = new Weapon(10,10,10,WeaponTypes.MachineGun,
