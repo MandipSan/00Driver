@@ -22,10 +22,11 @@ public class GameEngine {
     private Player player;
     //  PURPOSE:    Holds whether the fire button is pressed down
     private boolean playerFire;
-
+    //  PURPOSE:    Used to delay enemy spawn time
+    private int enemySpawnDelay;
+    //  PURPOSE:    Used get random values
     private Random random;
-
-
+    //  PURPOSE:    Holds the pointer to the HUD object
     private HUD gHUD;
 
     /** PURPOSE:    Constructor for the GameEngine that set the default value for the object
@@ -41,6 +42,7 @@ public class GameEngine {
         player.setMyDimensions(temp);
 
 
+        enemySpawnDelay = 0;
         random = new Random();
         gHUD = new HUD();
         playerFire = false;
@@ -53,8 +55,16 @@ public class GameEngine {
      */
     public void update(){
         gHUD.updateScore();
-        spawnEnemies();
 
+        //Calls the enemy spawn method when the delay is up
+        if(enemySpawnDelay == 0) {
+            spawnEnemies();
+            //TODO:Needs to be set to game config file values
+            enemySpawnDelay = 5;
+        }
+        enemySpawnDelay--;
+
+        //Updates the projectiles on the screen and checks out bound
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
             if(GameGlobals.getInstance().myProjectiles[i]!=null){
                 GameGlobals.getInstance().myProjectiles[i].update();
@@ -65,9 +75,10 @@ public class GameEngine {
             }
         }
 
+        // Updates the projectiles on the screen and checks out bound
         for(int j = 0; j < GameGlobals.getInstance().myEnemies.length; j++){
             if(GameGlobals.getInstance().myEnemies[j]!=null){
-                GameGlobals.getInstance().myEnemies[j].update();
+                GameGlobals.getInstance().myEnemies[j].update(0,0);
                 if(GameGlobals.getInstance().myEnemies[j].getDimensions().top >= 1800 ||
                         GameGlobals.getInstance().myEnemies[j].getDimensions().bottom <= 0){
                     GameGlobals.getInstance().myEnemies[j] = null;
@@ -155,16 +166,18 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void spawnEnemies(){
-        int value = random.nextInt(52)+1;
+        int value = random.nextInt(51)+1;
         int lane = random.nextInt(4)+1;
         int x = 100+(50*lane);
-        int y = (lane <=2) ? -50 : 1800;
+        int y = (lane <=2) ? 100 : 1800;
 
         if(value <= 10){
             for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
                 if(GameGlobals.getInstance().myEnemies[i] == null){
                     GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
                             Enemy.EnemyType.BasicCar,x,y);
+                    Log.d("spawnEnemies: ", "BC ");
+                    break;
                 }
             }
         }else if(value <= 20){
@@ -172,6 +185,8 @@ public class GameEngine {
                 if(GameGlobals.getInstance().myEnemies[i] == null){
                     GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
                             Enemy.EnemyType.MachineGunCar,x,y);
+                    Log.d("spawnEnemies: ", "MGC ");
+                    break;
                 }
             }
         }else if(value <= 30){
@@ -179,6 +194,8 @@ public class GameEngine {
                 if(GameGlobals.getInstance().myEnemies[i] == null){
                     GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
                             Enemy.EnemyType.DronePickup,x,y);
+                    Log.d("spawnEnemies: ", "DP ");
+                    break;
                 }
             }
         }else if(value <= 40){
@@ -186,6 +203,8 @@ public class GameEngine {
                 if(GameGlobals.getInstance().myEnemies[i] == null){
                     GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
                             Enemy.EnemyType.SpikeVan,x,y);
+                    Log.d("spawnEnemies: ", "SV ");
+                    break;
                 }
             }
         }else {
@@ -193,6 +212,8 @@ public class GameEngine {
                 if(GameGlobals.getInstance().myEnemies[i] == null){
                     GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
                             Enemy.EnemyType.Helicopter,x,y);
+                    Log.d("spawnEnemies: ", "H ");
+                    break;
                 }
             }
         }
