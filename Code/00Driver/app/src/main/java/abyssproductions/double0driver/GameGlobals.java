@@ -2,6 +2,7 @@ package abyssproductions.double0driver;
 
 import android.content.res.Resources;
 
+import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Projectile;
 
 /**
@@ -12,6 +13,16 @@ public class GameGlobals {
     private Resources imageResources;
     //  PURPOSE:    Creates the one instance of the class
     private static GameGlobals ourInstance = new GameGlobals();
+    //  PURPOSE:    Holds the screen height
+    private int screenHeight;
+    //  PURPOSE:    Holds the screen width
+    private int screenWidth;
+    //  PURPOSE:    Holds the y velocity for all enemies
+    public final static int enemiesUniVelocity = 20;
+    //  PURPOSE:    Holds an array of the enemies
+    public Enemy [] myEnemies;
+    //  PURPOSE:    Holds the number of enemies in the enemy's array
+    public final static int myEnemyArrSize = 10;
     //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
     public Projectile [] myProjectiles;
     //  PURPOSE:    Holds the number of projectiles in the projectile's array
@@ -42,6 +53,10 @@ public class GameGlobals {
             for(int i =0; i < myProjectileArrSize; i++){
                 myProjectiles[i] = null;
             }
+            myEnemies = new Enemy[myEnemyArrSize];
+            for(int i =0; i < myEnemyArrSize; i++){
+                myEnemies[i] = null;
+            }
             return true;
         }
         return false;
@@ -54,6 +69,22 @@ public class GameGlobals {
      */
     public void setImageResources(Resources newImageResources){
         imageResources = newImageResources;
+    }
+
+    /*  PURPOSE:    Set the screen height
+        INPUT:      height    - The height of the screen
+        OUTPUT:     NONE
+     */
+    public void setScreenHeight(int height){
+        screenHeight = height;
+    }
+
+    /*  PURPOSE:    Set the screen width
+        INPUT:      width    - The width of the screen
+        OUTPUT:     NONE
+     */
+    public void setScreenWidth(int width){
+        screenWidth = width;
     }
 
     /*  PURPOSE:    Returns the instance of the class
@@ -70,5 +101,21 @@ public class GameGlobals {
      */
     public Resources getImageResources(){
         return imageResources;
+    }
+
+    /*  PURPOSE:    Returns the screen height
+        INPUT:      NONE
+        OUTPUT:     Return int of the screen height
+     */
+    public int getScreenHeight(){
+        return screenHeight;
+    }
+
+    /*  PURPOSE:    Returns the screen width
+        INPUT:      NONE
+        OUTPUT:     Return int of the screen width
+     */
+    public int getScreenWidth(){
+        return screenWidth;
     }
 }
