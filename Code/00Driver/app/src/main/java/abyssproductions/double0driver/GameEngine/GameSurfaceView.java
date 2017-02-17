@@ -61,7 +61,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
      */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
-
+        GameGlobals.getInstance().setScreenHeight(height);
+        GameGlobals.getInstance().setScreenWidth(width);
     }
 
     /** PURPOSE:    Stop the thread and set the other variable need when the surface is destroyed

@@ -6,7 +6,10 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
+import java.util.Random;
+
 import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Player;
 import abyssproductions.double0driver.R;
 
@@ -19,6 +22,8 @@ public class GameEngine {
     private Player player;
     //  PURPOSE:    Holds whether the fire button is pressed down
     private boolean playerFire;
+
+    private Random random;
 
 
     private HUD gHUD;
@@ -36,6 +41,7 @@ public class GameEngine {
         player.setMyDimensions(temp);
 
 
+        random = new Random();
         gHUD = new HUD();
         playerFire = false;
 
@@ -47,13 +53,24 @@ public class GameEngine {
      */
     public void update(){
         gHUD.updateScore();
+        spawnEnemies();
 
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
-            if(GameGlobals.getInstance().myProjectiles[i]!=null) {
+            if(GameGlobals.getInstance().myProjectiles[i]!=null){
                 GameGlobals.getInstance().myProjectiles[i].update();
                 if(GameGlobals.getInstance().myProjectiles[i].getDimensions().top >= 1800 ||
-                        GameGlobals.getInstance().myProjectiles[i].getDimensions().bottom <=0 ){
+                        GameGlobals.getInstance().myProjectiles[i].getDimensions().bottom <=0){
                     GameGlobals.getInstance().myProjectiles[i] = null;
+                }
+            }
+        }
+
+        for(int j = 0; j < GameGlobals.getInstance().myEnemies.length; j++){
+            if(GameGlobals.getInstance().myEnemies[j]!=null){
+                GameGlobals.getInstance().myEnemies[j].update();
+                if(GameGlobals.getInstance().myEnemies[j].getDimensions().top >= 1800 ||
+                        GameGlobals.getInstance().myEnemies[j].getDimensions().bottom <= 0){
+                    GameGlobals.getInstance().myEnemies[j] = null;
                 }
             }
         }
@@ -72,6 +89,11 @@ public class GameEngine {
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
             if(GameGlobals.getInstance().myProjectiles[i]!=null)
                 GameGlobals.getInstance().myProjectiles[i].draw(canvas);
+        }
+
+        for(int j = 0; j < GameGlobals.getInstance().myEnemies.length; j++){
+            if(GameGlobals.getInstance().myEnemies[j]!=null)
+                GameGlobals.getInstance().myEnemies[j].draw(canvas);
         }
 
         player.draw(canvas);
@@ -128,5 +150,51 @@ public class GameEngine {
 
     }
 
+    /** PURPOSE:    Spawns the enemies
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    private void spawnEnemies(){
+        int value = random.nextInt(52)+1;
+        int lane = random.nextInt(4)+1;
+        int x = 100+(50*lane);
+        int y = (lane <=2) ? -50 : 1800;
 
+        if(value <= 10){
+            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
+                if(GameGlobals.getInstance().myEnemies[i] == null){
+                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
+                            Enemy.EnemyType.BasicCar,x,y);
+                }
+            }
+        }else if(value <= 20){
+            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
+                if(GameGlobals.getInstance().myEnemies[i] == null){
+                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
+                            Enemy.EnemyType.MachineGunCar,x,y);
+                }
+            }
+        }else if(value <= 30){
+            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
+                if(GameGlobals.getInstance().myEnemies[i] == null){
+                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
+                            Enemy.EnemyType.DronePickup,x,y);
+                }
+            }
+        }else if(value <= 40){
+            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
+                if(GameGlobals.getInstance().myEnemies[i] == null){
+                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
+                            Enemy.EnemyType.SpikeVan,x,y);
+                }
+            }
+        }else {
+            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
+                if(GameGlobals.getInstance().myEnemies[i] == null){
+                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
+                            Enemy.EnemyType.Helicopter,x,y);
+                }
+            }
+        }
+    }
 }
