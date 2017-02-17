@@ -1,6 +1,8 @@
 package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.RectF;
+import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
 import abyssproductions.double0driver.R;
 
 /**
@@ -39,12 +41,25 @@ public class Projectile extends GameObject {
                                             for up)
         OUTPUT:     NONE
      */
-    public void launch(float x, float y,int direction){
+    protected void launch(float x, float y,int direction, Projectile p){
         RectF temp = getDimensions();
-        temp.offsetTo(x,y);
-        setMyDimensions(temp);
-        myVelocity.set(0,direction*5);
+        temp.offsetTo(x, y);
+        p.setMyDimensions(temp);
+        //Find first empty spot in projectiles array
+        for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++) {
+            if(GameGlobals.getInstance().myProjectiles[i] == null) {
+                GameGlobals.getInstance().myProjectiles[i] = p;
+                break;
+            }
+        }
     }
+    /*  PURPOSE: Method to be overriden by subclasses
+        INPUT:  float x
+                float y
+                int direction
+        OUTPUT: NONE
+     */
+    protected void launch(float x, float y, int direction) {}
 
     /*  PURPOSE:    Returns if the projectile is active
         INPUT:      NONE

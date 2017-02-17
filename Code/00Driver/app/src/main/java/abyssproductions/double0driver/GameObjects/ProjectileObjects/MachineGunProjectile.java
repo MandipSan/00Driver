@@ -42,21 +42,11 @@ public class MachineGunProjectile extends Projectile {
                                         for up)
     OUTPUT:     NONE
     */
+    @Override
     public void launch(float x, float y, int direction) {
-        RectF temp = getDimensions();
-        temp.offsetTo(x, y);
-        MachineGunProjectile tempProjectile = new MachineGunProjectile();
-
-        tempProjectile.setMyDimensions(temp);
-        tempProjectile.myVelocity.set(0,direction*20);
-        //Find first empty spot in projectiles array
-        for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++) {
-            if(GameGlobals.getInstance().myProjectiles[i] == null) {
-                GameGlobals.getInstance().myProjectiles[i] = tempProjectile;
-                break;
-            }
-        }
-
+        MachineGunProjectile p = new MachineGunProjectile();
+        p.myVelocity.set(0,direction*20);
+        super.launch(x, y, direction, p);
     }
 
 }
