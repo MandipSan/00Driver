@@ -18,6 +18,8 @@ public class Sprite extends GameObject {
     private int myHealth;
     //  PURPOSE:    Holds the sprite's max health
     private int myMaxHealth;
+    //  PURPOSE:    Used to readjust array when only single weapon is loaded
+    private int weaponArrAdjustment;
     //  PURPOSE:    Holds an array of the different weapons
     private Weapon [] myWeapons;
     //  PURPOSE:    Holds the current active weapon
@@ -39,6 +41,7 @@ public class Sprite extends GameObject {
         myMaxHealth = 100;
         myWeapons = null;
         if(loadAllWeapons){
+            weaponArrAdjustment = 0;
             myWeapons = new Weapon[WeaponTypes.values().length];
             myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,10,WeaponTypes.MachineGun,
                     new MachineGunProjectile());
@@ -73,18 +76,22 @@ public class Sprite extends GameObject {
             case MachineGun:
                 myWeapons[0] = new Weapon(10,10,10,WeaponTypes.MachineGun,
                         new MachineGunProjectile());
+                weaponArrAdjustment = 0;
                 break;
             case Missile:
                 myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Missile,
                         new MissileLauncherProjectile());
+                weaponArrAdjustment = 1;
                 break;
             case Flamethrower:
                 myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Flamethrower,
                         new FlameThrowerProjectile());
+                weaponArrAdjustment = 2;
                 break;
             case Laser:
                 myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Laser,
                         new LaserBeamProjectile());
+                weaponArrAdjustment = 3;
                 break;
         }
     }
@@ -96,7 +103,7 @@ public class Sprite extends GameObject {
     public void update() {
         super.update();
         if(myWeapons !=null) {
-            for (int i = 0; i < WeaponTypes.values().length; i++) {
+            for (int i = 0; i < myWeapons.length; i++) {
                 if (myWeapons[i].sinceDelay > 0) myWeapons[i].sinceDelay--;
             }
         }
@@ -133,9 +140,9 @@ public class Sprite extends GameObject {
      */
     public void increaseAmmo(WeaponTypes weaponType, int increaseBy) {
         if(myWeapons != null) {
-            if (myWeapons[weaponType.ordinal()].ammo +
-                    increaseBy <= myWeapons[weaponType.ordinal()].maxAmmo) {
-                myWeapons[weaponType.ordinal()].ammo += increaseBy;
+            if (myWeapons[weaponType.ordinal()-weaponArrAdjustment].ammo +
+                    increaseBy <= myWeapons[weaponType.ordinal()-weaponArrAdjustment].maxAmmo) {
+                myWeapons[weaponType.ordinal()-weaponArrAdjustment].ammo += increaseBy;
             }
         }
     }
@@ -146,7 +153,7 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void increaseMaxAmmo(WeaponTypes weaponType, int amount) {
-        if(myWeapons != null)myWeapons[weaponType.ordinal()].maxAmmo += amount;
+        if(myWeapons != null)myWeapons[weaponType.ordinal()-weaponArrAdjustment].maxAmmo += amount;
     }
 
     /*  PURPOSE:    Returns the current health
@@ -170,7 +177,7 @@ public class Sprite extends GameObject {
         OUTPUT:     Returns an int of the ammo amount
      */
     public int getAmmo(WeaponTypes weaponType) {
-        return (myWeapons != null) ? myWeapons[myWeapon.ordinal()].ammo : 0;
+        return (myWeapons != null) ? myWeapons[myWeapon.ordinal()-weaponArrAdjustment].ammo : 0;
     }
 
     /*  PURPOSE:    Set's the weapon type of the current active weapon
@@ -198,20 +205,21 @@ public class Sprite extends GameObject {
     protected void fire(float x, float y, int direction) {
         RectF temp = getDimensions();
         if(myWeapons != null) {
-            if (myWeapons[myWeapon.ordinal()].ammo > 1 &&
-                    myWeapons[myWeapon.ordinal()].sinceDelay == 0) {
+            if (myWeapons[myWeapon.ordinal()-weaponArrAdjustment].ammo > 1 &&
+                    myWeapons[myWeapon.ordinal()-weaponArrAdjustment].sinceDelay == 0) {
                 if (myWeapon == WeaponTypes.MachineGun) {
-                    myWeapons[myWeapon.ordinal()].myProjectile.launch(temp.left + 2, temp.top,
-                            direction);
-                    myWeapons[myWeapon.ordinal()].myProjectile.launch(temp.right - 2, temp.top,
-                            direction);
-                    myWeapons[myWeapon.ordinal()].ammo--;
+                    myWeapons[myWeapon.ordinal()-weaponArrAdjustment].myProjectile.launch
+                            (temp.left + 2, temp.top, direction);
+                    myWeapons[myWeapon.ordinal()-weaponArrAdjustment].myProjectile.launch
+                            (temp.right - 2, temp.top, direction);
+                    myWeapons[myWeapon.ordinal()-weaponArrAdjustment].ammo--;
                 } else {
-                    myWeapons[myWeapon.ordinal()].myProjectile.launch(temp.centerX(), temp.top,
-                            direction);
+                    myWeapons[myWeapon.ordinal()-weaponArrAdjustment].myProjectile.launch
+                            (temp.centerX(), temp.top, direction);
                 }
-                myWeapons[myWeapon.ordinal()].ammo--;
-                myWeapons[myWeapon.ordinal()].sinceDelay = myWeapons[myWeapon.ordinal()].delayFire;
+                myWeapons[myWeapon.ordinal()-weaponArrAdjustment].ammo--;
+                myWeapons[myWeapon.ordinal()-weaponArrAdjustment].sinceDelay =
+                        myWeapons[myWeapon.ordinal()-weaponArrAdjustment].delayFire;
             }
         }
     }
