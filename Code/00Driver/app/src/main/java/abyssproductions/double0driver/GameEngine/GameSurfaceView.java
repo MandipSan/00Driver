@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.support.v4.view.GestureDetectorCompat;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -31,6 +32,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         super(context);
         getHolder().addCallback(this);
         GameGlobals.getInstance().setImageResources(getResources());
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        GameGlobals.getInstance().setScreenHeight(metrics.heightPixels);
+        GameGlobals.getInstance().setScreenWidth(metrics.widthPixels);
         gameEngine = new GameEngine();
         gameThread = null;
         mDetector = new GestureDetectorCompat(context,gameEngine.new GameGestureListener());

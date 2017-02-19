@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 
 import java.util.Random;
 
+import abyssproductions.double0driver.Background;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Player;
@@ -18,6 +19,8 @@ import abyssproductions.double0driver.R;
  */
 
 public class GameEngine {
+    //  PURPOSE:    Holds the pointer to the game dynamic background
+    private Background gameBackground;
     //  PURPOSE:    Holds the pointer to the player object
     private Player player;
     //  PURPOSE:    Holds whether the fire button is pressed down
@@ -35,10 +38,11 @@ public class GameEngine {
      */
     public GameEngine(){
         GameGlobals.getInstance().loadPointers();
+        gameBackground = new Background();
         //TODO:Value need to be changed
         player = new Player(R.drawable.test,50,50);
-        RectF temp = player.getDimensions();
-        temp.offset(500,500);
+        RectF temp = new RectF(0,0,gameBackground.getLaneSize(),gameBackground.getLaneSize());//player.getDimensions();
+        temp.offset((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize(),500);
         player.setMyDimensions(temp);
 
 
@@ -97,6 +101,7 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     public void draw(Canvas canvas){
+        gameBackground.draw(canvas);
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
             if(GameGlobals.getInstance().myProjectiles[i]!=null)
                 GameGlobals.getInstance().myProjectiles[i].draw(canvas);
@@ -167,9 +172,9 @@ public class GameEngine {
      */
     private void spawnEnemies(){
         int value = random.nextInt(51)+1;
-        int lane = random.nextInt(4)+1;
-        int x = 100+(50*lane);
-        int y = (lane <=2) ? 100 : 1800;
+        int lane = random.nextInt((gameBackground.getNumLanes()-2))+2;
+        int x = gameBackground.getLaneSize()*lane;
+        int y = (lane <=(gameBackground.getNumLanes()/2)) ? 100 : 1800;
 
         if(value <= 10){
             for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
