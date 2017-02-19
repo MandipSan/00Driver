@@ -41,8 +41,10 @@ public class GameEngine {
         gameBackground = new Background();
         //TODO:Value need to be changed
         player = new Player(R.drawable.test,50,50);
-        RectF temp = new RectF(0,0,gameBackground.getLaneSize(),gameBackground.getLaneSize());//player.getDimensions();
-        temp.offset((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize(),500);
+        RectF temp = new RectF(0,0,gameBackground.getLaneSize()-20,gameBackground.getLaneSize()-20);//player.getDimensions();
+        //Offset the player to always start in right middle lane
+        temp.offset(((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
+                gameBackground.getGrassSize()+5,1000);
         player.setMyDimensions(temp);
 
 
@@ -171,10 +173,14 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void spawnEnemies(){
+        //Randomly picks value between 1 to 52
         int value = random.nextInt(51)+1;
-        int lane = random.nextInt((gameBackground.getNumLanes()-2))+2;
-        int x = gameBackground.getLaneSize()*lane;
-        int y = (lane <=(gameBackground.getNumLanes()/2)) ? 100 : 1800;
+        //Randomly picks lane value between 1 and the number of lanes minus 2 for the dirt lanes
+        int lane = random.nextInt((gameBackground.getNumLanes()-2))+1;
+        //Calculates the X position for the enemy based on the lane it is going to be in
+        int x = 10+gameBackground.getGrassSize()+(gameBackground.getLaneSize()*lane);
+        //Calculates the Y position for the enemy based on the lane it is going to be in
+        int y = (lane <=(gameBackground.getNumLanes()/2)-1) ? 100 : 1800;
 
         if(value <= 10){
             for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
@@ -215,8 +221,8 @@ public class GameEngine {
         }else {
             for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
                 if(GameGlobals.getInstance().myEnemies[i] == null){
-                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
-                            Enemy.EnemyType.Helicopter,x,y);
+                    /*GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
+                            Enemy.EnemyType.Helicopter,x,y);*/
                     Log.d("spawnEnemies: ", "H ");
                     break;
                 }
