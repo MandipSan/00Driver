@@ -66,4 +66,8 @@ public class Background {
     public int getNumLanes(){
         return numLanes;
     }
+
+    public int getGrassSize(){
+        return GrassSize;
+    }
 }
