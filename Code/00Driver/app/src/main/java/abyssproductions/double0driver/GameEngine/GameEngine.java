@@ -95,6 +95,8 @@ public class GameEngine {
         if(playerFire)player.fireWeapon();
         player.update();
 
+        checkCollision();
+
         gHUD.setHealthLevels(player.getHealth(),player.getMaxHealth());
     }
 
@@ -165,6 +167,40 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void checkCollision(){
+        RectF tempDim;
+        GameGlobals tempInst = GameGlobals.getInstance();
+        //Checks if the player or projectiles collide with an enemy
+        for(int i = 0; i < tempInst.myEnemies.length; i++) {
+            if(tempInst.myEnemies[i] != null){
+                for (int j = 0; j < tempInst.myProjectiles.length; j++){
+                    if(tempInst.myProjectiles[j] != null){
+                        tempDim = tempInst.myProjectiles[j].getDimensions();
+                        if(tempInst.myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
+                                tempDim.right,tempDim.bottom)) {
+                            //TODO:Change to use projectile damage
+                            tempInst.myEnemies[i].decreaseHealth(50);
+                            tempInst.myProjectiles[j] = null;
+                        }
+                    }
+                }
+                tempDim = player.getDimensions();
+                if(tempInst.myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
+                        tempDim.right,tempDim.bottom)){
+                    tempInst.myEnemies[i] = null;
+                    //TODO:Fill in what happens when enemy and player collide
+                }
+            }
+        }
+
+        tempDim = player.getDimensions();
+        for(int k = 0; k < tempInst.myProjectiles.length;k++){
+            if(tempInst.myProjectiles[k]!=null && tempInst.myProjectiles[k].getDimensions().
+                    intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
+                //TODO:Change to use projectile damage
+                player.decreaseHealth(5);
+                tempInst.myProjectiles[k] = null;
+            }
+        }
 
     }
 
