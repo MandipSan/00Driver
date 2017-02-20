@@ -89,7 +89,6 @@ public class Enemy extends Sprite {
         if(myType != EnemyType.BasicCar && myType != EnemyType.Ambulance &&
                 myType != EnemyType.UpgradeTruck && myType != EnemyType.AmmoTruck)
             fire( playerX, playerY);
-
     }
 
     /*  PURPOSE:    Fire the enemy projectiles
