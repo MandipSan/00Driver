@@ -86,7 +86,12 @@ public class GameEngine {
             if(GameGlobals.getInstance().myEnemies[j]!=null){
                 GameGlobals.getInstance().myEnemies[j].update(0,0);
                 if(GameGlobals.getInstance().myEnemies[j].getDimensions().top >= 1800 ||
-                        GameGlobals.getInstance().myEnemies[j].getDimensions().bottom <= 0){
+                        GameGlobals.getInstance().myEnemies[j].getDimensions().bottom <= 0 ){
+                    GameGlobals.getInstance().myEnemies[j] = null;
+                }
+                if(GameGlobals.getInstance().myEnemies[j].isDead()){
+                    //TODO:Set when enemy value is setup
+                    //if(GameGlobals.getInstance().myEnemies[j].getMyType() ==)
                     GameGlobals.getInstance().myEnemies[j] = null;
                 }
             }
