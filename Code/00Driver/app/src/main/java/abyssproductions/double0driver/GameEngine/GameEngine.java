@@ -107,8 +107,6 @@ public class GameEngine {
         if(playerFire)player.fireWeapon();
         player.update();
 
-
-
         gHUD.setHealthLevels(player.getHealth(),player.getMaxHealth());
     }
 
@@ -222,7 +220,14 @@ public class GameEngine {
                     if(tempInst.myProjectiles[k]!=null && tempInst.myProjectiles[k].getDimensions().
                             intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
                         //TODO:To do item affect
-
+                        switch (gameItems[m].getItemType()){
+                            case HealthBox:
+                                break;
+                            case AmmoBox:
+                                break;
+                            case MysteryBox:
+                                break;
+                        }
                         gameItems[m] = null;
                         tempInst.myProjectiles[k] = null;
                     }
@@ -339,6 +344,9 @@ public class GameEngine {
                                             Items.ItemTypes.AmmoBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
                                             centerY(), new RectF(0, 0, 10, 10));
+                                    set = true;
+                                    break;
+                                default:
                                     set = true;
                                     break;
                             }
