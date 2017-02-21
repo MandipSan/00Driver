@@ -28,6 +28,8 @@ public class GameEngine {
     private boolean playerFire;
     //  PURPOSE:    Holds the array of the active items in the game
     private Items [] gameItems;
+    //  PURPOSE:    Holds an array of the enemies
+    private Enemy [] myEnemies;
     //  PURPOSE:    Used to delay enemy spawn time
     private int enemySpawnDelay;
     //  PURPOSE:    Used get random values
@@ -49,6 +51,12 @@ public class GameEngine {
         temp.offset(((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
                 gameBackground.getGrassSize()+5,1000);
         player.setMyDimensions(temp);
+
+        myEnemies = new Enemy[GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.EnemyArraySize)];
+        for(int i =0; i < myEnemies.length; i++){
+            myEnemies[i] = null;
+        }
 
         gameItems = new Items[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.ItemsArraySize)];
@@ -82,35 +90,52 @@ public class GameEngine {
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
             if(GameGlobals.getInstance().myProjectiles[i]!=null){
                 GameGlobals.getInstance().myProjectiles[i].update();
-                if(GameGlobals.getInstance().myProjectiles[i].getDimensions().top >= 1800 ||
+                if(GameGlobals.getInstance().myProjectiles[i].getDimensions().top >=
+                        GameGlobals.getInstance().getScreenHeight() ||
                         GameGlobals.getInstance().myProjectiles[i].getDimensions().bottom <=0){
                     GameGlobals.getInstance().myProjectiles[i] = null;
                 }
             }
         }
 
-        // Updates the projectiles on the screen and checks out bound
-        for(int j = 0; j < GameGlobals.getInstance().myEnemies.length; j++){
-            if(GameGlobals.getInstance().myEnemies[j]!=null){
-                GameGlobals.getInstance().myEnemies[j].update(0,0);
-                if(GameGlobals.getInstance().myEnemies[j].getDimensions().top >= 1800 ||
-                        GameGlobals.getInstance().myEnemies[j].getDimensions().bottom <= 0 ){
-                    GameGlobals.getInstance().myEnemies[j] = null;
+        // Updates the enemies on the screen and checks out bound or if they are dead and spawn item
+        //  drop if need
+        for(int j = 0; j < myEnemies.length; j++){
+            if(myEnemies[j]!=null){
+                myEnemies[j].update(0,0);
+                if(myEnemies[j].getDimensions().top >=
+                        GameGlobals.getInstance().getScreenHeight() ||
+                        myEnemies[j].getDimensions().bottom <= 0 ){
+                    myEnemies[j] = null;
                 }
-                if(GameGlobals.getInstance().myEnemies[j].isDead()){
+                if(myEnemies[j].isDead()){
                     //TODO:Set enemy value for all enemies when defeat
-                    switch(GameGlobals.getInstance().myEnemies[j].getMyType()){
+                    switch(myEnemies[j].getMyType()){
                         case Ambulance:
                             for(int k = 0; k < gameItems.length; k++){
                                 if(gameItems[k] == null){
-                                    //gameItems[k] = new Items()
+                                    gameItems[k] = new Items(R.drawable.test,50,50,
+                                            Items.ItemTypes.HealthBox,myEnemies[j].getDimensions().
+                                                    centerX(),myEnemies[j].getDimensions().
+                                                centerY(),new RectF(0,0,50,50));
                                 }
                             }
                             break;
                         case AmmoTruck:
                             break;
                     }
-                    GameGlobals.getInstance().myEnemies[j] = null;
+                    myEnemies[j] = null;
+                }
+            }
+        }
+
+        // Updates the items on the screen and checks out bound
+        for(int k = 0; k < gameItems.length; k++){
+            if(gameItems[k] != null) {
+                gameItems[k].update();
+                if(gameItems[k].getDimensions().top >= GameGlobals.getInstance().getScreenHeight()||
+                        gameItems[k].getDimensions().bottom <= 0 ){
+                    gameItems[k] = null;
                 }
             }
         }
@@ -134,9 +159,12 @@ public class GameEngine {
                 GameGlobals.getInstance().myProjectiles[i].draw(canvas);
         }
 
-        for(int j = 0; j < GameGlobals.getInstance().myEnemies.length; j++){
-            if(GameGlobals.getInstance().myEnemies[j]!=null)
-                GameGlobals.getInstance().myEnemies[j].draw(canvas);
+        for(int j = 0; j < myEnemies.length; j++){
+            if(myEnemies[j]!=null)myEnemies[j].draw(canvas);
+        }
+
+        for(int k = 0; k < gameItems.length; k++){
+            if(gameItems[k]!=null)gameItems[k].draw(canvas);
         }
 
         player.draw(canvas);
@@ -193,23 +221,23 @@ public class GameEngine {
         RectF tempDim;
         GameGlobals tempInst = GameGlobals.getInstance();
         //Checks if the player or projectiles collide with an enemy
-        for(int i = 0; i < tempInst.myEnemies.length; i++) {
-            if(tempInst.myEnemies[i] != null){
+        for(int i = 0; i < myEnemies.length; i++) {
+            if(myEnemies[i] != null){
                 for (int j = 0; j < tempInst.myProjectiles.length; j++){
                     if(tempInst.myProjectiles[j] != null){
                         tempDim = tempInst.myProjectiles[j].getDimensions();
-                        if(tempInst.myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
+                        if(myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
                                 tempDim.right,tempDim.bottom)) {
                             //TODO:Change to use projectile damage
-                            tempInst.myEnemies[i].decreaseHealth(50);
+                            myEnemies[i].decreaseHealth(50);
                             tempInst.myProjectiles[j] = null;
                         }
                     }
                 }
                 tempDim = player.getDimensions();
-                if(tempInst.myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
+                if(myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
                         tempDim.right,tempDim.bottom)){
-                    tempInst.myEnemies[i] = null;
+                    myEnemies[i] = null;
                     //TODO:Fill in what happens when enemy and player collide
                 }
             }
@@ -241,46 +269,30 @@ public class GameEngine {
         //Calculates the Y position for the enemy based on the lane it is going to be in
         int y = (lane <=(gameBackground.getNumLanes()/2)-1) ? 100 : 1800;
 
-        if(value <= 10){
-            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
-                if(GameGlobals.getInstance().myEnemies[i] == null){
-                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
-                            Enemy.EnemyType.BasicCar,x,y);
+        for(int i = 0; i < myEnemies.length; i++) {
+            if (myEnemies[i] == null) {
+                if (value <= 10) {
+                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.BasicCar, x,
+                            y);
                     Log.d("spawnEnemies: ", "BC ");
                     break;
-                }
-            }
-        }else if(value <= 20){
-            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
-                if(GameGlobals.getInstance().myEnemies[i] == null){
-                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
-                            Enemy.EnemyType.MachineGunCar,x,y);
+                } else if (value <= 20) {
+                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.MachineGunCar,
+                            x, y);
                     Log.d("spawnEnemies: ", "MGC ");
                     break;
-                }
-            }
-        }else if(value <= 30){
-            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
-                if(GameGlobals.getInstance().myEnemies[i] == null){
-                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
-                            Enemy.EnemyType.DronePickup,x,y);
+                } else if (value <= 30) {
+                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.DronePickup,
+                            x, y);
                     Log.d("spawnEnemies: ", "DP ");
                     break;
-                }
-            }
-        }else if(value <= 40){
-            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
-                if(GameGlobals.getInstance().myEnemies[i] == null){
-                    GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
-                            Enemy.EnemyType.SpikeVan,x,y);
+                } else if (value <= 40) {
+                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.SpikeVan, x,
+                            y);
                     Log.d("spawnEnemies: ", "SV ");
                     break;
-                }
-            }
-        }else {
-            for(int i = 0; i < GameGlobals.getInstance().myEnemies.length; i++){
-                if(GameGlobals.getInstance().myEnemies[i] == null){
-                    /*GameGlobals.getInstance().myEnemies[i] = new Enemy(R.drawable.test,50,50,
+                } else {
+                    /*myEnemies[i] = new Enemy(R.drawable.test,50,50,
                             Enemy.EnemyType.Helicopter,x,y);*/
                     Log.d("spawnEnemies: ", "H ");
                     break;

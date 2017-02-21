@@ -19,10 +19,6 @@ public class GameGlobals {
     private int screenWidth;
     //  PURPOSE:    Holds the y velocity for all enemies
     public final static int enemiesUniVelocity = 20;
-    //  PURPOSE:    Holds an array of the enemies
-    public Enemy [] myEnemies;
-    //  PURPOSE:    Holds the number of enemies in the enemy's array
-    public final static int myEnemyArrSize = 10;
     //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
     public Projectile [] myProjectiles;
     //  PURPOSE:    Holds the number of projectiles in the projectile's array
@@ -52,10 +48,6 @@ public class GameGlobals {
             myProjectiles = new Projectile[myProjectileArrSize];
             for(int i =0; i < myProjectileArrSize; i++){
                 myProjectiles[i] = null;
-            }
-            myEnemies = new Enemy[myEnemyArrSize];
-            for(int i =0; i < myEnemyArrSize; i++){
-                myEnemies[i] = null;
             }
             return true;
         }
