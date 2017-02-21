@@ -2,6 +2,11 @@ package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.RectF;
 
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.FlameThrowerProjectile;
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.LaserBeamProjectile;
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.MissileLauncherProjectile;
+
 /**
  * Created by Mandip Sangha on 1/31/2017.
  * Edited by Mark Reffel on 2/9/2017
@@ -12,29 +17,87 @@ public class Sprite extends GameObject {
     private int myHealth;
     //  PURPOSE:    Holds the sprite's max health
     private int myMaxHealth;
+    //  PURPOSE:    Used to readjust array when only single weapon is loaded
+    private int weaponArrAdjustment;
     //  PURPOSE:    Holds an array of the different weapons
     private Weapon [] myWeapons;
     //  PURPOSE:    Holds the current active weapon
-    private WeaponTypes myWeapon;
+    private WeaponTypes myWeaponType;
     //  PURPOSE:    Holds the different types of weapons
     public enum WeaponTypes {MachineGun, Missile, Flamethrower, Laser}
 
-    /*  PURPOSE:    Constructor for the sprite that sets the default values for the object
+    /*  PURPOSE:    Constructor for the sprite that sets the default values for the object and loads
+                        the weapons if indicated
+        INPUT:      imageReference      - Reference's the image to be load
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
+                    loadAllWeapons      - Holds whether to load all the weapons
+        OUTPUT:     NONE
+     */
+    public Sprite(int imageReference, int imageWidth, int imageHeight, Boolean loadAllWeapons) {
+        super(imageReference, imageWidth, imageHeight);
+        myHealth = 100;
+        myMaxHealth = 100;
+        myWeapons = null;
+        if(loadAllWeapons){
+            myWeaponType = WeaponTypes.MachineGun;
+            weaponArrAdjustment = 0;
+            myWeapons = new Weapon[WeaponTypes.values().length];
+            myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,10,WeaponTypes.MachineGun,
+                    new MachineGunProjectile());
+            myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(10,10,10,WeaponTypes.Missile,
+                    new MachineGunProjectile() );
+            myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(10,10,10,WeaponTypes.Flamethrower,
+                    new MachineGunProjectile() );
+            myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,10,WeaponTypes.Laser,
+                    new MachineGunProjectile() );
+        }
+    }
+
+    /*  PURPOSE:    Constructor for the sprite that sets the default values for the object and all
+                        the different weapon types
         INPUT:      imageReference      - Reference's the image to be load
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public Sprite(int imageReference, int width, int height) {
-        super(imageReference, width, height);
-        myHealth = 100;
-        myMaxHealth = 100;
-        myWeapon = WeaponTypes.MachineGun;
-        myWeapons = new Weapon[WeaponTypes.values().length];
-        //myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,30,WeaponTypes.MachineGun, new );
-        //myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(10,10,30,WeaponTypes.Missile, new );
-        //myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(10,10,30,WeaponTypes.Flamethrower, new );
-        //myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,30,WeaponTypes.Laser, new );
+    public Sprite(int imageReference, int imageWidth, int imageHeight) {
+        this(imageReference, imageWidth, imageHeight, true);
+    }
+
+    /*  PURPOSE:    Loads a single weapon type that is given
+        INPUT:      weapon              - The weapon type to load
+        OUTPUT:     NONE
+     */
+    public void loadSingleWeapon(WeaponTypes weapon){
+        myWeapons = new Weapon[1];
+        myWeaponType = weapon;
+        switch (weapon){
+            case MachineGun:
+                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.MachineGun,
+                        new MachineGunProjectile());
+                myWeaponType = WeaponTypes.MachineGun;
+                weaponArrAdjustment = 0;
+                break;
+            case Missile:
+                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Missile,
+                        new MissileLauncherProjectile());
+                myWeaponType = WeaponTypes.Missile;
+                weaponArrAdjustment = 1;
+                break;
+            case Flamethrower:
+                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Flamethrower,
+                        new FlameThrowerProjectile());
+                myWeaponType = WeaponTypes.Flamethrower;
+                weaponArrAdjustment = 2;
+                break;
+            case Laser:
+                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Laser,
+                        new LaserBeamProjectile());
+                myWeaponType = WeaponTypes.Laser;
+                weaponArrAdjustment = 3;
+                break;
+        }
     }
 
     /*  PURPOSE:    Updates the sprite's logic
@@ -43,8 +106,10 @@ public class Sprite extends GameObject {
      */
     public void update() {
         super.update();
-        for (int i = 0; i < WeaponTypes.values().length; i++) {
-            if (myWeapons[i].delayFire > 0) myWeapons[i].delayFire--;
+        if(myWeapons !=null) {
+            for (int i = 0; i < myWeapons.length; i++) {
+                if (myWeapons[i].sinceDelay > 0) myWeapons[i].sinceDelay--;
+            }
         }
     }
 
@@ -78,9 +143,13 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void increaseAmmo(WeaponTypes weaponType, int increaseBy) {
-        if (myWeapons[weaponType.ordinal()].ammo +
-                increaseBy <= myWeapons[weaponType.ordinal()].maxAmmo) {
-            myWeapons[weaponType.ordinal()].ammo += increaseBy;
+        if(myWeapons != null ){
+            if((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)){
+                if (myWeapons[weaponType.ordinal() - weaponArrAdjustment].ammo +
+                        increaseBy <= myWeapons[weaponType.ordinal() -weaponArrAdjustment].maxAmmo){
+                    myWeapons[weaponType.ordinal() - weaponArrAdjustment].ammo += increaseBy;
+                }
+            }
         }
     }
 
@@ -90,22 +159,9 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void increaseMaxAmmo(WeaponTypes weaponType, int amount) {
-        myWeapons[weaponType.ordinal()].maxAmmo += amount;
-    }
-
-    /*  PURPOSE:    Fires a projectile from the X and Y position given
-        INPUT:      x                   - The X position to launch the projectile from
-                    y                   - The Y position to launch the projectile from
-        OUTPUT:     NONE
-     */
-    public void fire(float x, float y) {
-        RectF temp = getDimensions();
-        if (myWeapons[myWeapon.ordinal()].ammo > 1 && myWeapons[myWeapon.ordinal()].delayFire == 0){
-            if(myWeapon == WeaponTypes.MachineGun) {
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left + 2, temp.top);
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.left - 2, temp.top);
-            }else{
-                myWeapons[myWeapon.ordinal()].myProjectile.launched(temp.centerX(), temp.top);
+        if(myWeapons != null){
+            if((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)) {
+                myWeapons[weaponType.ordinal() - weaponArrAdjustment].maxAmmo += amount;
             }
         }
     }
@@ -131,7 +187,9 @@ public class Sprite extends GameObject {
         OUTPUT:     Returns an int of the ammo amount
      */
     public int getAmmo(WeaponTypes weaponType) {
-        return myWeapons[myWeapon.ordinal()].ammo;
+        return (myWeapons != null &&
+                ((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)))
+                ? myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo : 0;
     }
 
     /*  PURPOSE:    Set's the weapon type of the current active weapon
@@ -139,7 +197,7 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     protected void setWeaponType(WeaponTypes weaponType) {
-        myWeapon = weaponType;
+        myWeaponType = weaponType;
     }
 
     /*  PURPOSE:    Returns the current weapon type
@@ -147,7 +205,35 @@ public class Sprite extends GameObject {
         OUTPUT:     Returns an WeaponType var of the current weapon type
      */
     protected WeaponTypes getWeaponType() {
-        return myWeapon;
+        return myWeaponType;
+    }
+
+    /*  PURPOSE:    Fires a projectile from the X and Y position given
+        INPUT:      x                   - The X position to launch the projectile from
+                    y                   - The Y position to launch the projectile from
+                    direction           - The direction that the projectile will fly
+        OUTPUT:     NONE
+     */
+    protected void fire(float x, float y, int direction) {
+        RectF temp = getDimensions();
+        if(myWeapons != null) {
+            if (myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo > 1 &&
+                    myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].sinceDelay == 0) {
+                if (myWeaponType == WeaponTypes.MachineGun) {
+                    myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].myProjectile.launch
+                            (temp.left + 2, temp.top, direction);
+                    myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].myProjectile.launch
+                            (temp.right - 2, temp.top, direction);
+                    myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo--;
+                } else {
+                    myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].myProjectile.launch
+                            (temp.centerX(), temp.top, direction);
+                }
+                myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo--;
+                myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].sinceDelay =
+                        myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].delayFire;
+            }
+        }
     }
 
     //  Purpose:    Class hold information for the different weapons types
@@ -158,6 +244,8 @@ public class Sprite extends GameObject {
         public int maxAmmo;
         //  PURPOSE:    Holds the delay between the firing
         public int delayFire;
+        //  PURPOSE:    Holds the time since delay
+        public int sinceDelay;
         //  PURPOSE:    Holds the weapon type
         public Sprite.WeaponTypes myType;
         //  PURPOSE:    Holds the projectile for the weapon
@@ -178,6 +266,7 @@ public class Sprite extends GameObject {
             delayFire = newDelayFire;
             myType = newType;
             myProjectile = newProjectile;
+            sinceDelay = 0;
         }
     }
 }
