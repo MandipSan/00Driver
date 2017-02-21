@@ -153,7 +153,7 @@ public class Enemy extends Sprite {
         OUTPUT:     Return a boolean if the health equals zero
      */
     public boolean isDead(){
-        return getMaxHealth()-getHealth() <= 0;
+        return getHealth() <= 0;
     }
 
     /*  PURPOSE:    Enemy's movement logic
