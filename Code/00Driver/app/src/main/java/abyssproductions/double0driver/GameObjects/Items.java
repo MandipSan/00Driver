@@ -18,12 +18,19 @@ public class Items extends GameObject {
         INPUT:      imageReference      - Reference's the image to be load
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
+                    itemType            - The type of item to spawn
+                    x                   - The x location to spawn the item from
+                    y                   - The y location to spawn the item from
+                    objDim              - The dimension of the object
         OUTPUT:     NONE
      */
-    public Items(int imageReference, int width, int height){
-        super(imageReference, width, height);
+    public Items(int imageReference, int imageWidth, int imageHeight, ItemTypes itemType,
+                 float x, float y, RectF objDim){
+        super(imageReference, imageWidth, imageHeight);
+        myType = itemType;
+        objDim.offset(x,y);
+        setMyDimensions(objDim);
         myVelocity.set(0,1);
-        myType = ItemTypes.HealthBox;
     }
 
     /*  PURPOSE:    Updates the item's logic
@@ -33,19 +40,6 @@ public class Items extends GameObject {
     public void update(){
         super.update();
         moveVertical(myVelocity.y);
-    }
-
-    /*  PURPOSE:    Spawn the item of the type given at the location given
-        INPUT:      itemType            - The type of item to spawn
-                    x                   - The x location to spawn the item from
-                    y                   - The y location to spawn the item from
-        OUTPUT:     NONE
-     */
-    public void spawn(ItemTypes itemType, float x, float y){
-        myType = itemType;
-        RectF temp = new RectF(getDimensions());
-        temp.offset(x,y);
-        setMyDimensions(temp);
     }
 
     /*  PURPOSE:    Returns the type of item the item is
