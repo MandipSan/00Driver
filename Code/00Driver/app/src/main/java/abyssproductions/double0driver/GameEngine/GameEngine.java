@@ -110,6 +110,7 @@ public class GameEngine {
                 }
                 if(myEnemies[j].isDead()){
                     //TODO:Set enemy value for all enemies when defeat
+                    //Spawns the items if an item drop vehicle was destroy
                     switch(myEnemies[j].getMyType()){
                         case Ambulance:
                             for(int k = 0; k < gameItems.length; k++){
@@ -117,11 +118,19 @@ public class GameEngine {
                                     gameItems[k] = new Items(R.drawable.test,50,50,
                                             Items.ItemTypes.HealthBox,myEnemies[j].getDimensions().
                                                     centerX(),myEnemies[j].getDimensions().
-                                                centerY(),new RectF(0,0,50,50));
+                                                centerY(),new RectF(0,0,10,10));
                                 }
                             }
                             break;
                         case AmmoTruck:
+                            for(int k = 0; k < gameItems.length; k++){
+                                if(gameItems[k] == null){
+                                    gameItems[k] = new Items(R.drawable.test,50,50,
+                                            Items.ItemTypes.AmmoBox,myEnemies[j].getDimensions().
+                                            centerX(),myEnemies[j].getDimensions().
+                                            centerY(),new RectF(0,0,10,10));
+                                }
+                            }
                             break;
                     }
                     myEnemies[j] = null;
@@ -219,6 +228,7 @@ public class GameEngine {
      */
     private void checkCollision(){
         RectF tempDim;
+        RectF tempDimP = player.getDimensions();
         GameGlobals tempInst = GameGlobals.getInstance();
         //Checks if the player or projectiles collide with an enemy
         for(int i = 0; i < myEnemies.length; i++) {
@@ -234,22 +244,34 @@ public class GameEngine {
                         }
                     }
                 }
-                tempDim = player.getDimensions();
-                if(myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
-                        tempDim.right,tempDim.bottom)){
+                if(myEnemies[i].getDimensions().intersects(tempDimP.left,tempDimP.top,
+                        tempDimP.right,tempDimP.bottom)){
                     myEnemies[i] = null;
                     //TODO:Fill in what happens when enemy and player collide
                 }
             }
         }
 
-        tempDim = player.getDimensions();
+
         for(int k = 0; k < tempInst.myProjectiles.length;k++){
             if(tempInst.myProjectiles[k]!=null && tempInst.myProjectiles[k].getDimensions().
-                    intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
+                    intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
                 //TODO:Change to use projectile damage
                 player.decreaseHealth(5);
                 tempInst.myProjectiles[k] = null;
+            }
+
+            for(int m = 0; m < gameItems.length; m++){
+                if(gameItems[m] != null){
+                    tempDim = gameItems[m].getDimensions();
+                    if(tempInst.myProjectiles[k]!=null && tempInst.myProjectiles[k].getDimensions().
+                            intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
+                        //TODO:To do item affect
+
+                        gameItems[m] = null;
+                        tempInst.myProjectiles[k] = null;
+                    }
+                }
             }
         }
 
