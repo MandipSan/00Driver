@@ -126,7 +126,7 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void decreaseHealth(int decreaseBy) {
-        if (myHealth - decreaseBy >= 0) myHealth -= decreaseBy;
+        myHealth -= decreaseBy;
     }
 
     /*  PURPOSE:    Increase the sprite’s max health by amount given
