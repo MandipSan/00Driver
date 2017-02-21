@@ -23,7 +23,8 @@ public class Enemy extends Sprite {
     //  PURPOSE:    Holds the enemy's type
     private EnemyType myType;
     //  PURPOSE:    Holds the different type of enemies
-    public enum EnemyType{BasicCar, MachineGunCar, DronePickup, SpikeVan, Helicopter}
+    public enum EnemyType{BasicCar, MachineGunCar, DronePickup, SpikeVan, Helicopter, Ambulance,
+        UpgradeTruck, AmmoTruck}
 
 
 
@@ -85,8 +86,9 @@ public class Enemy extends Sprite {
     public void update(int playerX, int playerY){
         super.update();
         move( playerX, playerY);
-        if(myType != EnemyType.BasicCar)fire( playerX, playerY);
-
+        if(myType != EnemyType.BasicCar && myType != EnemyType.Ambulance &&
+                myType != EnemyType.UpgradeTruck && myType != EnemyType.AmmoTruck)
+            fire( playerX, playerY);
     }
 
     /*  PURPOSE:    Fire the enemy projectiles
@@ -144,6 +146,14 @@ public class Enemy extends Sprite {
      */
     public EnemyType getMyType(){
         return myType;
+    }
+
+    /*  PURPOSE:    Return's if the enemy is dead
+        INPUT:      NONE
+        OUTPUT:     Return a boolean if the health equals zero
+     */
+    public boolean isDead(){
+        return getMaxHealth()-getHealth() <= 0;
     }
 
     /*  PURPOSE:    Enemy's movement logic
