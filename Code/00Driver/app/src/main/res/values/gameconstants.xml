@@ -8,6 +8,9 @@
     <integer name="MinimumNumberOfLanes">6</integer>
     <!-->Items related constants<-->
     <integer name="ItemsArraySize">10</integer>
+    <integer name="ItemYVelocity">10</integer>
     <!-->Enemy related constants<-->
     <integer name="EnemyArraySize">10</integer>
+    <!-->Projectile related constants<-->
+    <integer name="ProjectileArraySize">10</integer>
 </resources>

@@ -18,11 +18,9 @@ public class GameGlobals {
     //  PURPOSE:    Holds the screen width
     private int screenWidth;
     //  PURPOSE:    Holds the y velocity for all enemies
-    public final static int enemiesUniVelocity = 20;
+    public final static int enemiesUniVelocity = 10;
     //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
     public Projectile [] myProjectiles;
-    //  PURPOSE:    Holds the number of projectiles in the projectile's array
-    public final static int myProjectileArrSize = 10;
     //  PURPOSE:    Holds the default player's horizontal velocity
     public final static int playerHorizontalVel = 20;
     //  PURPOSE:    Holds the distance of the lane transfers
@@ -45,8 +43,8 @@ public class GameGlobals {
      */
     public boolean loadPointers(){
         if(imageResources != null){
-            myProjectiles = new Projectile[myProjectileArrSize];
-            for(int i =0; i < myProjectileArrSize; i++){
+            myProjectiles = new Projectile[imageResources.getInteger(R.integer.ProjectileArraySize)];
+            for(int i =0; i < myProjectiles.length; i++){
                 myProjectiles[i] = null;
             }
             return true;
