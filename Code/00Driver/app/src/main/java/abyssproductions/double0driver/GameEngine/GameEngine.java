@@ -77,14 +77,7 @@ public class GameEngine {
      */
     public void update(){
         gHUD.updateScore();
-
-        //Calls the enemy spawn method when the delay is up
-        if(enemySpawnDelay == 0) {
-            spawnEnemies();
-            //TODO:Needs to be set to game config file values
-            enemySpawnDelay = 5;
-        }
-        enemySpawnDelay--;
+        checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
@@ -98,53 +91,15 @@ public class GameEngine {
             }
         }
 
-        // Updates the enemies on the screen and checks out bound or if they are dead and spawn item
-        //  drop if need
-        for(int j = 0; j < myEnemies.length; j++){
-            if(myEnemies[j]!=null){
-                myEnemies[j].update(0,0);
-                if(myEnemies[j].getDimensions().top >=
-                        GameGlobals.getInstance().getScreenHeight() ||
-                        myEnemies[j].getDimensions().bottom <= 0 ){
-                    myEnemies[j] = null;
-                }
-                if(myEnemies[j].isDead()){
-                    //TODO:Set enemy value for all enemies when defeat
-                    //Spawns the items if an item drop vehicle was destroy
-                    switch(myEnemies[j].getMyType()){
-                        case Ambulance:
-                            for(int k = 0; k < gameItems.length; k++){
-                                if(gameItems[k] == null){
-                                    gameItems[k] = new Items(R.drawable.test,50,50,
-                                            Items.ItemTypes.HealthBox,myEnemies[j].getDimensions().
-                                                    centerX(),myEnemies[j].getDimensions().
-                                                centerY(),new RectF(0,0,10,10));
-                                }
-                            }
-                            break;
-                        case AmmoTruck:
-                            for(int k = 0; k < gameItems.length; k++){
-                                if(gameItems[k] == null){
-                                    gameItems[k] = new Items(R.drawable.test,50,50,
-                                            Items.ItemTypes.AmmoBox,myEnemies[j].getDimensions().
-                                            centerX(),myEnemies[j].getDimensions().
-                                            centerY(),new RectF(0,0,10,10));
-                                }
-                            }
-                            break;
-                    }
-                    myEnemies[j] = null;
-                }
-            }
-        }
+        enemyUpdateLogic();
 
         // Updates the items on the screen and checks out bound
-        for(int k = 0; k < gameItems.length; k++){
-            if(gameItems[k] != null) {
-                gameItems[k].update();
-                if(gameItems[k].getDimensions().top >= GameGlobals.getInstance().getScreenHeight()||
-                        gameItems[k].getDimensions().bottom <= 0 ){
-                    gameItems[k] = null;
+        for(int m = 0; m < gameItems.length; m++){
+            if(gameItems[m] != null) {
+                gameItems[m].update();
+                if(gameItems[m].getDimensions().top >= GameGlobals.getInstance().getScreenHeight()||
+                        gameItems[m].getDimensions().bottom <= 0 ){
+                    gameItems[m] = null;
                 }
             }
         }
@@ -152,7 +107,7 @@ public class GameEngine {
         if(playerFire)player.fireWeapon();
         player.update();
 
-        checkCollision();
+
 
         gHUD.setHealthLevels(player.getHealth(),player.getMaxHealth());
     }
@@ -239,7 +194,7 @@ public class GameEngine {
                         if(myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
                                 tempDim.right,tempDim.bottom)) {
                             //TODO:Change to use projectile damage
-                            myEnemies[i].decreaseHealth(50);
+                            myEnemies[i].decreaseHealth(500);
                             tempInst.myProjectiles[j] = null;
                         }
                     }
@@ -257,8 +212,8 @@ public class GameEngine {
             if(tempInst.myProjectiles[k]!=null && tempInst.myProjectiles[k].getDimensions().
                     intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
                 //TODO:Change to use projectile damage
-                player.decreaseHealth(5);
-                tempInst.myProjectiles[k] = null;
+                //player.decreaseHealth(5);
+                //tempInst.myProjectiles[k] = null;
             }
 
             for(int m = 0; m < gameItems.length; m++){
@@ -282,14 +237,15 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void spawnEnemies(){
-        //Randomly picks value between 1 to 52
-        int value = random.nextInt(51)+1;
+        //Randomly picks value between 1 to 72
+        int value = random.nextInt(71)+1;
         //Randomly picks lane value between 1 and the number of lanes minus 2 for the dirt lanes
         int lane = random.nextInt((gameBackground.getNumLanes()-2))+1;
         //Calculates the X position for the enemy based on the lane it is going to be in
         int x = 10+gameBackground.getGrassSize()+(gameBackground.getLaneSize()*lane);
         //Calculates the Y position for the enemy based on the lane it is going to be in
-        int y = (lane <=(gameBackground.getNumLanes()/2)-1) ? 100 : 1800;
+        int y = (lane <=(gameBackground.getNumLanes()/2)-1) ? 100 :
+                GameGlobals.getInstance().getScreenHeight();
 
         for(int i = 0; i < myEnemies.length; i++) {
             if (myEnemies[i] == null) {
@@ -313,11 +269,85 @@ public class GameEngine {
                             y);
                     Log.d("spawnEnemies: ", "SV ");
                     break;
+                } else if (value <= 50) {
+                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.Ambulance, x,
+                            y);
+                    Log.d("spawnEnemies: ", "A ");
+                    break;
+                }else if (value <= 60) {
+                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.AmmoTruck, x,
+                            y);
+                    Log.d("spawnEnemies: ", "AT ");
+                    break;
+                }else if (value <= 70) {
+                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.UpgradeTruck, x,
+                            y);
+                    Log.d("spawnEnemies: ", "UT ");
+                    break;
                 } else {
-                    /*myEnemies[i] = new Enemy(R.drawable.test,50,50,
-                            Enemy.EnemyType.Helicopter,x,y);*/
+                    myEnemies[i] = new Enemy(R.drawable.test,50,50,
+                            Enemy.EnemyType.Helicopter,x,y);
                     Log.d("spawnEnemies: ", "H ");
                     break;
+                }
+            }
+        }
+    }
+
+    /** PURPOSE:    Updates the enemy logic
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    private void enemyUpdateLogic(){
+        //Calls the enemy spawn method when the delay is up
+        if(enemySpawnDelay == 0) {
+            spawnEnemies();
+            //TODO:Needs to be set to game config file values
+            enemySpawnDelay = 5;
+        }
+        enemySpawnDelay--;
+
+        // Updates the enemies on the screen and checks out bound or if they are dead and spawn item
+        //  drop if need
+        for(int j = 0; j < myEnemies.length; j++){
+            if(myEnemies[j]!=null){
+                myEnemies[j].update(0,0);
+                if(myEnemies[j].getDimensions().top >=
+                        GameGlobals.getInstance().getScreenHeight() +
+                                myEnemies[j].getDimensions().height()+1||
+                        myEnemies[j].getDimensions().bottom <= 0 ){
+                    myEnemies[j] = null;
+                }
+                //Second null check in case object was null for out of bounds
+                if(myEnemies[j]!=null && myEnemies[j].isDead()) {
+                    //TODO:Set enemy value for all enemies when defeat
+                    //Spawns the items if an item drop vehicle was destroy
+                    boolean set;
+                    for (int k = 0; k < gameItems.length; k++){
+                        set = false;
+                        if(gameItems[k] == null) {
+                            switch (myEnemies[j].getMyType()) {
+                                case Ambulance:
+                                    gameItems[k] = new Items(R.drawable.test, 50, 50,
+                                            Items.ItemTypes.HealthBox, myEnemies[j].getDimensions().
+                                            centerX(), myEnemies[j].getDimensions().
+                                            centerY(), new RectF(0, 0, 25, 25));
+                                    set = true;
+                                    break;
+                                case AmmoTruck:
+                                    gameItems[k] = new Items(R.drawable.test, 50, 50,
+                                            Items.ItemTypes.AmmoBox, myEnemies[j].getDimensions().
+                                            centerX(), myEnemies[j].getDimensions().
+                                            centerY(), new RectF(0, 0, 10, 10));
+                                    set = true;
+                                    break;
+                            }
+                        }
+                        if (set) {
+                            myEnemies[j] = null;
+                            break;
+                        }
+                    }
                 }
             }
         }
