@@ -46,6 +46,7 @@ public class GameEngine {
         gameBackground = new Background();
         //TODO:Value need to be changed
         player = new Player(R.drawable.test,50,50);
+        player.setLaneTransitionMax(gameBackground.getLaneSize());
         RectF temp = new RectF(0,0,gameBackground.getLaneSize()-20,gameBackground.getLaneSize()-20);//player.getDimensions();
         //Offset the player to always start in right middle lane
         temp.offset(((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
@@ -257,42 +258,42 @@ public class GameEngine {
                 if (value <= 10) {
                     myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.BasicCar, x,
                             y);
-                    Log.d("spawnEnemies: ", "BC ");
+                    //Log.d("spawnEnemies: ", "BC ");
                     break;
                 } else if (value <= 20) {
                     myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.MachineGunCar,
                             x, y);
-                    Log.d("spawnEnemies: ", "MGC ");
+                    //Log.d("spawnEnemies: ", "MGC ");
                     break;
                 } else if (value <= 30) {
                     myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.DronePickup,
                             x, y);
-                    Log.d("spawnEnemies: ", "DP ");
+                    //Log.d("spawnEnemies: ", "DP ");
                     break;
                 } else if (value <= 40) {
                     myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.SpikeVan, x,
                             y);
-                    Log.d("spawnEnemies: ", "SV ");
+                    //Log.d("spawnEnemies: ", "SV ");
                     break;
                 } else if (value <= 50) {
                     myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.Ambulance, x,
                             y);
-                    Log.d("spawnEnemies: ", "A ");
+                    //Log.d("spawnEnemies: ", "A ");
                     break;
                 }else if (value <= 60) {
                     myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.AmmoTruck, x,
                             y);
-                    Log.d("spawnEnemies: ", "AT ");
+                    //Log.d("spawnEnemies: ", "AT ");
                     break;
                 }else if (value <= 70) {
                     myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.UpgradeTruck, x,
                             y);
-                    Log.d("spawnEnemies: ", "UT ");
+                    //Log.d("spawnEnemies: ", "UT ");
                     break;
                 } else {
                     myEnemies[i] = new Enemy(R.drawable.test,50,50,
                             Enemy.EnemyType.Helicopter,x,y);
-                    Log.d("spawnEnemies: ", "H ");
+                    //Log.d("spawnEnemies: ", "H ");
                     break;
                 }
             }

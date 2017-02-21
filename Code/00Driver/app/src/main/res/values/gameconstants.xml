@@ -13,4 +13,6 @@
     <integer name="EnemyArraySize">10</integer>
     <!-->Projectile related constants<-->
     <integer name="ProjectileArraySize">10</integer>
+    <!-->Player related constants<-->
+    <integer name="PlayerHorVelocity">20</integer>
 </resources>

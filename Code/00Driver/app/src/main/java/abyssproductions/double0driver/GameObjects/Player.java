@@ -1,8 +1,10 @@
 package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.RectF;
+import android.util.Log;
 
 import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
@@ -14,6 +16,9 @@ public class Player extends Sprite {
     private WeaponTypes mySecondaryWeapon;
     //  PURPOSE:    Holds the player's count for when the player is done transitioning between lanes
     private int velocityReset;
+    //  PURPOSE:    Holds the player's max count for when the player is done transitioning between
+    //                  lanes
+    private int velocityResetMax;
 
     /*  PURPOSE:    Constructor for the player that sets the default values for the object
         INPUT:      imageReference      - Reference's the image to be load
@@ -25,6 +30,7 @@ public class Player extends Sprite {
         super(imageReference, width, height);
         mySecondaryWeapon = WeaponTypes.MachineGun;
         velocityReset = 0;
+        velocityResetMax = 10;
     }
 
     /*  PURPOSE:    Updates the player's logic
@@ -34,7 +40,7 @@ public class Player extends Sprite {
     public void update(){
         super.update();
         if(velocityReset > 0)moveHorizontal(myVelocity.x);
-        if(velocityReset < 0)myVelocity.set(0, 0);
+        if(velocityReset <= 0)myVelocity.set(0, 0);
         velocityReset-=Math.abs(myVelocity.x);
     }
 
@@ -43,8 +49,9 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveLeft(){
-        myVelocity.set(-1*GameGlobals.playerHorizontalVel,0);
-        velocityReset = GameGlobals.playerVelocityReset - velocityReset;
+        myVelocity.set(-1*GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.PlayerHorVelocity),0);
+        velocityReset = velocityResetMax - velocityReset;
     }
 
     /*  PURPOSE:    Moves the player to the right
@@ -52,8 +59,9 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveRight(){
-        myVelocity.set(GameGlobals.playerHorizontalVel,0);
-        velocityReset = GameGlobals.playerVelocityReset - velocityReset;
+        myVelocity.set(GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.PlayerHorVelocity),0);
+        velocityReset = velocityResetMax - velocityReset;
     }
 
     /*  PURPOSE:    Fires the primary weapon
@@ -78,11 +86,20 @@ public class Player extends Sprite {
     /*  PURPOSE:    Increase the player’s max ammo capacity by amount given for the weapon type
                         given
         INPUT:      weaponType          - The weapon type to increase the max ammo for capacity
-                    upgradeMaxAmmoBy    - THe amount to increase the max ammo capacity by
+                    upgradeMaxAmmoBy    - The amount to increase the max ammo capacity by
         OUTPUT:     NONE
      */
     public void upgradeAmmo(WeaponTypes weaponType, int upgradeMaxAmmoBy){
         increaseMaxAmmo(weaponType,upgradeMaxAmmoBy);
+    }
+
+    /*  PURPOSE:    Calculates the max velocity reset need for lane transition
+        INPUT:      laneSize            - The size of the lanes
+        OUTPUT:     NONE
+     */
+    public void setLaneTransitionMax(int laneSize){
+        velocityResetMax = laneSize-(laneSize% GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.PlayerHorVelocity));
     }
 
     /*  PURPOSE:    Changes the weapon load out for the weapon position given primary or secondary
