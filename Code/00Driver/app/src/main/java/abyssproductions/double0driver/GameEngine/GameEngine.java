@@ -11,6 +11,7 @@ import java.util.Random;
 import abyssproductions.double0driver.Background;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Enemy;
+import abyssproductions.double0driver.GameObjects.Items;
 import abyssproductions.double0driver.GameObjects.Player;
 import abyssproductions.double0driver.R;
 
@@ -25,6 +26,8 @@ public class GameEngine {
     private Player player;
     //  PURPOSE:    Holds whether the fire button is pressed down
     private boolean playerFire;
+    //  PURPOSE:    Holds the array of the active items in the game
+    private Items [] gameItems;
     //  PURPOSE:    Used to delay enemy spawn time
     private int enemySpawnDelay;
     //  PURPOSE:    Used get random values
@@ -47,6 +50,11 @@ public class GameEngine {
                 gameBackground.getGrassSize()+5,1000);
         player.setMyDimensions(temp);
 
+        gameItems = new Items[GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.ItemsArraySize)];
+        for(int i = 0; i < gameItems.length; i++){
+            gameItems[i] = null;
+        }
 
         enemySpawnDelay = 0;
         random = new Random();
@@ -90,8 +98,18 @@ public class GameEngine {
                     GameGlobals.getInstance().myEnemies[j] = null;
                 }
                 if(GameGlobals.getInstance().myEnemies[j].isDead()){
-                    //TODO:Set when enemy value is setup
-                    //if(GameGlobals.getInstance().myEnemies[j].getMyType() ==)
+                    //TODO:Set enemy value for all enemies when defeat
+                    switch(GameGlobals.getInstance().myEnemies[j].getMyType()){
+                        case Ambulance:
+                            for(int k = 0; k < gameItems.length; k++){
+                                if(gameItems[k] == null){
+                                    //gameItems[k] = new Items()
+                                }
+                            }
+                            break;
+                        case AmmoTruck:
+                            break;
+                    }
                     GameGlobals.getInstance().myEnemies[j] = null;
                 }
             }

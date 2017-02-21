@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-->Animation related constants<-->
     <integer name="NormalAnimateState">0</integer>
     <integer name="DestroyAnimateState">1</integer>
-
+    <!-->Background related constants<-->
     <integer name="MaximumLaneSize">200</integer>
     <integer name="MinimumNumberOfLanes">6</integer>
+    <!-->Items related constants<-->
+    <integer name="ItemsArraySize">10</integer>
 </resources>
