@@ -3,6 +3,9 @@ package abyssproductions.double0driver.GameObjects;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.R;
+
 /**
  * Created by Mandip Sangha on 2/1/2017.
  * Edited by Mark Reffel on 2/9/2017
@@ -30,7 +33,8 @@ public class Items extends GameObject {
         myType = itemType;
         objDim.offset(x,y);
         setMyDimensions(objDim);
-        myVelocity.set(0,1);
+        myVelocity.set(0, GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.ItemYVelocity));
     }
 
     /*  PURPOSE:    Updates the item's logic
