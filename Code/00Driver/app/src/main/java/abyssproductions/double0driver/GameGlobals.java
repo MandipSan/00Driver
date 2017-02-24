@@ -4,6 +4,7 @@ import android.content.res.Resources;
 
 import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Projectile;
+import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
  * Created by Mandip Sangha on 2/3/2017.
@@ -25,7 +26,8 @@ public class GameGlobals {
     public final static int playerHorizontalVel = 20;
     //  PURPOSE:    Holds the distance of the lane transfers
     public final static int playerVelocityReset = 30;
-
+    //  PURPOSE:    Hold the pointer to the game sound effects
+    public SoundEffects mySoundEffects;
 
     /*  PURPOSE:    Constructor for the game globals that sets the default values for the object
         INPUT:      NONE

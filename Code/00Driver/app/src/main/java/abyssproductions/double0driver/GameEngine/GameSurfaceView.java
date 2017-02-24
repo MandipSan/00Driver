@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
 import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
  * Created by Mandip Sangha on 2/14/2017.
@@ -35,6 +36,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         GameGlobals.getInstance().setScreenHeight(metrics.heightPixels);
         GameGlobals.getInstance().setScreenWidth(metrics.widthPixels);
+        GameGlobals.getInstance().mySoundEffects = new SoundEffects(context);
         gameEngine = new GameEngine();
         gameThread = null;
         mDetector = new GestureDetectorCompat(context,gameEngine.new GameGestureListener());
