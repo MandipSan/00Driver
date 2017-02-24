@@ -47,10 +47,10 @@ public class GameEngine {
         //TODO:Value need to be changed
         player = new Player(R.drawable.test,50,50);
         player.setLaneTransitionMax(gameBackground.getLaneSize());
-        RectF temp = new RectF(0,0,gameBackground.getLaneSize()-20,gameBackground.getLaneSize()-20);//player.getDimensions();
+        RectF temp = new RectF(0,0,gameBackground.getLaneSize(),gameBackground.getLaneSize());//player.getDimensions();
         //Offset the player to always start in right middle lane
         temp.offset(((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
-                gameBackground.getGrassSize()+5,1000);
+                gameBackground.getGrassSize(),1000);
         player.setMyDimensions(temp);
 
         myEnemies = new Enemy[GameGlobals.getInstance().getImageResources().
@@ -107,6 +107,14 @@ public class GameEngine {
 
         if(playerFire)player.fireWeapon();
         player.update();
+        //Checks if player is on the dirt road and decrease the health
+        float pCX = player.getDimensions().centerX();
+        int gBGS = gameBackground.getGrassSize();
+        int gBLS = gameBackground.getLaneSize();
+        int gW = GameGlobals.getInstance().getScreenWidth();
+        if(( pCX > gBGS && pCX < (gBGS + gBLS)) || (pCX < (gW - gBGS) && pCX > ((gW - gBGS) - gBLS))){
+            player.decreaseHealth(1);
+        }
 
         gHUD.setHealthLevels(player.getHealth(),player.getMaxHealth());
     }
@@ -211,8 +219,8 @@ public class GameEngine {
             if(tempInst.myProjectiles[k]!=null && tempInst.myProjectiles[k].getDimensions().
                     intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
                 //TODO:Change to use projectile damage
-                //player.decreaseHealth(5);
-                //tempInst.myProjectiles[k] = null;
+                player.decreaseHealth(5);
+                tempInst.myProjectiles[k] = null;
             }
 
             for(int m = 0; m < gameItems.length; m++){
@@ -324,9 +332,9 @@ public class GameEngine {
                         myEnemies[j].getDimensions().bottom <= 0 ){
                     myEnemies[j] = null;
                 }
-                //Second null check in case object was null for out of bounds
+                //Second null check is for in case object was null for out of bounds
                 if(myEnemies[j]!=null && myEnemies[j].isDead()) {
-                    //TODO:Set enemy value for all enemies when defeat
+                    //TODO:Set correct enemy value for all enemies when defeat
                     //Spawns the items if an item drop vehicle was destroy
                     boolean set;
                     for (int k = 0; k < gameItems.length; k++){
@@ -345,6 +353,26 @@ public class GameEngine {
                                             Items.ItemTypes.AmmoBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
                                             centerY(), new RectF(0, 0, 10, 10));
+                                    set = true;
+                                    break;
+                                case BasicCar:
+                                    gHUD.scoreIncreaseBy(10);
+                                    set = true;
+                                    break;
+                                case MachineGunCar:
+                                    gHUD.scoreIncreaseBy(10);
+                                    set = true;
+                                    break;
+                                case DronePickup:
+                                    gHUD.scoreIncreaseBy(10);
+                                    set = true;
+                                    break;
+                                case SpikeVan:
+                                    gHUD.scoreIncreaseBy(10);
+                                    set = true;
+                                    break;
+                                case Helicopter:
+                                    gHUD.scoreIncreaseBy(10);
                                     set = true;
                                     break;
                                 default:

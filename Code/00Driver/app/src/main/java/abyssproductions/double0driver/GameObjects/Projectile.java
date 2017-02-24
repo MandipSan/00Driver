@@ -29,9 +29,7 @@ public class Projectile extends GameObject {
      */
     public void update(){
         super.update();
-        RectF tempDim = getDimensions();
         moveVertical(myVelocity.y);
-        if(tempDim.bottom < 0 || tempDim.top > 555/*NEED TO CHANGE VAR*/)myVelocity.set(0,0);
     }
 
     /*  PURPOSE:    Launches the projectile from the X and Y position given 
@@ -43,7 +41,10 @@ public class Projectile extends GameObject {
      */
     protected void launch(float x, float y,int direction, Projectile p){
         RectF temp = getDimensions();
-        temp.offsetTo(x, y);
+        //TODO:Mark look over this as to it keeps the projectiles from cuasing a collision with there
+        //TODO: launch objects
+        if(direction < 0) temp.offsetTo(x, y-temp.height());
+        else temp.offsetTo(x, y+temp.height());
         p.setMyDimensions(temp);
         //Find first empty spot in projectiles array
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++) {
