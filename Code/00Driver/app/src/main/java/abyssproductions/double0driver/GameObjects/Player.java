@@ -1,8 +1,6 @@
 package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.RectF;
-import android.util.Log;
-
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.R;
 
@@ -49,9 +47,16 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveLeft(){
+        //Used to adjust remainder in the lanes size
+        RectF temp = getDimensions();
+        int value = (velocityResetMax% GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.PlayerHorVelocity));
+        temp.offset(-value,0);
+        setMyDimensions(temp);
+
         myVelocity.set(-1*GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.PlayerHorVelocity),0);
-        velocityReset = velocityResetMax - velocityReset;
+        velocityReset = (velocityResetMax-value) - velocityReset;
     }
 
     /*  PURPOSE:    Moves the player to the right
@@ -59,9 +64,16 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveRight(){
+        //Used to adjust remainder in the lanes size
+        RectF temp = getDimensions();
+        int value = (velocityResetMax% GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.PlayerHorVelocity));
+        temp.offset(value,0);
+        setMyDimensions(temp);
+
         myVelocity.set(GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.PlayerHorVelocity),0);
-        velocityReset = velocityResetMax - velocityReset;
+        velocityReset = (velocityResetMax-value) - velocityReset;
     }
 
     /*  PURPOSE:    Fires the primary weapon
@@ -98,8 +110,7 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void setLaneTransitionMax(int laneSize){
-        velocityResetMax = laneSize-(laneSize% GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.PlayerHorVelocity));
+        velocityResetMax = laneSize;
     }
 
     /*  PURPOSE:    Changes the weapon load out for the weapon position given primary or secondary
