@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 /**
  * Created by Mandip Sangha on 2/15/2017.
@@ -12,6 +13,10 @@ import android.graphics.Rect;
 public class HUD {
     //  PURPOSE:    Holds the dimension of the health bar
     private Rect healthBar;
+    //  PURPOSE:    Holds the max health value
+    private int maxHealth;
+    //  PURPOSE:    Holds the current health value
+    private int curHealth;
     //  PURPOSE:    Holds the dimension of the fire button
     private Rect fireButtonDim;
     //  PURPOSE:    Holds the dimension of the switch button
@@ -47,17 +52,20 @@ public class HUD {
         paint.setColor(Color.RED);
         canvas.drawRect(healthBar,paint);
         paint.setColor(Color.WHITE);
+        canvas.drawText("" + curHealth + "/" + maxHealth,0,80,paint);
         canvas.drawRect(fireButtonDim,paint);
         canvas.drawRect(switchButtonDim,paint);
     }
 
     /** PURPOSE:    Calculates the length of the health bar
-     *  INPUT:      curHealth           - The current health value
-     *              maxHealth           - The maximum health value
+     *  INPUT:      newCurHealth           - The current health value
+     *              newMaxHealth           - The maximum health value
      *  OUTPUT:     NONE
      */
-    public void setHealthLevels(int curHealth, int maxHealth){
-        healthBar.right = (curHealth/maxHealth)*1200;
+    public void setHealthLevels(float newCurHealth, float newMaxHealth){
+        healthBar.right = (int)((newCurHealth/newMaxHealth)*1200);
+        curHealth = (int)newCurHealth;
+        maxHealth = (int)newMaxHealth;
     }
 
     /** PURPOSE:    Increase the score
