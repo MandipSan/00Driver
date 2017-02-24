@@ -324,9 +324,9 @@ public class GameEngine {
                         myEnemies[j].getDimensions().bottom <= 0 ){
                     myEnemies[j] = null;
                 }
-                //Second null check in case object was null for out of bounds
+                //Second null check is for in case object was null for out of bounds
                 if(myEnemies[j]!=null && myEnemies[j].isDead()) {
-                    //TODO:Set enemy value for all enemies when defeat
+                    //TODO:Set correct enemy value for all enemies when defeat
                     //Spawns the items if an item drop vehicle was destroy
                     boolean set;
                     for (int k = 0; k < gameItems.length; k++){
@@ -345,6 +345,26 @@ public class GameEngine {
                                             Items.ItemTypes.AmmoBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
                                             centerY(), new RectF(0, 0, 10, 10));
+                                    set = true;
+                                    break;
+                                case BasicCar:
+                                    gHUD.scoreIncreaseBy(10);
+                                    set = true;
+                                    break;
+                                case MachineGunCar:
+                                    gHUD.scoreIncreaseBy(10);
+                                    set = true;
+                                    break;
+                                case DronePickup:
+                                    gHUD.scoreIncreaseBy(10);
+                                    set = true;
+                                    break;
+                                case SpikeVan:
+                                    gHUD.scoreIncreaseBy(10);
+                                    set = true;
+                                    break;
+                                case Helicopter:
+                                    gHUD.scoreIncreaseBy(10);
                                     set = true;
                                     break;
                                 default:

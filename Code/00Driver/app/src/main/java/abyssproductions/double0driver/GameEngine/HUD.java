@@ -68,6 +68,14 @@ public class HUD {
         score++;
     }
 
+    /** PURPOSE:    Increase the score by the amount given
+     *  INPUT:      increaseBy          - The amount the score is to be increased by
+     *  OUTPUT:     NONE
+     */
+    public void scoreIncreaseBy(int increaseBy){
+        score+=increaseBy;
+    }
+
     /** PURPOSE:    Reduce the score by the amount given
      *  INPUT:      reduceBy            - The amount to reduce the score by
      *  OUTPUT:     NONE
