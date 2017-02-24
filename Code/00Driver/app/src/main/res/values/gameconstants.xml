@@ -15,4 +15,12 @@
     <integer name="ProjectileArraySize">10</integer>
     <!-->Player related constants<-->
     <integer name="PlayerHorVelocity">20</integer>
+    <!-->Sound effect related constants<-->
+    <integer name="SEExplosionID">0</integer>
+    <integer name="SEMachineGunID">1</integer>
+    <integer name="SELaserID">2</integer>
+    <integer name="SEFireID">3</integer>
+    <integer name="SEMissileID">4</integer>
+    <integer name="SEAmbulanceID">5</integer>
+
 </resources>
