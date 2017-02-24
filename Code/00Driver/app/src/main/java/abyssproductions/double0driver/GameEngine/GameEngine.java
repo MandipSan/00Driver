@@ -47,10 +47,10 @@ public class GameEngine {
         //TODO:Value need to be changed
         player = new Player(R.drawable.test,50,50);
         player.setLaneTransitionMax(gameBackground.getLaneSize());
-        RectF temp = new RectF(0,0,gameBackground.getLaneSize()-20,gameBackground.getLaneSize()-20);//player.getDimensions();
+        RectF temp = new RectF(0,0,gameBackground.getLaneSize(),gameBackground.getLaneSize());//player.getDimensions();
         //Offset the player to always start in right middle lane
         temp.offset(((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
-                gameBackground.getGrassSize()+5,1000);
+                gameBackground.getGrassSize(),1000);
         player.setMyDimensions(temp);
 
         myEnemies = new Enemy[GameGlobals.getInstance().getImageResources().
@@ -107,6 +107,14 @@ public class GameEngine {
 
         if(playerFire)player.fireWeapon();
         player.update();
+        //Checks if player is on the dirt road and decrease the health
+        float pCX = player.getDimensions().centerX();
+        int gBGS = gameBackground.getGrassSize();
+        int gBLS = gameBackground.getLaneSize();
+        int gW = GameGlobals.getInstance().getScreenWidth();
+        if(( pCX > gBGS && pCX < (gBGS + gBLS)) || (pCX < (gW - gBGS) && pCX > ((gW - gBGS) - gBLS))){
+            player.decreaseHealth(1);
+        }
 
         gHUD.setHealthLevels(player.getHealth(),player.getMaxHealth());
     }
@@ -211,8 +219,8 @@ public class GameEngine {
             if(tempInst.myProjectiles[k]!=null && tempInst.myProjectiles[k].getDimensions().
                     intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
                 //TODO:Change to use projectile damage
-                //player.decreaseHealth(5);
-                //tempInst.myProjectiles[k] = null;
+                player.decreaseHealth(5);
+                tempInst.myProjectiles[k] = null;
             }
 
             for(int m = 0; m < gameItems.length; m++){
