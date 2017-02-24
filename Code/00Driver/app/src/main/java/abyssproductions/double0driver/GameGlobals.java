@@ -22,10 +22,6 @@ public class GameGlobals {
     public final static int enemiesUniVelocity = 10;
     //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
     public Projectile [] myProjectiles;
-    //  PURPOSE:    Holds the default player's horizontal velocity
-    public final static int playerHorizontalVel = 20;
-    //  PURPOSE:    Holds the distance of the lane transfers
-    public final static int playerVelocityReset = 30;
     //  PURPOSE:    Hold the pointer to the game sound effects
     public SoundEffects mySoundEffects;
 
