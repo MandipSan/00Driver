@@ -36,7 +36,7 @@ public class GameObject {
     private int myCurFrameNum;
     //  PURPOSE:    Holds the object's images
     private Bitmap myImage;
-
+    //  PURPOSE:    Holds whether to flip the image or not
     private boolean flipped;
     //  PURPOSE:    Holds the object's movement velocity
     protected Point myVelocity;
@@ -92,7 +92,6 @@ public class GameObject {
         OUTPUT:     NONE
     */
     public void draw(Canvas canvas){
-
         if(!flipped)canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
         else{
             Matrix tempMatrix = new Matrix();
