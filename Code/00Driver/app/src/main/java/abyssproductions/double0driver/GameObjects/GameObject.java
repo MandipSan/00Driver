@@ -36,6 +36,8 @@ public class GameObject {
     private int myCurFrameNum;
     //  PURPOSE:    Holds the object's images
     private Bitmap myImage;
+
+    private boolean flipped;
     //  PURPOSE:    Holds the object's movement velocity
     protected Point myVelocity;
     //  PURPOSE:    Hold the object’s current animate state
@@ -61,6 +63,7 @@ public class GameObject {
         myPaint = new Paint();
         myCurFrameNum = 0;
         myCurAniState = R.integer.NormalAnimateState;
+        flipped = false;
         setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
                 imageReference), imageSheetRow, imageSheetColumn);
 
@@ -89,7 +92,14 @@ public class GameObject {
         OUTPUT:     NONE
     */
     public void draw(Canvas canvas){
-        canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
+        if(!flipped)canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
+        else{
+            Matrix tempMatrix = new Matrix();
+            tempMatrix.setScale(0,-1);
+            Bitmap flippedImage = Bitmap.createBitmap(myImage,myCurFrameLoc.left,myCurFrameLoc.top,
+                    myCurFrameLoc.width(),myCurFrameLoc.height(),tempMatrix,false);
+            canvas.drawBitmap(flippedImage,myDimensions.left,myDimensions.top,myPaint);
+        }
     }
 
     /*  PURPOSE:    Updates the game object's logic
@@ -128,6 +138,14 @@ public class GameObject {
     */
     public RectF getDimensions(){
         return myDimensions;
+    }
+
+    /*  PURPOSE:    Set the flipped variable to true so that the image is flipped
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    protected void setImageFlip(){
+        flipped = true;
     }
 
     /*  PURPOSE:    Move's the game object vertically by the amount given
