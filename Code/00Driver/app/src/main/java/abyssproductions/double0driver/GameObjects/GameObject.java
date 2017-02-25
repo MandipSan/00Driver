@@ -26,6 +26,8 @@ public class GameObject {
     private int myRow, myColumn;
     //  PURPOSE:    Holds the object's left, top, right, bottom coordinates
     private RectF myDimensions;
+    //  PURPOSE:    Holds the object's collision bounds
+    private Rect myCollisionBox;
     //  PURPOSE:    Holds the object's image style and color information
     private Paint myPaint;
     //  PURPOSE:    Holds the object's current frame image location
@@ -56,6 +58,7 @@ public class GameObject {
         myRow = imageSheetRow;
         myColumn = imageSheetColumn;
         myDimensions = new RectF(0,0,imageWidth,imageHeight);
+        myCollisionBox = new Rect(0,0,imageWidth,imageHeight);
         myCurFrameLoc = new Rect(0,0,50,50);
         myVelocity = new Point(0,0);
         myPaint = new Paint();
@@ -118,6 +121,14 @@ public class GameObject {
         myDimensions.set(newDimension);
     }
 
+    /*  PURPOSE:    Set's the game object's collision bounding box
+        INPUT:      newCollisionBox        - The new collision bounding box
+        OUTPUT:     NONE
+    */
+    public void setMyCollisionBounds(Rect newCollisionBox ){
+        myCollisionBox.set(newCollisionBox);
+    }
+
     /*  PURPOSE:    Set's the game object's image and  proper scaling
         INPUT:      image               - The image to set myImage too
                     row                 - The number of row in image frame
@@ -142,9 +153,17 @@ public class GameObject {
         if(height > 0)myDimensions.bottom = myDimensions.top + height;
     }
 
-    /*  PURPOSE:    Return's the game object's left, top, right, bottom coordinates
+    /*  PURPOSE:    Return's the game object's collision bounds box
         INPUT:      NONE
         OUTPUT:     A Rect object with the data
+    */
+    public Rect getCollisionBounds(){
+        return myCollisionBox;
+    }
+
+    /*  PURPOSE:    Return's the game object's left, top, right, bottom coordinates
+        INPUT:      NONE
+        OUTPUT:     A RectF object with the data
     */
     public RectF getDimensions(){
         return myDimensions;
