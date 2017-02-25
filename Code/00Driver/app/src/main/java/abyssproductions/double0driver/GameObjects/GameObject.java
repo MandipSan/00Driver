@@ -1,6 +1,5 @@
 package abyssproductions.double0driver.GameObjects;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.R;
@@ -22,8 +20,8 @@ import abyssproductions.double0driver.R;
 
 public class GameObject {
 
-    //  PURPOSE:    Hold the Width and Height values for the game object
-    private int myWidth, myHeight;
+    //  PURPOSE:    Hold the image sheets Width and Height values for the game object
+    private int myImageWidth, myImageHeight;
     //  PURPOSE:    Hold the number of row and column in the image sheet
     private int myRow, myColumn;
     //  PURPOSE:    Holds the object's left, top, right, bottom coordinates
@@ -53,8 +51,8 @@ public class GameObject {
      */
     public GameObject(int imageReference, int imageWidth, int imageHeight, int imageSheetRow,
                       int imageSheetColumn){
-        myWidth = imageWidth;
-        myHeight = imageHeight;
+        myImageWidth = imageWidth;
+        myImageHeight = imageHeight;
         myRow = imageSheetRow;
         myColumn = imageSheetColumn;
         myDimensions = new RectF(0,0,imageWidth,imageHeight);
@@ -127,9 +125,19 @@ public class GameObject {
     public void setMyImage(Bitmap image, int row, int column){
         Matrix tempMatrix = new Matrix();
         tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
-                new RectF(0, 0, myWidth*row, myHeight*column), Matrix.ScaleToFit.CENTER);
+                new RectF(0, 0, myImageWidth *row, myImageHeight *column), Matrix.ScaleToFit.CENTER);
         this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
                 tempMatrix, true);
+    }
+
+    /*  PURPOSE:    Resets the objects width and height if it is greater than 0
+        INPUT:      width               - The new width to set
+                    height              - The new height to set
+        OUTPUT:     NONE
+     */
+    public void resetWidthAndHeight(int width, int height){
+        if(width > 0)myDimensions.right = myDimensions.left + width;
+        if(height > 0)myDimensions.bottom = myDimensions.top + height;
     }
 
     /*  PURPOSE:    Return's the game object's left, top, right, bottom coordinates
@@ -173,8 +181,8 @@ public class GameObject {
     */
     protected void animate(){
         if(myCurAniState >= myColumn)myCurAniState=0;
-        myCurFrameLoc.set(myWidth*myCurFrameNum,myCurAniState,myWidth*(myCurFrameNum+1),
-                myHeight*(myCurAniState+1));
+        myCurFrameLoc.set(myImageWidth *myCurFrameNum,myCurAniState, myImageWidth *(myCurFrameNum+1),
+                myImageHeight *(myCurAniState+1));
         myCurFrameNum++;
         if(myCurFrameNum==myRow)myCurFrameNum=0;
     }
