@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         gameView = new GameSurfaceView(this);
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         setContentView(gameView);//R.layout.activity_main);
-        super.onDestroy();
     }
 
     /** PURPOSE:    Detects the touch inputs and returns the super methods event
