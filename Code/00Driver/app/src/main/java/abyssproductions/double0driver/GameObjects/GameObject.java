@@ -92,10 +92,11 @@ public class GameObject {
         OUTPUT:     NONE
     */
     public void draw(Canvas canvas){
+
         if(!flipped)canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
         else{
             Matrix tempMatrix = new Matrix();
-            tempMatrix.setScale(0,-1);
+            tempMatrix.setScale(1,-1);
             Bitmap flippedImage = Bitmap.createBitmap(myImage,myCurFrameLoc.left,myCurFrameLoc.top,
                     myCurFrameLoc.width(),myCurFrameLoc.height(),tempMatrix,false);
             canvas.drawBitmap(flippedImage,myDimensions.left,myDimensions.top,myPaint);
