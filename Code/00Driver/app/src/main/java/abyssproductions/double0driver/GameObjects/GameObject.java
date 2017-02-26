@@ -59,7 +59,7 @@ public class GameObject {
         myColumn = imageSheetColumn;
         myDimensions = new RectF(0,0,imageWidth,imageHeight);
         myCollisionBox = new Rect(0,0,imageWidth,imageHeight);
-        myCurFrameLoc = new Rect(0,0,50,50);
+        myCurFrameLoc = new Rect(0,0,imageWidth,imageHeight);
         myVelocity = new Point(0,0);
         myPaint = new Paint();
         myCurFrameNum = 0;
@@ -98,8 +98,8 @@ public class GameObject {
             Matrix tempMatrix = new Matrix();
             tempMatrix.setScale(1,-1);
             Bitmap flippedImage = Bitmap.createBitmap(myImage,myCurFrameLoc.left,myCurFrameLoc.top,
-                    myCurFrameLoc.width(),myCurFrameLoc.height(),tempMatrix,false);
-            Rect tempCurFrameLoc = new Rect(0,0,myCurFrameLoc.width(),myCurFrameLoc.height());
+                    myImageWidth,myImageHeight,tempMatrix,false);
+            Rect tempCurFrameLoc = new Rect(0,0,myImageWidth,myImageHeight);
             //canvas.drawBitmap(flippedImage,myDimensions.left,myDimensions.top,myPaint);
             canvas.drawBitmap(flippedImage,tempCurFrameLoc,myDimensions,myPaint);
         }
@@ -136,9 +136,11 @@ public class GameObject {
         OUTPUT:     NONE
     */
     public void setMyImage(Bitmap image, int row, int column){
+        int sheetW = myImageWidth *row;
+        int sheetH = myImageHeight *column;
         Matrix tempMatrix = new Matrix();
         tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
-                new RectF(0, 0, myImageWidth *row, myImageHeight *column), Matrix.ScaleToFit.CENTER);
+                new RectF(0, 0, sheetW, sheetH), Matrix.ScaleToFit.FILL);
         this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
                 tempMatrix, true);
     }
