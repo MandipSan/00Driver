@@ -45,9 +45,10 @@ public class GameEngine {
         GameGlobals.getInstance().loadPointers();
         gameBackground = new Background();
         //TODO:Value need to be changed
-        player = new Player(R.drawable.test,50,50);
+        player = new Player(R.drawable.playersheet,309,364);
         player.setLaneTransitionMax(gameBackground.getLaneSize());
-        RectF temp = new RectF(0,0,gameBackground.getLaneSize(),gameBackground.getLaneSize());//player.getDimensions();
+        RectF temp = new RectF(0,0,gameBackground.getLaneSize(),
+                (int)(gameBackground.getLaneSize()*(364f/309f)));
         //Offset the player to always start in right middle lane
         temp.offset(((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
                 gameBackground.getGrassSize(),1000);
@@ -251,6 +252,8 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void spawnEnemies(){
+        //TODO:Need to change from image reference Id to Bitmap
+
         //Randomly picks value between 1 to 72
         int value = random.nextInt(71)+1;
         //Randomly picks lane value between 1 and the number of lanes minus 2 for the dirt lanes
@@ -284,8 +287,10 @@ public class GameEngine {
                     //Log.d("spawnEnemies: ", "SV ");
                     break;
                 } else if (value <= 50) {
-                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.Ambulance, x,
-                            y);
+                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50,
+                            Enemy.EnemyType.Ambulance, x, y);
+                    //myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize()-20,
+                    //        (int)((gameBackground.getLaneSize()-20)*(487f/309f)));
                     //Log.d("spawnEnemies: ", "A ");
                     break;
                 }else if (value <= 60) {
