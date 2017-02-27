@@ -42,17 +42,18 @@ public class GameImages {
     public GameImages(Resources resources){
 
         playerImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.playersheet),
-                4, 2, 309, 364);
+                4, 2, 102, 121);
         ambulanceImage = setMyImage(BitmapFactory.decodeResource(resources,
-                R.drawable.ambulancesheet), 4, 2, 309, 487);
+                R.drawable.ambulancesheet), 4, 2, 102, 161);
         ammoTruckImage = setMyImage(BitmapFactory.decodeResource(resources,
-                R.drawable.ammotrucksheet), 4, 2, 309, 703);
-        pickupImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.pickupsheet),
-                4, 2, 309, 445);
+                R.drawable.ammotrucksheet), 4, 2, 102, 232);
+
         upgradeTruckImage = setMyImage(BitmapFactory.decodeResource(resources,
-                R.drawable.upgradetrucksheet), 4, 2, 309, 721);
+                R.drawable.upgradetrucksheet), 4, 2, 102, 238);
         vanImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.vansheet),
-                4, 2, 309, 445);
+                4, 2, 102, 147);
+        pickupImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.pickupsheet),
+                4, 2, 102, 147);
 
     }
 

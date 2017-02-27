@@ -45,10 +45,10 @@ public class GameEngine {
         GameGlobals.getInstance().loadPointers();
         gameBackground = new Background();
         //TODO:Value need to be changed
-        player = new Player(GameGlobals.getInstance().getImages().getPlayerImage(),309,364);
+        player = new Player(GameGlobals.getInstance().getImages().getPlayerImage(),102,121);
         player.setLaneTransitionMax(gameBackground.getLaneSize());
         RectF temp = new RectF(0,0,gameBackground.getLaneSize(),
-                (int)(gameBackground.getLaneSize()*(364f/309f)));
+                (int)(gameBackground.getLaneSize()*(121f/102f)));
         //Offset the player to always start in right middle lane
         temp.offset(((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
                 gameBackground.getGrassSize(),1000);
@@ -91,10 +91,10 @@ public class GameEngine {
                     GameGlobals.getInstance().myProjectiles[i] = null;
                 }
             }
-        }
+        }*/
 
         enemyUpdateLogic();
-
+        /*
         // Updates the items on the screen and checks out bound
         for(int m = 0; m < gameItems.length; m++){
             if(gameItems[m] != null) {
@@ -129,13 +129,13 @@ public class GameEngine {
         /*for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
             if(GameGlobals.getInstance().myProjectiles[i]!=null)
                 GameGlobals.getInstance().myProjectiles[i].draw(canvas);
-        }
+        }*/
 
         for(int j = 0; j < myEnemies.length; j++){
             if(myEnemies[j]!=null)myEnemies[j].draw(canvas);
         }
 
-        for(int k = 0; k < gameItems.length; k++){
+        /*for(int k = 0; k < gameItems.length; k++){
             if(gameItems[k]!=null)gameItems[k].draw(canvas);
         }*/
 
@@ -278,37 +278,37 @@ public class GameEngine {
                     break;
                 } else if (value <= 30) {
                     myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().getPickupImage(),
-                            309, 445, Enemy.EnemyType.DronePickup, x, y);
+                            102, 147, Enemy.EnemyType.DronePickup, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*(445f/309f)));
+                            (int)(gameBackground.getLaneSize()*(147f/102f)));
                     //Log.d("spawnEnemies: ", "DP ");
                     break;
                 } else if (value <= 40) {
                     myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().getVanImage(),
-                            309, 445, Enemy.EnemyType.SpikeVan, x, y);
+                            102, 147, Enemy.EnemyType.SpikeVan, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*(445f/309f)));
+                            (int)(gameBackground.getLaneSize()*(147f/102f)));
                     //Log.d("spawnEnemies: ", "SV ");
                     break;
                 } else if (value <= 50) {
                     myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().
-                            getAmbulanceImage(), 309, 487, Enemy.EnemyType.Ambulance, x, y);
+                            getAmbulanceImage(), 102, 161, Enemy.EnemyType.Ambulance, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*(487f/309f)));
+                            (int)(gameBackground.getLaneSize()*(161f/102f)));
                     //Log.d("spawnEnemies: ", "A ");
                     break;
                 }else if (value <= 60) {
                     myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().
-                            getAmmoTruckImage(), 309, 703, Enemy.EnemyType.AmmoTruck, x, y);
+                            getAmmoTruckImage(), 102, 232, Enemy.EnemyType.AmmoTruck, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*(703f/309f)));
+                            (int)(gameBackground.getLaneSize()*(232f/102f)));
                     //Log.d("spawnEnemies: ", "AT ");
                     break;
                 }else if (value <= 70) {
                     myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().
-                            getUpgradeTruckImage(), 309, 721, Enemy.EnemyType.UpgradeTruck, x, y);
+                            getUpgradeTruckImage(), 102, 238, Enemy.EnemyType.UpgradeTruck, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*(721f/309f)));
+                            (int)(gameBackground.getLaneSize()*(238/102f)));
                     //Log.d("spawnEnemies: ", "UT ");
                     break;
                 } else {
