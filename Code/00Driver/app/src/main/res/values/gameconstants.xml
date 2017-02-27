@@ -22,5 +22,18 @@
     <integer name="SEFireID">3</integer>
     <integer name="SEMissileID">4</integer>
     <integer name="SEAmbulanceID">5</integer>
-
+    <!-->Image related constants<-->
+    <integer name="VehicleImageWidth">102</integer>
+    <integer name="PlayerImageHeight">121</integer>
+    <integer name="AmmoTruckImageHeight">232</integer>
+    <integer name="PickUpImageHeight">147</integer>
+    <integer name="AmbulanceImageHeight">161</integer>
+    <integer name="VanImageHeight">71</integer>
+    <integer name="UpgradeTruckImageHeight">238</integer>
+    <integer name="MachineGunProImageWidth">102</integer>
+    <integer name="MachineGunProImageHeight">102</integer>
+    <integer name="LaserProImageWidth">102</integer>
+    <integer name="LaserProImageHeight">102</integer>
+    <integer name="MissileProImageWidth">102</integer>
+    <integer name="MissileImageHeight">102</integer>
 </resources>

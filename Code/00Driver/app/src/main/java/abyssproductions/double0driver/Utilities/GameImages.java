@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 
+import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.FlameThrowerProjectile;
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.LaserBeamProjectile;
 import abyssproductions.double0driver.R;
 
 /**
@@ -40,21 +42,37 @@ public class GameImages {
      *  OUTPUT:     NONE
      */
     public GameImages(Resources resources){
-
+        GameGlobals instance =GameGlobals.getInstance();
+        int vehicleWidth = instance.getImageResources().getInteger(R.integer.VehicleImageWidth);
+        //Vehicle Image Sheets
         playerImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.playersheet),
-                4, 2, 102, 121);
+                vehicleWidth, instance.getImageResources().getInteger(R.integer.PlayerImageHeight));
         ambulanceImage = setMyImage(BitmapFactory.decodeResource(resources,
-                R.drawable.ambulancesheet), 4, 2, 102, 161);
+                R.drawable.ambulancesheet), vehicleWidth, instance.getImageResources().
+                getInteger(R.integer.AmbulanceImageHeight));
         ammoTruckImage = setMyImage(BitmapFactory.decodeResource(resources,
-                R.drawable.ammotrucksheet), 4, 2, 102, 232);
-
+                R.drawable.ammotrucksheet), vehicleWidth, instance.getImageResources().
+                getInteger(R.integer.AmmoTruckImageHeight));
         upgradeTruckImage = setMyImage(BitmapFactory.decodeResource(resources,
-                R.drawable.upgradetrucksheet), 4, 2, 102, 238);
+                R.drawable.upgradetrucksheet), vehicleWidth, instance.getImageResources().
+                getInteger(R.integer.UpgradeTruckImageHeight));
         vanImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.vansheet),
-                4, 2, 102, 147);
+                vehicleWidth, instance.getImageResources().getInteger(R.integer.VanImageHeight));
         pickupImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.pickupsheet),
-                4, 2, 102, 147);
+                vehicleWidth, instance.getImageResources().getInteger(R.integer.PickUpImageHeight));
 
+        //Project Image Sheets
+        machineGunProImage = setMyImage(BitmapFactory.decodeResource(resources,
+                R.drawable.bulletsheet), 2, 1, instance.getImageResources().
+                getInteger(R.integer.MachineGunProImageWidth), instance.getImageResources().
+                getInteger(R.integer.MachineGunProImageHeight));
+        laserProImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.lasersheet),
+                2, 1, instance.getImageResources().getInteger(R.integer.LaserProImageWidth),
+                instance.getImageResources().getInteger(R.integer.LaserProImageHeight));
+        missileProImage = setMyImage(BitmapFactory.decodeResource(resources,
+                R.drawable.missilesheet), 3, 1, instance.getImageResources().
+                getInteger(R.integer.MissileProImageWidth), instance.getImageResources().
+                getInteger(R.integer.MissileImageHeight));
     }
 
     /** PURPOSE:    Returns player's image sheet
@@ -138,7 +156,11 @@ public class GameImages {
     }
 
     /** PURPOSE:    Set's the image to the proper scaling and returns it
-     *  INPUT:      NONE
+     *  INPUT:      image               - Image to set
+     *              row                 - The number of rows in the image sheet
+     *              column              - The number of columns in the image sheet
+     *              imageWidth          - The image width to scale too
+     *              imageHeight         - The image height to scale too
      *  OUTPUT:     Return's a bitmap containing image given scaled to right size
      */
     private Bitmap setMyImage(Bitmap image, int row, int column, int imageWidth, int imageHeight){
@@ -149,5 +171,16 @@ public class GameImages {
                 new RectF(0, 0, sheetW, sheetH), Matrix.ScaleToFit.FILL);
         return Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
                 tempMatrix, true);
+    }
+
+    /** PURPOSE:    Set's the image to the proper scaling and returns it using standard row and
+     *                  column of 2 and 4
+     *  INPUT:      image               - Image to set
+     *              imageWidth          - The image width to scale too
+     *              imageHeight         - The image height to scale too
+     *  OUTPUT:     Return's a bitmap containing image given scaled to right size
+     */
+    private Bitmap setMyImage(Bitmap image, int imageWidth, int imageHeight){
+        return this.setMyImage(image,4,2,imageWidth,imageHeight);
     }
 }
