@@ -45,7 +45,7 @@ public class GameEngine {
         GameGlobals.getInstance().loadPointers();
         gameBackground = new Background();
         //TODO:Value need to be changed
-        player = new Player(R.drawable.playersheet,309,364);
+        player = new Player(GameGlobals.getInstance().getImages().getPlayerImage(),309,364);
         player.setLaneTransitionMax(gameBackground.getLaneSize());
         RectF temp = new RectF(0,0,gameBackground.getLaneSize(),
                 (int)(gameBackground.getLaneSize()*(364f/309f)));
@@ -82,7 +82,7 @@ public class GameEngine {
         checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
-        for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
+        /*for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
             if(GameGlobals.getInstance().myProjectiles[i]!=null){
                 GameGlobals.getInstance().myProjectiles[i].update();
                 if(GameGlobals.getInstance().myProjectiles[i].getDimensions().top >=
@@ -104,7 +104,7 @@ public class GameEngine {
                     gameItems[m] = null;
                 }
             }
-        }
+        }*/
 
         if(playerFire)player.fireWeapon();
         player.update();
@@ -126,7 +126,7 @@ public class GameEngine {
      */
     public void draw(Canvas canvas){
         gameBackground.draw(canvas);
-        for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
+        /*for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
             if(GameGlobals.getInstance().myProjectiles[i]!=null)
                 GameGlobals.getInstance().myProjectiles[i].draw(canvas);
         }
@@ -137,7 +137,7 @@ public class GameEngine {
 
         for(int k = 0; k < gameItems.length; k++){
             if(gameItems[k]!=null)gameItems[k].draw(canvas);
-        }
+        }*/
 
         player.draw(canvas);
 
@@ -267,45 +267,53 @@ public class GameEngine {
         for(int i = 0; i < myEnemies.length; i++) {
             if (myEnemies[i] == null) {
                 if (value <= 10) {
-                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.BasicCar, x,
-                            y);
+                    //myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.BasicCar, x,
+                    //        y);
                     //Log.d("spawnEnemies: ", "BC ");
                     break;
                 } else if (value <= 20) {
-                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.MachineGunCar,
-                            x, y);
+                   // myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.MachineGunCar,
+                   //         x, y);
                     //Log.d("spawnEnemies: ", "MGC ");
                     break;
                 } else if (value <= 30) {
-                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.DronePickup,
-                            x, y);
+                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().getPickupImage(),
+                            309, 445, Enemy.EnemyType.DronePickup, x, y);
+                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
+                            (int)(gameBackground.getLaneSize()*(445f/309f)));
                     //Log.d("spawnEnemies: ", "DP ");
                     break;
                 } else if (value <= 40) {
-                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.SpikeVan, x,
-                            y);
+                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().getVanImage(),
+                            309, 445, Enemy.EnemyType.SpikeVan, x, y);
+                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
+                            (int)(gameBackground.getLaneSize()*(445f/309f)));
                     //Log.d("spawnEnemies: ", "SV ");
                     break;
                 } else if (value <= 50) {
-                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50,
-                            Enemy.EnemyType.Ambulance, x, y);
-                    //myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize()-20,
-                    //        (int)((gameBackground.getLaneSize()-20)*(487f/309f)));
+                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().
+                            getAmbulanceImage(), 309, 487, Enemy.EnemyType.Ambulance, x, y);
+                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
+                            (int)(gameBackground.getLaneSize()*(487f/309f)));
                     //Log.d("spawnEnemies: ", "A ");
                     break;
                 }else if (value <= 60) {
-                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.AmmoTruck, x,
-                            y);
+                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().
+                            getAmmoTruckImage(), 309, 703, Enemy.EnemyType.AmmoTruck, x, y);
+                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
+                            (int)(gameBackground.getLaneSize()*(703f/309f)));
                     //Log.d("spawnEnemies: ", "AT ");
                     break;
                 }else if (value <= 70) {
-                    myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.UpgradeTruck, x,
-                            y);
+                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().
+                            getUpgradeTruckImage(), 309, 721, Enemy.EnemyType.UpgradeTruck, x, y);
+                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
+                            (int)(gameBackground.getLaneSize()*(721f/309f)));
                     //Log.d("spawnEnemies: ", "UT ");
                     break;
                 } else {
-                    myEnemies[i] = new Enemy(R.drawable.test,50,50,
-                            Enemy.EnemyType.Helicopter,x,y);
+                    //myEnemies[i] = new Enemy(R.drawable.test,50,50,
+                    //        Enemy.EnemyType.Helicopter,x,y);
                     //Log.d("spawnEnemies: ", "H ");
                     break;
                 }
@@ -347,17 +355,17 @@ public class GameEngine {
                         if(gameItems[k] == null) {
                             switch (myEnemies[j].getMyType()) {
                                 case Ambulance:
-                                    gameItems[k] = new Items(R.drawable.test, 50, 50,
+                                    /*gameItems[k] = new Items(R.drawable.test, 50, 50,
                                             Items.ItemTypes.HealthBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
-                                            centerY(), new RectF(0, 0, 25, 25));
+                                            centerY(), new RectF(0, 0, 25, 25));*/
                                     set = true;
                                     break;
                                 case AmmoTruck:
-                                    gameItems[k] = new Items(R.drawable.test, 50, 50,
+                                    /*gameItems[k] = new Items(R.drawable.test, 50, 50,
                                             Items.ItemTypes.AmmoBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
-                                            centerY(), new RectF(0, 0, 10, 10));
+                                            centerY(), new RectF(0, 0, 10, 10));*/
                                     set = true;
                                     break;
                                 case BasicCar:
