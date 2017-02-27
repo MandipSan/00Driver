@@ -21,7 +21,7 @@ public class MissileLauncherProjectile extends Projectile {
         OUTPUT:     NONE
         */
     private MissileLauncherProjectile(Bitmap image, int imageWidth, int imageHeight) {
-        super(image, imageWidth, imageHeight);
+        super(image, imageWidth, imageHeight, 3, 1);
     }
 
 
@@ -46,7 +46,11 @@ public class MissileLauncherProjectile extends Projectile {
     public void launch(float x, float y, int direction) {
         MissileLauncherProjectile p = new
                 MissileLauncherProjectile(GameGlobals.getInstance().getImages().getMissileProImage(),
-                0,0);
+                GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.MissileProImageWidth),
+                GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.MissileImageHeight));
+        p.resetWidthAndHeight(10,16);
         p.myVelocity.set(0,direction*10);
         super.launch(x, y, direction, p);    }
 

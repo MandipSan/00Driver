@@ -17,6 +17,19 @@ public class Projectile extends GameObject {
         INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
+                    imageSheetRow       - The number of rows in the image sheet
+                    imageSheetColumn    - The number of columns in the image sheet
+        OUTPUT:     NONE
+     */
+    public Projectile(Bitmap image, int imageWidth, int imageHeight, int imageSheetRow,
+                      int imageSheetColumn){
+        super(image, imageWidth, imageHeight, imageSheetRow, imageSheetColumn);
+    }
+
+    /*  PURPOSE:    Constructor for the projectile that sets the default values for the object
+        INPUT:      image               - The image of the object
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
     public Projectile(Bitmap image, int imageWidth, int imageHeight){
@@ -48,7 +61,7 @@ public class Projectile extends GameObject {
         OUTPUT:     NONE
      */
     protected void launch(float x, float y,int direction, Projectile p){
-        RectF temp = getDimensions();
+        RectF temp = p.getDimensions();
         //TODO:Mark look over this as to it keeps the projectiles from causing a collision with there
         //TODO: launch objects
         if(direction < 0) temp.offsetTo(x, y-temp.height());

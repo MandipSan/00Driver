@@ -1,7 +1,6 @@
 package abyssproductions.double0driver.GameObjects.ProjectileObjects;
 
 import android.graphics.Bitmap;
-import android.graphics.RectF;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Projectile;
@@ -22,7 +21,7 @@ public class MachineGunProjectile extends Projectile {
         OUTPUT:     NONE
         */
     private MachineGunProjectile(Bitmap image, int imageWidth, int imageHeight) {
-        super(image, imageWidth, imageHeight);
+        super(image, imageWidth, imageHeight, 2, 1);
     }
 
 
@@ -47,7 +46,11 @@ public class MachineGunProjectile extends Projectile {
     public void launch(float x, float y, int direction) {
         MachineGunProjectile p = new
                 MachineGunProjectile(GameGlobals.getInstance().getImages().getMachineGunProImage(),
-                0,0);
+                GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.MachineGunProImageWidth),
+                GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.MachineGunProImageHeight));
+        p.resetWidthAndHeight(10,10);
         p.myVelocity.set(0,direction*20);
         super.launch(x, y, direction, p);
     }

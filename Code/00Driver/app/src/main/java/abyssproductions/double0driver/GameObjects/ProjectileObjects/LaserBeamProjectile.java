@@ -21,7 +21,7 @@ public class LaserBeamProjectile extends Projectile {
         OUTPUT:     NONE
         */
     private LaserBeamProjectile(Bitmap image, int imageWidth, int imageHeight) {
-        super(image, imageWidth, imageHeight);
+        super(image, imageWidth, imageHeight, 2, 1);
     }
 
 
@@ -45,7 +45,12 @@ public class LaserBeamProjectile extends Projectile {
     @Override
     public void launch(float x, float y, int direction) {
         LaserBeamProjectile p = new
-                LaserBeamProjectile(GameGlobals.getInstance().getImages().getLaserProImage(),0,0);
+                LaserBeamProjectile(GameGlobals.getInstance().getImages().getLaserProImage(),
+                GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.LaserProImageWidth),
+                GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.LaserProImageHeight));
+        p.resetWidthAndHeight(10,17);
         p.myVelocity.set(0,direction*200);
         super.launch(x, y, direction, p);    }
 
