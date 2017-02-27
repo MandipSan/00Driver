@@ -15,7 +15,7 @@ import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 1/31/2017.
- * Edited by Mark Reffel on 2/9/2017
+ * Lasted Edited by Mandip Sangha on 2/26/17
  */
 
 public class GameObject {
@@ -44,14 +44,14 @@ public class GameObject {
     protected int myCurAniState;
 
     /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
                     imageSheetRow       - The number of rows in the image sheet
                     imageSheetColumn    - The number of columns in the image sheet
         OUTPUT:     NONE
      */
-    public GameObject(int imageReference, int imageWidth, int imageHeight, int imageSheetRow,
+    public GameObject(Bitmap image, int imageWidth, int imageHeight, int imageSheetRow,
                       int imageSheetColumn){
         myImageWidth = imageWidth;
         myImageHeight = imageHeight;
@@ -65,27 +65,18 @@ public class GameObject {
         myCurFrameNum = 0;
         myCurAniState = R.integer.NormalAnimateState;
         flipped = false;
-        setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
-                imageReference), imageSheetRow, imageSheetColumn);
+        myImage = image;
 
     }
 
     /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public GameObject(int imageReference, int imageWidth, int imageHeight){
-        this(imageReference,imageWidth,imageHeight,4,2);
-    }
-
-    /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
-        INPUT:      NONE
-        OUTPUT:     NONE
-    */
-    public GameObject () {
-        this(R.mipmap.ic_launcher, 50, 50);
+    public GameObject(Bitmap image, int imageWidth, int imageHeight){
+        this(image,imageWidth,imageHeight,4,2);
     }
 
     /*  PURPOSE:    Draws the game object's image to the screen
@@ -127,22 +118,6 @@ public class GameObject {
     */
     public void setMyCollisionBounds(Rect newCollisionBox ){
         myCollisionBox.set(newCollisionBox);
-    }
-
-    /*  PURPOSE:    Set's the game object's image and  proper scaling
-        INPUT:      image               - The image to set myImage too
-                    row                 - The number of row in image frame
-                    column              - The number of column in image frame
-        OUTPUT:     NONE
-    */
-    public void setMyImage(Bitmap image, int row, int column){
-        int sheetW = myImageWidth *row;
-        int sheetH = myImageHeight *column;
-        Matrix tempMatrix = new Matrix();
-        tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
-                new RectF(0, 0, sheetW, sheetH), Matrix.ScaleToFit.FILL);
-        this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
-                tempMatrix, true);
     }
 
     /*  PURPOSE:    Resets the objects width and height if it is greater than 0

@@ -1,5 +1,6 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.RectF;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
@@ -7,20 +8,23 @@ import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
- * Edited by Mark Reffel on 2/9/2017
+ * Lasted Edited by Mandip Sangha on 2/26/17
  */
 
 public class Projectile extends GameObject {
+
     /*  PURPOSE:    Constructor for the projectile that sets the default values for the object
-        INPUT:      NONE
+        INPUT:      image               - The image of the object
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public Projectile(int imageReference, int width, int height){
-        super(imageReference, width, height);
+    public Projectile(Bitmap image, int imageWidth, int imageHeight){
+        super(image, imageWidth, imageHeight);
     }
 
     public Projectile() {
-        this(R.drawable.test, 50, 50);
+        this(null, 50, 50);
     }
 
     /*  PURPOSE:    Updates the projectile's logic

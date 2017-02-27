@@ -1,12 +1,13 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.RectF;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
- * Edited by Mark Reffel on 2/9/2017
+ * Lasted Edited by Mandip Sangha on 2/26/17
  */
 
 public class Player extends Sprite {
@@ -19,13 +20,13 @@ public class Player extends Sprite {
     private int velocityResetMax;
 
     /*  PURPOSE:    Constructor for the player that sets the default values for the object
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public Player(int imageReference, int width, int height){
-        super(imageReference, width, height);
+    public Player(Bitmap image, int imageWidth, int imageHeight){
+        super(image, imageWidth, imageHeight);
         mySecondaryWeapon = WeaponTypes.MachineGun;
         velocityReset = 0;
         velocityResetMax = 10;

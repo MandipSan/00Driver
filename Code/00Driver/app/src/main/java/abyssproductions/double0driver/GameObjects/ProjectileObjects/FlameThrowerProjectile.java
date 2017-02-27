@@ -1,6 +1,8 @@
 package abyssproductions.double0driver.GameObjects.ProjectileObjects;
 
 
+import android.graphics.Bitmap;
+
 import abyssproductions.double0driver.GameObjects.Projectile;
 import abyssproductions.double0driver.R;
 
@@ -10,20 +12,20 @@ import static android.R.attr.y;
 
 /**
  * Created by Mark Reffel on 2/8/17.
- * Edited by Mark Reffel on 2/9/2017
+ * Lasted Edited by Mandip Sangha on 2/26/17
  */
 
 public class FlameThrowerProjectile extends Projectile {
 
     /*  PURPOSE:    Constructor for the Flame Thrower Projectile is to set the default values for the object
-        INPUT:      imageReference      - The image reference for the projectile
-                    width               - The width of the projectile
-                    height              - The height of the projectile
+        INPUT:      image               - The image of the object
+                    imageWidth          - The width of a single image in the image sheet
+                    imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
         */
 
-    private FlameThrowerProjectile (int ImageReference, int width, int height) {
-        super(ImageReference, width, height);
+    private FlameThrowerProjectile (Bitmap image, int imageWidth, int imageHeight) {
+        super(image, imageWidth, imageHeight);
     }
 
     /*  PURPOSE:    Default constructor creates default projector using above constructor
@@ -31,7 +33,7 @@ public class FlameThrowerProjectile extends Projectile {
         OUTPUT:     NONE
      */
     public FlameThrowerProjectile() {
-        this(R.drawable.test, 50, 50);
+        this(null, 50, 50);
     }
     
     /*  PURPOSE:    Launches the projectile from the X and Y position given

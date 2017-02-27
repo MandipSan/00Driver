@@ -1,5 +1,6 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.RectF;
 
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.FlameThrowerProjectile;
@@ -9,7 +10,7 @@ import abyssproductions.double0driver.GameObjects.ProjectileObjects.MissileLaunc
 
 /**
  * Created by Mandip Sangha on 1/31/2017.
- * Edited by Mark Reffel on 2/9/2017
+ * Lasted Edited by Mandip Sangha on 2/26/17
  */
 
 public class Sprite extends GameObject {
@@ -28,14 +29,14 @@ public class Sprite extends GameObject {
 
     /*  PURPOSE:    Constructor for the sprite that sets the default values for the object and loads
                         the weapons if indicated
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
                     loadAllWeapons      - Holds whether to load all the weapons
         OUTPUT:     NONE
      */
-    public Sprite(int imageReference, int imageWidth, int imageHeight, Boolean loadAllWeapons) {
-        super(imageReference, imageWidth, imageHeight);
+    public Sprite(Bitmap image, int imageWidth, int imageHeight, Boolean loadAllWeapons) {
+        super(image, imageWidth, imageHeight);
         myHealth = 100;
         myMaxHealth = 100;
         myWeapons = null;
@@ -56,13 +57,13 @@ public class Sprite extends GameObject {
 
     /*  PURPOSE:    Constructor for the sprite that sets the default values for the object and all
                         the different weapon types
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public Sprite(int imageReference, int imageWidth, int imageHeight) {
-        this(imageReference, imageWidth, imageHeight, true);
+    public Sprite(Bitmap image, int imageWidth, int imageHeight) {
+        this(image, imageWidth, imageHeight, true);
     }
 
     /*  PURPOSE:    Loads a single weapon type that is given

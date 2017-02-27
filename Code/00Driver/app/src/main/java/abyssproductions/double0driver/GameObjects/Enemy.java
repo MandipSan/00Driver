@@ -1,5 +1,6 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.util.Log;
 
@@ -10,7 +11,7 @@ import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunPr
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
- * Edited by Mark Reffel on 2/9/2017
+ * Lasted Edited by Mandip Sangha on 2/26/17
  */
 
 public class Enemy extends Sprite {
@@ -30,7 +31,7 @@ public class Enemy extends Sprite {
 
     /*  PURPOSE:    Constructor for the basic enemy that sets the default values for the object
                         and the point it is suppose to spawn from
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
                     enemyType           - The type of enemy to spawn
@@ -40,8 +41,8 @@ public class Enemy extends Sprite {
                                             object)
         OUTPUT:     NONE
      */
-    public Enemy(int imageReference, int width, int height, EnemyType enemyType, float x, float y){
-        super(imageReference, width, height,false);
+    public Enemy(Bitmap image, int imageWidth, int imageHeight, EnemyType enemyType, float x, float y){
+        super(image, imageWidth, imageHeight, false);
         changeMovement = 0;
         random = new Random();
         myType = enemyType;
