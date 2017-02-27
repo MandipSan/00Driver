@@ -2,6 +2,7 @@ package abyssproductions.double0driver.GameObjects.ProjectileObjects;
 
 import android.graphics.Bitmap;
 
+import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Projectile;
 import abyssproductions.double0driver.R;
 
@@ -24,12 +25,12 @@ public class MissileLauncherProjectile extends Projectile {
     }
 
 
-    /*  PURPOSE:    Default constructor creates default projector using above constructor
+    /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
         INPUT:      NONE
         OUTPUT:     NONE
      */
     public MissileLauncherProjectile() {
-        this(null, 50, 50);
+        this(null, 0, 0);
     }
 
 
@@ -43,7 +44,9 @@ public class MissileLauncherProjectile extends Projectile {
     */
     @Override
     public void launch(float x, float y, int direction) {
-        MissileLauncherProjectile p = new MissileLauncherProjectile();
+        MissileLauncherProjectile p = new
+                MissileLauncherProjectile(GameGlobals.getInstance().getImages().getMissileProImage(),
+                0,0);
         p.myVelocity.set(0,direction*10);
         super.launch(x, y, direction, p);    }
 

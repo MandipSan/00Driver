@@ -23,8 +23,12 @@ public class Projectile extends GameObject {
         super(image, imageWidth, imageHeight);
     }
 
+    /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
     public Projectile() {
-        this(null, 50, 50);
+        this(null, 0, 0);
     }
 
     /*  PURPOSE:    Updates the projectile's logic
@@ -45,7 +49,7 @@ public class Projectile extends GameObject {
      */
     protected void launch(float x, float y,int direction, Projectile p){
         RectF temp = getDimensions();
-        //TODO:Mark look over this as to it keeps the projectiles from cuasing a collision with there
+        //TODO:Mark look over this as to it keeps the projectiles from causing a collision with there
         //TODO: launch objects
         if(direction < 0) temp.offsetTo(x, y-temp.height());
         else temp.offsetTo(x, y+temp.height());
@@ -58,10 +62,12 @@ public class Projectile extends GameObject {
             }
         }
     }
-    /*  PURPOSE: Method to be overriden by subclasses
-        INPUT:  float x
-                float y
-                int direction
+
+    /*  PURPOSE:    Method to be overridden by subclasses
+        INPUT:      x                   - The X position to launch the projectile from
+                    y                   - The Y position to launch the projectile from
+                    direction           - The direction the projectile will travel (-1 for down, 1
+                                            for up)
         OUTPUT: NONE
      */
     protected void launch(float x, float y, int direction) {}

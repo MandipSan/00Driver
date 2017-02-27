@@ -26,12 +26,12 @@ public class MachineGunProjectile extends Projectile {
     }
 
 
-    /*  PURPOSE:    Default constructor creates default projector using above constructor
+    /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
         INPUT:      NONE
         OUTPUT:     NONE
      */
     public MachineGunProjectile() {
-        this(null, 50, 50);
+        this(null, 0, 0);
     }
 
 
@@ -45,7 +45,9 @@ public class MachineGunProjectile extends Projectile {
     */
     @Override
     public void launch(float x, float y, int direction) {
-        MachineGunProjectile p = new MachineGunProjectile();
+        MachineGunProjectile p = new
+                MachineGunProjectile(GameGlobals.getInstance().getImages().getMachineGunProImage(),
+                0,0);
         p.myVelocity.set(0,direction*20);
         super.launch(x, y, direction, p);
     }
