@@ -36,6 +36,10 @@ public class GameImages {
     private static Bitmap missileProImage;
     //  PURPOSE:    Hold's the laser projectile's image sheet
     private static Bitmap laserProImage;
+    //  PURPOSE:    Hold's the health box's image sheet
+    private static Bitmap healthBoxImage;
+    //  PURPOSE:    Hold's the ammo box's image sheet
+    private static Bitmap ammoBoxImage;
 
     /** PURPOSE:    Constructor for the object that loads all the games images
      *  INPUT:      resources           - Apps resource decoder
@@ -43,8 +47,9 @@ public class GameImages {
      */
     public GameImages(Resources resources){
         GameGlobals instance =GameGlobals.getInstance();
-        int vehicleWidth = instance.getImageResources().getInteger(R.integer.VehicleImageWidth);
+
         //Vehicle Image Sheets
+        int vehicleWidth = instance.getImageResources().getInteger(R.integer.VehicleImageWidth);
         playerImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.playersheet),
                 vehicleWidth, instance.getImageResources().getInteger(R.integer.PlayerImageHeight));
         ambulanceImage = setMyImage(BitmapFactory.decodeResource(resources,
@@ -73,6 +78,14 @@ public class GameImages {
                 R.drawable.missilesheet), 3, 1, instance.getImageResources().
                 getInteger(R.integer.MissileProImageWidth), instance.getImageResources().
                 getInteger(R.integer.MissileImageHeight));
+
+        //Items Image
+        int iWidth = instance.getImageResources().getInteger(R.integer.ItemBoxImageWidth);
+        int iHeight = instance.getImageResources().getInteger(R.integer.ItemBoxImageHeight);
+        healthBoxImage = setMyImage(BitmapFactory.decodeResource(resources,
+                R.drawable.healthbox), 1, 1, iWidth, iHeight);
+        ammoBoxImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.ammobox),
+                1, 1, iWidth, iHeight);
     }
 
     /** PURPOSE:    Returns player's image sheet
@@ -153,6 +166,22 @@ public class GameImages {
      */
     public Bitmap getLaserProImage(){
         return laserProImage;
+    }
+
+    /** PURPOSE:    Returns health box's image sheet
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing health box's image sheet
+     */
+    public Bitmap getHealthBoxImage(){
+        return healthBoxImage;
+    }
+
+    /** PURPOSE:    Returns ammo box's image sheet
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing ammo box's image sheet
+     */
+    public Bitmap getAmmoBoxImage(){
+        return ammoBoxImage;
     }
 
     /** PURPOSE:    Set's the image to the proper scaling and returns it

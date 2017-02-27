@@ -36,4 +36,6 @@
     <integer name="LaserProImageHeight">125</integer>
     <integer name="MissileProImageWidth">82</integer>
     <integer name="MissileImageHeight">125</integer>
+    <integer name="ItemBoxImageWidth">100</integer>
+    <integer name="ItemBoxImageHeight">100</integer>
 </resources>
