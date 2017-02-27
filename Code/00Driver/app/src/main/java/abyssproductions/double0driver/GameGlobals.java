@@ -4,6 +4,7 @@ import android.content.res.Resources;
 
 import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Projectile;
+import abyssproductions.double0driver.Utilities.GameImages;
 import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
@@ -18,6 +19,8 @@ public class GameGlobals {
     private int screenHeight;
     //  PURPOSE:    Holds the screen width
     private int screenWidth;
+
+    private GameImages images;
     //  PURPOSE:    Holds the y velocity for all enemies
     public final static int enemiesUniVelocity = 10;
     //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
@@ -41,6 +44,7 @@ public class GameGlobals {
      */
     public boolean loadPointers(){
         if(imageResources != null){
+            images = new GameImages(imageResources);
             myProjectiles = new Projectile[imageResources.getInteger(R.integer.ProjectileArraySize)];
             for(int i =0; i < myProjectiles.length; i++){
                 myProjectiles[i] = null;
@@ -105,5 +109,13 @@ public class GameGlobals {
      */
     public int getScreenWidth(){
         return screenWidth;
+    }
+
+    /*  PURPOSE:    Returns the pointer to images
+        INPUT:      NONE
+        OUTPUT:     Return GameImages pointer
+     */
+    public GameImages getImages(){
+        return images;
     }
 }
