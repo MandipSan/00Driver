@@ -85,10 +85,10 @@ public class GameEngine {
      */
     public void update(){
         gHUD.updateScore();
-        checkCollision();
+        //checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
-        /*for(int i = 0; i < gGInstance.myProjectiles.length; i++){
+        for(int i = 0; i < gGInstance.myProjectiles.length; i++){
             if(gGInstance.myProjectiles[i]!=null){
                 gGInstance.myProjectiles[i].update();
                 if(gGInstance.myProjectiles[i].getDimensions().top >=
@@ -97,7 +97,7 @@ public class GameEngine {
                     gGInstance.myProjectiles[i] = null;
                 }
             }
-        }*/
+        }
 
         enemyUpdateLogic();
         /*
@@ -132,10 +132,11 @@ public class GameEngine {
      */
     public void draw(Canvas canvas){
         gameBackground.draw(canvas);
-        /*for(int i = 0; i < gGInstance.myProjectiles.length; i++){
-            if(gGInstance.myProjectiles[i]!=null)
+        for(int i = 0; i < gGInstance.myProjectiles.length; i++){
+            if(gGInstance.myProjectiles[i]!=null) {
                 gGInstance.myProjectiles[i].draw(canvas);
-        }*/
+            }
+        }
 
         for(int j = 0; j < myEnemies.length; j++){
             if(myEnemies[j]!=null)myEnemies[j].draw(canvas);
