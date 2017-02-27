@@ -36,16 +36,19 @@ public class GameEngine {
     private Random random;
     //  PURPOSE:    Holds the pointer to the HUD object
     private HUD gHUD;
+    //  PURPOSE:    Pointer to GameGlobals
+    private GameGlobals gGInstance;
 
     /** PURPOSE:    Constructor for the GameEngine that set the default value for the object
      *  INPUT:      NONE
      *  OUTPUT:     NONE
      */
     public GameEngine(){
-        GameGlobals.getInstance().loadPointers();
+        gGInstance = GameGlobals.getInstance();
+        gGInstance.loadPointers();
         gameBackground = new Background();
         //TODO:Value need to be changed
-        player = new Player(GameGlobals.getInstance().getImages().getPlayerImage(),102,121);
+        player = new Player(gGInstance.getImages().getPlayerImage(),102,121);
         player.setLaneTransitionMax(gameBackground.getLaneSize());
         RectF temp = new RectF(0,0,gameBackground.getLaneSize(),
                 (int)(gameBackground.getLaneSize()*(121f/102f)));
@@ -82,13 +85,13 @@ public class GameEngine {
         checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
-        /*for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
-            if(GameGlobals.getInstance().myProjectiles[i]!=null){
-                GameGlobals.getInstance().myProjectiles[i].update();
-                if(GameGlobals.getInstance().myProjectiles[i].getDimensions().top >=
-                        GameGlobals.getInstance().getScreenHeight() ||
-                        GameGlobals.getInstance().myProjectiles[i].getDimensions().bottom <=0){
-                    GameGlobals.getInstance().myProjectiles[i] = null;
+        /*for(int i = 0; i < gGInstance.myProjectiles.length; i++){
+            if(gGInstance.myProjectiles[i]!=null){
+                gGInstance.myProjectiles[i].update();
+                if(gGInstance.myProjectiles[i].getDimensions().top >=
+                        gGInstance.getScreenHeight() ||
+                        gGInstance.myProjectiles[i].getDimensions().bottom <=0){
+                    gGInstance.myProjectiles[i] = null;
                 }
             }
         }*/
@@ -99,7 +102,7 @@ public class GameEngine {
         for(int m = 0; m < gameItems.length; m++){
             if(gameItems[m] != null) {
                 gameItems[m].update();
-                if(gameItems[m].getDimensions().top >= GameGlobals.getInstance().getScreenHeight()||
+                if(gameItems[m].getDimensions().top >= gGInstance.getScreenHeight()||
                         gameItems[m].getDimensions().bottom <= 0 ){
                     gameItems[m] = null;
                 }
@@ -112,7 +115,7 @@ public class GameEngine {
         float pCX = player.getDimensions().centerX();
         int gBGS = gameBackground.getGrassSize();
         int gBLS = gameBackground.getLaneSize();
-        int gW = GameGlobals.getInstance().getScreenWidth();
+        int gW = gGInstance.getScreenWidth();
         if(( pCX > gBGS && pCX < (gBGS + gBLS)) || (pCX < (gW - gBGS) && pCX > ((gW - gBGS) - gBLS))){
             player.decreaseHealth(1);
         }
@@ -126,9 +129,9 @@ public class GameEngine {
      */
     public void draw(Canvas canvas){
         gameBackground.draw(canvas);
-        /*for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++){
-            if(GameGlobals.getInstance().myProjectiles[i]!=null)
-                GameGlobals.getInstance().myProjectiles[i].draw(canvas);
+        /*for(int i = 0; i < gGInstance.myProjectiles.length; i++){
+            if(gGInstance.myProjectiles[i]!=null)
+                gGInstance.myProjectiles[i].draw(canvas);
         }*/
 
         for(int j = 0; j < myEnemies.length; j++){
@@ -192,18 +195,17 @@ public class GameEngine {
     private void checkCollision(){
         RectF tempDim;
         RectF tempDimP = player.getDimensions();
-        GameGlobals tempInst = GameGlobals.getInstance();
         //Checks if the player or projectiles collide with an enemy
         for(int i = 0; i < myEnemies.length; i++) {
             if(myEnemies[i] != null){
-                for (int j = 0; j < tempInst.myProjectiles.length; j++){
-                    if(tempInst.myProjectiles[j] != null){
-                        tempDim = tempInst.myProjectiles[j].getDimensions();
+                for (int j = 0; j < gGInstance.myProjectiles.length; j++){
+                    if(gGInstance.myProjectiles[j] != null){
+                        tempDim = gGInstance.myProjectiles[j].getDimensions();
                         if(myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
                                 tempDim.right,tempDim.bottom)) {
                             //TODO:Change to use projectile damage
                             myEnemies[i].decreaseHealth(500);
-                            tempInst.myProjectiles[j] = null;
+                            gGInstance.myProjectiles[j] = null;
                         }
                     }
                 }
@@ -216,18 +218,18 @@ public class GameEngine {
         }
 
 
-        for(int k = 0; k < tempInst.myProjectiles.length;k++){
-            if(tempInst.myProjectiles[k]!=null && tempInst.myProjectiles[k].getDimensions().
+        for(int k = 0; k < gGInstance.myProjectiles.length;k++){
+            if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getDimensions().
                     intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
                 //TODO:Change to use projectile damage
                 player.decreaseHealth(5);
-                tempInst.myProjectiles[k] = null;
+                gGInstance.myProjectiles[k] = null;
             }
 
             for(int m = 0; m < gameItems.length; m++){
                 if(gameItems[m] != null){
                     tempDim = gameItems[m].getDimensions();
-                    if(tempInst.myProjectiles[k]!=null && tempInst.myProjectiles[k].getDimensions().
+                    if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getDimensions().
                             intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
                         //TODO:To do item affect
                         switch (gameItems[m].getItemType()){
@@ -239,7 +241,7 @@ public class GameEngine {
                                 break;
                         }
                         gameItems[m] = null;
-                        tempInst.myProjectiles[k] = null;
+                        gGInstance.myProjectiles[k] = null;
                     }
                 }
             }
@@ -261,8 +263,7 @@ public class GameEngine {
         //Calculates the X position for the enemy based on the lane it is going to be in
         int x = 10+gameBackground.getGrassSize()+(gameBackground.getLaneSize()*lane);
         //Calculates the Y position for the enemy based on the lane it is going to be in
-        int y = (lane <=(gameBackground.getNumLanes()/2)-1) ? 100 :
-                GameGlobals.getInstance().getScreenHeight();
+        int y = (lane <=(gameBackground.getNumLanes()/2)-1) ? 100 : gGInstance.getScreenHeight();
 
         for(int i = 0; i < myEnemies.length; i++) {
             if (myEnemies[i] == null) {
@@ -277,35 +278,35 @@ public class GameEngine {
                     //Log.d("spawnEnemies: ", "MGC ");
                     break;
                 } else if (value <= 30) {
-                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().getPickupImage(),
+                    myEnemies[i] = new Enemy(gGInstance.getImages().getPickupImage(),
                             102, 147, Enemy.EnemyType.DronePickup, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
                             (int)(gameBackground.getLaneSize()*(147f/102f)));
                     //Log.d("spawnEnemies: ", "DP ");
                     break;
                 } else if (value <= 40) {
-                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().getVanImage(),
+                    myEnemies[i] = new Enemy(gGInstance.getImages().getVanImage(),
                             102, 147, Enemy.EnemyType.SpikeVan, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
                             (int)(gameBackground.getLaneSize()*(147f/102f)));
                     //Log.d("spawnEnemies: ", "SV ");
                     break;
                 } else if (value <= 50) {
-                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().
+                    myEnemies[i] = new Enemy(gGInstance.getImages().
                             getAmbulanceImage(), 102, 161, Enemy.EnemyType.Ambulance, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
                             (int)(gameBackground.getLaneSize()*(161f/102f)));
                     //Log.d("spawnEnemies: ", "A ");
                     break;
                 }else if (value <= 60) {
-                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().
+                    myEnemies[i] = new Enemy(gGInstance.getImages().
                             getAmmoTruckImage(), 102, 232, Enemy.EnemyType.AmmoTruck, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
                             (int)(gameBackground.getLaneSize()*(232f/102f)));
                     //Log.d("spawnEnemies: ", "AT ");
                     break;
                 }else if (value <= 70) {
-                    myEnemies[i] = new Enemy(GameGlobals.getInstance().getImages().
+                    myEnemies[i] = new Enemy(gGInstance.getImages().
                             getUpgradeTruckImage(), 102, 238, Enemy.EnemyType.UpgradeTruck, x, y);
                     myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
                             (int)(gameBackground.getLaneSize()*(238/102f)));
@@ -339,8 +340,7 @@ public class GameEngine {
         for(int j = 0; j < myEnemies.length; j++){
             if(myEnemies[j]!=null){
                 myEnemies[j].update(0,0);
-                if(myEnemies[j].getDimensions().top >=
-                        GameGlobals.getInstance().getScreenHeight() +
+                if(myEnemies[j].getDimensions().top >= gGInstance.getScreenHeight() +
                                 myEnemies[j].getDimensions().height()+1||
                         myEnemies[j].getDimensions().bottom <= 0 ){
                     myEnemies[j] = null;
