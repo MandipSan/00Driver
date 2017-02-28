@@ -66,14 +66,16 @@ public class Enemy extends Sprite {
 
         RectF temp = getDimensions();
         if(enemyType != EnemyType.Helicopter) {
-            temp.offsetTo(x,y);
-            setMyDimensions(temp);
+
             if(y > (GameGlobals.getInstance().getScreenHeight()/2)){
                 myVelocity.set(0,-1*GameGlobals.enemiesUniVelocity);
+                temp.offsetTo(x,y);
             }else{
                 myVelocity.set(0,GameGlobals.enemiesUniVelocity);
                 setImageFlip();
+                temp.offsetTo(x,y-imageHeight);
             }
+            setMyDimensions(temp);
         }else {
             temp.offsetTo(x,0-temp.bottom);
             setMyDimensions(temp);

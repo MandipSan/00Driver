@@ -56,7 +56,7 @@ public class GameThread extends Thread {
                 }
             }
             try {
-                this.sleep(300);
+                this.sleep(33);
             }catch (InterruptedException e) {
                 return;
             } catch (Exception e) {
