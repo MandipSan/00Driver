@@ -110,6 +110,7 @@ public class GameObject {
     */
     public void setMyDimensions(RectF newDimension){
         myDimensions.set(newDimension);
+        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
     }
 
     /*  PURPOSE:    Set's the game object's collision bounding box
@@ -160,6 +161,7 @@ public class GameObject {
     */
     protected void moveVertical(float moveBy){
         myDimensions.offset(0,moveBy);
+        myCollisionBox.offset(0,(int)moveBy);
     }
 
     /*  PURPOSE:    Move's the game object horizontally by the amount given
@@ -168,6 +170,7 @@ public class GameObject {
     */
     protected void moveHorizontal(float moveBy){
         myDimensions.offset(moveBy,0);
+        myCollisionBox.offset((int)moveBy,0);
     }
 
     /*  PURPOSE:    Runs the animation for the game object
