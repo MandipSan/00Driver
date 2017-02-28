@@ -1,6 +1,8 @@
 package abyssproductions.double0driver.GameEngine;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -59,6 +61,10 @@ public class GameEngine {
         temp.offset(((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
                 gameBackground.getGrassSize(),1000);
         player.setMyDimensions(temp);
+        //Sets the player collision box that is use for detecting collisions
+        player.setMyCollisionBounds(new Rect(0,0,
+                (int)(72*((float)gameBackground.getLaneSize()/(float)tempWidth)),
+                (int)(gameBackground.getLaneSize()*((float)tempHeight/(float)tempWidth))));
 
         myEnemies = new Enemy[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.EnemyArraySize)];
@@ -100,7 +106,7 @@ public class GameEngine {
         }
 
         enemyUpdateLogic();
-        /*
+
         // Updates the items on the screen and checks out bound
         for(int m = 0; m < gameItems.length; m++){
             if(gameItems[m] != null) {
@@ -110,7 +116,7 @@ public class GameEngine {
                     gameItems[m] = null;
                 }
             }
-        }*/
+        }
 
         if(playerFire)player.fireWeapon();
         player.update();
@@ -142,9 +148,9 @@ public class GameEngine {
             if(myEnemies[j]!=null)myEnemies[j].draw(canvas);
         }
 
-        /*for(int k = 0; k < gameItems.length; k++){
+        for(int k = 0; k < gameItems.length; k++){
             if(gameItems[k]!=null)gameItems[k].draw(canvas);
-        }*/
+        }
 
         player.draw(canvas);
 
@@ -258,89 +264,88 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void spawnEnemies(){
-        //Holds the width size of the vehicle images
+        //Holds the width size of the enemy vehicle images
         int tempWidth = gGInstance.getImageResources().getInteger(R.integer.VehicleImageWidth);
-        //Holds the height size of the vehicle images
+        //Holds the height size of the enemy vehicle images
         int tempHeight = 0;
+        //Holds the new enemy vehicle's image
+        Bitmap tempImage = null;
+        //Holds the new enemy's type
+        Enemy.EnemyType tempType;
+        //Holds the collision boxes width
+        int tempColWidth = tempWidth;
+        //Holds the collision boxes height
+        int tempColHeight = tempHeight;
+        //Holds the lane size to be used in various calculations
+        int tempGameLaneSize = gameBackground.getLaneSize();
+
+        //Calculation to determine new enemy type and position
         //Randomly picks value between 1 to 72
         int value = random.nextInt(71)+1;
         //Randomly picks lane value between 1 and the number of lanes minus 2 for the dirt lanes
         int lane = random.nextInt((gameBackground.getNumLanes()-2))+1;
         //Calculates the X position for the enemy based on the lane it is going to be in
-        int x = 10+gameBackground.getGrassSize()+(gameBackground.getLaneSize()*lane);
+        int x = 10+gameBackground.getGrassSize()+(tempGameLaneSize*lane);
         //Calculates the Y position for the enemy based on the lane it is going to be in
         int y = (lane <=(gameBackground.getNumLanes()/2)-1) ? 100 : gGInstance.getScreenHeight();
 
         for(int i = 0; i < myEnemies.length; i++) {
             if (myEnemies[i] == null) {
                 if (value <= 10) {
-                    //myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.BasicCar, x,
-                    //        y);
                     //Log.d("spawnEnemies: ", "BC ");
                     break;
                 } else if (value <= 20) {
-                   // myEnemies[i] = new Enemy(R.drawable.test, 50, 50, Enemy.EnemyType.MachineGunCar,
-                   //         x, y);
                     //Log.d("spawnEnemies: ", "MGC ");
                     break;
                 } else if (value <= 30) {
                     tempHeight = gGInstance.getImageResources().
                             getInteger(R.integer.PickUpImageHeight);
-                    myEnemies[i] = new Enemy(gGInstance.getImages().getPickupImage(),
-                            tempWidth, tempHeight, Enemy.EnemyType.DronePickup, x, y);
-                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*
-                                    ((float)tempHeight/(float)tempWidth)));
+                    tempColHeight = tempHeight;
+                    tempColWidth = (int)(72*((float)tempGameLaneSize/(float)tempColWidth));
+                    tempImage = gGInstance.getImages().getPickupImage();
+                    tempType = Enemy.EnemyType.DronePickup;
                     //Log.d("spawnEnemies: ", "DP ");
-                    break;
                 } else if (value <= 40) {
                     tempHeight = gGInstance.getImageResources().getInteger(R.integer.VanImageHeight);
-                    myEnemies[i] = new Enemy(gGInstance.getImages().getVanImage(),
-                            tempWidth, tempHeight, Enemy.EnemyType.SpikeVan, x, y);
-                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*
-                                    ((float)tempHeight/(float)tempWidth)));
-                    //Log.d("spawnEnemies: ", "SV ");
-                    break;
+                    tempColHeight = tempHeight;
+                    tempColWidth = (int)(72*((float)tempGameLaneSize/(float)tempColWidth));
+                    tempImage = gGInstance.getImages().getVanImage();
+                    tempType = Enemy.EnemyType.SpikeVan;
                 } else if (value <= 50) {
                     tempHeight = gGInstance.getImageResources().
                             getInteger(R.integer.AmbulanceImageHeight);
-                    myEnemies[i] = new Enemy(gGInstance.getImages().
-                            getAmbulanceImage(), tempWidth, tempHeight, Enemy.EnemyType.Ambulance,
-                            x, y);
-                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*
-                                    ((float)tempHeight/(float)tempWidth)));
+                    tempColHeight = tempHeight;
+                    tempColWidth = (int)(84*((float)tempGameLaneSize/(float)tempColWidth));
+                    tempImage = gGInstance.getImages().getAmbulanceImage();
+                    tempType = Enemy.EnemyType.Ambulance;
                     //Log.d("spawnEnemies: ", "A ");
-                    break;
                 }else if (value <= 60) {
                     tempHeight = gGInstance.getImageResources().
                             getInteger(R.integer.AmmoTruckImageHeight);
-                    myEnemies[i] = new Enemy(gGInstance.getImages().
-                            getAmmoTruckImage(), tempWidth, tempHeight, Enemy.EnemyType.AmmoTruck,
-                            x, y);
-                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*
-                                    ((float)tempHeight/(float)tempWidth)));
+                    tempColHeight = tempHeight;
+                    tempColWidth = (int)(102*((float)tempGameLaneSize/(float)tempColWidth));
+                    tempImage = gGInstance.getImages().getAmmoTruckImage();
+                    tempType = Enemy.EnemyType.AmmoTruck;
                     //Log.d("spawnEnemies: ", "AT ");
-                    break;
                 }else if (value <= 70) {
                     tempHeight = gGInstance.getImageResources().
                             getInteger(R.integer.UpgradeTruckImageHeight);
-                    myEnemies[i] = new Enemy(gGInstance.getImages().
-                            getUpgradeTruckImage(), tempWidth, tempHeight,
-                            Enemy.EnemyType.UpgradeTruck, x, y);
-                    myEnemies[i].resetWidthAndHeight(gameBackground.getLaneSize(),
-                            (int)(gameBackground.getLaneSize()*
-                                    ((float)tempHeight/(float)tempWidth)));
+                    tempColHeight = tempHeight;
+                    tempColWidth = (int)(88*((float)tempGameLaneSize/(float)tempColWidth));
+                    tempImage = gGInstance.getImages().getUpgradeTruckImage();
+                    tempType = Enemy.EnemyType.UpgradeTruck;
                     //Log.d("spawnEnemies: ", "UT ");
-                    break;
                 } else {
                     //myEnemies[i] = new Enemy(R.drawable.test,50,50,
                     //        Enemy.EnemyType.Helicopter,x,y);
                     //Log.d("spawnEnemies: ", "H ");
                     break;
                 }
+                myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x, y);
+                myEnemies[i].resetWidthAndHeight(tempGameLaneSize, (int)(tempGameLaneSize*
+                                ((float)tempHeight/(float)tempWidth)));
+                myEnemies[i].setMyCollisionBounds(new Rect(0,0,tempColWidth,tempColHeight));
+                break;
             }
         }
     }
@@ -376,19 +381,25 @@ public class GameEngine {
                     for (int k = 0; k < gameItems.length; k++){
                         set = false;
                         if(gameItems[k] == null) {
+                            int w = gGInstance.getImageResources().
+                                    getInteger(R.integer.ItemBoxImageWidth);
+                            int h = gGInstance.getImageResources().
+                                    getInteger(R.integer.ItemBoxImageHeight);
                             switch (myEnemies[j].getMyType()) {
                                 case Ambulance:
-                                    /*gameItems[k] = new Items(R.drawable.test, 50, 50,
+                                    gameItems[k] = new Items(gGInstance.getImages().
+                                            getHealthBoxImage(), w, h,
                                             Items.ItemTypes.HealthBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
-                                            centerY(), new RectF(0, 0, 25, 25));*/
+                                            centerY(), new RectF(0, 0, 25, 25));
                                     set = true;
                                     break;
                                 case AmmoTruck:
-                                    /*gameItems[k] = new Items(R.drawable.test, 50, 50,
+                                    gameItems[k] = new Items(gGInstance.getImages().
+                                            getAmmoBoxImage(), w, h,
                                             Items.ItemTypes.AmmoBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
-                                            centerY(), new RectF(0, 0, 10, 10));*/
+                                            centerY(), new RectF(0, 0, 10, 10));
                                     set = true;
                                     break;
                                 case BasicCar:

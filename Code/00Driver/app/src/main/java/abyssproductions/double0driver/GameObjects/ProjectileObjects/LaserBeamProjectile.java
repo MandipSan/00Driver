@@ -1,6 +1,7 @@
 package abyssproductions.double0driver.GameObjects.ProjectileObjects;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Projectile;
@@ -50,6 +51,7 @@ public class LaserBeamProjectile extends Projectile {
                         getInteger(R.integer.LaserProImageWidth),
                 GameGlobals.getInstance().getImageResources().
                         getInteger(R.integer.LaserProImageHeight));
+        p.setMyCollisionBounds(new Rect(0,0,75,125));
         p.resetWidthAndHeight(10,17);
         p.myVelocity.set(0,direction*200);
         super.launch(x, y, direction, p);    }

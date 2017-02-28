@@ -1,6 +1,7 @@
 package abyssproductions.double0driver.GameObjects.ProjectileObjects;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Projectile;
@@ -50,6 +51,7 @@ public class MachineGunProjectile extends Projectile {
                         getInteger(R.integer.MachineGunProImageWidth),
                 GameGlobals.getInstance().getImageResources().
                         getInteger(R.integer.MachineGunProImageHeight));
+        p.setMyCollisionBounds(new Rect(0,0,100,100));
         p.resetWidthAndHeight(10,10);
         p.myVelocity.set(0,direction*20);
         super.launch(x, y, direction, p);
