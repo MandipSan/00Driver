@@ -38,10 +38,10 @@ public class GameObject {
     private Bitmap myImage;
     //  PURPOSE:    Holds whether to flip the image or not
     private boolean flipped;
+    //  PURPOSE:    Hold the object’s current animate state
+    private int myCurAniState;
     //  PURPOSE:    Holds the object's movement velocity
     protected Point myVelocity;
-    //  PURPOSE:    Hold the object’s current animate state
-    protected int myCurAniState;
 
     /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
         INPUT:      image               - The image of the object
@@ -186,6 +186,27 @@ public class GameObject {
         myCurFrameLoc.set(myImageWidth *myCurFrameNum,myCurAniState, myImageWidth *(myCurFrameNum+1),
                 myImageHeight *(myCurAniState+1));
         myCurFrameNum++;
-        if(myCurFrameNum==myRow)myCurFrameNum=0;
+        if(myCurFrameNum==myRow && myCurAniState != GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState))myCurFrameNum=0;
+    }
+
+    /*  PURPOSE:    Change the animation state to the given one
+        INPUT:      newState            - The new state to be changed too
+        OUTPUT:     NONE
+    */
+    protected void changeAniState(int newState){
+        if(newState < myRow) {
+            myCurAniState = newState;
+            myCurFrameNum = 0;
+        }
+    }
+
+    /*  PURPOSE:    Return whether the object's destroyed animation is complete
+        INPUT:      NONE
+        OUTPUT:     Return a boolean of whether the destroyed animation is complete
+    */
+    protected boolean getDestroyedFinish() {
+        return (myCurAniState == GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState) && myCurFrameNum == myRow);
     }
 }

@@ -30,7 +30,7 @@ public class Items extends GameObject {
      */
     public Items(Bitmap image, int imageWidth, int imageHeight, ItemTypes itemType,
                  float x, float y, RectF objDim){
-        super(image, imageWidth, imageHeight);
+        super(image, imageWidth, imageHeight,1,1);
         myType = itemType;
         objDim.offset(x,y);
         setMyDimensions(objDim);

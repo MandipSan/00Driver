@@ -3,10 +3,12 @@ package abyssproductions.double0driver.GameObjects;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 
+import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.FlameThrowerProjectile;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.LaserBeamProjectile;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.MissileLauncherProjectile;
+import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 1/31/2017.
@@ -128,6 +130,8 @@ public class Sprite extends GameObject {
      */
     public void decreaseHealth(int decreaseBy) {
         myHealth -= decreaseBy;
+        if(myHealth < 0)changeAniState(GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState));
     }
 
     /*  PURPOSE:    Increase the sprite’s max health by amount given

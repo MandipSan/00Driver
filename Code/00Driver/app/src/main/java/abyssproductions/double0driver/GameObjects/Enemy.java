@@ -87,10 +87,12 @@ public class Enemy extends Sprite {
      */
     public void update(int playerX, int playerY){
         super.update();
-        move( playerX, playerY);
-        if(myType != EnemyType.BasicCar && myType != EnemyType.Ambulance &&
-                myType != EnemyType.UpgradeTruck && myType != EnemyType.AmmoTruck)
-            fire( playerX, playerY);
+        if(getHealth() > 0) {
+            move(playerX, playerY);
+            if (myType != EnemyType.BasicCar && myType != EnemyType.Ambulance &&
+                    myType != EnemyType.UpgradeTruck && myType != EnemyType.AmmoTruck)
+                fire(playerX, playerY);
+        }
     }
 
     /*  PURPOSE:    Fire the enemy projectiles
@@ -155,7 +157,7 @@ public class Enemy extends Sprite {
         OUTPUT:     Return a boolean if the health equals zero
      */
     public boolean isDead(){
-        return getHealth() <= 0;
+        return getHealth() <= 0 && getDestroyedFinish();
     }
 
     /*  PURPOSE:    Enemy's movement logic
