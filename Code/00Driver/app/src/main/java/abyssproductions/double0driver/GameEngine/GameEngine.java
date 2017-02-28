@@ -63,8 +63,9 @@ public class GameEngine {
         player.setMyDimensions(temp);
         //Sets the player collision box that is use for detecting collisions
         player.setMyCollisionBounds(new Rect(0,0,
-                (int)(72*((float)gameBackground.getLaneSize()/(float)tempWidth)),
+                (int)(71*((float)gameBackground.getLaneSize()/(float)tempWidth)),
                 (int)(gameBackground.getLaneSize()*((float)tempHeight/(float)tempWidth))));
+
 
         myEnemies = new Enemy[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.EnemyArraySize)];
@@ -91,7 +92,7 @@ public class GameEngine {
      */
     public void update(){
         gHUD.updateScore();
-        //checkCollision();
+        checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
         for(int i = 0; i < gGInstance.myProjectiles.length; i++){
@@ -203,15 +204,15 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void checkCollision(){
-        RectF tempDim;
-        RectF tempDimP = player.getDimensions();
+        Rect tempDim;
+        Rect tempDimP = player.getCollisionBounds();
         //Checks if the player or projectiles collide with an enemy
         for(int i = 0; i < myEnemies.length; i++) {
             if(myEnemies[i] != null){
                 for (int j = 0; j < gGInstance.myProjectiles.length; j++){
                     if(gGInstance.myProjectiles[j] != null){
-                        tempDim = gGInstance.myProjectiles[j].getDimensions();
-                        if(myEnemies[i].getDimensions().intersects(tempDim.left,tempDim.top,
+                        tempDim = gGInstance.myProjectiles[j].getCollisionBounds();
+                        if(myEnemies[i].getCollisionBounds().intersects(tempDim.left,tempDim.top,
                                 tempDim.right,tempDim.bottom)) {
                             //TODO:Change to use projectile damage
                             myEnemies[i].decreaseHealth(500);
@@ -219,7 +220,7 @@ public class GameEngine {
                         }
                     }
                 }
-                if(myEnemies[i].getDimensions().intersects(tempDimP.left,tempDimP.top,
+                if(myEnemies[i].getCollisionBounds().intersects(tempDimP.left,tempDimP.top,
                         tempDimP.right,tempDimP.bottom)){
                     myEnemies[i] = null;
                     //TODO:Fill in what happens when enemy and player collide
@@ -229,17 +230,17 @@ public class GameEngine {
 
 
         for(int k = 0; k < gGInstance.myProjectiles.length;k++){
-            if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getDimensions().
+            if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
                     intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
                 //TODO:Change to use projectile damage
-                player.decreaseHealth(5);
-                gGInstance.myProjectiles[k] = null;
+                /*player.decreaseHealth(5);
+                gGInstance.myProjectiles[k] = null;*/
             }
 
             for(int m = 0; m < gameItems.length; m++){
                 if(gameItems[m] != null){
-                    tempDim = gameItems[m].getDimensions();
-                    if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getDimensions().
+                    tempDim = gameItems[m].getCollisionBounds();
+                    if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
                             intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
                         //TODO:To do item affect
                         switch (gameItems[m].getItemType()){
@@ -392,6 +393,7 @@ public class GameEngine {
                                             Items.ItemTypes.HealthBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
                                             centerY(), new RectF(0, 0, 25, 25));
+                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,25,25));
                                     set = true;
                                     break;
                                 case AmmoTruck:
@@ -399,7 +401,8 @@ public class GameEngine {
                                             getAmmoBoxImage(), w, h,
                                             Items.ItemTypes.AmmoBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
-                                            centerY(), new RectF(0, 0, 10, 10));
+                                            centerY(), new RectF(0, 0, 25, 25));
+                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,25,25));
                                     set = true;
                                     break;
                                 case BasicCar:

@@ -119,6 +119,7 @@ public class GameObject {
     */
     public void setMyCollisionBounds(Rect newCollisionBox ){
         myCollisionBox.set(newCollisionBox);
+        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
     }
 
     /*  PURPOSE:    Resets the objects width and height if it is greater than 0
