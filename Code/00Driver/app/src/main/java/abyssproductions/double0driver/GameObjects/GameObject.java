@@ -34,10 +34,14 @@ public class GameObject {
     private Rect myCurFrameLoc;
     //  PURPOSE:    Holds the object's current frame image number
     private int myCurFrameNum;
+    //  PURPOSE:    Holds the delay in the animation rate
+    private int myAniDelay;
+    //  PURPOSE:    Holds the max delay in the animation rate
+    private int myAniDelayMax;
     //  PURPOSE:    Holds the object's images
     private Bitmap myImage;
     //  PURPOSE:    Holds whether to flip the image or not
-    private boolean flipped;
+    private boolean myFlipped;
     //  PURPOSE:    Hold the object’s current animate state
     private int myCurAniState;
     //  PURPOSE:    Holds the object's movement velocity
@@ -64,7 +68,9 @@ public class GameObject {
         myPaint = new Paint();
         myCurFrameNum = 0;
         myCurAniState = R.integer.NormalAnimateState;
-        flipped = false;
+        myAniDelay = 0;
+        myAniDelayMax = 15;
+        myFlipped = false;
         myImage = image;
 
     }
@@ -84,7 +90,7 @@ public class GameObject {
         OUTPUT:     NONE
     */
     public void draw(Canvas canvas){
-        if(!flipped)canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
+        if(!myFlipped)canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
         else{
             Matrix tempMatrix = new Matrix();
             tempMatrix.setScale(1,-1);
@@ -153,7 +159,7 @@ public class GameObject {
         OUTPUT:     NONE
      */
     protected void setImageFlip(){
-        flipped = true;
+        myFlipped = true;
     }
 
     /*  PURPOSE:    Move's the game object vertically by the amount given
@@ -182,12 +188,18 @@ public class GameObject {
         OUTPUT:     NONE
     */
     protected void animate(){
-        if(myCurAniState >= myColumn)myCurAniState=0;
-        myCurFrameLoc.set(myImageWidth *myCurFrameNum,myCurAniState, myImageWidth *(myCurFrameNum+1),
-                myImageHeight *(myCurAniState+1));
-        myCurFrameNum++;
-        if(myCurFrameNum==myRow && myCurAniState != GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.DestroyAnimateState))myCurFrameNum=0;
+        if(myAniDelay <= 0) {
+            if (myCurAniState >= myColumn) myCurAniState = 0;
+            myCurFrameLoc.set(myImageWidth * myCurFrameNum, myCurAniState,
+                    myImageWidth * (myCurFrameNum + 1), myImageHeight * (myCurAniState + 1));
+            myCurFrameNum++;
+            if (myCurFrameNum == myRow && myCurAniState != GameGlobals.getInstance().getImageResources().
+                    getInteger(R.integer.DestroyAnimateState)) {
+                myCurFrameNum = 0;
+            }
+            myAniDelay =myAniDelayMax;
+        }
+        myAniDelay--;
     }
 
     /*  PURPOSE:    Change the animation state to the given one
