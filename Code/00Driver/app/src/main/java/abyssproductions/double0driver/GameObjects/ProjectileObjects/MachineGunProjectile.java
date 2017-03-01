@@ -14,7 +14,6 @@ import abyssproductions.double0driver.R;
 
 public class MachineGunProjectile extends Projectile {
 
-
     /*  PURPOSE:    Constructor for the Flame Thrower Projectile is to set the default values for the object
         INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
@@ -23,8 +22,9 @@ public class MachineGunProjectile extends Projectile {
         */
     private MachineGunProjectile(Bitmap image, int imageWidth, int imageHeight) {
         super(image, imageWidth, imageHeight, 2, 1);
+        //TODO:Damage amount to be checked
+        myDamage = 10;
     }
-
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
         INPUT:      NONE
@@ -34,14 +34,12 @@ public class MachineGunProjectile extends Projectile {
         this(null, 0, 0);
     }
 
-
-
     /*  PURPOSE:    Launches the projectile from the X and Y position given
-    INPUT:      x                   - The X position to launch the projectile from
-                y                   - The Y position to launch the projectile from
-                direction           - The direction the projectile will travel (-1 for down, 1
-                                        for up)
-    OUTPUT:     NONE
+        INPUT:      x                   - The X position to launch the projectile from
+                    y                   - The Y position to launch the projectile from
+                    direction           - The direction the projectile will travel (-1 for down, 1
+                                            for up)
+        OUTPUT:     NONE
     */
     @Override
     public void launch(float x, float y, int direction) {
@@ -53,8 +51,19 @@ public class MachineGunProjectile extends Projectile {
                         getInteger(R.integer.MachineGunProImageHeight));
         p.setMyCollisionBounds(new Rect(0,0,10,10));
         p.resetWidthAndHeight(10,10);
+        p.setDamage(myDamage);
         p.myVelocity.set(0,direction*20);
         super.launch(x, y, direction, p);
+    }
+
+    /*  PURPOSE:    Sets projectiles damage amount to the amount for the new level
+        INPUT:      newLevelDamage           - The new level that the damage is at
+        OUTPUT:     NONE
+     */
+    @Override
+    public void setDamageLevel(int newDamageLevel){
+        //TODO:Need to change value from hard coded
+        myDamage = 10*newDamageLevel;
     }
 
 }

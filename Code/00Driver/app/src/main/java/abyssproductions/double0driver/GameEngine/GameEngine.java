@@ -225,8 +225,7 @@ public class GameEngine {
                         tempDim = gGInstance.myProjectiles[j].getCollisionBounds();
                         if(myEnemies[i].getCollisionBounds().intersects(tempDim.left,tempDim.top,
                                 tempDim.right,tempDim.bottom)) {
-                            //TODO:Change to use projectile damage
-                            myEnemies[i].decreaseHealth(500);
+                            myEnemies[i].decreaseHealth(gGInstance.myProjectiles[j].getMyDamage());
                             gGInstance.myProjectiles[j] = null;
                         }
                     }

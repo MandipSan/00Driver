@@ -197,6 +197,22 @@ public class Sprite extends GameObject {
                 ? myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo : 0;
     }
 
+    /*  PURPOSE:    Increase the specified weapons damage to the given level
+        INPUT:      weaponType          - The weapon type of the ammo amount to return
+                    newLevel            - The weapon's new level
+        OUTPUT:     NONE
+     */
+    public void increaseDamageLevel(WeaponTypes weaponType, int newLevel){
+        if(myWeapons != null ) {
+            if ((myWeapons.length == 1 && weaponType == myWeaponType) || (myWeapons.length > 1)) {
+                if(newLevel > 0){
+                    myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].
+                            myProjectile.setDamageLevel(newLevel);
+                }
+            }
+        }
+    }
+
     /*  PURPOSE:    Set's the weapon type of the current active weapon
         INPUT:      weaponType          - The weapon type to change too
         OUTPUT:     NONE

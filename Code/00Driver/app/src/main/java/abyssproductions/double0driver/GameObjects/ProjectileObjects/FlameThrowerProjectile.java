@@ -2,6 +2,7 @@ package abyssproductions.double0driver.GameObjects.ProjectileObjects;
 
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Projectile;
@@ -27,6 +28,8 @@ public class FlameThrowerProjectile extends Projectile {
 
     private FlameThrowerProjectile (Bitmap image, int imageWidth, int imageHeight) {
         super(image, imageWidth, imageHeight);
+        //TODO:Damage amount to be checked
+        myDamage = 10;
     }
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
@@ -48,8 +51,20 @@ public class FlameThrowerProjectile extends Projectile {
     public void launch(float x, float y, int direction) {
         FlameThrowerProjectile p = new
                 FlameThrowerProjectile(GameGlobals.getInstance().getImages().getFlameProImage(),0,0);
+        p.setMyCollisionBounds(new Rect(0,0,10,17));
+        p.resetWidthAndHeight(10,17);
+        p.setDamage(myDamage);
         p.myVelocity.set(0,direction*25);
         super.launch(x, y, direction, p);
     }
 
+    /*  PURPOSE:    Sets projectiles damage amount to the amount for the new level
+        INPUT:      newLevelDamage           - The new level that the damage is at
+        OUTPUT:     NONE
+     */
+    @Override
+    public void setDamageLevel(int newDamageLevel){
+        //TODO:Need to change value from hard coded
+        myDamage = 10*newDamageLevel;
+    }
 }

@@ -12,6 +12,8 @@ import abyssproductions.double0driver.R;
  */
 
 public class Projectile extends GameObject {
+    //  PURPOSE:    Holds the projectiles damage amount
+    protected int myDamage;
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values for the object
         INPUT:      image               - The image of the object
@@ -53,6 +55,30 @@ public class Projectile extends GameObject {
         moveVertical(myVelocity.y);
     }
 
+    /*  PURPOSE:    Sets projectiles damage amount to the amount for the new level(To be overridden
+                        be subclass)
+        INPUT:      newDamageLevel           - The new level that the damage is at
+        OUTPUT:     NONE
+     */
+    public void setDamageLevel(int newDamageLevel){
+    }
+
+    /*  PURPOSE:    Return's the amount of damage
+        INPUT:      NONE
+        OUTPUT:     Returns an int with the amount of damage
+     */
+    public int getMyDamage(){
+        return myDamage;
+    }
+
+    /*  PURPOSE:    Sets projectiles damage amount
+        INPUT:      newDamage           - The new amount that the damage is at
+        OUTPUT:     NONE
+     */
+    protected void setDamage(int newDamage){
+        myDamage = newDamage;
+    }
+
     /*  PURPOSE:    Launches the projectile from the X and Y position given 
         INPUT:      x                   - The X position to launch the projectile from
                     y                   - The Y position to launch the projectile from
@@ -85,11 +111,4 @@ public class Projectile extends GameObject {
      */
     protected void launch(float x, float y, int direction) {}
 
-    /*  PURPOSE:    Returns if the projectile is active
-        INPUT:      NONE
-        OUTPUT:     Returns boolean of whether active if yes true; if not false
-     */
-    public boolean getActive(){
-        return !myVelocity.equals(0,0);
-    }
 }
