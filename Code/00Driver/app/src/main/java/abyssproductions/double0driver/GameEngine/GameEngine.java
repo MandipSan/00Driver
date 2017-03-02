@@ -15,6 +15,7 @@ import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Items;
 import abyssproductions.double0driver.GameObjects.Player;
+import abyssproductions.double0driver.GameObjects.Projectile;
 import abyssproductions.double0driver.R;
 
 /**
@@ -114,7 +115,7 @@ public class GameEngine {
         }
 
         for (int j = 0; j < (gameBackground.getNumLanes()-2); j++){
-            if(laneLastSpawnSpace[j] > 0)laneLastSpawnSpace[j]-=gGInstance.enemiesUniVelocity;
+            if(laneLastSpawnSpace[j] > 0)laneLastSpawnSpace[j]-=GameGlobals.enemiesUniVelocity;
         }
 
         enemyUpdateLogic();
@@ -150,7 +151,12 @@ public class GameEngine {
      */
     public void draw(Canvas canvas){
         gameBackground.draw(canvas);
-        for(int i = 0; i < gGInstance.myProjectiles.length; i++){
+        for (Projectile p:gGInstance.myProjectiles) if(p != null)p.draw(canvas);
+
+        for (Enemy e: myEnemies) if(e != null)e.draw(canvas);
+
+        for (Items i: gameItems) if (i != null)i.draw(canvas);
+        /*for(int i = 0; i < gGInstance.myProjectiles.length; i++){
             if(gGInstance.myProjectiles[i]!=null) {
                 gGInstance.myProjectiles[i].draw(canvas);
             }
@@ -162,7 +168,7 @@ public class GameEngine {
 
         for(int k = 0; k < gameItems.length; k++){
             if(gameItems[k]!=null)gameItems[k].draw(canvas);
-        }
+        }*/
 
         player.draw(canvas);
 
