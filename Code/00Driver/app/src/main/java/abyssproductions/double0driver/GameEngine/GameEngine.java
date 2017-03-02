@@ -238,32 +238,33 @@ public class GameEngine {
                             }
                         }
                     }
-                }
-                //Stop enemies from colliding into enemies when in a lane that goes with the traffic
-                for (int j = 0; j != myEnemies.length; j++) {
-                    if (myEnemies[j] != null && i != j) {
-                        //Check if the enemies are in the same lane or not
-                        if (myLane == calculateInLane(myEnemies[j].getDimensions().centerX())){
-                            //Checks for which enemy is higher than the other
-                            if (myEnemies[i].getDimensions().top <
-                                    myEnemies[j].getDimensions().top) {
-                                if (myEnemies[j].getDimensions().top -
-                                        myEnemies[i].getDimensions().bottom <= 50) {
-                                    myEnemies[j].stopMovement();
-                                    if(myEnemies[j].getDimensions().bottom >
-                                            (gGInstance.getScreenHeight()-50)){
-                                        laneLastSpawnSpace[myLane-1] =
-                                                (int)myEnemies[j].getDimensions().height();
+                    //Stop enemies from colliding into enemies when in a lane that goes with the
+                    //  traffic
+                    for (int j = 0; j != myEnemies.length; j++) {
+                        if (myEnemies[j] != null && i != j) {
+                            //Check if the enemies are in the same lane or not
+                            if (myLane == calculateInLane(myEnemies[j].getDimensions().centerX())) {
+                                //Checks for which enemy is higher than the other
+                                if (myEnemies[i].getDimensions().top <
+                                        myEnemies[j].getDimensions().top) {
+                                    if (myEnemies[j].getDimensions().top -
+                                            myEnemies[i].getDimensions().bottom <= 50) {
+                                        myEnemies[j].stopMovement();
+                                        if (myEnemies[j].getDimensions().bottom >
+                                                (gGInstance.getScreenHeight() - 50)) {
+                                            laneLastSpawnSpace[myLane - 1] =
+                                                    (int) myEnemies[j].getDimensions().height();
+                                        }
                                     }
-                                }
-                            } else {
-                                if (myEnemies[i].getDimensions().top -
-                                        myEnemies[j].getDimensions().bottom <= 50) {
-                                    myEnemies[i].stopMovement();
-                                    if(myEnemies[i].getDimensions().bottom >
-                                            (gGInstance.getScreenHeight()-50)){
-                                        laneLastSpawnSpace[myLane-1] =
-                                                (int)myEnemies[i].getDimensions().height();
+                                } else {
+                                    if (myEnemies[i].getDimensions().top -
+                                            myEnemies[j].getDimensions().bottom <= 50) {
+                                        myEnemies[i].stopMovement();
+                                        if (myEnemies[i].getDimensions().bottom >
+                                                (gGInstance.getScreenHeight() - 50)) {
+                                            laneLastSpawnSpace[myLane - 1] =
+                                                    (int) myEnemies[i].getDimensions().height();
+                                        }
                                     }
                                 }
                             }
@@ -409,10 +410,11 @@ public class GameEngine {
                         //Log.d("spawnEnemies: ", "H ");
                         break;
                     }
-                    myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x, y);
-                    myEnemies[i].resetWidthAndHeight(tempGameLaneSize, (int) (tempGameLaneSize *
+                    //TODO:Hard code value need to change 
+                    myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x-5, y);
+                    myEnemies[i].resetWidthAndHeight(tempGameLaneSize-10, (int) (tempGameLaneSize *
                             ((float) tempHeight / (float) tempWidth)));
-                    myEnemies[i].setMyCollisionBounds(new Rect(0, 0, tempColWidth, tempColHeight));
+                    myEnemies[i].setMyCollisionBounds(new Rect(0, 0, tempColWidth-10, tempColHeight));
                     laneLastSpawnSpace[lane-1] = (int)(tempGameLaneSize *
                             ((float) tempHeight / (float) tempWidth));
                     break;

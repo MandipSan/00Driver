@@ -38,7 +38,7 @@ public class Background {
         paint = new Paint();
         roadDim = new Rect(0,0,(numLanes-2)*laneSize,GameGlobals.getInstance().getScreenHeight());
         dirtRoadDim = new Rect(0,0,laneSize,GameGlobals.getInstance().getScreenHeight());
-        roadDividerDim = new Rect(0,0,20,GameGlobals.getInstance().getScreenHeight());
+        roadDividerDim = new Rect(0,0,10,GameGlobals.getInstance().getScreenHeight());
         roadDim.offset(GrassSize+laneSize,0);
     }
 
@@ -52,7 +52,7 @@ public class Background {
         dirtRoadDim.offsetTo(roadDim.right,0);
         canvas.drawRect(dirtRoadDim,paint);
 
-        roadDividerDim.offsetTo(roadDim.left+laneSize-10,0);
+        roadDividerDim.offsetTo(roadDim.left+laneSize,0);
         for(int i = 0; i < (numLanes-3); i++) {
             canvas.drawRect(roadDividerDim, paint);
             roadDividerDim.offset(laneSize, 0);
