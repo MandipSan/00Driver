@@ -23,11 +23,11 @@ public class Enemy extends Sprite {
     private Random random;
     //  PURPOSE:    Holds the enemy's type
     private EnemyType myType;
+    //  PURPOSE:    Holds whether the enemy can move
+    private boolean movement;
     //  PURPOSE:    Holds the different type of enemies
     public enum EnemyType{BasicCar, MachineGunCar, DronePickup, SpikeVan, Helicopter, Ambulance,
         UpgradeTruck, AmmoTruck}
-
-
 
     /*  PURPOSE:    Constructor for the basic enemy that sets the default values for the object
                         and the point it is suppose to spawn from
@@ -64,6 +64,8 @@ public class Enemy extends Sprite {
         increaseMaxHealth(20);
         //TODO:^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+        movement = true;
+        //Sets enemy velocity
         RectF temp = getDimensions();
         if(enemyType != EnemyType.Helicopter) {
 
@@ -90,11 +92,12 @@ public class Enemy extends Sprite {
     public void update(int playerX, int playerY){
         super.update();
         if(getHealth() > 0) {
-            move(playerX, playerY);
+            if(movement)move();
             if (myType != EnemyType.BasicCar && myType != EnemyType.Ambulance &&
                     myType != EnemyType.UpgradeTruck && myType != EnemyType.AmmoTruck)
                 fire(playerX, playerY);
         }
+        movement =true;
     }
 
     /*  PURPOSE:    Fire the enemy projectiles
@@ -146,6 +149,22 @@ public class Enemy extends Sprite {
         }
     }
 
+    /*  PURPOSE:    Set enemy's movement to stop
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    public void stopMovement(){
+        movement = false;
+    }
+
+    /*  PURPOSE:    Return's if the enemy is running
+        INPUT:      NONE
+        OUTPUT:     Return's a boolean of whether enemy is running or not
+     */
+    public boolean carRunning(){
+        return movement;
+    }
+
     /*  PURPOSE:    Return the enemy type
         INPUT:      NONE
         OUTPUT:     Return a EnemyType variable back with the enemy's type
@@ -166,20 +185,11 @@ public class Enemy extends Sprite {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    private void move(int playerX, int playerY){
+    private void move(){
         RectF temp = getDimensions();
         //Use indicate if helicopter is fully on the screen
         boolean heliReady = false;
         if(myType != EnemyType.Helicopter){
-            //Stop enemy car that aren't the basic car from running into the player from behind if
-            //  they are in the same lane
-            if(temp.left < playerX && temp.right > playerX && myVelocity.y <= 0
-                    && playerY < temp.top && myType != EnemyType.BasicCar
-                    && myType != EnemyType.SpikeVan){
-                    myVelocity.set(0,0);
-            }else{
-                if(myVelocity.y == 0)myVelocity.set(0,-GameGlobals.enemiesUniVelocity);
-            }
             moveVertical(myVelocity.y);
         }else{
             //Stops the helicopter from making random movement until the helicopter is full on the

@@ -215,11 +215,45 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void checkCollision(){
+        int myLane;
         Rect tempDim;
         Rect tempDimP = player.getCollisionBounds();
         //Checks if the player or projectiles collide with an enemy
         for(int i = 0; i < myEnemies.length; i++) {
             if(myEnemies[i] != null){
+                //Stop enemies from colliding into player when in a lane that goes with the traffic
+                myLane = calculateInLane(myEnemies[i].getDimensions().centerX());
+                if (myLane >= (gameBackground.getNumLanes() / 2) && myEnemies[i].carRunning()) {
+                    if (myLane == calculateInLane(player.getDimensions().centerX())) {
+                        if (myEnemies[i].getDimensions().top > player.getDimensions().top) {
+                            if (myEnemies[i].getDimensions().top -
+                                    player.getDimensions().bottom <= 50) {
+                                myEnemies[i].stopMovement();
+                            }
+                        }
+                    }
+                }
+                //Stop enemies from colliding into enemies when in a lane that goes with the traffic
+                for (int j = 0; j != myEnemies.length; j++) {
+                    if (myEnemies[j] != null && i != j) {
+                        if (myLane == calculateInLane(myEnemies[j].getDimensions().centerX())){
+                            if (myEnemies[i].getDimensions().top <
+                                    myEnemies[j].getDimensions().top) {
+                                if (myEnemies[j].getDimensions().top -
+                                        myEnemies[i].getDimensions().bottom <= 50) {
+                                    myEnemies[j].stopMovement();
+                                }
+                            } else {
+                                if (myEnemies[i].getDimensions().top -
+                                        myEnemies[j].getDimensions().bottom <= 50) {
+                                    myEnemies[i].stopMovement();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Checks if enemy collides with a projectile
                 for (int j = 0; j < gGInstance.myProjectiles.length; j++){
                     if(gGInstance.myProjectiles[j] != null){
                         tempDim = gGInstance.myProjectiles[j].getCollisionBounds();
@@ -230,16 +264,19 @@ public class GameEngine {
                         }
                     }
                 }
+                //Checks if enemy collides with the player
                 if(myEnemies[i].getCollisionBounds().intersects(tempDimP.left,tempDimP.top,
                         tempDimP.right,tempDimP.bottom)){
                     myEnemies[i] = null;
                     //TODO:Fill in what happens when enemy and player collide
+                    player.decreaseHealth((int)(player.getMaxHealth()*.25));
                 }
             }
         }
 
 
         for(int k = 0; k < gGInstance.myProjectiles.length;k++){
+            //Checks if a projectile collides with the player
             if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
                     intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
                 //TODO:Change to use projectile damage
@@ -247,6 +284,7 @@ public class GameEngine {
                 gGInstance.myProjectiles[k] = null;*/
             }
 
+            //Checks if the projectile collides with item boxes
             for(int m = 0; m < gameItems.length; m++){
                 if(gameItems[m] != null){
                     tempDim = gameItems[m].getCollisionBounds();
@@ -452,5 +490,20 @@ public class GameEngine {
                 }
             }
         }
+    }
+
+    /** PURPOSE:    Calculate's the lane the x provided is in and return the lane
+     *  INPUT:      x                   - Value to use to check for the lane
+     *  OUTPUT:     Return an int contain the lane the x is in
+     */
+    private int calculateInLane(float x){
+        int laneSize = gameBackground.getLaneSize();
+        int laneStart = gameBackground.getGrassSize();
+        for(int i = 1; i < gameBackground.getNumLanes(); i++){
+            if(x > (laneStart+(laneSize*i)) && x < (laneStart+(laneSize*(i+1)))){
+                return i;
+            }
+        }
+        return 0;
     }
 }
