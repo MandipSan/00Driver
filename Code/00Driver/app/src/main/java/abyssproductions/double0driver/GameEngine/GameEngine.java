@@ -156,19 +156,6 @@ public class GameEngine {
         for (Enemy e: myEnemies) if(e != null)e.draw(canvas);
 
         for (Items i: gameItems) if (i != null)i.draw(canvas);
-        /*for(int i = 0; i < gGInstance.myProjectiles.length; i++){
-            if(gGInstance.myProjectiles[i]!=null) {
-                gGInstance.myProjectiles[i].draw(canvas);
-            }
-        }
-
-        for(int j = 0; j < myEnemies.length; j++){
-            if(myEnemies[j]!=null)myEnemies[j].draw(canvas);
-        }
-
-        for(int k = 0; k < gameItems.length; k++){
-            if(gameItems[k]!=null)gameItems[k].draw(canvas);
-        }*/
 
         player.draw(canvas);
 
