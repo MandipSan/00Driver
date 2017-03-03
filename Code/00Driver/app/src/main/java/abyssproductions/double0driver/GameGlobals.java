@@ -19,8 +19,12 @@ public class GameGlobals {
     private int screenHeight;
     //  PURPOSE:    Holds the screen width
     private int screenWidth;
-
+    //  PURPOSE:    Holds the images for the game
     private GameImages images;
+    //  PURPOSE:    Holds the stopping distance for vehicle from one and another
+    private int stoppingDistance;
+    //  PURPOSE:    Holds the firing distance need for the enemy to fire
+    private int firingDistance;
     //  PURPOSE:    Holds the y velocity for all enemies
     public final static int enemiesUniVelocity = 10;
     //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
@@ -34,7 +38,6 @@ public class GameGlobals {
      */
     private GameGlobals() {
         imageResources = null;
-
     }
 
     /*  PURPOSE:    Loads the pointer variables only if imageResource is set and returns true else
@@ -64,7 +67,7 @@ public class GameGlobals {
     }
 
     /*  PURPOSE:    Set the screen height
-        INPUT:      height    - The height of the screen
+        INPUT:      height              - The height of the screen
         OUTPUT:     NONE
      */
     public void setScreenHeight(int height){
@@ -72,11 +75,27 @@ public class GameGlobals {
     }
 
     /*  PURPOSE:    Set the screen width
-        INPUT:      width    - The width of the screen
+        INPUT:      width               - The width of the screen
         OUTPUT:     NONE
      */
     public void setScreenWidth(int width){
         screenWidth = width;
+    }
+
+    /*  PURPOSE:    Set the stopping distance
+        INPUT:      distance            - The distance
+        OUTPUT:     NONE
+     */
+    public void setStoppingDistance(int distance){
+        stoppingDistance = distance;
+    }
+
+    /*  PURPOSE:    Set the firing distance
+        INPUT:      distance            - The distance
+        OUTPUT:     NONE
+     */
+    public void setFiringDistance(int distance){
+        firingDistance = distance;
     }
 
     /*  PURPOSE:    Returns the instance of the class
@@ -109,6 +128,22 @@ public class GameGlobals {
      */
     public int getScreenWidth(){
         return screenWidth;
+    }
+
+    /*  PURPOSE:    Returns the stopping distance
+        INPUT:      NONE
+        OUTPUT:     Return int of the stopping distance
+     */
+    public int getStoppingDistance(){
+        return stoppingDistance;
+    }
+
+    /*  PURPOSE:    Returns the firing distance
+        INPUT:      NONE
+        OUTPUT:     Return int of the firing distance
+     */
+    public int getFiringDistance(){
+        return firingDistance;
     }
 
     /*  PURPOSE:    Returns the pointer to images
