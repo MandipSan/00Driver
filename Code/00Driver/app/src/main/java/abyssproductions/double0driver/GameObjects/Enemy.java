@@ -93,9 +93,7 @@ public class Enemy extends Sprite {
         super.update();
         if(getHealth() > 0) {
             if(movement)move();
-            if (myType != EnemyType.BasicCar && myType != EnemyType.Ambulance &&
-                    myType != EnemyType.UpgradeTruck && myType != EnemyType.AmmoTruck)
-                fire(playerX, playerY);
+            if (myType == EnemyType.MachineGunCar)fire(playerX, playerY);
         }
         movement =true;
     }
@@ -109,11 +107,13 @@ public class Enemy extends Sprite {
         //TODO:TO BE DISCUSS FIRST THEN DESIGNED
         switch(myType){
             case MachineGunCar:
-                if(myDim.left < playerX && myDim.right > playerX){
-                    if(myVelocity.y <= 0 && myDim.top > playerY){
-                        fire(myDim.centerX(),myDim.centerY(),-1);
-                    }else if(myVelocity.y > 0 && myDim.bottom < playerY){
-                        fire(myDim.centerX(),myDim.centerY(),1);
+                if(myDim.left <= playerX && myDim.right >= playerX
+                        && Math.abs(myDim.centerY()-playerY) <=
+                        GameGlobals.getInstance().getFiringDistance()){
+                    if(myVelocity.y <= 0){
+                        fire(myDim.centerX(),myDim.top,-1);
+                    }else if(myVelocity.y > 0){
+                        fire(myDim.centerX(),myDim.bottom,1);
                     }
                 }
                 break;

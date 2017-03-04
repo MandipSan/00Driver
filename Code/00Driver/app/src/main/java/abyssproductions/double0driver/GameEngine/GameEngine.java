@@ -69,6 +69,8 @@ public class GameEngine {
                 (int)(71*((float)gameBackground.getLaneSize()/(float)tempWidth)),
                 (int)(gameBackground.getLaneSize()*((float)tempHeight/(float)tempWidth))));
 
+        gGInstance.setStoppingDistance((int)(temp.width()/2));
+        gGInstance.setFiringDistance((int)(temp.width()*3));
 
         myEnemies = new Enemy[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.EnemyArraySize)];
@@ -219,8 +221,8 @@ public class GameEngine {
                 if (myLane >= (gameBackground.getNumLanes() / 2) && myEnemies[i].carRunning()) {
                     if (myLane == calculateInLane(player.getDimensions().centerX())) {
                         if (myEnemies[i].getDimensions().top > player.getDimensions().top) {
-                            if (myEnemies[i].getDimensions().top -
-                                    player.getDimensions().bottom <= 50) {
+                            if (myEnemies[i].getDimensions().top - player.getDimensions().bottom <=
+                                    gGInstance.getStoppingDistance()) {
                                 myEnemies[i].stopMovement();
                             }
                         }
@@ -235,7 +237,8 @@ public class GameEngine {
                                 if (myEnemies[i].getDimensions().top <
                                         myEnemies[j].getDimensions().top) {
                                     if (myEnemies[j].getDimensions().top -
-                                            myEnemies[i].getDimensions().bottom <= 50) {
+                                            myEnemies[i].getDimensions().bottom <=
+                                            gGInstance.getStoppingDistance()) {
                                         myEnemies[j].stopMovement();
                                         if (myEnemies[j].getDimensions().bottom >
                                                 (gGInstance.getScreenHeight() - 50)) {
@@ -245,7 +248,8 @@ public class GameEngine {
                                     }
                                 } else {
                                     if (myEnemies[i].getDimensions().top -
-                                            myEnemies[j].getDimensions().bottom <= 50) {
+                                            myEnemies[j].getDimensions().bottom <=
+                                            gGInstance.getStoppingDistance()) {
                                         myEnemies[i].stopMovement();
                                         if (myEnemies[i].getDimensions().bottom >
                                                 (gGInstance.getScreenHeight() - 50)) {
@@ -322,15 +326,15 @@ public class GameEngine {
         //Holds the width size of the enemy vehicle images
         int tempWidth = gGInstance.getImageResources().getInteger(R.integer.VehicleImageWidth);
         //Holds the height size of the enemy vehicle images
-        int tempHeight = 0;
+        int tempHeight;
         //Holds the new enemy vehicle's image
-        Bitmap tempImage = null;
+        Bitmap tempImage;
         //Holds the new enemy's type
         Enemy.EnemyType tempType;
         //Holds the collision boxes width
         int tempColWidth = tempWidth;
         //Holds the collision boxes height
-        int tempColHeight = tempHeight;
+        int tempColHeight;
         //Holds the lane size to be used in various calculations
         int tempGameLaneSize = gameBackground.getLaneSize();
 
@@ -351,8 +355,14 @@ public class GameEngine {
                         //Log.d("spawnEnemies: ", "BC ");
                         break;
                     } else if (value <= 20) {
+                        //TODO:change with correct image and values
+                        tempHeight = 121;
+                        tempColHeight = tempHeight;
+                        tempColWidth = (int) (71 * ((float) tempGameLaneSize / (float) tempColWidth));
+                        tempImage = gGInstance.getImages().getPlayerImage();
+                        tempType = Enemy.EnemyType.MachineGunCar;
                         //Log.d("spawnEnemies: ", "MGC ");
-                        break;
+                        //break;
                     } else if (value <= 30) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.PickUpImageHeight);
@@ -427,7 +437,8 @@ public class GameEngine {
         //  drop if need
         for(int j = 0; j < myEnemies.length; j++){
             if(myEnemies[j]!=null){
-                myEnemies[j].update(0,0);
+                myEnemies[j].update((int)player.getDimensions().centerX(),
+                        (int)player.getDimensions().centerY());
                 if(myEnemies[j].getDimensions().top >= gGInstance.getScreenHeight() +
                                 myEnemies[j].getDimensions().height()+1||
                         myEnemies[j].getDimensions().bottom <= -10 ){

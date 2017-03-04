@@ -242,13 +242,13 @@ public class Sprite extends GameObject {
                     myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].sinceDelay == 0) {
                 if (myWeaponType == WeaponTypes.MachineGun) {
                     myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].myProjectile.launch
-                            (temp.left + (float)(temp.width()*.25), temp.top, direction);
+                            (x + (float)(temp.width()*.25), y, direction);
                     myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].myProjectile.launch
-                            (temp.right - (float)(temp.width()*.25), temp.top, direction);
+                            (x - (float)(temp.width()*.25), y, direction);
                     myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo--;
                 } else {
                     myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].myProjectile.launch
-                            (temp.centerX(), temp.top, direction);
+                            (temp.centerX(), y, direction);
                 }
                 myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo--;
                 myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].sinceDelay =
