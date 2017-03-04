@@ -93,9 +93,10 @@ public class Enemy extends Sprite {
         super.update();
         if(getHealth() > 0) {
             if(movement)move();
-            if (myType == EnemyType.MachineGunCar)fire(playerX, playerY);
+            if (myType == EnemyType.MachineGunCar || myType == EnemyType.DronePickup)
+                fire(playerX, playerY);
         }
-        movement =true;
+        movement = true;
     }
 
     /*  PURPOSE:    Fire the enemy projectiles
@@ -119,13 +120,15 @@ public class Enemy extends Sprite {
                 break;
             case DronePickup:
                 //TODO:Uncomment when merge to test with Drone projectile
-                /*if(myDim.left < playerX && myDim.right > playerX){
-                    if(myVelocity.y <= 0 && myDim.top > playerY){
-                        fire(myDim.centerX(),myDim.centerY(),-1);
-                    }else if(myVelocity.y > 0 && myDim.bottom < playerY){
-                        fire(myDim.centerX(),myDim.centerY(),1);
+                if(myDim.left < playerX && myDim.right > playerX
+                        && Math.abs(myDim.centerY()-playerY) <=
+                        GameGlobals.getInstance().getFiringDistance()){
+                    if(myVelocity.y <= 0){
+                        fire(myDim.centerX(),myDim.top,-1);
+                    }else if(myVelocity.y > 0){
+                        fire(myDim.centerX(),myDim.bottom,1);
                     }
-                }*/
+                }
                 break;
             case SpikeVan:
                 //TODO:Uncomment when merge to test with Spike projectile
