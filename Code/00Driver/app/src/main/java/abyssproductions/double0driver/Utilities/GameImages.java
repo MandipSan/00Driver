@@ -28,6 +28,8 @@ public class GameImages {
     private static Bitmap upgradeTruckImage;
     //  PURPOSE:    Hold's the van's image sheet
     private static Bitmap vanImage;
+    //  PURPOSE:    Hold's the sport car's image sheet
+    private static Bitmap sportCarImage;
     //  PURPOSE:    Hold's the machine gun projectile's image sheet
     private static Bitmap machineGunProImage;
     //  PURPOSE:    Hold's the flame projectile's image sheet
@@ -65,6 +67,8 @@ public class GameImages {
                 vehicleWidth, instance.getImageResources().getInteger(R.integer.VanImageHeight));
         pickupImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.pickupsheet),
                 vehicleWidth, instance.getImageResources().getInteger(R.integer.PickUpImageHeight));
+        sportCarImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.sportcarsheet),
+                vehicleWidth, instance.getImageResources().getInteger(R.integer.SportCarImageHeight));
 
         //Project Image Sheets
         machineGunProImage = setMyImage(BitmapFactory.decodeResource(resources,
@@ -94,6 +98,14 @@ public class GameImages {
      */
     public Bitmap getPlayerImage(){
         return playerImage;
+    }
+
+    /** PURPOSE:    Returns sport car's image sheet
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing sport car's image sheet
+     */
+    public Bitmap getSportCarImage(){
+        return sportCarImage;
     }
 
     /** PURPOSE:    Returns ambulance's image sheet

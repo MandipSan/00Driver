@@ -355,11 +355,10 @@ public class GameEngine {
                         //Log.d("spawnEnemies: ", "BC ");
                         break;
                     } else if (value <= 20) {
-                        //TODO:change with correct image and values
                         tempHeight = 121;
                         tempColHeight = tempHeight;
                         tempColWidth = (int) (71 * ((float) tempGameLaneSize / (float) tempColWidth));
-                        tempImage = gGInstance.getImages().getPlayerImage();
+                        tempImage = gGInstance.getImages().getSportCarImage();
                         tempType = Enemy.EnemyType.MachineGunCar;
                         //Log.d("spawnEnemies: ", "MGC ");
                         //break;
