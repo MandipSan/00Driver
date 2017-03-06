@@ -14,7 +14,8 @@ import abyssproductions.double0driver.R;
 
 public class MissileLauncherProjectile extends Projectile {
 
-    /*  PURPOSE:    Constructor for the Flame Thrower Projectile is to set the default values for the object
+    /*  PURPOSE:    Constructor for the Missile Launcher Projectile is to set the default values for
+                        the object
         INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
