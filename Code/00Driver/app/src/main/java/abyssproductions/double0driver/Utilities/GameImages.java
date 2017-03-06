@@ -7,8 +7,6 @@ import android.graphics.Matrix;
 import android.graphics.RectF;
 
 import abyssproductions.double0driver.GameGlobals;
-import abyssproductions.double0driver.GameObjects.ProjectileObjects.FlameThrowerProjectile;
-import abyssproductions.double0driver.GameObjects.ProjectileObjects.LaserBeamProjectile;
 import abyssproductions.double0driver.R;
 
 /**
@@ -38,6 +36,8 @@ public class GameImages {
     private static Bitmap missileProImage;
     //  PURPOSE:    Hold's the laser projectile's image sheet
     private static Bitmap laserProImage;
+    //  PURPOSE:    Hold's the spike projectile's image sheet
+    private static Bitmap spikeProImage;
     //  PURPOSE:    Hold's the health box's image sheet
     private static Bitmap healthBoxImage;
     //  PURPOSE:    Hold's the ammo box's image sheet
@@ -81,7 +81,11 @@ public class GameImages {
         missileProImage = setMyImage(BitmapFactory.decodeResource(resources,
                 R.drawable.missilesheet), 3, 1, instance.getImageResources().
                 getInteger(R.integer.MissileProImageWidth), instance.getImageResources().
-                getInteger(R.integer.MissileImageHeight));
+                getInteger(R.integer.MissileProImageHeight));
+        spikeProImage = setMyImage(BitmapFactory.decodeResource(resources,
+                R.drawable.spikesheet), 2, 1, instance.getImageResources().
+                getInteger(R.integer.SpikeProImageWidth), instance.getImageResources().
+                getInteger(R.integer.SpikeProImageHeight));
 
         //Items Image
         int iWidth = instance.getImageResources().getInteger(R.integer.ItemBoxImageWidth);
@@ -170,6 +174,14 @@ public class GameImages {
      */
     public Bitmap getMissileProImage(){
         return missileProImage;
+    }
+
+    /** PURPOSE:    Returns spike projectile's image sheet
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing spike projectile's image sheet
+     */
+    public Bitmap getSpikeProImage(){
+        return spikeProImage;
     }
 
     /** PURPOSE:    Returns laser projectile's image sheet

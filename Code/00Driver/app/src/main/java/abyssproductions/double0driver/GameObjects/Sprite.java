@@ -8,6 +8,7 @@ import abyssproductions.double0driver.GameObjects.ProjectileObjects.FlameThrower
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.LaserBeamProjectile;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.MissileLauncherProjectile;
+import abyssproductions.double0driver.GameObjects.ProjectileObjects.SpikeProjectile;
 import abyssproductions.double0driver.R;
 
 /**
@@ -27,7 +28,7 @@ public class Sprite extends GameObject {
     //  PURPOSE:    Holds the current active weapon
     private WeaponTypes myWeaponType;
     //  PURPOSE:    Holds the different types of weapons
-    public enum WeaponTypes {MachineGun, Missile, Flamethrower, Laser}
+    public enum WeaponTypes {MachineGun, Missile, Flamethrower, Laser, Spike}
 
     /*  PURPOSE:    Constructor for the sprite that sets the default values for the object and loads
                         the weapons if indicated
@@ -49,11 +50,13 @@ public class Sprite extends GameObject {
             myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(10,10,10,WeaponTypes.MachineGun,
                     new MachineGunProjectile());
             myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(10,10,10,WeaponTypes.Missile,
-                    new MachineGunProjectile() );
+                    new MissileLauncherProjectile() );
             myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(10,10,10,WeaponTypes.Flamethrower,
-                    new MachineGunProjectile() );
+                    new FlameThrowerProjectile() );
             myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(10,10,10,WeaponTypes.Laser,
-                    new MachineGunProjectile() );
+                    new LaserBeamProjectile() );
+            myWeapons[WeaponTypes.Spike.ordinal()] = new Weapon(10,10,10,WeaponTypes.Spike,
+                    new SpikeProjectile() );
         }
     }
 
@@ -99,6 +102,12 @@ public class Sprite extends GameObject {
                         new LaserBeamProjectile());
                 myWeaponType = WeaponTypes.Laser;
                 weaponArrAdjustment = 3;
+                break;
+            case Spike:
+                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Spike,
+                        new SpikeProjectile());
+                myWeaponType = WeaponTypes.Spike;
+                weaponArrAdjustment = 4;
                 break;
         }
     }
@@ -248,7 +257,7 @@ public class Sprite extends GameObject {
                     myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo--;
                 } else {
                     myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].myProjectile.launch
-                            (temp.centerX(), y, direction);
+                            (x, y, direction);
                 }
                 myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo--;
                 myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].sinceDelay =

@@ -54,7 +54,7 @@ public class Enemy extends Sprite {
                 loadSingleWeapon(WeaponTypes.Missile);
                 break;
             case SpikeVan:
-                loadSingleWeapon(WeaponTypes.Missile);
+                loadSingleWeapon(WeaponTypes.Spike);
                 break;
         }
         //TODO:Double check on final pass
@@ -93,7 +93,8 @@ public class Enemy extends Sprite {
         super.update();
         if(getHealth() > 0) {
             if(movement)move();
-            if (myType == EnemyType.MachineGunCar || myType == EnemyType.DronePickup)
+            if (myType == EnemyType.MachineGunCar || myType == EnemyType.DronePickup ||
+                    myType == EnemyType.SpikeVan)
                 fire(playerX, playerY);
         }
         movement = true;
@@ -132,10 +133,15 @@ public class Enemy extends Sprite {
                 break;
             case SpikeVan:
                 //TODO:Uncomment when merge to test with Spike projectile
-                /*if(myDim.left < playerX && myDim.right > playerX && myVelocity.y < 0
-                    && myDim.top > playerY){
-                    fire(myDim.centerX(),myDim.centerY(),-1);
-                }*/
+                if(myDim.left < playerX && myDim.right > playerX && myDim.centerY() < playerY
+                        && Math.abs(myDim.centerY()-playerY) <=
+                        GameGlobals.getInstance().getFiringDistance()){
+                    if(myVelocity.y <= 0){
+                        fire(myDim.left,myDim.bottom,1);
+                    }else if(myVelocity.y > 0){
+                        fire(myDim.left,myDim.top,-1);
+                    }
+                }
                 break;
             case Helicopter:
                 if(myDim.left < playerX && myDim.right > playerX){

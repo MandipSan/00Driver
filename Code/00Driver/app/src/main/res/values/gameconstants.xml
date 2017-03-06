@@ -11,6 +11,7 @@
     <integer name="ItemYVelocity">10</integer>
     <!-->Enemy related constants<-->
     <integer name="EnemyArraySize">10</integer>
+    <integer name="EnemyYVelocity">10</integer>
     <!-->Projectile related constants<-->
     <integer name="ProjectileArraySize">10</integer>
     <!-->Player related constants<-->
@@ -36,7 +37,9 @@
     <integer name="LaserProImageWidth">75</integer>
     <integer name="LaserProImageHeight">125</integer>
     <integer name="MissileProImageWidth">82</integer>
-    <integer name="MissileImageHeight">125</integer>
+    <integer name="MissileProImageHeight">125</integer>
+    <integer name="SpikeProImageWidth">102</integer>
+    <integer name="SpikeProImageHeight">25</integer>
     <integer name="ItemBoxImageWidth">100</integer>
     <integer name="ItemBoxImageHeight">100</integer>
 </resources>
