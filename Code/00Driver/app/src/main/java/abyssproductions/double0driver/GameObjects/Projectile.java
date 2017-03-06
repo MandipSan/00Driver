@@ -90,8 +90,11 @@ public class Projectile extends GameObject {
         RectF temp = p.getDimensions();
         //TODO:Mark look over this as to it keeps the projectiles from causing a collision with there
         //TODO: launch objects
-        if(direction < 0) temp.offsetTo(x, y-temp.height());
-        else temp.offsetTo(x, y+temp.height());
+        if(direction < 0)temp.offsetTo(x, y-temp.height());
+        else{
+            temp.offsetTo(x, y+temp.height());
+            p.setImageFlip();
+        }
         p.setMyDimensions(temp);
         //Find first empty spot in projectiles array
         for(int i = 0; i < GameGlobals.getInstance().myProjectiles.length; i++) {

@@ -53,7 +53,8 @@ public class MissileLauncherProjectile extends Projectile {
         p.setMyCollisionBounds(new Rect(0,0,10,16));
         p.resetWidthAndHeight(10,16);
         p.setDamage(myDamage);
-        p.myVelocity.set(0,direction*10);
+        p.myVelocity.set(0,direction*GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.MLProYVelocity));
         super.launch(x, y, direction, p);
     }
 

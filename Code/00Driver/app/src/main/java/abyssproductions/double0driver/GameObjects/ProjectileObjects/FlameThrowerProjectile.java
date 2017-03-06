@@ -54,7 +54,8 @@ public class FlameThrowerProjectile extends Projectile {
         p.setMyCollisionBounds(new Rect(0,0,10,17));
         p.resetWidthAndHeight(10,17);
         p.setDamage(myDamage);
-        p.myVelocity.set(0,direction*25);
+        p.myVelocity.set(0,direction*GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.FProYVelocity));
         super.launch(x, y, direction, p);
     }
 

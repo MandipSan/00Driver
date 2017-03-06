@@ -53,7 +53,8 @@ public class MachineGunProjectile extends Projectile {
         p.setMyCollisionBounds(new Rect(0,0,10,10));
         p.resetWidthAndHeight(10,10);
         p.setDamage(myDamage);
-        p.myVelocity.set(0,direction*20);
+        p.myVelocity.set(0,direction*GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.MGProYVelocity));
         super.launch(x, y, direction, p);
     }
 
