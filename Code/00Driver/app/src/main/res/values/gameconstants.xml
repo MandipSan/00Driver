@@ -30,6 +30,7 @@
     <!-->Image related constants<-->
     <integer name="VehicleImageWidth">102</integer>
     <integer name="PlayerImageHeight">121</integer>
+    <integer name="BasicCarImageHeight">126</integer>
     <integer name="SportCarImageHeight">121</integer>
     <integer name="AmmoTruckImageHeight">232</integer>
     <integer name="PickUpImageHeight">147</integer>

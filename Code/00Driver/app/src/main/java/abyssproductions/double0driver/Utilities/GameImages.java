@@ -16,6 +16,12 @@ import abyssproductions.double0driver.R;
 public class GameImages {
     //  PURPOSE:    Hold's the player's image sheet
     private static Bitmap playerImage;
+    //  PURPOSE:    Hold's the basic car A's image sheet
+    private static Bitmap basicCarAImage;
+    //  PURPOSE:    Hold's the basic car B's image sheet
+    private static Bitmap basicCarBImage;
+    //  PURPOSE:    Hold's the basic car C's image sheet
+    private static Bitmap basicCarCImage;
     //  PURPOSE:    Hold's the ambulance's image sheet
     private static Bitmap ambulanceImage;
     //  PURPOSE:    Hold's the ammo truck's image sheet
@@ -54,6 +60,15 @@ public class GameImages {
         int vehicleWidth = instance.getImageResources().getInteger(R.integer.VehicleImageWidth);
         playerImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.playersheet),
                 vehicleWidth, instance.getImageResources().getInteger(R.integer.PlayerImageHeight));
+        basicCarAImage = setMyImage(BitmapFactory.decodeResource(resources,
+                R.drawable.basiccarasheet), vehicleWidth, instance.getImageResources().
+                getInteger(R.integer.BasicCarImageHeight));
+        basicCarBImage = setMyImage(BitmapFactory.decodeResource(resources,
+                R.drawable.basiccarbsheet), vehicleWidth, instance.getImageResources().
+                getInteger(R.integer.BasicCarImageHeight));
+        basicCarCImage = setMyImage(BitmapFactory.decodeResource(resources,
+                R.drawable.basiccarcsheet), vehicleWidth, instance.getImageResources().
+                getInteger(R.integer.BasicCarImageHeight));
         ambulanceImage = setMyImage(BitmapFactory.decodeResource(resources,
                 R.drawable.ambulancesheet), vehicleWidth, instance.getImageResources().
                 getInteger(R.integer.AmbulanceImageHeight));
@@ -102,6 +117,16 @@ public class GameImages {
      */
     public Bitmap getPlayerImage(){
         return playerImage;
+    }
+
+    /** PURPOSE:    Returns basic car's image sheet based on the value given
+     *  INPUT:      imageNum            -Holds the basic car image that is wanted
+     *  OUTPUT:     Return's a bitmap containing basic car's image sheet
+     */
+    public Bitmap getBasicCarImage(int imageNum){
+        if(imageNum == 0)return basicCarAImage;
+        else if(imageNum == 1)return basicCarBImage;
+        return basicCarCImage;
     }
 
     /** PURPOSE:    Returns sport car's image sheet

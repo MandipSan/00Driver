@@ -352,10 +352,16 @@ public class GameEngine {
             for (int i = 0; i < myEnemies.length; i++) {
                 if (myEnemies[i] == null) {
                     if (value <= 10) {
+                        tempHeight = gGInstance.getImageResources().
+                                getInteger(R.integer.BasicCarImageHeight);;
+                        tempColHeight = tempHeight;
+                        tempColWidth = (int) (71 * ((float) tempGameLaneSize / (float) tempColWidth));
+                        tempImage = gGInstance.getImages().getBasicCarImage(random.nextInt(2));
+                        tempType = Enemy.EnemyType.BasicCar;
                         //Log.d("spawnEnemies: ", "BC ");
-                        break;
                     } else if (value <= 20) {
-                        tempHeight = 121;
+                        tempHeight = gGInstance.getImageResources().
+                                getInteger(R.integer.SportCarImageHeight);;
                         tempColHeight = tempHeight;
                         tempColWidth = (int) (71 * ((float) tempGameLaneSize / (float) tempColWidth));
                         tempImage = gGInstance.getImages().getSportCarImage();
