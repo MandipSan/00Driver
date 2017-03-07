@@ -211,6 +211,7 @@ public class GameEngine {
      */
     private void checkCollision(){
         int myLane;
+        int playerLane = calculateInLane(player.getDimensions().centerX());
         Rect tempDim;
         Rect tempDimP = player.getCollisionBounds();
         //Checks if the player or projectiles collide with an enemy
@@ -219,7 +220,9 @@ public class GameEngine {
                 //Stop enemies from colliding into player when in a lane that goes with the traffic
                 myLane = calculateInLane(myEnemies[i].getDimensions().centerX());
                 if (myLane >= (gameBackground.getNumLanes() / 2) && myEnemies[i].carRunning()) {
-                    if (myLane == calculateInLane(player.getDimensions().centerX())) {
+                    if (myLane == playerLane &&
+                            (myEnemies[i].getMyType() == Enemy.EnemyType.MachineGunCar ||
+                            myEnemies[i].getMyType() == Enemy.EnemyType.DronePickup)) {
                         if (myEnemies[i].getDimensions().top > player.getDimensions().top) {
                             if (myEnemies[i].getDimensions().top - player.getDimensions().bottom <=
                                     gGInstance.getStoppingDistance()) {
