@@ -43,15 +43,17 @@ public class Background {
     }
 
     public void draw(Canvas canvas){
+        canvas.drawColor(Color.rgb(34,139,34));
         paint.setColor(Color.LTGRAY);
         canvas.drawRect(roadDim,paint);
 
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.rgb(160,82,45));
         dirtRoadDim.offsetTo(GrassSize,0);
         canvas.drawRect(dirtRoadDim,paint);
         dirtRoadDim.offsetTo(roadDim.right,0);
         canvas.drawRect(dirtRoadDim,paint);
 
+        paint.setColor(Color.WHITE);
         roadDividerDim.offsetTo(roadDim.left+laneSize,0);
         for(int i = 0; i < (numLanes-3); i++) {
             canvas.drawRect(roadDividerDim, paint);
