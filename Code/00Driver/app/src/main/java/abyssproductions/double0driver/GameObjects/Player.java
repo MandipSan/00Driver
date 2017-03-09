@@ -36,6 +36,7 @@ public class Player extends Sprite {
         INPUT:      NONE
         OUTPUT:     NONE
      */
+    @Override
     public void update(){
         super.update();
         if(velocityReset > 0)moveHorizontal(myVelocity.x);

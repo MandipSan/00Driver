@@ -142,12 +142,11 @@ public class Sprite extends GameObject {
         INPUT:      NONE
         OUTPUT:     NONE
      */
+    @Override
     public void update() {
         super.update();
         if(myWeapons !=null) {
-            for (int i = 0; i < myWeapons.length; i++) {
-                if (myWeapons[i].sinceDelay > 0) myWeapons[i].sinceDelay--;
-            }
+            for (Weapon w:myWeapons)if (w.sinceDelay > 0)w.sinceDelay--;
         }
         if(displayHealthBar) {
             myHealthBarDim.top = (int) getDimensions().centerY() - 5;

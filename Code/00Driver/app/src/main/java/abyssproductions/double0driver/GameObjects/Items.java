@@ -42,6 +42,7 @@ public class Items extends GameObject {
         INPUT:      NONE
         OUTPUT:     NONE
      */
+    @Override
     public void update(){
         super.update();
         moveVertical(myVelocity.y);
