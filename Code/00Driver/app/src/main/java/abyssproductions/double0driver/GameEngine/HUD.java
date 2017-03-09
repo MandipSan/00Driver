@@ -52,7 +52,7 @@ public class HUD {
         paint.setColor(Color.RED);
         canvas.drawRect(healthBar,paint);
         paint.setColor(Color.WHITE);
-        canvas.drawText("" + curHealth + "/" + maxHealth,0,80,paint);
+        canvas.drawText("" + curHealth + "/" + maxHealth,0,90,paint);
         canvas.drawRect(fireButtonDim,paint);
         canvas.drawRect(switchButtonDim,paint);
     }
