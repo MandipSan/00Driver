@@ -1,6 +1,10 @@
 package abyssproductions.double0driver.GameObjects;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 import abyssproductions.double0driver.GameGlobals;
@@ -21,6 +25,10 @@ public class Sprite extends GameObject {
     private int myHealth;
     //  PURPOSE:    Holds the sprite's max health
     private int myMaxHealth;
+    //  PURPOSE:    Holds the dimension of the objects health bar
+    private Rect myHealthBarDim;
+    //  PURPOSE:    Holds whether to display the health bar or not
+    private Boolean displayHealthBar;
     //  PURPOSE:    Used to readjust array when only single weapon is loaded
     private int weaponArrAdjustment;
     //  PURPOSE:    Holds an array of the different weapons
@@ -42,6 +50,9 @@ public class Sprite extends GameObject {
         super(image, imageWidth, imageHeight);
         myHealth = 100;
         myMaxHealth = 100;
+        myHealthBarDim = new Rect((int)getDimensions().left,(int)getDimensions().centerY()-5,
+                (int)getDimensions().right, (int)(int)getDimensions().centerY()+5);
+        displayHealthBar = false;
         myWeapons = null;
         if(loadAllWeapons){
             myWeaponType = WeaponTypes.MachineGun;
@@ -112,6 +123,21 @@ public class Sprite extends GameObject {
         }
     }
 
+    /*  PURPOSE:    Draws the sprite's image to the screen
+        INPUT:      canvas              - Pointer to the surface screen's canvas
+        OUTPUT:     NONE
+    */
+    @Override
+    public void draw(Canvas canvas){
+        super.draw(canvas);
+        if(displayHealthBar) {
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.RED);
+            canvas.drawRect(myHealthBarDim, paint);
+        }
+    }
+
     /*  PURPOSE:    Updates the sprite's logic
         INPUT:      NONE
         OUTPUT:     NONE
@@ -123,6 +149,22 @@ public class Sprite extends GameObject {
                 if (myWeapons[i].sinceDelay > 0) myWeapons[i].sinceDelay--;
             }
         }
+        if(displayHealthBar) {
+            myHealthBarDim.top = (int) getDimensions().centerY() - 5;
+            myHealthBarDim.bottom = (int) getDimensions().centerY() + 5;
+            myHealthBarDim.left = (int) getDimensions().left;
+            float temp = getDimensions().left +
+                    (getDimensions().width() * (float) (myHealth) / (float) (myMaxHealth));
+            myHealthBarDim.right = (int) temp;
+        }
+    }
+
+    /*  PURPOSE:    Turns health bar on and off
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    public void displayHealthBar(){
+        displayHealthBar = (displayHealthBar) ? false : true;
     }
 
     /*  PURPOSE:    Increase the current health by the amount given up to the max health
