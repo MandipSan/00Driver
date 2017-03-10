@@ -58,13 +58,13 @@ public class Sprite extends GameObject {
             myWeaponType = WeaponTypes.MachineGun;
             weaponArrAdjustment = 0;
             myWeapons = new Weapon[WeaponTypes.values().length];
-            myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(100,100,10,WeaponTypes.MachineGun,
+            myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(100,100,5,WeaponTypes.MachineGun,
                     new MachineGunProjectile());
-            myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(100,100,10,WeaponTypes.Missile,
+            myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(100,100,20,WeaponTypes.Missile,
                     new MissileLauncherProjectile() );
             myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(100,100,10,WeaponTypes.Flamethrower,
                     new FlameThrowerProjectile() );
-            myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(100,100,10,WeaponTypes.Laser,
+            myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(100,100,0,WeaponTypes.Laser,
                     new LaserBeamProjectile() );
             myWeapons[WeaponTypes.Spike.ordinal()] = new Weapon(100,100,10,WeaponTypes.Spike,
                     new SpikeProjectile() );
