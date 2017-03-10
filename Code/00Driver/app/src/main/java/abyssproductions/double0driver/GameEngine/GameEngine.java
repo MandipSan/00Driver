@@ -172,7 +172,7 @@ public class GameEngine {
      */
     public void isPressed(boolean pressed, float x, float y){
         playerFire = pressed && gHUD.buttonPressed(0,x,y);
-        if(gHUD.buttonPressed(1,x,y))player.switchWeapon();
+        if(gHUD.buttonPressed(1,x,y) && !pressed)player.switchWeapon();
     }
 
     //  PURPOSE:    Class used to detected if the fling gesture occurred
