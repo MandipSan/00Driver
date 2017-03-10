@@ -115,6 +115,20 @@ public class Player extends Sprite {
         velocityResetMax = laneSize;
     }
 
+    /*  PURPOSE:    Revives the player once the destroy animation end and return if it was successful
+        INPUT:      NONE
+        OUTPUT:     Returns true or false depending on whether it revived or not
+     */
+    public boolean revivePlayer(){
+        if(getDestroyedFinish()){
+            changeAniState(GameGlobals.getInstance().getImageResources().
+                    getInteger(R.integer.NormalAnimateState));
+            increaseHealth(getMaxHealth());
+            return true;
+        }
+        return false;
+    }
+
     /*  PURPOSE:    Changes the weapon load out for the weapon position given primary or secondary
                         with the new weapon type given and returns whether the change was successful
         INPUT:      weaponPos           - Hold whether the primary or secondary weapon is to be

@@ -102,6 +102,7 @@ public class GameEngine {
      */
     public void update(){
         gHUD.updateScore();
+        gHUD.lifeLost(player.revivePlayer());
         checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
@@ -135,6 +136,9 @@ public class GameEngine {
 
         if(playerFire)player.fireWeapon();
         player.update();
+        //Revives the player if they still have extra lives
+        if(player.getHealth() == 0 && gHUD.getNumLives() != 0)player.revivePlayer();
+
         //Checks if player is on the dirt road and decrease the health
         float pCX = player.getDimensions().centerX();
         int gBGS = gameBackground.getGrassSize();

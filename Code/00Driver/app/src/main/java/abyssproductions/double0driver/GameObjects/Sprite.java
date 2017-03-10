@@ -179,8 +179,8 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void decreaseHealth(int decreaseBy) {
-        myHealth -= decreaseBy;
-        if(myHealth < 0)changeAniState(GameGlobals.getInstance().getImageResources().
+        myHealth = (myHealth - decreaseBy < 0) ? 0 : myHealth - decreaseBy;
+        if(myHealth <= 0)changeAniState(GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.DestroyAnimateState));
     }
 

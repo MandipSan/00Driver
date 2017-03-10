@@ -17,6 +17,8 @@ public class HUD {
     private int maxHealth;
     //  PURPOSE:    Holds the current health value
     private int curHealth;
+    //  PURPOSE:    Holds the players current number of lives
+    private int numLives;
     //  PURPOSE:    Holds the dimension of the fire button
     private Rect fireButtonDim;
     //  PURPOSE:    Holds the dimension of the switch button
@@ -31,6 +33,7 @@ public class HUD {
      *  OUTPUT:     NONE
      */
     public HUD(){
+        numLives = 3;
         score = 0;
         healthBar = new Rect(0,50,1200,100);
         fireButtonDim = new Rect(0,0,300,300);
@@ -68,6 +71,14 @@ public class HUD {
         maxHealth = (int)newMaxHealth;
     }
 
+    /** PURPOSE:    Decrease the number of lives by one when the curHealth is 0 and destroyed is true
+     *  INPUT:      destroyed           - Holds whether the destroyed animation is complete
+     *  OUTPUT:     NONE
+     */
+    public void lifeLost(boolean destroyed){
+        if (destroyed && curHealth <= 0)numLives--;
+    }
+
     /** PURPOSE:    Increase the score
      *  INPUT:      NONE
      *  OUTPUT:     NONE
@@ -92,6 +103,14 @@ public class HUD {
         score -=reduceBy;
     }
 
+    /** PURPOSE:    Increase the number of current lives by one
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void increaseNumLives(){
+        numLives++;
+    }
+
     /** PURPOSE:    Checks if the a button was pressed returns the result
      *  INPUT:      button              - The button to check(NOTE:0 is the fire button and 1 is the
      *                                      switch button)
@@ -111,5 +130,13 @@ public class HUD {
      */
     public int getScore(){
         return score;
+    }
+
+    /** PURPOSE:    Returns the current number of life
+     *  INPUT:      NONE
+     *  OUTPUT:     Returns an int with the number of the lives
+     */
+    public int getNumLives(){
+        return numLives;
     }
 }
