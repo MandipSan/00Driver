@@ -23,7 +23,7 @@ public class LaserBeamProjectile extends Projectile {
     private LaserBeamProjectile(Bitmap image, int imageWidth, int imageHeight) {
         super(image, imageWidth, imageHeight, 2, 1);
         //TODO:Damage amount to be checked
-        myDamage = 10;
+        myDamage = 5;
     }
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0

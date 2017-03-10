@@ -24,7 +24,7 @@ public class MissileLauncherProjectile extends Projectile {
     private MissileLauncherProjectile(Bitmap image, int imageWidth, int imageHeight) {
         super(image, imageWidth, imageHeight, 3, 1);
         //TODO:Damage amount to be checked
-        myDamage = 10;
+        myDamage = 50;
     }
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
