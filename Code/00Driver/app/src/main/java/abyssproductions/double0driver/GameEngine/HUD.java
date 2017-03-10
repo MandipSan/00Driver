@@ -33,9 +33,9 @@ public class HUD {
     public HUD(){
         score = 0;
         healthBar = new Rect(0,50,1200,100);
-        fireButtonDim = new Rect(0,0,300,100);
+        fireButtonDim = new Rect(0,0,300,300);
         fireButtonDim.offset(100,1500);
-        switchButtonDim = new Rect(0,0,300,100);
+        switchButtonDim = new Rect(0,0,300,300);
         switchButtonDim.offset(600,1500);
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
