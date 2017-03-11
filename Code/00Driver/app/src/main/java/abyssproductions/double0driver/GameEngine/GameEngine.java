@@ -103,6 +103,9 @@ public class GameEngine {
     public void update(){
         gHUD.updateScore();
         gHUD.lifeLost(player.revivePlayer());
+        if(gHUD.getNumLives() <= 0){
+            //TODO:DO SOMETHING WHEN NUMBER OF LIVE IS 0
+        }
         checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
