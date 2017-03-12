@@ -41,6 +41,8 @@
     <integer name="MachineGunProImageHeight">100</integer>
     <integer name="LaserProImageWidth">75</integer>
     <integer name="LaserProImageHeight">125</integer>
+    <integer name="FlameProImageWidth">75</integer>
+    <integer name="FlameProImageHeight">125</integer>
     <integer name="MissileProImageWidth">82</integer>
     <integer name="MissileProImageHeight">125</integer>
     <integer name="SpikeProImageWidth">102</integer>

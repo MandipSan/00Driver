@@ -114,7 +114,8 @@ public class GameEngine {
                 gGInstance.myProjectiles[i].update();
                 if(gGInstance.myProjectiles[i].getDimensions().top >=
                         gGInstance.getScreenHeight() ||
-                        gGInstance.myProjectiles[i].getDimensions().bottom <=0){
+                        gGInstance.myProjectiles[i].getDimensions().bottom <=0 ||
+                        !gGInstance.myProjectiles[i].getLife()){
                     gGInstance.myProjectiles[i] = null;
                 }
             }

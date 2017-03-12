@@ -14,6 +14,8 @@ import abyssproductions.double0driver.R;
 public class Projectile extends GameObject {
     //  PURPOSE:    Holds the projectiles damage amount
     protected int myDamage;
+    //  PURPOSE:    Holds the amount of time that the flame is a live
+    protected int lifeCount;
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values for the object
         INPUT:      image               - The image of the object
@@ -26,6 +28,7 @@ public class Projectile extends GameObject {
     public Projectile(Bitmap image, int imageWidth, int imageHeight, int imageSheetRow,
                       int imageSheetColumn){
         super(image, imageWidth, imageHeight, imageSheetRow, imageSheetColumn);
+        lifeCount = 1;
     }
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values for the object
@@ -36,6 +39,7 @@ public class Projectile extends GameObject {
      */
     public Projectile(Bitmap image, int imageWidth, int imageHeight){
         super(image, imageWidth, imageHeight);
+        lifeCount = 1;
     }
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
@@ -70,6 +74,14 @@ public class Projectile extends GameObject {
      */
     public int getMyDamage(){
         return myDamage;
+    }
+
+    /*  PURPOSE:    Return's if the life count is greater than zero
+        INPUT:      NONE
+        OUTPUT:     Returns boolean of the result
+     */
+    public boolean getLife(){
+        return (lifeCount > 0);
     }
 
     /*  PURPOSE:    Sets projectiles damage amount

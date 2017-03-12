@@ -62,7 +62,7 @@ public class Sprite extends GameObject {
                     new MachineGunProjectile());
             myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(100,100,20,WeaponTypes.Missile,
                     new MissileLauncherProjectile() );
-            myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(100,100,10,WeaponTypes.Flamethrower,
+            myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(100,100,0,WeaponTypes.Flamethrower,
                     new FlameThrowerProjectile() );
             myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(100,100,0,WeaponTypes.Laser,
                     new LaserBeamProjectile() );
