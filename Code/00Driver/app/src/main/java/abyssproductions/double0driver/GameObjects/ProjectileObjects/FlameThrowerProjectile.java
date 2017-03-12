@@ -76,6 +76,9 @@ public class FlameThrowerProjectile extends Projectile {
                 getInteger(R.integer.FProYVelocity));
         //TODO:Change from Hardcoded value
         p.lifeCount = random.nextInt(10)+1;
+
+        //GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
+        //        getImageResources().getInteger(R.integer.SEFireID));
         super.launch(x, y, direction, p);
     }
 
