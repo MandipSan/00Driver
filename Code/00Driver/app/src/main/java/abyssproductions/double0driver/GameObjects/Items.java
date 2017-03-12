@@ -1,11 +1,15 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.R;
+
 /**
  * Created by Mandip Sangha on 2/1/2017.
- * Edited by Mark Reffel on 2/9/2017
+ * Lasted Edited by Mandip Sangha on 2/26/17
  */
 
 public class Items extends GameObject {
@@ -15,7 +19,7 @@ public class Items extends GameObject {
     public enum ItemTypes{HealthBox, AmmoBox, MysteryBox}
 
     /*  PURPOSE:    Constructor for the items that sets the default values for the object
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
                     itemType            - The type of item to spawn
@@ -24,19 +28,21 @@ public class Items extends GameObject {
                     objDim              - The dimension of the object
         OUTPUT:     NONE
      */
-    public Items(int imageReference, int imageWidth, int imageHeight, ItemTypes itemType,
+    public Items(Bitmap image, int imageWidth, int imageHeight, ItemTypes itemType,
                  float x, float y, RectF objDim){
-        super(imageReference, imageWidth, imageHeight);
+        super(image, imageWidth, imageHeight,1,1);
         myType = itemType;
         objDim.offset(x,y);
         setMyDimensions(objDim);
-        myVelocity.set(0,1);
+        myVelocity.set(0, GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.ItemYVelocity));
     }
 
     /*  PURPOSE:    Updates the item's logic
         INPUT:      NONE
         OUTPUT:     NONE
      */
+    @Override
     public void update(){
         super.update();
         moveVertical(myVelocity.y);

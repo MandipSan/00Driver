@@ -4,6 +4,8 @@ import android.content.res.Resources;
 
 import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Projectile;
+import abyssproductions.double0driver.Utilities.GameImages;
+import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
  * Created by Mandip Sangha on 2/3/2017.
@@ -17,21 +19,18 @@ public class GameGlobals {
     private int screenHeight;
     //  PURPOSE:    Holds the screen width
     private int screenWidth;
+    //  PURPOSE:    Holds the images for the game
+    private GameImages images;
+    //  PURPOSE:    Holds the stopping distance for vehicle from one and another
+    private int stoppingDistance;
+    //  PURPOSE:    Holds the firing distance need for the enemy to fire
+    private int firingDistance;
     //  PURPOSE:    Holds the y velocity for all enemies
-    public final static int enemiesUniVelocity = 20;
-    //  PURPOSE:    Holds an array of the enemies
-    public Enemy [] myEnemies;
-    //  PURPOSE:    Holds the number of enemies in the enemy's array
-    public final static int myEnemyArrSize = 10;
+    public final static int enemiesUniVelocity = 10;
     //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
     public Projectile [] myProjectiles;
-    //  PURPOSE:    Holds the number of projectiles in the projectile's array
-    public final static int myProjectileArrSize = 10;
-    //  PURPOSE:    Holds the default player's horizontal velocity
-    public final static int playerHorizontalVel = 20;
-    //  PURPOSE:    Holds the distance of the lane transfers
-    public final static int playerVelocityReset = 30;
-
+    //  PURPOSE:    Hold the pointer to the game sound effects
+    public SoundEffects mySoundEffects;
 
     /*  PURPOSE:    Constructor for the game globals that sets the default values for the object
         INPUT:      NONE
@@ -39,7 +38,6 @@ public class GameGlobals {
      */
     private GameGlobals() {
         imageResources = null;
-
     }
 
     /*  PURPOSE:    Loads the pointer variables only if imageResource is set and returns true else
@@ -49,13 +47,10 @@ public class GameGlobals {
      */
     public boolean loadPointers(){
         if(imageResources != null){
-            myProjectiles = new Projectile[myProjectileArrSize];
-            for(int i =0; i < myProjectileArrSize; i++){
+            images = new GameImages(imageResources);
+            myProjectiles = new Projectile[imageResources.getInteger(R.integer.ProjectileArraySize)];
+            for(int i =0; i < myProjectiles.length; i++){
                 myProjectiles[i] = null;
-            }
-            myEnemies = new Enemy[myEnemyArrSize];
-            for(int i =0; i < myEnemyArrSize; i++){
-                myEnemies[i] = null;
             }
             return true;
         }
@@ -72,7 +67,7 @@ public class GameGlobals {
     }
 
     /*  PURPOSE:    Set the screen height
-        INPUT:      height    - The height of the screen
+        INPUT:      height              - The height of the screen
         OUTPUT:     NONE
      */
     public void setScreenHeight(int height){
@@ -80,11 +75,27 @@ public class GameGlobals {
     }
 
     /*  PURPOSE:    Set the screen width
-        INPUT:      width    - The width of the screen
+        INPUT:      width               - The width of the screen
         OUTPUT:     NONE
      */
     public void setScreenWidth(int width){
         screenWidth = width;
+    }
+
+    /*  PURPOSE:    Set the stopping distance
+        INPUT:      distance            - The distance
+        OUTPUT:     NONE
+     */
+    public void setStoppingDistance(int distance){
+        stoppingDistance = distance;
+    }
+
+    /*  PURPOSE:    Set the firing distance
+        INPUT:      distance            - The distance
+        OUTPUT:     NONE
+     */
+    public void setFiringDistance(int distance){
+        firingDistance = distance;
     }
 
     /*  PURPOSE:    Returns the instance of the class
@@ -117,5 +128,29 @@ public class GameGlobals {
      */
     public int getScreenWidth(){
         return screenWidth;
+    }
+
+    /*  PURPOSE:    Returns the stopping distance
+        INPUT:      NONE
+        OUTPUT:     Return int of the stopping distance
+     */
+    public int getStoppingDistance(){
+        return stoppingDistance;
+    }
+
+    /*  PURPOSE:    Returns the firing distance
+        INPUT:      NONE
+        OUTPUT:     Return int of the firing distance
+     */
+    public int getFiringDistance(){
+        return firingDistance;
+    }
+
+    /*  PURPOSE:    Returns the pointer to images
+        INPUT:      NONE
+        OUTPUT:     Return GameImages pointer
+     */
+    public GameImages getImages(){
+        return images;
     }
 }

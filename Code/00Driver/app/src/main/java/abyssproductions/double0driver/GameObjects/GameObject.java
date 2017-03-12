@@ -1,6 +1,5 @@
 package abyssproductions.double0driver.GameObjects;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.R;
@@ -17,71 +15,74 @@ import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 1/31/2017.
- * Edited by Mark Reffel on 2/9/2017
+ * Lasted Edited by Mandip Sangha on 2/26/17
  */
 
 public class GameObject {
 
-    //  PURPOSE:    Hold the Width and Height values for the game object
-    private int myWidth, myHeight;
+    //  PURPOSE:    Hold the image sheets Width and Height values for the game object
+    private int myImageWidth, myImageHeight;
     //  PURPOSE:    Hold the number of row and column in the image sheet
     private int myRow, myColumn;
     //  PURPOSE:    Holds the object's left, top, right, bottom coordinates
     private RectF myDimensions;
+    //  PURPOSE:    Holds the object's collision bounds
+    private Rect myCollisionBox;
     //  PURPOSE:    Holds the object's image style and color information
     private Paint myPaint;
     //  PURPOSE:    Holds the object's current frame image location
     private Rect myCurFrameLoc;
     //  PURPOSE:    Holds the object's current frame image number
     private int myCurFrameNum;
+    //  PURPOSE:    Holds the delay in the animation rate
+    private int myAniDelay;
+    //  PURPOSE:    Holds the max delay in the animation rate
+    private int myAniDelayMax;
     //  PURPOSE:    Holds the object's images
     private Bitmap myImage;
+    //  PURPOSE:    Holds whether to flip the image or not
+    private boolean myFlipped;
+    //  PURPOSE:    Hold the object’s current animate state
+    private int myCurAniState;
     //  PURPOSE:    Holds the object's movement velocity
     protected Point myVelocity;
-    //  PURPOSE:    Hold the object’s current animate state
-    protected int myCurAniState;
 
     /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
                     imageSheetRow       - The number of rows in the image sheet
                     imageSheetColumn    - The number of columns in the image sheet
         OUTPUT:     NONE
      */
-    public GameObject(int imageReference, int imageWidth, int imageHeight, int imageSheetRow,
+    public GameObject(Bitmap image, int imageWidth, int imageHeight, int imageSheetRow,
                       int imageSheetColumn){
-        myWidth = imageWidth;
-        myHeight = imageHeight;
+        myImageWidth = imageWidth;
+        myImageHeight = imageHeight;
         myRow = imageSheetRow;
         myColumn = imageSheetColumn;
         myDimensions = new RectF(0,0,imageWidth,imageHeight);
-        myCurFrameLoc = new Rect(0,0,50,50);
+        myCollisionBox = new Rect(0,0,imageWidth,imageHeight);
+        myCurFrameLoc = new Rect(0,0,imageWidth,imageHeight);
         myVelocity = new Point(0,0);
         myPaint = new Paint();
         myCurFrameNum = 0;
         myCurAniState = R.integer.NormalAnimateState;
-        setMyImage( BitmapFactory.decodeResource(GameGlobals.getInstance().getImageResources(),
-                imageReference), imageSheetRow, imageSheetColumn);
+        myAniDelay = 0;
+        myAniDelayMax = 15;
+        myFlipped = false;
+        myImage = image;
 
     }
 
     /*  PURPOSE:    Constructor for the Game Object that take as input the image reference, width, and height
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
      */
-    public GameObject(int imageReference, int imageWidth, int imageHeight){
-        this(imageReference,imageWidth,imageHeight,4,2);
-    }
-
-    /*  PURPOSE:    Constructor for the Game Object that set the default value for the object
-        INPUT:      NONE
-        OUTPUT:     NONE
-    */
-    public GameObject () {
-        this(R.mipmap.ic_launcher, 50, 50);
+    public GameObject(Bitmap image, int imageWidth, int imageHeight){
+        this(image,imageWidth,imageHeight,4,2);
     }
 
     /*  PURPOSE:    Draws the game object's image to the screen
@@ -89,7 +90,16 @@ public class GameObject {
         OUTPUT:     NONE
     */
     public void draw(Canvas canvas){
-        canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
+        if(!myFlipped)canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
+        else{
+            Matrix tempMatrix = new Matrix();
+            tempMatrix.setScale(1,-1);
+            Bitmap flippedImage = Bitmap.createBitmap(myImage,myCurFrameLoc.left,myCurFrameLoc.top,
+                    myImageWidth,myImageHeight,tempMatrix,false);
+            Rect tempCurFrameLoc = new Rect(0,0,myImageWidth,myImageHeight);
+            //canvas.drawBitmap(flippedImage,myDimensions.left,myDimensions.top,myPaint);
+            canvas.drawBitmap(flippedImage,tempCurFrameLoc,myDimensions,myPaint);
+        }
     }
 
     /*  PURPOSE:    Updates the game object's logic
@@ -106,28 +116,50 @@ public class GameObject {
     */
     public void setMyDimensions(RectF newDimension){
         myDimensions.set(newDimension);
+        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
     }
 
-    /*  PURPOSE:    Set's the game object's image and  proper scaling
-        INPUT:      image               - The image to set myImage too
-                    row                 - The number of row in image frame
-                    column              - The number of column in image frame
+    /*  PURPOSE:    Set's the game object's collision bounding box
+        INPUT:      newCollisionBox        - The new collision bounding box
         OUTPUT:     NONE
     */
-    public void setMyImage(Bitmap image, int row, int column){
-        Matrix tempMatrix = new Matrix();
-        tempMatrix.setRectToRect(new RectF(0, 0, image.getWidth(), image.getHeight()),
-                new RectF(0, 0, myWidth*row, myHeight*column), Matrix.ScaleToFit.CENTER);
-        this.myImage = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(),
-                tempMatrix, true);
+    public void setMyCollisionBounds(Rect newCollisionBox ){
+        myCollisionBox.set(newCollisionBox);
+        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
+    }
+
+    /*  PURPOSE:    Resets the objects width and height if it is greater than 0
+        INPUT:      width               - The new width to set
+                    height              - The new height to set
+        OUTPUT:     NONE
+     */
+    public void resetWidthAndHeight(int width, int height){
+        if(width > 0)myDimensions.right = myDimensions.left + width;
+        if(height > 0)myDimensions.bottom = myDimensions.top + height;
+    }
+
+    /*  PURPOSE:    Return's the game object's collision bounds box
+        INPUT:      NONE
+        OUTPUT:     A Rect object with the data
+    */
+    public Rect getCollisionBounds(){
+        return myCollisionBox;
     }
 
     /*  PURPOSE:    Return's the game object's left, top, right, bottom coordinates
         INPUT:      NONE
-        OUTPUT:     A Rect object with the data
+        OUTPUT:     A RectF object with the data
     */
     public RectF getDimensions(){
         return myDimensions;
+    }
+
+    /*  PURPOSE:    Set the flipped variable to true so that the image is flipped
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    protected void setImageFlip(){
+        myFlipped = true;
     }
 
     /*  PURPOSE:    Move's the game object vertically by the amount given
@@ -136,6 +168,7 @@ public class GameObject {
     */
     protected void moveVertical(float moveBy){
         myDimensions.offset(0,moveBy);
+        myCollisionBox.offset(0,(int)moveBy);
     }
 
     /*  PURPOSE:    Move's the game object horizontally by the amount given
@@ -144,6 +177,7 @@ public class GameObject {
     */
     protected void moveHorizontal(float moveBy){
         myDimensions.offset(moveBy,0);
+        myCollisionBox.offset((int)moveBy,0);
     }
 
     /*  PURPOSE:    Runs the animation for the game object
@@ -154,10 +188,37 @@ public class GameObject {
         OUTPUT:     NONE
     */
     protected void animate(){
-        if(myCurAniState >= myColumn)myCurAniState=0;
-        myCurFrameLoc.set(myWidth*myCurFrameNum,myCurAniState,myWidth*(myCurFrameNum+1),
-                myHeight*(myCurAniState+1));
-        myCurFrameNum++;
-        if(myCurFrameNum==myRow)myCurFrameNum=0;
+        if(myAniDelay <= 0) {
+            if (myCurAniState >= myColumn) myCurAniState = 0;
+            myCurFrameLoc.set(myImageWidth * myCurFrameNum, myCurAniState,
+                    myImageWidth * (myCurFrameNum + 1), myImageHeight * (myCurAniState + 1));
+            myCurFrameNum++;
+            if (myCurFrameNum == myRow && myCurAniState != GameGlobals.getInstance().getImageResources().
+                    getInteger(R.integer.DestroyAnimateState)) {
+                myCurFrameNum = 0;
+            }
+            myAniDelay =myAniDelayMax;
+        }
+        myAniDelay--;
+    }
+
+    /*  PURPOSE:    Change the animation state to the given one
+        INPUT:      newState            - The new state to be changed too
+        OUTPUT:     NONE
+    */
+    protected void changeAniState(int newState){
+        if(newState < myRow) {
+            myCurAniState = newState;
+            myCurFrameNum = 0;
+        }
+    }
+
+    /*  PURPOSE:    Return whether the object's destroyed animation is complete
+        INPUT:      NONE
+        OUTPUT:     Return a boolean of whether the destroyed animation is complete
+    */
+    protected boolean getDestroyedFinish() {
+        return (myCurAniState == GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState) && myCurFrameNum == myRow);
     }
 }

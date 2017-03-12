@@ -8,20 +8,18 @@ import abyssproductions.double0driver.GameObjects.Projectile;
 import abyssproductions.double0driver.R;
 
 /**
- * Created by Mark Reffel on 2/8/17.
- * Lasted Edited by Mandip Sangha on 2/26/17
+ * Created by Mandip Sangha on 3/6/2017.
  */
 
-public class MachineGunProjectile extends Projectile {
+public class SpikeProjectile extends Projectile {
 
-    /*  PURPOSE:    Constructor for the Machine Gun Projectile is to set the default values for the
-                        object
+    /*  PURPOSE:    Constructor for the Flame Thrower Projectile is to set the default values for the object
         INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
         OUTPUT:     NONE
         */
-    private MachineGunProjectile(Bitmap image, int imageWidth, int imageHeight) {
+    private SpikeProjectile(Bitmap image, int imageWidth, int imageHeight) {
         super(image, imageWidth, imageHeight, 2, 1);
         //TODO:Damage amount to be checked
         myDamage = 10;
@@ -31,7 +29,7 @@ public class MachineGunProjectile extends Projectile {
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public MachineGunProjectile() {
+    public SpikeProjectile() {
         this(null, 0, 0);
     }
 
@@ -44,19 +42,18 @@ public class MachineGunProjectile extends Projectile {
     */
     @Override
     public void launch(float x, float y, int direction) {
-        MachineGunProjectile p = new
-                MachineGunProjectile(GameGlobals.getInstance().getImages().getMachineGunProImage(),
+        SpikeProjectile p = new
+                SpikeProjectile(GameGlobals.getInstance().getImages().getSpikeProImage(),
                 GameGlobals.getInstance().getImageResources().
-                        getInteger(R.integer.MachineGunProImageWidth),
+                        getInteger(R.integer.SpikeProImageWidth),
                 GameGlobals.getInstance().getImageResources().
-                        getInteger(R.integer.MachineGunProImageHeight));
-        p.setMyCollisionBounds(new Rect(0,0,10,10));
-        p.resetWidthAndHeight(10,10);
+                        getInteger(R.integer.SpikeProImageHeight));
+        //TODO:Need remove hard coded values
+        p.setMyCollisionBounds(new Rect(0,0,102,25));
+        p.resetWidthAndHeight(102,25);
         p.setDamage(myDamage);
-        p.myVelocity.set(0,direction*GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.MGProYVelocity));
-        //GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
-        //        getImageResources().getInteger(R.integer.SEMachineGunID));
+        p.myVelocity.set(0,GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.EnemyYVelocity));
         super.launch(x, y, direction, p);
     }
 
@@ -69,5 +66,4 @@ public class MachineGunProjectile extends Projectile {
         //TODO:Need to change value from hard coded
         myDamage = 10*newDamageLevel;
     }
-
 }

@@ -1,5 +1,6 @@
 package abyssproductions.double0driver.GameObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.util.Log;
 
@@ -10,7 +11,7 @@ import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunPr
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
- * Edited by Mark Reffel on 2/9/2017
+ * Lasted Edited by Mandip Sangha on 2/26/17
  */
 
 public class Enemy extends Sprite {
@@ -22,15 +23,15 @@ public class Enemy extends Sprite {
     private Random random;
     //  PURPOSE:    Holds the enemy's type
     private EnemyType myType;
+    //  PURPOSE:    Holds whether the enemy can move
+    private boolean movement;
     //  PURPOSE:    Holds the different type of enemies
     public enum EnemyType{BasicCar, MachineGunCar, DronePickup, SpikeVan, Helicopter, Ambulance,
         UpgradeTruck, AmmoTruck}
 
-
-
     /*  PURPOSE:    Constructor for the basic enemy that sets the default values for the object
                         and the point it is suppose to spawn from
-        INPUT:      imageReference      - Reference's the image to be load
+        INPUT:      image               - The image of the object
                     imageWidth          - The width of a single image in the image sheet
                     imageHeight         - The height of a single image in the image sheet
                     enemyType           - The type of enemy to spawn
@@ -40,8 +41,8 @@ public class Enemy extends Sprite {
                                             object)
         OUTPUT:     NONE
      */
-    public Enemy(int imageReference, int width, int height, EnemyType enemyType, float x, float y){
-        super(imageReference, width, height,false);
+    public Enemy(Bitmap image, int imageWidth, int imageHeight, EnemyType enemyType, float x, float y){
+        super(image, imageWidth, imageHeight, false);
         changeMovement = 0;
         random = new Random();
         myType = enemyType;
@@ -53,7 +54,7 @@ public class Enemy extends Sprite {
                 loadSingleWeapon(WeaponTypes.Missile);
                 break;
             case SpikeVan:
-                loadSingleWeapon(WeaponTypes.Missile);
+                loadSingleWeapon(WeaponTypes.Spike);
                 break;
         }
         //TODO:Double check on final pass
@@ -63,15 +64,20 @@ public class Enemy extends Sprite {
         increaseMaxHealth(20);
         //TODO:^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+        movement = true;
+        //Sets enemy velocity
         RectF temp = getDimensions();
         if(enemyType != EnemyType.Helicopter) {
-            temp.offsetTo(x,y);
-            setMyDimensions(temp);
+
             if(y > (GameGlobals.getInstance().getScreenHeight()/2)){
                 myVelocity.set(0,-1*GameGlobals.enemiesUniVelocity);
+                temp.offsetTo(x,y);
             }else{
                 myVelocity.set(0,GameGlobals.enemiesUniVelocity);
+                setImageFlip();
+                temp.offsetTo(x,y-imageHeight);
             }
+            setMyDimensions(temp);
         }else {
             temp.offsetTo(x,0-temp.bottom);
             setMyDimensions(temp);
@@ -85,10 +91,13 @@ public class Enemy extends Sprite {
      */
     public void update(int playerX, int playerY){
         super.update();
-        move( playerX, playerY);
-        if(myType != EnemyType.BasicCar && myType != EnemyType.Ambulance &&
-                myType != EnemyType.UpgradeTruck && myType != EnemyType.AmmoTruck)
-            fire( playerX, playerY);
+        if(getHealth() > 0) {
+            if(movement)move();
+            if (myType == EnemyType.MachineGunCar || myType == EnemyType.DronePickup ||
+                    myType == EnemyType.SpikeVan)
+                fire(playerX, playerY);
+        }
+        movement = true;
     }
 
     /*  PURPOSE:    Fire the enemy projectiles
@@ -100,30 +109,39 @@ public class Enemy extends Sprite {
         //TODO:TO BE DISCUSS FIRST THEN DESIGNED
         switch(myType){
             case MachineGunCar:
-                if(myDim.left < playerX && myDim.right > playerX){
-                    if(myVelocity.y <= 0 && myDim.top > playerY){
-                        fire(myDim.centerX(),myDim.centerY(),-1);
-                    }else if(myVelocity.y > 0 && myDim.bottom < playerY){
-                        fire(myDim.centerX(),myDim.centerY(),1);
+                if(myDim.left <= playerX && myDim.right >= playerX
+                        && Math.abs(myDim.centerY()-playerY) <=
+                        GameGlobals.getInstance().getFiringDistance()){
+                    if(myVelocity.y <= 0){
+                        fire(myDim.centerX(),myDim.top,-1);
+                    }else if(myVelocity.y > 0){
+                        fire(myDim.centerX(),myDim.bottom,1);
                     }
                 }
                 break;
             case DronePickup:
                 //TODO:Uncomment when merge to test with Drone projectile
-                /*if(myDim.left < playerX && myDim.right > playerX){
-                    if(myVelocity.y <= 0 && myDim.top > playerY){
-                        fire(myDim.centerX(),myDim.centerY(),-1);
-                    }else if(myVelocity.y > 0 && myDim.bottom < playerY){
-                        fire(myDim.centerX(),myDim.centerY(),1);
+                if(myDim.left < playerX && myDim.right > playerX
+                        && Math.abs(myDim.centerY()-playerY) <=
+                        GameGlobals.getInstance().getFiringDistance()){
+                    if(myVelocity.y <= 0){
+                        fire(myDim.centerX(),myDim.top,-1);
+                    }else if(myVelocity.y > 0){
+                        fire(myDim.centerX(),myDim.bottom,1);
                     }
-                }*/
+                }
                 break;
             case SpikeVan:
                 //TODO:Uncomment when merge to test with Spike projectile
-                /*if(myDim.left < playerX && myDim.right > playerX && myVelocity.y < 0
-                    && myDim.top > playerY){
-                    fire(myDim.centerX(),myDim.centerY(),-1);
-                }*/
+                if(myDim.left < playerX && myDim.right > playerX && myDim.centerY() < playerY
+                        && Math.abs(myDim.centerY()-playerY) <=
+                        GameGlobals.getInstance().getFiringDistance()){
+                    if(myVelocity.y <= 0){
+                        fire(myDim.left,myDim.bottom,1);
+                    }else if(myVelocity.y > 0){
+                        fire(myDim.left,myDim.top,-1);
+                    }
+                }
                 break;
             case Helicopter:
                 if(myDim.left < playerX && myDim.right > playerX){
@@ -140,6 +158,22 @@ public class Enemy extends Sprite {
         }
     }
 
+    /*  PURPOSE:    Set enemy's movement to stop
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    public void stopMovement(){
+        movement = false;
+    }
+
+    /*  PURPOSE:    Return's if the enemy is running
+        INPUT:      NONE
+        OUTPUT:     Return's a boolean of whether enemy is running or not
+     */
+    public boolean carRunning(){
+        return movement;
+    }
+
     /*  PURPOSE:    Return the enemy type
         INPUT:      NONE
         OUTPUT:     Return a EnemyType variable back with the enemy's type
@@ -153,27 +187,18 @@ public class Enemy extends Sprite {
         OUTPUT:     Return a boolean if the health equals zero
      */
     public boolean isDead(){
-        return getMaxHealth()-getHealth() <= 0;
+        return getHealth() <= 0 && getDestroyedFinish();
     }
 
     /*  PURPOSE:    Enemy's movement logic
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    private void move(int playerX, int playerY){
+    private void move(){
         RectF temp = getDimensions();
         //Use indicate if helicopter is fully on the screen
         boolean heliReady = false;
         if(myType != EnemyType.Helicopter){
-            //Stop enemy car that aren't the basic car from running into the player from behind if
-            //  they are in the same lane
-            if(temp.left < playerX && temp.right > playerX && myVelocity.y <= 0
-                    && playerY < temp.top && myType != EnemyType.BasicCar
-                    && myType != EnemyType.SpikeVan){
-                    myVelocity.set(0,0);
-            }else{
-                if(myVelocity.y == 0)myVelocity.set(0,-GameGlobals.enemiesUniVelocity);
-            }
             moveVertical(myVelocity.y);
         }else{
             //Stops the helicopter from making random movement until the helicopter is full on the
