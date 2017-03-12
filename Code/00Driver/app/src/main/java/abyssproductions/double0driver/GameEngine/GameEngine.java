@@ -121,6 +121,7 @@ public class GameEngine {
             }
         }
 
+        //Used to make sure the last vehicle that spawn in the lane is out of over lap distances
         for (int j = 0; j < (gameBackground.getNumLanes()-2); j++){
             if(laneLastSpawnSpace[j] > 0)laneLastSpawnSpace[j]-=GameGlobals.enemiesUniVelocity;
         }
@@ -364,7 +365,7 @@ public class GameEngine {
                 if (myEnemies[i] == null) {
                     if (value <= 10) {
                         tempHeight = gGInstance.getImageResources().
-                                getInteger(R.integer.BasicCarImageHeight);;
+                                getInteger(R.integer.BasicCarImageHeight);
                         tempColHeight = tempHeight;
                         tempColWidth = (int) (71 * ((float) tempGameLaneSize / (float) tempColWidth));
                         tempImage = gGInstance.getImages().getBasicCarImage(random.nextInt(2));
@@ -372,7 +373,7 @@ public class GameEngine {
                         //Log.d("spawnEnemies: ", "BC ");
                     } else if (value <= 20) {
                         tempHeight = gGInstance.getImageResources().
-                                getInteger(R.integer.SportCarImageHeight);;
+                                getInteger(R.integer.SportCarImageHeight);
                         tempColHeight = tempHeight;
                         tempColWidth = (int) (71 * ((float) tempGameLaneSize / (float) tempColWidth));
                         tempImage = gGInstance.getImages().getSportCarImage();

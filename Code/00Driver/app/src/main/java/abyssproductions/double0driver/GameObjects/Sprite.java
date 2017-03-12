@@ -180,8 +180,12 @@ public class Sprite extends GameObject {
      */
     public void decreaseHealth(int decreaseBy) {
         myHealth = (myHealth - decreaseBy < 0) ? 0 : myHealth - decreaseBy;
-        if(myHealth <= 0)changeAniState(GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.DestroyAnimateState));
+        if(myHealth <= 0){
+            changeAniState(GameGlobals.getInstance().getImageResources().
+                    getInteger(R.integer.DestroyAnimateState));
+            GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
+                    getImageResources().getInteger(R.integer.SEExplosionID));
+        }
     }
 
     /*  PURPOSE:    Increase the sprite’s max health by amount given
