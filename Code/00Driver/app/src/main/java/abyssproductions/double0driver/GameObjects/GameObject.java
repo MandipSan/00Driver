@@ -89,7 +89,7 @@ public class GameObject {
         INPUT:      canvas              - Pointer to the surface screen's canvas
         OUTPUT:     NONE
     */
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas){canvas.drawRect(myCollisionBox,myPaint);
         if(!myFlipped)canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
         else{
             Matrix tempMatrix = new Matrix();
@@ -100,6 +100,8 @@ public class GameObject {
             //canvas.drawBitmap(flippedImage,myDimensions.left,myDimensions.top,myPaint);
             canvas.drawBitmap(flippedImage,tempCurFrameLoc,myDimensions,myPaint);
         }
+
+
     }
 
     /*  PURPOSE:    Updates the game object's logic
@@ -116,7 +118,9 @@ public class GameObject {
     */
     public void setMyDimensions(RectF newDimension){
         myDimensions.set(newDimension);
-        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
+        myCollisionBox.offsetTo(
+                (int)(myDimensions.left+((myDimensions.width()-myCollisionBox.width())/2)),
+                (int)myDimensions.top);
     }
 
     /*  PURPOSE:    Set's the game object's collision bounding box
@@ -125,7 +129,9 @@ public class GameObject {
     */
     public void setMyCollisionBounds(Rect newCollisionBox ){
         myCollisionBox.set(newCollisionBox);
-        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
+        myCollisionBox.offsetTo(
+                (int)(myDimensions.left+((myDimensions.width()-myCollisionBox.width())/2)),
+                (int)myDimensions.top);
     }
 
     /*  PURPOSE:    Resets the objects width and height if it is greater than 0
