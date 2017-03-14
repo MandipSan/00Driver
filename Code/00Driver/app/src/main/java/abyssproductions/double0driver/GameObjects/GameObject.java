@@ -89,7 +89,7 @@ public class GameObject {
         INPUT:      canvas              - Pointer to the surface screen's canvas
         OUTPUT:     NONE
     */
-    public void draw(Canvas canvas){canvas.drawRect(myCollisionBox,myPaint);
+    public void draw(Canvas canvas){
         if(!myFlipped)canvas.drawBitmap(myImage,myCurFrameLoc,myDimensions,myPaint);
         else{
             Matrix tempMatrix = new Matrix();
@@ -100,8 +100,6 @@ public class GameObject {
             //canvas.drawBitmap(flippedImage,myDimensions.left,myDimensions.top,myPaint);
             canvas.drawBitmap(flippedImage,tempCurFrameLoc,myDimensions,myPaint);
         }
-
-
     }
 
     /*  PURPOSE:    Updates the game object's logic
