@@ -9,8 +9,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import java.util.Random;
-
-import abyssproductions.double0driver.Background;
+import abyssproductions.double0driver.Utilities.Background;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Items;
@@ -62,7 +61,7 @@ public class GameEngine {
                 (int)(gameBackground.getLaneSize()*((float)tempHeight/(float)tempWidth)));
         //Offset the player to always start in right middle lane
         temp.offset(((gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
-                gameBackground.getGrassSize(),1000);
+                gameBackground.getGrassSize(),gGInstance.getScreenHeight()/2);
         player.setMyDimensions(temp);
         //Sets the player collision box that is use for detecting collisions
         player.setMyCollisionBounds(new Rect(0,0,

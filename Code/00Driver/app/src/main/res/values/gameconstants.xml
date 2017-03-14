@@ -10,10 +10,10 @@
     <integer name="ItemsArraySize">10</integer>
     <integer name="ItemYVelocity">10</integer>
     <!-->Enemy related constants<-->
-    <integer name="EnemyArraySize">10</integer>
+    <integer name="EnemyArraySize">15</integer>
     <integer name="EnemyYVelocity">10</integer>
     <!-->Projectile related constants<-->
-    <integer name="ProjectileArraySize">20</integer>
+    <integer name="ProjectileArraySize">50</integer>
     <integer name="MGProYVelocity">25</integer>
     <integer name="MLProYVelocity">25</integer>
     <integer name="LProYVelocity">25</integer>

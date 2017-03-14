@@ -1,4 +1,4 @@
-package abyssproductions.double0driver;
+package abyssproductions.double0driver.Utilities;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+
+import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/17/2017.
@@ -26,14 +29,14 @@ public class Background {
         Resources tempRes = GameGlobals.getInstance().getImageResources();
 
         //checks that if the number of lanes calculate is more than minimum number of lanes
-        if(TotalRoadSize/tempRes.getInteger(R.integer.MaximumLaneSize) <
-                tempRes.getInteger(R.integer.MinimumNumberOfLanes)){
+        /*if(TotalRoadSize/tempRes.getInteger(R.integer.MaximumLaneSize) <
+                tempRes.getInteger(R.integer.MinimumNumberOfLanes)){*/
             laneSize = TotalRoadSize/tempRes.getInteger(R.integer.MinimumNumberOfLanes);
             numLanes = tempRes.getInteger(R.integer.MinimumNumberOfLanes);
-        }else{
+        /*}else{
             numLanes = TotalRoadSize/tempRes.getInteger(R.integer.MaximumLaneSize);
             laneSize = tempRes.getInteger(R.integer.MaximumLaneSize);
-        }
+        }*/
 
         paint = new Paint();
         roadDim = new Rect(0,0,(numLanes-2)*laneSize,GameGlobals.getInstance().getScreenHeight());
