@@ -56,7 +56,9 @@ public class GameEngine {
         int tempHeight = gGInstance.getImageResources().getInteger(R.integer.PlayerImageHeight);
         player = new Player(gGInstance.getImages().getPlayerImage(),tempWidth,tempHeight);
         player.setLaneTransitionMax(gameBackground.getLaneSize());
-        //Rescales image to screen size
+        //Rescales image to screen size (eliminates the need to call resetWidthAndHeight method in
+        //  the GameObject since it is adjusted by passing the temp rect object to the
+        //  setMyDimensions method call
         RectF temp = new RectF(0,0,gameBackground.getLaneSize(),
                 (int)(gameBackground.getLaneSize()*((float)tempHeight/(float)tempWidth)));
         //Offset the player to always start in right middle lane
@@ -425,6 +427,7 @@ public class GameEngine {
                     }
                     //TODO:Hard code value need to change 
                     myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x-5, y);
+                    //Rescales the image to fit the screen size
                     myEnemies[i].resetWidthAndHeight(tempGameLaneSize-10, (int) (tempGameLaneSize *
                             ((float) tempHeight / (float) tempWidth)));
                     myEnemies[i].setMyCollisionBounds(new Rect(0, 0, tempColWidth-10, tempColHeight));
