@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 
 import java.util.Random;
 
-import abyssproductions.double0driver.Background;
+import abyssproductions.double0driver.Utilities.Background;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Items;

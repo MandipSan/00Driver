@@ -1,4 +1,4 @@
-package abyssproductions.double0driver;
+package abyssproductions.double0driver.Utilities;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+
+import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/17/2017.
