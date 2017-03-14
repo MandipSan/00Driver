@@ -26,14 +26,14 @@ public class Background {
         Resources tempRes = GameGlobals.getInstance().getImageResources();
 
         //checks that if the number of lanes calculate is more than minimum number of lanes
-        if(TotalRoadSize/tempRes.getInteger(R.integer.MaximumLaneSize) <
-                tempRes.getInteger(R.integer.MinimumNumberOfLanes)){
+        /*if(TotalRoadSize/tempRes.getInteger(R.integer.MaximumLaneSize) <
+                tempRes.getInteger(R.integer.MinimumNumberOfLanes)){*/
             laneSize = TotalRoadSize/tempRes.getInteger(R.integer.MinimumNumberOfLanes);
             numLanes = tempRes.getInteger(R.integer.MinimumNumberOfLanes);
-        }else{
+        /*}else{
             numLanes = TotalRoadSize/tempRes.getInteger(R.integer.MaximumLaneSize);
             laneSize = tempRes.getInteger(R.integer.MaximumLaneSize);
-        }
+        }*/
 
         paint = new Paint();
         roadDim = new Rect(0,0,(numLanes-2)*laneSize,GameGlobals.getInstance().getScreenHeight());
