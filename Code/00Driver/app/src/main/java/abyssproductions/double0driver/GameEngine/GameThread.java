@@ -9,7 +9,7 @@ import android.view.SurfaceHolder;
 
 public class GameThread extends Thread {
     //  PURPOSE:    Hold whether the game loop is running
-    private boolean gameRunning;
+    private volatile boolean gameRunning;
     //  PURPOSE:    Hold the surface holder from the surface view
     private SurfaceHolder gameSurfaceHolder;
     //  PURPOSE:    Hold the surface view
@@ -44,15 +44,17 @@ public class GameThread extends Thread {
         Canvas newCanvas = null;
         while(gameRunning){
             newCanvas = null;
-            gameView.update();
-            try{
-                newCanvas = gameSurfaceHolder.lockCanvas(null);
-                synchronized(gameSurfaceHolder) {
-                    gameView.draw(newCanvas);
-                }
-            }finally {
-                if(newCanvas != null){
-                    gameSurfaceHolder.unlockCanvasAndPost(newCanvas);
+            if(gameSurfaceHolder.getSurface().isValid()) {
+                gameView.update();
+                try {
+                    newCanvas = gameSurfaceHolder.lockCanvas(null);
+                    synchronized (gameSurfaceHolder) {
+                        if (newCanvas != null)gameView.draw(newCanvas);
+                    }
+                } finally {
+                    if (newCanvas != null) {
+                        gameSurfaceHolder.unlockCanvasAndPost(newCanvas);
+                    }
                 }
             }
             try {

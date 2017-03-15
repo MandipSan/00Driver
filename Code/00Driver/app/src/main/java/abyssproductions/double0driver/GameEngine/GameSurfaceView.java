@@ -39,7 +39,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         //DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         //GameGlobals.getInstance().setScreenHeight(metrics.heightPixels);
         //GameGlobals.getInstance().setScreenWidth(metrics.widthPixels);
-        gameThread = null;
+        //gameThread = null;
 
     }
 
@@ -49,19 +49,18 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
      */
     @Override
     public void surfaceCreated(SurfaceHolder holder){
-        if(gameThread == null){
+        //Loads the game engine other need variable if the game engine wasn't loaded
+        if(gameEngine == null){
             GameGlobals.getInstance().setScreenHeight(this.getHeight());
             GameGlobals.getInstance().setScreenWidth(this.getWidth());
             GameGlobals.getInstance().mySoundEffects = new SoundEffects(contexts);
             gameEngine = new GameEngine();
             mDetector = new GestureDetectorCompat(contexts,gameEngine.new GameGestureListener());
-            gameThread = new GameThread(getHolder(),this);
-            gameThread.setGameRunning(true);
-            gameThread.start();
-        }else{
-            gameThread.setGameRunning(true);
-            gameThread.start();
         }
+        //Starts the thread
+        gameThread = new GameThread(getHolder(),this);
+        gameThread.setGameRunning(true);
+        gameThread.start();
     }
 
     /** PURPOSE:    Set the other variable need when the surface is changes
@@ -73,8 +72,6 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
      */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
-        //GameGlobals.getInstance().setScreenHeight(height);
-        //GameGlobals.getInstance().setScreenWidth(width);
     }
 
     /** PURPOSE:    Stop the thread and set the other variable need when the surface is destroyed
@@ -83,8 +80,19 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
      */
     @Override
     public void surfaceDestroyed(SurfaceHolder holder){
+        boolean temp = true;
+        //Stops the game loop
         gameThread.setGameRunning(false);
-        gameThread.interrupt();
+        //Waits for the thread to die and then sets the thread to null 
+        while(temp){
+            try{
+                gameThread.join(0);
+                temp = false;
+            }catch ( InterruptedException e){
+
+            }
+        }
+        gameThread = null;
     }
 
     /** PURPOSE:    Draws what is to be displayed on the screen
