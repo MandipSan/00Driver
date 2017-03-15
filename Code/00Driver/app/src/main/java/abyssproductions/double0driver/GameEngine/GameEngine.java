@@ -357,7 +357,7 @@ public class GameEngine {
         //Randomly picks lane value between 1 and the number of lanes minus 2 for the dirt lanes
         int lane = random.nextInt((gameBackground.getNumLanes()-2))+1;
         //Calculates the X position for the enemy based on the lane it is going to be in
-        int x = 10+gameBackground.getGrassSize()+(tempGameLaneSize*lane);
+        int x = 5+gameBackground.getGrassSize()+(tempGameLaneSize*lane);
         //Calculates the Y position for the enemy based on the lane it is going to be in
         int y = (lane <=(gameBackground.getNumLanes()/2)-1) ? 0 : gGInstance.getScreenHeight();
 
@@ -425,8 +425,8 @@ public class GameEngine {
                         //Log.d("spawnEnemies: ", "H ");
                         break;
                     }
-                    //TODO:Hard code value need to change 
-                    myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x-5, y);
+                    //TODO:Hard code value need to change
+                    myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x, y);
                     //Rescales the image to fit the screen size
                     myEnemies[i].resetWidthAndHeight(tempGameLaneSize-10, (int) (tempGameLaneSize *
                             ((float) tempHeight / (float) tempWidth)));
