@@ -24,6 +24,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private GameEngine gameEngine;
     //  PURPOSE:    The pointer that is used to detect gestures
     private GestureDetectorCompat mDetector;
+    //  PURPOSE:    Holds the context passed to the view
+    private Context contexts;
 
     /** PURPOSE:    Constructor for the GameSurfaceView that set the default value for the view
      *  INPUT:      context             - The context from the activity
@@ -32,14 +34,13 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     public GameSurfaceView(Context context){
         super(context);
         getHolder().addCallback(this);
+        contexts = context;
         GameGlobals.getInstance().setImageResources(getResources());
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        GameGlobals.getInstance().setScreenHeight(metrics.heightPixels);
-        GameGlobals.getInstance().setScreenWidth(metrics.widthPixels);
-        GameGlobals.getInstance().mySoundEffects = new SoundEffects(context);
-        gameEngine = new GameEngine();
+        //DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        //GameGlobals.getInstance().setScreenHeight(metrics.heightPixels);
+        //GameGlobals.getInstance().setScreenWidth(metrics.widthPixels);
         gameThread = null;
-        mDetector = new GestureDetectorCompat(context,gameEngine.new GameGestureListener());
+
     }
 
     /** PURPOSE:    Starts the thread and set the other variable need when the surface is created
@@ -49,6 +50,11 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public void surfaceCreated(SurfaceHolder holder){
         if(gameThread == null){
+            GameGlobals.getInstance().setScreenHeight(this.getHeight());
+            GameGlobals.getInstance().setScreenWidth(this.getWidth());
+            GameGlobals.getInstance().mySoundEffects = new SoundEffects(contexts);
+            gameEngine = new GameEngine();
+            mDetector = new GestureDetectorCompat(contexts,gameEngine.new GameGestureListener());
             gameThread = new GameThread(getHolder(),this);
             gameThread.setGameRunning(true);
             gameThread.start();
@@ -67,8 +73,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
      */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
-        GameGlobals.getInstance().setScreenHeight(height);
-        GameGlobals.getInstance().setScreenWidth(width);
+        //GameGlobals.getInstance().setScreenHeight(height);
+        //GameGlobals.getInstance().setScreenWidth(width);
     }
 
     /** PURPOSE:    Stop the thread and set the other variable need when the surface is destroyed

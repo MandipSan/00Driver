@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
+import abyssproductions.double0driver.GameGlobals;
+
 /**
  * Created by Mandip Sangha on 2/15/2017.
  */
@@ -37,9 +39,12 @@ public class HUD {
         score = 0;
         healthBar = new Rect(0,50,1200,100);
         fireButtonDim = new Rect(0,0,300,150);
-        fireButtonDim.offset(100,1400);
+        fireButtonDim.offset(100, GameGlobals.getInstance().getScreenHeight()-
+                fireButtonDim.height()-50);
         switchButtonDim = new Rect(0,0,300,150);
-        switchButtonDim.offset(600,1400);
+        int temp = GameGlobals.getInstance().getScreenHeight();
+        switchButtonDim.offset(600,GameGlobals.getInstance().getScreenHeight()-
+                switchButtonDim.height()-50);
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(50);
