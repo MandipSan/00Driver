@@ -75,7 +75,7 @@ public class Enemy extends Sprite {
             }else{
                 myVelocity.set(0,GameGlobals.enemiesUniVelocity);
                 setImageFlip();
-                temp.offsetTo(x,y-imageHeight);
+                temp.offsetTo(x,y-temp.height());
             }
             setMyDimensions(temp);
         }else {
