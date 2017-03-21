@@ -39,9 +39,12 @@ public class Enemy extends Sprite {
                                             object)
                     y                   - The y location to spawn the enemy from(The top in rect
                                             object)
+                    displayWidth        - The width that the object should have when displayed
+                    displayHeight       - The height that the object should have when displayed
         OUTPUT:     NONE
      */
-    public Enemy(Bitmap image, int imageWidth, int imageHeight, EnemyType enemyType, float x, float y){
+    public Enemy(Bitmap image, int imageWidth, int imageHeight, EnemyType enemyType, float x,
+                 float y, int displayWidth, int displayHeight){
         super(image, imageWidth, imageHeight, false);
         changeMovement = 0;
         random = new Random();
@@ -65,10 +68,11 @@ public class Enemy extends Sprite {
         //TODO:^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         movement = true;
+        //Resize object to current display limits
+        resetWidthAndHeight(displayWidth, displayHeight);
         //Sets enemy velocity
         RectF temp = getDimensions();
         if(enemyType != EnemyType.Helicopter) {
-
             if(y > (GameGlobals.getInstance().getScreenHeight()/2)){
                 myVelocity.set(0,-1*GameGlobals.enemiesUniVelocity);
                 temp.offsetTo(x,y);

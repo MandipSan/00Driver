@@ -426,9 +426,10 @@ public class GameEngine {
                         break;
                     }
                     //TODO:Hard code value need to change
-                    myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x, y);
-                    //Rescales the image to fit the screen size
-                    myEnemies[i].resetWidthAndHeight(tempGameLaneSize-10, (int) (tempGameLaneSize *
+                    //Last two values passed rescaled the image to appropriate size for the
+                    //  different displays
+                    myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x, y,
+                            tempGameLaneSize-10,(int) (tempGameLaneSize *
                             ((float) tempHeight / (float) tempWidth)));
                     myEnemies[i].setMyCollisionBounds(new Rect(0, 0, tempColWidth-10, tempColHeight));
                     laneLastSpawnSpace[lane-1] = (int)(tempGameLaneSize *
