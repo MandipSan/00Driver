@@ -39,12 +39,11 @@ public class HUD {
         score = 0;
         healthBar = new Rect(0,50,1200,100);
         fireButtonDim = new Rect(0,0,300,150);
-        fireButtonDim.offset(100, GameGlobals.getInstance().getScreenHeight()-
-                fireButtonDim.height()-50);
+        fireButtonDim.offset(50, GameGlobals.getInstance().getScreenHeight()-
+                fireButtonDim.height()-100);
         switchButtonDim = new Rect(0,0,300,150);
-        int temp = GameGlobals.getInstance().getScreenHeight();
-        switchButtonDim.offset(600,GameGlobals.getInstance().getScreenHeight()-
-                switchButtonDim.height()-50);
+        switchButtonDim.offset(GameGlobals.getInstance().getScreenWidth()-switchButtonDim.width()-50,
+                GameGlobals.getInstance().getScreenHeight()- switchButtonDim.height()-100);
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(50);
@@ -66,8 +65,8 @@ public class HUD {
     }
 
     /** PURPOSE:    Calculates the length of the health bar
-     *  INPUT:      newCurHealth           - The current health value
-     *              newMaxHealth           - The maximum health value
+     *  INPUT:      newCurHealth        - The current health value
+     *              newMaxHealth        - The maximum health value
      *  OUTPUT:     NONE
      */
     public void setHealthLevels(float newCurHealth, float newMaxHealth){
