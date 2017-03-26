@@ -8,6 +8,8 @@ import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
 import abyssproductions.double0driver.GameEngine.GameSurfaceView;
+import abyssproductions.double0driver.GameMenu.GameScreen;
+import abyssproductions.double0driver.GameMenu.StartScreen;
 
 public class MainActivity extends AppCompatActivity {
     private GameSurfaceView gameView;
@@ -15,11 +17,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        setContentView(R.layout.activity_main);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.activity_main, StartScreen.newInstance(), "StartScreen")
+                    .commit();
+        }
+
+        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         gameView = new GameSurfaceView(this);
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        setContentView(gameView);//R.layout.activity_main);
+        setContentView(gameView);//R.layout.activity_main);*/
     }
 
     /** PURPOSE:    Detects the touch inputs and returns the super methods event
@@ -36,5 +47,17 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         GameGlobals.getInstance().mySoundEffects.releaseSoundPool();
+    }
+
+    /** PURPOSE:    Used to change to the specified fragment
+     *  INPUT:      fragTag             - Holds the tag for the fragment to change too
+     *  OUTPUT:     Returns a boolean
+     */
+    public void changeFrags(String fragTag){
+        /*getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_main, GameScreen.newInstance(), fragTag)
+                .addToBackStack(null)
+                .commit();*/
     }
 }
