@@ -22,16 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(gameView);//R.layout.activity_main);
     }
 
-    /** PURPOSE:    Detects the touch inputs and returns the super methods event
-     *  INPUT:      event               - Holds the type of event that happened
-     *  OUTPUT:     Returns a boolean
-     */
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        gameView.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
     @Override
     public void onDestroy(){
         super.onDestroy();

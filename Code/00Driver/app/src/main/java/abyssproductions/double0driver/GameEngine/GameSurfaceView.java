@@ -9,6 +9,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.Utilities.SoundEffects;
@@ -56,6 +57,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             GameGlobals.getInstance().mySoundEffects = new SoundEffects(contexts);
             gameEngine = new GameEngine();
             mDetector = new GestureDetectorCompat(contexts,gameEngine.new GameGestureListener());
+            setUpTouchDetection();
         }
         //Starts the thread
         gameThread = new GameThread(getHolder(),this);
@@ -113,18 +115,22 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         gameEngine.update();
     }
 
-    /** PURPOSE:    Detects the touch inputs and returns the super methods event
-     *  INPUT:      event               - Holds the type of event that happened
-     *  OUTPUT:     Returns a boolean
+    /** PURPOSE:    Sets up the touch detection
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
      */
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
-            gameEngine.isPressed(true,event.getX(),event.getY());
-        }else if(event.getAction() == MotionEvent.ACTION_UP){
-            gameEngine.isPressed(false,event.getX(),event.getY());
-        }
-        mDetector.onTouchEvent(event);
-        return true;
+    public void setUpTouchDetection(){
+        this.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View view, MotionEvent event){
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    gameEngine.isPressed(true,event.getX(),event.getY());
+                }else if(event.getAction() == MotionEvent.ACTION_UP){
+                    gameEngine.isPressed(false,event.getX(),event.getY());
+                }
+                mDetector.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 }
