@@ -1,46 +1,44 @@
 package abyssproductions.double0driver;
 
-import android.media.AudioManager;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.WindowManager;
 
 import abyssproductions.double0driver.GameEngine.GameSurfaceView;
+import abyssproductions.double0driver.GameMenu.CreditScreen;
 import abyssproductions.double0driver.GameMenu.GameScreen;
+import abyssproductions.double0driver.GameMenu.HelpScreen;
+import abyssproductions.double0driver.GameMenu.SettingScreen;
 import abyssproductions.double0driver.GameMenu.StartScreen;
+import abyssproductions.double0driver.GameMenu.UpgradeScreen;
 
 public class MainActivity extends AppCompatActivity {
-    private GameSurfaceView gameView;
+    //  PURPOSE:    Pointer to the start screen fragment
+    private StartScreen startScreen;
+    //  PURPOSE:    Pointer to the game screen fragment
+    private GameScreen gameScreen;
+    //  PURPOSE:    Pointer to the credit screen fragment
+    private CreditScreen creditScreen;
+    //  PURPOSE:    Pointer to the help screen fragment
+    private HelpScreen helpScreen;
+    //  PURPOSE:    Pointer to the setting screen fragment
+    private SettingScreen settingScreen;
+    //  PURPOSE:    Pointer to the upgrade screen fragment
+    private UpgradeScreen upgradeScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startScreen = StartScreen.newInstance();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.activity_main, StartScreen.newInstance(), "StartScreen")
+                    .add(R.id.activity_main, startScreen, "StartScreen")
                     .commit();
         }
-
-        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        gameView = new GameSurfaceView(this);
-        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        setContentView(gameView);//R.layout.activity_main);*/
-    }
-
-    /** PURPOSE:    Detects the touch inputs and returns the super methods event
-     *  INPUT:      event               - Holds the type of event that happened
-     *  OUTPUT:     Returns a boolean
-     */
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        gameView.onTouchEvent(event);
-        return super.onTouchEvent(event);
     }
 
     @Override
@@ -54,10 +52,33 @@ public class MainActivity extends AppCompatActivity {
      *  OUTPUT:     Returns a boolean
      */
     public void changeFrags(String fragTag){
-        /*getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.activity_main, GameScreen.newInstance(), fragTag)
-                .addToBackStack(null)
-                .commit();*/
+        Fragment temp = null;
+        switch (fragTag){
+            case "StartScreen":
+                temp = startScreen;
+                break;
+            case "GameScreen":
+                temp = gameScreen;
+                break;
+            case "CreditScreen":
+                temp = creditScreen;
+                break;
+            case "HelpScreen":
+                temp = helpScreen;
+                break;
+            case "SettingScreen":
+                temp = settingScreen;
+                break;
+            case "UpgradeScreen":
+                temp = upgradeScreen;
+                break;
+        }
+        if(temp != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.activity_main, temp, fragTag)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 }
