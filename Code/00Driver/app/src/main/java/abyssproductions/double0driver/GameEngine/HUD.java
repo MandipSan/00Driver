@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
+import abyssproductions.double0driver.GameGlobals;
+
 /**
  * Created by Mandip Sangha on 2/15/2017.
  */
@@ -25,6 +27,10 @@ public class HUD {
     private Rect switchButtonDim;
     //  PURPOSE:    Holds the current score
     private int score;
+    //  PURPOSE:    Holds the Y location for the text
+    private int healthTextYPos;
+    //  PURPOSE:    Holds the Y location for the text
+    private int scoreTextYPos;
     //  PURPOSE:    Holds the paint setting for the drawable objects
     private Paint paint;
 
@@ -33,16 +39,29 @@ public class HUD {
      *  OUTPUT:     NONE
      */
     public HUD(){
+        float heightRatio = GameGlobals.getInstance().getScreenHeight()/1752f;
+        float widthRatio = GameGlobals.getInstance().getScreenWidth()/1080f;
         numLives = 3;
         score = 0;
-        healthBar = new Rect(0,50,1200,100);
-        fireButtonDim = new Rect(0,0,300,150);
-        fireButtonDim.offset(100,1400);
-        switchButtonDim = new Rect(0,0,300,150);
-        switchButtonDim.offset(600,1400);
+        healthBar = new Rect(0,(int)(50*heightRatio),GameGlobals.getInstance().getScreenWidth(),
+                (int)(100*heightRatio));
+        fireButtonDim = new Rect(0,0,(int)(300*widthRatio),(int)(150*heightRatio));
+
+        fireButtonDim.offset((int)(50*widthRatio), GameGlobals.getInstance().getScreenHeight()-
+                fireButtonDim.height()-(int)(100*heightRatio));
+
+        switchButtonDim = new Rect(0,0,(int)(300*widthRatio),(int)(150*heightRatio));
+
+        switchButtonDim.offset(GameGlobals.getInstance().getScreenWidth()-
+                switchButtonDim.width()-(int)(50*widthRatio),
+                GameGlobals.getInstance().getScreenHeight()-
+                        switchButtonDim.height()-(int)(100*heightRatio));
+
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        paint.setTextSize(50);
+        paint.setTextSize(healthBar.height());
+        scoreTextYPos = (int)paint.getTextSize();
+        healthTextYPos = healthBar.top+(int)paint.getTextSize();
     }
 
     /** PURPOSE:    Draws the HUD
@@ -51,22 +70,24 @@ public class HUD {
      */
     public void draw(Canvas canvas){
         paint.setColor(Color.WHITE);
-        canvas.drawText("Score: " + score,0,40,paint);
+        canvas.drawText("Score: " + score,0,scoreTextYPos,paint);
         paint.setColor(Color.RED);
         canvas.drawRect(healthBar,paint);
         paint.setColor(Color.WHITE);
-        canvas.drawText("" + curHealth + "/" + maxHealth,0,90,paint);
+        canvas.drawText("" + curHealth + "/" + maxHealth,0,healthTextYPos,paint);
         canvas.drawRect(fireButtonDim,paint);
+        paint.setColor(Color.BLACK);
         canvas.drawRect(switchButtonDim,paint);
     }
 
     /** PURPOSE:    Calculates the length of the health bar
-     *  INPUT:      newCurHealth           - The current health value
-     *              newMaxHealth           - The maximum health value
+     *  INPUT:      newCurHealth        - The current health value
+     *              newMaxHealth        - The maximum health value
      *  OUTPUT:     NONE
      */
     public void setHealthLevels(float newCurHealth, float newMaxHealth){
-        healthBar.right = (int)((newCurHealth/newMaxHealth)*1200);
+        healthBar.right = (int)((newCurHealth/newMaxHealth)*
+                GameGlobals.getInstance().getScreenWidth());
         curHealth = (int)newCurHealth;
         maxHealth = (int)newMaxHealth;
     }

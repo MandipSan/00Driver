@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         creditScreen = CreditScreen.newInstance();
         helpScreen = HelpScreen.newInstance();
         settingScreen = SettingScreen.newInstance();
-
+      
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
-
+  
     @Override
     public void onDestroy(){
         super.onDestroy();
