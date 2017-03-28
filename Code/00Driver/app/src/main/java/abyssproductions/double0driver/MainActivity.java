@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startScreen = StartScreen.newInstance();
+        gameScreen = GameScreen.newInstance();
+        creditScreen = CreditScreen.newInstance();
+        helpScreen = HelpScreen.newInstance();
+        settingScreen = SettingScreen.newInstance();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
