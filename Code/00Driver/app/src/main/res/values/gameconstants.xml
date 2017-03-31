@@ -49,4 +49,9 @@
     <integer name="SpikeProImageHeight">25</integer>
     <integer name="ItemBoxImageWidth">100</integer>
     <integer name="ItemBoxImageHeight">100</integer>
+    <integer name="MachineGunImageHeight">19</integer>
+    <integer name="MissileLauncherImageHeight">17</integer>
+    <integer name="LaserCannonImageHeight">17</integer>
+    <integer name="FlameThrowerImageHeight">16</integer>
+    <integer name="ButtonImageSize">200</integer>
 </resources>

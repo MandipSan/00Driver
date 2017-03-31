@@ -92,7 +92,7 @@ public class GameEngine {
 
         enemySpawnDelay = 0;
         random = new Random();
-        gHUD = new HUD();
+        gHUD = new HUD(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
         playerFire = false;
 
     }
@@ -107,6 +107,7 @@ public class GameEngine {
         if(gHUD.getNumLives() <= 0){
             //TODO:DO SOMETHING WHEN NUMBER OF LIVE IS 0
         }
+        gHUD.setCurrentWeaponAmmo(player.getAmmo(player.getMyPrimaryWeapon()));
         checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
@@ -182,7 +183,10 @@ public class GameEngine {
      */
     public void isPressed(boolean pressed, float x, float y){
         playerFire = pressed && gHUD.buttonPressed(0,x,y);
-        if(gHUD.buttonPressed(1,x,y) && !pressed)player.switchWeapon();
+        if(gHUD.buttonPressed(1,x,y) && !pressed){
+            player.switchWeapon();
+            gHUD.currentWeaponTypes(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
+        }
     }
 
     //  PURPOSE:    Class used to detected if the fling gesture occurred
