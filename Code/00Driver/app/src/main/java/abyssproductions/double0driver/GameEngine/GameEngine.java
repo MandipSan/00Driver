@@ -306,9 +306,8 @@ public class GameEngine {
             //Checks if a projectile collides with the player
             if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
                     intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
-                //TODO:Change to use projectile damage
-                /*player.decreaseHealth(5);
-                gGInstance.myProjectiles[k] = null;*/
+                player.decreaseHealth(gGInstance.myProjectiles[k].getMyDamage());
+                gGInstance.myProjectiles[k] = null;
             }
 
             //Checks if the projectile collides with item boxes
