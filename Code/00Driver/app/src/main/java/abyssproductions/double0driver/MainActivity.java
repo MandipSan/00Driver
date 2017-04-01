@@ -1,5 +1,6 @@
 package abyssproductions.double0driver;
 
+import android.support.v4.app.BundleCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,9 +54,18 @@ public class MainActivity extends AppCompatActivity {
 
     /** PURPOSE:    Used to change to the specified fragment
      *  INPUT:      fragTag             - Holds the tag for the fragment to change too
-     *  OUTPUT:     Returns a boolean
+     *  OUTPUT:     NONE
      */
     public void changeFrags(String fragTag){
+        changeFrags(fragTag,null);
+    }
+
+    /** PURPOSE:    Used to change to the specified fragment
+     *  INPUT:      fragTag             - Holds the tag for the fragment to change too
+     *              bundle              - Holds data passed between fragments
+     *  OUTPUT:     NONE
+     */
+    public void changeFrags(String fragTag, BundleCompat bundle){
         Fragment temp = null;
         switch (fragTag){
             case "StartScreen":
