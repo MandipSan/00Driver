@@ -10,6 +10,7 @@ import abyssproductions.double0driver.GameEngine.GameSurfaceView;
 import abyssproductions.double0driver.GameMenu.CreditScreen;
 import abyssproductions.double0driver.GameMenu.GameScreen;
 import abyssproductions.double0driver.GameMenu.HelpScreen;
+import abyssproductions.double0driver.GameMenu.HighScoreScreen;
 import abyssproductions.double0driver.GameMenu.SettingScreen;
 import abyssproductions.double0driver.GameMenu.StartScreen;
 import abyssproductions.double0driver.GameMenu.UpgradeScreen;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private SettingScreen settingScreen;
     //  PURPOSE:    Pointer to the upgrade screen fragment
     private UpgradeScreen upgradeScreen;
+    //  PURPOSE:    Pointer to the high score screen fragment
+    private HighScoreScreen highScoreScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         creditScreen = CreditScreen.newInstance();
         helpScreen = HelpScreen.newInstance();
         settingScreen = SettingScreen.newInstance();
+        highScoreScreen = highScoreScreen.newInstance();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
      *              bundle              - Holds data passed between fragments
      *  OUTPUT:     NONE
      */
-    public void changeFrags(String fragTag, BundleCompat bundle){
+    public void changeFrags(String fragTag, Bundle bundle){
         Fragment temp = null;
         switch (fragTag){
             case "StartScreen":
@@ -85,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "UpgradeScreen":
                 temp = upgradeScreen;
+                break;
+            case "HighscoreScreen":
+                highScoreScreen.passData(bundle);
+                temp = highScoreScreen;
                 break;
         }
         if(temp != null) {
