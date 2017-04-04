@@ -25,6 +25,8 @@ public class Player extends Sprite {
     private Bitmap weaponImage;
     //  PURPOSE:    Holds the active weapon's image height and width
     private int weaponImageHeight, weaponImageWidth;
+    //  PURPOSE:    For when the player respawn
+    private int flickerTimer;
 
     /*  PURPOSE:    Constructor for the player that sets the default values for the object
         INPUT:      image               - The image of the object
@@ -42,6 +44,7 @@ public class Player extends Sprite {
                 getInteger(R.integer.VehicleImageWidth);
         weaponImageHeight = GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.MachineGunImageHeight);
+        flickerTimer = 0;
     }
 
     /*  PURPOSE:    Updates the player's logic
@@ -54,6 +57,7 @@ public class Player extends Sprite {
         if(velocityReset > 0)moveHorizontal(myVelocity.x);
         if(velocityReset <= 0)myVelocity.set(0, 0);
         velocityReset-=Math.abs(myVelocity.x);
+        if(flickerTimer > 0)flickerTimer--;
     }
 
     /*  PURPOSE:    Draws the player and it's weapon
@@ -62,10 +66,12 @@ public class Player extends Sprite {
      */
     @Override
     public void draw(Canvas canvas){
-        super.draw(canvas);
-        canvas.drawBitmap(weaponImage,new Rect(0,0,weaponImageWidth,weaponImageHeight),
-                new RectF(getDimensions().left, getDimensions().top,getDimensions().right,
-                        getDimensions().top+weaponImageHeight),new Paint());
+        if(flickerTimer == 0 || flickerTimer % 2 == 0) {
+            super.draw(canvas);
+            canvas.drawBitmap(weaponImage, new Rect(0, 0, weaponImageWidth, weaponImageHeight),
+                    new RectF(getDimensions().left, getDimensions().top, getDimensions().right,
+                            getDimensions().top + weaponImageHeight), new Paint());
+        }
     }
 
     /*  PURPOSE:    Resets the player back to the default values
@@ -77,6 +83,7 @@ public class Player extends Sprite {
         super.reset();
         setWeaponType(WeaponTypes.MachineGun);
         mySecondaryWeapon = WeaponTypes.MachineGun;
+        flickerTimer = 0;
     }
 
     /*  PURPOSE:    Moves the player to the left
@@ -84,16 +91,19 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveLeft(){
-        //Used to adjust remainder in the lanes size
-        RectF temp = getDimensions();
-        int value = (velocityResetMax% GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.PlayerHorVelocity));
-        temp.offset(-value,0);
-        setMyDimensions(temp);
+        if(getAniState() != GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState)) {
+            //Used to adjust remainder in the lanes size
+            RectF temp = getDimensions();
+            int value = (velocityResetMax % GameGlobals.getInstance().getImageResources().
+                    getInteger(R.integer.PlayerHorVelocity));
+            temp.offset(-value, 0);
+            setMyDimensions(temp);
 
-        myVelocity.set(-1*GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.PlayerHorVelocity),0);
-        velocityReset = (velocityResetMax-value) - velocityReset;
+            myVelocity.set(-1 * GameGlobals.getInstance().getImageResources().
+                    getInteger(R.integer.PlayerHorVelocity), 0);
+            velocityReset = (velocityResetMax - value) - velocityReset;
+        }
     }
 
     /*  PURPOSE:    Moves the player to the right
@@ -101,16 +111,19 @@ public class Player extends Sprite {
         OUTPUT:     NONE
      */
     public void moveRight(){
-        //Used to adjust remainder in the lanes size
-        RectF temp = getDimensions();
-        int value = (velocityResetMax% GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.PlayerHorVelocity));
-        temp.offset(value,0);
-        setMyDimensions(temp);
+        if(getAniState() != GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState)) {
+            //Used to adjust remainder in the lanes size
+            RectF temp = getDimensions();
+            int value = (velocityResetMax % GameGlobals.getInstance().getImageResources().
+                    getInteger(R.integer.PlayerHorVelocity));
+            temp.offset(value, 0);
+            setMyDimensions(temp);
 
-        myVelocity.set(GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.PlayerHorVelocity),0);
-        velocityReset = (velocityResetMax-value) - velocityReset;
+            myVelocity.set(GameGlobals.getInstance().getImageResources().
+                    getInteger(R.integer.PlayerHorVelocity), 0);
+            velocityReset = (velocityResetMax - value) - velocityReset;
+        }
     }
 
     /*  PURPOSE:    Fires the primary weapon
@@ -172,6 +185,15 @@ public class Player extends Sprite {
         velocityResetMax = laneSize;
     }
 
+    /*  PURPOSE:    Decrease the current health by amount given if the player is not flickering
+        INPUT:      decreaseBy          - The amount the current health is to be decreased by
+        OUTPUT:     NONE
+     */
+    @Override
+    public void decreaseHealth(int decreaseBy) {
+        if(flickerTimer == 0)super.decreaseHealth(decreaseBy);
+    }
+
     /*  PURPOSE:    Revives the player once the destroy animation end and return if it was successful
         INPUT:      NONE
         OUTPUT:     Returns true or false depending on whether it revived or not
@@ -181,6 +203,7 @@ public class Player extends Sprite {
             changeAniState(GameGlobals.getInstance().getImageResources().
                     getInteger(R.integer.NormalAnimateState));
             increaseHealth(getMaxHealth());
+            flickerTimer = 30;
             return true;
         }
         return false;
