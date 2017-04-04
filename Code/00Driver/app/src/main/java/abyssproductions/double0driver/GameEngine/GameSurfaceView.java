@@ -12,6 +12,7 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.GameMenu.GameScreen;
 import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
@@ -27,21 +28,20 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private GestureDetectorCompat mDetector;
     //  PURPOSE:    Holds the context passed to the view
     private Context contexts;
+    //  PURPOSE:    Pointer for gameover method implementation
+    private GameOver gameover;
+
 
     /** PURPOSE:    Constructor for the GameSurfaceView that set the default value for the view
      *  INPUT:      context             - The context from the activity
      *  OUTPUT:     NONE
      */
-    public GameSurfaceView(Context context){
+    public GameSurfaceView(Context context, GameScreen gameScreen){
         super(context);
         getHolder().addCallback(this);
         contexts = context;
         GameGlobals.getInstance().setImageResources(getResources());
-        //DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        //GameGlobals.getInstance().setScreenHeight(metrics.heightPixels);
-        //GameGlobals.getInstance().setScreenWidth(metrics.widthPixels);
-        //gameThread = null;
-
+        gameover = (GameOver)gameScreen;
     }
 
     /** PURPOSE:    Starts the thread and set the other variable need when the surface is created
@@ -113,6 +113,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
      */
     public void update(){
         gameEngine.update();
+        if(gameEngine.getGameOver()) {
+            gameover.gameOver(gameEngine.getScore());
+        }
     }
 
     /** PURPOSE:    Sets up the touch detection
@@ -132,5 +135,17 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 return true;
             }
         });
+    }
+
+    /** PURPOSE:    Reset the game
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void reset(){
+        gameEngine.resetGame();
+    }
+
+    public interface GameOver{
+        void gameOver(int score);
     }
 }

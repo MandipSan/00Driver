@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -28,6 +29,8 @@ public class GameEngine {
     private Player player;
     //  PURPOSE:    Holds whether the fire button is pressed down
     private boolean playerFire;
+    //  PURPOSE:    Holds whether the game is over
+    private boolean gameOver;
     //  PURPOSE:    Holds the array of the active items in the game
     private Items [] gameItems;
     //  PURPOSE:    Holds an array of the enemies
@@ -94,7 +97,7 @@ public class GameEngine {
         random = new Random();
         gHUD = new HUD(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
         playerFire = false;
-
+        gameOver = false;
     }
 
     /** PURPOSE:    Updates the logic for the game
@@ -104,9 +107,7 @@ public class GameEngine {
     public void update(){
         gHUD.updateScore();
         gHUD.lifeLost(player.revivePlayer());
-        if(gHUD.getNumLives() <= 0){
-            //TODO:DO SOMETHING WHEN NUMBER OF LIVE IS 0
-        }
+        gameOver = (gHUD.getNumLives() <= 0);
         gHUD.setCurrentWeaponAmmo(player.getAmmo(player.getMyPrimaryWeapon()));
         checkCollision();
 
@@ -143,8 +144,6 @@ public class GameEngine {
 
         if(playerFire)player.fireWeapon();
         player.update();
-        //Revives the player if they still have extra lives
-        if(player.getHealth() == 0 && gHUD.getNumLives() != 0)player.revivePlayer();
 
         //Checks if player is on the dirt road and decrease the health
         float pCX = player.getDimensions().centerX();
@@ -196,6 +195,7 @@ public class GameEngine {
         enemySpawnDelay = 0;
         playerFire = false;
         gHUD.reset(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
+        gameOver = false;
     }
 
     /** PURPOSE:    Calls the players fire when the pressed is set true
@@ -240,6 +240,22 @@ public class GameEngine {
 
             return true;
         }
+    }
+
+    /** PURPOSE:    Return if the game is over
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a boolean of the game status
+     */
+    public boolean getGameOver(){
+        return gameOver;
+    }
+
+    /** PURPOSE:    Return the game score
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a int containing the score
+     */
+    public int getScore(){
+        return gHUD.getScore();
     }
 
     /** PURPOSE:    Checks the collision of the various game objects

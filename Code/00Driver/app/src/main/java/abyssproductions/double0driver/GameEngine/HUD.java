@@ -129,7 +129,9 @@ public class HUD {
      *  OUTPUT:     NONE
      */
     public void lifeLost(boolean destroyed){
-        if (destroyed && curHealth <= 0)numLives--;
+        if (destroyed && curHealth <= 0){
+            numLives--;
+        }
     }
 
     /** PURPOSE:    Increase the score
