@@ -191,7 +191,8 @@ public class Sprite extends GameObject {
      */
     public void decreaseHealth(int decreaseBy) {
         myHealth = (myHealth - decreaseBy < 0) ? 0 : myHealth - decreaseBy;
-        if(myHealth <= 0){
+        if(myHealth <= 0 && getAniState() != GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState)){
             changeAniState(GameGlobals.getInstance().getImageResources().
                     getInteger(R.integer.DestroyAnimateState));
             GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
