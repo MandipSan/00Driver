@@ -101,6 +101,17 @@ public class HUD {
         canvas.drawBitmap(switchButtonImage,buttonsImageSize,switchButtonDim,paint);
     }
 
+    /** PURPOSE:    Reset the HUD to initial state for new game
+     *  INPUT:      primaryWeaponType   - The primary weapon type the player is using
+     *              secondaryWeaponType - The secondary weapon type the player is using
+     *  OUTPUT:     NONE
+     */
+    public void reset(Sprite.WeaponTypes primaryWeaponType, Sprite.WeaponTypes secondaryWeaponType){
+        numLives = 3;
+        score = 0;
+        currentWeaponTypes(primaryWeaponType,secondaryWeaponType);
+    }
+
     /** PURPOSE:    Calculates the length of the health bar
      *  INPUT:      newCurHealth        - The current health value
      *              newMaxHealth        - The maximum health value

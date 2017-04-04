@@ -175,6 +175,29 @@ public class GameEngine {
         gHUD.draw(canvas);
     }
 
+    /** PURPOSE:    Reset the game objects to the default value
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void resetGame(){
+        player.reset();
+        player.getDimensions().offsetTo((
+                (gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
+                gameBackground.getGrassSize(),gGInstance.getScreenHeight()/2);
+        for(int i =0; i < myEnemies.length; i++){
+            myEnemies[i] = null;
+        }
+        for(int i = 0; i < gameItems.length; i++){
+            gameItems[i] = null;
+        }
+        for (int i = 0; i < (gameBackground.getNumLanes()-2); i++){
+            laneLastSpawnSpace[i] = 0;
+        }
+        enemySpawnDelay = 0;
+        playerFire = false;
+        gHUD.reset(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
+    }
+
     /** PURPOSE:    Calls the players fire when the pressed is set true
      *  INPUT:      pressed             - Holds whether the screen is pressed
      *              x                   - The x point that was pressed

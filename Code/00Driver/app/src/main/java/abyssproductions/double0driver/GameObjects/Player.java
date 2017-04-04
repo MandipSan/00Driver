@@ -21,7 +21,7 @@ public class Player extends Sprite {
     //  PURPOSE:    Holds the player's max count for when the player is done transitioning between
     //                  lanes
     private int velocityResetMax;
-    //  PURPOSE:    Holds the active weaponss image
+    //  PURPOSE:    Holds the active weapon's image
     private Bitmap weaponImage;
     //  PURPOSE:    Holds the active weapon's image height and width
     private int weaponImageHeight, weaponImageWidth;
@@ -34,7 +34,7 @@ public class Player extends Sprite {
      */
     public Player(Bitmap image, int imageWidth, int imageHeight){
         super(image, imageWidth, imageHeight);
-        mySecondaryWeapon = WeaponTypes.Missile;
+        mySecondaryWeapon = WeaponTypes.MachineGun;
         velocityReset = 0;
         velocityResetMax = 10;
         weaponImage = GameGlobals.getInstance().getImages().getMachineGunImage();
@@ -66,6 +66,17 @@ public class Player extends Sprite {
         canvas.drawBitmap(weaponImage,new Rect(0,0,weaponImageWidth,weaponImageHeight),
                 new RectF(getDimensions().left, getDimensions().top,getDimensions().right,
                         getDimensions().top+weaponImageHeight),new Paint());
+    }
+
+    /*  PURPOSE:    Resets the player back to the default values
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    @Override
+    public void reset(){
+        super.reset();
+        setWeaponType(WeaponTypes.MachineGun);
+        mySecondaryWeapon = WeaponTypes.MachineGun;
     }
 
     /*  PURPOSE:    Moves the player to the left

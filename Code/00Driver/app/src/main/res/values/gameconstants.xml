@@ -9,6 +9,8 @@
     <!-->Items related constants<-->
     <integer name="ItemsArraySize">10</integer>
     <integer name="ItemYVelocity">10</integer>
+    <!-->Sprite related constants<-->
+    <integer name="DefaultStartHealth">100</integer>
     <!-->Enemy related constants<-->
     <integer name="EnemyArraySize">15</integer>
     <integer name="EnemyYVelocity">10</integer>
