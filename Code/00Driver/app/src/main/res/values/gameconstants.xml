@@ -9,6 +9,8 @@
     <!-->Items related constants<-->
     <integer name="ItemsArraySize">10</integer>
     <integer name="ItemYVelocity">10</integer>
+    <!-->Sprite related constants<-->
+    <integer name="DefaultStartHealth">100</integer>
     <!-->Enemy related constants<-->
     <integer name="EnemyArraySize">15</integer>
     <integer name="EnemyYVelocity">10</integer>
@@ -49,4 +51,9 @@
     <integer name="SpikeProImageHeight">25</integer>
     <integer name="ItemBoxImageWidth">100</integer>
     <integer name="ItemBoxImageHeight">100</integer>
+    <integer name="MachineGunImageHeight">19</integer>
+    <integer name="MissileLauncherImageHeight">17</integer>
+    <integer name="LaserCannonImageHeight">17</integer>
+    <integer name="FlameThrowerImageHeight">16</integer>
+    <integer name="ButtonImageSize">200</integer>
 </resources>

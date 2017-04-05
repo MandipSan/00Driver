@@ -34,6 +34,14 @@ public class GameImages {
     private static Bitmap vanImage;
     //  PURPOSE:    Hold's the sport car's image sheet
     private static Bitmap sportCarImage;
+    //  PURPOSE:    Hold's the machine gun's image
+    private static Bitmap machineGunImage;
+    //  PURPOSE:    Hold's the missile launcher's image
+    private static Bitmap missileLauncherImage;
+    //  PURPOSE:    Hold's the laser cannon's image
+    private static Bitmap laserCannonImage;
+    //  PURPOSE:    Hold's the flame thrower's image
+    private static Bitmap flameThrowerImage;
     //  PURPOSE:    Hold's the machine gun projectile's image sheet
     private static Bitmap machineGunProImage;
     //  PURPOSE:    Hold's the flame projectile's image sheet
@@ -48,6 +56,14 @@ public class GameImages {
     private static Bitmap healthBoxImage;
     //  PURPOSE:    Hold's the ammo box's image sheet
     private static Bitmap ammoBoxImage;
+    //  PURPOSE:    Hold's the machine gun button's image
+    private static Bitmap machineGunButtonImage;
+    //  PURPOSE:    Hold's the missile launcher button's image
+    private static Bitmap missileLauncherButtonImage;
+    //  PURPOSE:    Hold's the laser cannon button's image
+    private static Bitmap laserCannonButtonImage;
+    //  PURPOSE:    Hold's the flame thrower button's image
+    private static Bitmap flameThrowerButtonImage;
 
     /** PURPOSE:    Constructor for the object that loads all the games images
      *  INPUT:      resources           - Apps resource decoder
@@ -85,6 +101,21 @@ public class GameImages {
         sportCarImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.sportcarsheet),
                 vehicleWidth, instance.getImageResources().getInteger(R.integer.SportCarImageHeight));
 
+        //Weapon Images
+        machineGunImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.machinegun),
+                1,1,vehicleWidth,
+                instance.getImageResources().getInteger(R.integer.MachineGunImageHeight));
+        missileLauncherImage = setMyImage(
+                BitmapFactory.decodeResource(resources, R.drawable.missilelauncher), 1,1,
+                vehicleWidth,
+                instance.getImageResources().getInteger(R.integer.MissileLauncherImageHeight));
+        laserCannonImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.lasercannon),
+                1,1,vehicleWidth,
+                instance.getImageResources().getInteger(R.integer.LaserCannonImageHeight));
+        flameThrowerImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.flamethrower),
+                1,1,vehicleWidth,
+                instance.getImageResources().getInteger(R.integer.FlameThrowerImageHeight));
+
         //Project Image Sheets
         machineGunProImage = setMyImage(BitmapFactory.decodeResource(resources,
                 R.drawable.bulletsheet), 2, 1, instance.getImageResources().
@@ -109,6 +140,21 @@ public class GameImages {
                 R.drawable.healthbox), 1, 1, iWidth, iHeight);
         ammoBoxImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.ammobox),
                 1, 1, iWidth, iHeight);
+
+        //HUD Button Images
+        int buttonSize = instance.getImageResources().getInteger(R.integer.ButtonImageSize);
+        machineGunButtonImage = setMyImage(
+                BitmapFactory.decodeResource(resources, R.drawable.machinegunbutton), 1, 1,
+                buttonSize, buttonSize);
+        missileLauncherButtonImage = setMyImage(
+                BitmapFactory.decodeResource(resources, R.drawable.missilelauncherbutton), 1, 1,
+                buttonSize, buttonSize);
+        laserCannonButtonImage = setMyImage(
+                BitmapFactory.decodeResource(resources, R.drawable.lasercannonbutton), 1, 1,
+                buttonSize, buttonSize);
+        /*flameThrowerButtonImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.flamethrowerbutton),
+                1,1,vehicleWidth,
+                instance.getImageResources().getInteger(R.integer.FlameThrowerImageHeight));*/
     }
 
     /** PURPOSE:    Returns player's image sheet
@@ -177,6 +223,38 @@ public class GameImages {
         return vanImage;
     }
 
+    /** PURPOSE:    Returns machine gun's image
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing machine gun's image
+     */
+    public Bitmap getMachineGunImage(){
+        return machineGunImage;
+    }
+
+    /** PURPOSE:    Returns missile launcher's image
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing missile launcher's image
+     */
+    public Bitmap getMissileLauncherImage(){
+        return missileLauncherImage;
+    }
+
+    /** PURPOSE:    Returns laser cannon's image
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing laser cannon's image
+     */
+    public Bitmap getLaserCannonImage(){
+        return laserCannonImage;
+    }
+
+    /** PURPOSE:    Returns flame thrower's image
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing flame thrower's image
+     */
+    public Bitmap getFlameThrowerImage(){
+        return flameThrowerImage;
+    }
+
     /** PURPOSE:    Returns machine gun projectile's image sheet
      *  INPUT:      NONE
      *  OUTPUT:     Return's a bitmap containing machine gun projectile's image sheet
@@ -231,6 +309,38 @@ public class GameImages {
      */
     public Bitmap getAmmoBoxImage(){
         return ammoBoxImage;
+    }
+
+    /** PURPOSE:    Returns machine gun button's image
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing machine gun button's image
+     */
+    public Bitmap getMachineGunButtonImage(){
+        return machineGunButtonImage;
+    }
+
+    /** PURPOSE:    Returns missile launcher button's image
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing missile launcher button's image
+     */
+    public Bitmap getMissileLauncherButtonImage(){
+        return missileLauncherButtonImage;
+    }
+
+    /** PURPOSE:    Returns laser cannon button's image
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing laser cannon button's image
+     */
+    public Bitmap getLaserCannonButtonImage(){
+        return laserCannonButtonImage;
+    }
+
+    /** PURPOSE:    Returns flame thrower button's image
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing flame thrower button's image
+     */
+    public Bitmap getFlameThrowerButtonImage(){
+        return flameThrowerButtonImage;
     }
 
     /** PURPOSE:    Set's the image to the proper scaling and returns it
