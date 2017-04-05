@@ -19,7 +19,11 @@ import abyssproductions.double0driver.R;
  * Created by Mandip Sangha on 3/25/2017.
  */
 
-public class GameScreen extends Fragment {
+
+public class GameScreen extends Fragment implements GameSurfaceView.GameOver {
+    private GameSurfaceView game;
+    private ViewGroup layout;
+
     public static GameScreen newInstance(){
         return new GameScreen();
     }
@@ -32,12 +36,17 @@ public class GameScreen extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.game_screen,container,false);
-        ViewGroup layout = (ViewGroup)view.findViewById(R.id.game_screen);
-        GameSurfaceView game = new GameSurfaceView(getContext());
-        game.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-        layout.addView(game);
+        if(game == null) {
+            View view = inflater.inflate(R.layout.game_screen,container,false);
+            layout = (ViewGroup)view.findViewById(R.id.game_screen);
+
+            game = new GameSurfaceView(getContext(), this);
+            game.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            layout.addView(game);
+        }else{
+            game.reset();
+        }
         return layout;
     }
 
@@ -50,5 +59,12 @@ public class GameScreen extends Fragment {
     public void onDestroyView(){
         super.onDestroyView();
 
+    }
+
+    @Override
+    public void gameOver(int score){
+        Bundle bundle = new Bundle();
+        bundle.putInt("score",score);
+        ((MainActivity)getActivity()).changeFrags("StartScreen");
     }
 }

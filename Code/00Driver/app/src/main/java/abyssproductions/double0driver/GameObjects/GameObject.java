@@ -116,7 +116,9 @@ public class GameObject {
     */
     public void setMyDimensions(RectF newDimension){
         myDimensions.set(newDimension);
-        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
+        myCollisionBox.offsetTo(
+                (int)(myDimensions.left+((myDimensions.width()-myCollisionBox.width())/2)),
+                (int)myDimensions.top);
     }
 
     /*  PURPOSE:    Set's the game object's collision bounding box
@@ -125,7 +127,9 @@ public class GameObject {
     */
     public void setMyCollisionBounds(Rect newCollisionBox ){
         myCollisionBox.set(newCollisionBox);
-        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
+        myCollisionBox.offsetTo(
+                (int)(myDimensions.left+((myDimensions.width()-myCollisionBox.width())/2)),
+                (int)myDimensions.top);
     }
 
     /*  PURPOSE:    Resets the objects width and height if it is greater than 0
@@ -220,5 +224,9 @@ public class GameObject {
     protected boolean getDestroyedFinish() {
         return (myCurAniState == GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.DestroyAnimateState) && myCurFrameNum == myRow);
+    }
+
+    protected  int getAniState(){
+        return myCurAniState;
     }
 }
