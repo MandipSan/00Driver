@@ -1,5 +1,6 @@
 package abyssproductions.double0driver.GameEngine;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -7,6 +8,8 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.GameObjects.Sprite;
+import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/15/2017.
@@ -25,32 +28,41 @@ public class HUD {
     private Rect fireButtonDim;
     //  PURPOSE:    Holds the dimension of the switch button
     private Rect switchButtonDim;
+    //  PURPOSE:    Holds the button's image size
+    private Rect buttonsImageSize;
+    //  PURPOSE:    Holds the fire button's image
+    private Bitmap fireButtonImage;
+    //  PURPOSE:    Holds the switch button's image
+    private Bitmap switchButtonImage;
     //  PURPOSE:    Holds the current score
     private int score;
     //  PURPOSE:    Holds the Y location for the text
     private int healthTextYPos;
     //  PURPOSE:    Holds the Y location for the text
     private int scoreTextYPos;
+    //  PURPOSE:    Holds the primary weapon ammo amount
+    private int primaryWeaponAmmo;
     //  PURPOSE:    Holds the paint setting for the drawable objects
     private Paint paint;
 
     /** PURPOSE:    Constructor for the HUD that set the default value for the object
-     *  INPUT:      NONE
+     *  INPUT:      primaryWeaponType   - The primary weapon type the player is using
+     *              secondaryWeaponType - The secondary weapon type the player is using
      *  OUTPUT:     NONE
      */
-    public HUD(){
+    public HUD(Sprite.WeaponTypes primaryWeaponType, Sprite.WeaponTypes secondaryWeaponType){
         float heightRatio = GameGlobals.getInstance().getScreenHeight()/1752f;
         float widthRatio = GameGlobals.getInstance().getScreenWidth()/1080f;
         numLives = 3;
         score = 0;
         healthBar = new Rect(0,(int)(50*heightRatio),GameGlobals.getInstance().getScreenWidth(),
                 (int)(100*heightRatio));
-        fireButtonDim = new Rect(0,0,(int)(300*widthRatio),(int)(150*heightRatio));
+        fireButtonDim = new Rect(0,0,(int)(300*widthRatio),(int)(300*heightRatio));
 
         fireButtonDim.offset((int)(50*widthRatio), GameGlobals.getInstance().getScreenHeight()-
                 fireButtonDim.height()-(int)(100*heightRatio));
 
-        switchButtonDim = new Rect(0,0,(int)(300*widthRatio),(int)(150*heightRatio));
+        switchButtonDim = new Rect(0,0,(int)(200*widthRatio),(int)(200*heightRatio));
 
         switchButtonDim.offset(GameGlobals.getInstance().getScreenWidth()-
                 switchButtonDim.width()-(int)(50*widthRatio),
@@ -62,6 +74,11 @@ public class HUD {
         paint.setTextSize(healthBar.height());
         scoreTextYPos = (int)paint.getTextSize();
         healthTextYPos = healthBar.top+(int)paint.getTextSize();
+        currentWeaponTypes(primaryWeaponType,secondaryWeaponType);
+
+        buttonsImageSize = new Rect(0,0,GameGlobals.getInstance().getImageResources().getInteger(
+                R.integer.ButtonImageSize),GameGlobals.getInstance().getImageResources().getInteger(
+                R.integer.ButtonImageSize));
     }
 
     /** PURPOSE:    Draws the HUD
@@ -69,15 +86,30 @@ public class HUD {
      *  OUTPUT:     NONE
      */
     public void draw(Canvas canvas){
+        paint.setTextSize(healthBar.height());
         paint.setColor(Color.WHITE);
         canvas.drawText("Score: " + score,0,scoreTextYPos,paint);
         paint.setColor(Color.RED);
         canvas.drawRect(healthBar,paint);
         paint.setColor(Color.WHITE);
         canvas.drawText("" + curHealth + "/" + maxHealth,0,healthTextYPos,paint);
-        canvas.drawRect(fireButtonDim,paint);
         paint.setColor(Color.BLACK);
-        canvas.drawRect(switchButtonDim,paint);
+        paint.setTextSize(healthBar.height()*2);
+        canvas.drawBitmap(fireButtonImage,buttonsImageSize,fireButtonDim,paint);
+        canvas.drawText("" + primaryWeaponAmmo,fireButtonDim.centerX()-(paint.getTextSize()),
+                fireButtonDim.centerY()+(paint.getTextSize()/2),paint);
+        canvas.drawBitmap(switchButtonImage,buttonsImageSize,switchButtonDim,paint);
+    }
+
+    /** PURPOSE:    Reset the HUD to initial state for new game
+     *  INPUT:      primaryWeaponType   - The primary weapon type the player is using
+     *              secondaryWeaponType - The secondary weapon type the player is using
+     *  OUTPUT:     NONE
+     */
+    public void reset(Sprite.WeaponTypes primaryWeaponType, Sprite.WeaponTypes secondaryWeaponType){
+        numLives = 3;
+        score = 0;
+        currentWeaponTypes(primaryWeaponType,secondaryWeaponType);
     }
 
     /** PURPOSE:    Calculates the length of the health bar
@@ -97,7 +129,9 @@ public class HUD {
      *  OUTPUT:     NONE
      */
     public void lifeLost(boolean destroyed){
-        if (destroyed && curHealth <= 0)numLives--;
+        if (destroyed && curHealth <= 0){
+            numLives--;
+        }
     }
 
     /** PURPOSE:    Increase the score
@@ -132,6 +166,50 @@ public class HUD {
         numLives++;
     }
 
+    /** PURPOSE:    Sets the current button image for the primary and secondary active weapons
+     *  INPUT:      primary             - The current active primary weapon
+     *              secondary           - The current active secondary weapon
+     *  OUTPUT:     NONE
+     */
+    public void currentWeaponTypes(Sprite.WeaponTypes primary, Sprite.WeaponTypes secondary){
+        switch (primary) {
+            case MachineGun:
+                fireButtonImage = GameGlobals.getInstance().getImages().getMachineGunButtonImage();
+                break;
+            case Missile:
+                fireButtonImage = GameGlobals.getInstance().getImages().getMissileLauncherButtonImage();
+                break;
+            case Flamethrower:
+                fireButtonImage = GameGlobals.getInstance().getImages().getFlameThrowerButtonImage();
+                break;
+            case Laser:
+                fireButtonImage = GameGlobals.getInstance().getImages().getLaserCannonButtonImage();
+                break;
+        }
+        switch (secondary) {
+            case MachineGun:
+                switchButtonImage = GameGlobals.getInstance().getImages().getMachineGunButtonImage();
+                break;
+            case Missile:
+                switchButtonImage = GameGlobals.getInstance().getImages().getMissileLauncherButtonImage();
+                break;
+            case Flamethrower:
+                switchButtonImage = GameGlobals.getInstance().getImages().getFlameThrowerButtonImage();
+                break;
+            case Laser:
+                switchButtonImage = GameGlobals.getInstance().getImages().getLaserCannonButtonImage();
+                break;
+        }
+    }
+
+    /** PURPOSE:    Sets the current primary weapons ammo amount
+     *  INPUT:      amount              - The current ammo amount
+     *  OUTPUT:     NONE
+     */
+    public void setCurrentWeaponAmmo(int amount){
+        primaryWeaponAmmo = amount;
+    }
+
     /** PURPOSE:    Checks if the a button was pressed returns the result
      *  INPUT:      button              - The button to check(NOTE:0 is the fire button and 1 is the
      *                                      switch button)
@@ -141,7 +219,7 @@ public class HUD {
      */
     public boolean buttonPressed(int button, float x, float y){
         if(button == 0 && fireButtonDim.contains((int)x,(int)y))return true;
-        else if(button == 1 && switchButtonDim.contains((int)x,(int)y))return true;
+        else if(button == 1 && switchButtonDim.contains((int)x,(int)y)) return true;
         return false;
     }
 

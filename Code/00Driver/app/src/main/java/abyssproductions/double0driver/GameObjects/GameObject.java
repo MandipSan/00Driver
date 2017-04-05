@@ -225,4 +225,8 @@ public class GameObject {
         return (myCurAniState == GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.DestroyAnimateState) && myCurFrameNum == myRow);
     }
+
+    protected  int getAniState(){
+        return myCurAniState;
+    }
 }

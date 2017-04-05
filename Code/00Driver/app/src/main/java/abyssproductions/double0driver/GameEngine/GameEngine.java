@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -28,6 +29,8 @@ public class GameEngine {
     private Player player;
     //  PURPOSE:    Holds whether the fire button is pressed down
     private boolean playerFire;
+    //  PURPOSE:    Holds whether the game is over
+    private boolean gameOver;
     //  PURPOSE:    Holds the array of the active items in the game
     private Items [] gameItems;
     //  PURPOSE:    Holds an array of the enemies
@@ -92,9 +95,9 @@ public class GameEngine {
 
         enemySpawnDelay = 0;
         random = new Random();
-        gHUD = new HUD();
+        gHUD = new HUD(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
         playerFire = false;
-
+        gameOver = false;
     }
 
     /** PURPOSE:    Updates the logic for the game
@@ -104,9 +107,8 @@ public class GameEngine {
     public void update(){
         gHUD.updateScore();
         gHUD.lifeLost(player.revivePlayer());
-        if(gHUD.getNumLives() <= 0){
-            //TODO:DO SOMETHING WHEN NUMBER OF LIVE IS 0
-        }
+        gameOver = (gHUD.getNumLives() <= 0);
+        gHUD.setCurrentWeaponAmmo(player.getAmmo(player.getMyPrimaryWeapon()));
         checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
@@ -142,8 +144,6 @@ public class GameEngine {
 
         if(playerFire)player.fireWeapon();
         player.update();
-        //Revives the player if they still have extra lives
-        if(player.getHealth() == 0 && gHUD.getNumLives() != 0)player.revivePlayer();
 
         //Checks if player is on the dirt road and decrease the health
         float pCX = player.getDimensions().centerX();
@@ -174,6 +174,30 @@ public class GameEngine {
         gHUD.draw(canvas);
     }
 
+    /** PURPOSE:    Reset the game objects to the default value
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void resetGame(){
+        player.reset();
+        player.getDimensions().offsetTo((
+                (gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
+                gameBackground.getGrassSize(),gGInstance.getScreenHeight()/2);
+        for(int i =0; i < myEnemies.length; i++){
+            myEnemies[i] = null;
+        }
+        for(int i = 0; i < gameItems.length; i++){
+            gameItems[i] = null;
+        }
+        for (int i = 0; i < (gameBackground.getNumLanes()-2); i++){
+            laneLastSpawnSpace[i] = 0;
+        }
+        enemySpawnDelay = 0;
+        playerFire = false;
+        gHUD.reset(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
+        gameOver = false;
+    }
+
     /** PURPOSE:    Calls the players fire when the pressed is set true
      *  INPUT:      pressed             - Holds whether the screen is pressed
      *              x                   - The x point that was pressed
@@ -182,7 +206,10 @@ public class GameEngine {
      */
     public void isPressed(boolean pressed, float x, float y){
         playerFire = pressed && gHUD.buttonPressed(0,x,y);
-        if(gHUD.buttonPressed(1,x,y) && !pressed)player.switchWeapon();
+        if(gHUD.buttonPressed(1,x,y) && !pressed){
+            player.switchWeapon();
+            gHUD.currentWeaponTypes(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
+        }
     }
 
     //  PURPOSE:    Class used to detected if the fling gesture occurred
@@ -213,6 +240,22 @@ public class GameEngine {
 
             return true;
         }
+    }
+
+    /** PURPOSE:    Return if the game is over
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a boolean of the game status
+     */
+    public boolean getGameOver(){
+        return gameOver;
+    }
+
+    /** PURPOSE:    Return the game score
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a int containing the score
+     */
+    public int getScore(){
+        return gHUD.getScore();
     }
 
     /** PURPOSE:    Checks the collision of the various game objects
@@ -302,9 +345,8 @@ public class GameEngine {
             //Checks if a projectile collides with the player
             if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
                     intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
-                //TODO:Change to use projectile damage
-                /*player.decreaseHealth(5);
-                gGInstance.myProjectiles[k] = null;*/
+                player.decreaseHealth(gGInstance.myProjectiles[k].getMyDamage());
+                gGInstance.myProjectiles[k] = null;
             }
 
             //Checks if the projectile collides with item boxes
