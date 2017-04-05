@@ -31,6 +31,7 @@ import abyssproductions.double0driver.R;
 
 public class HighScoreScreen extends Fragment {
     private int newScore;
+    private String newName;
     private int [] scores;
     private String [] names;
 
@@ -58,10 +59,7 @@ public class HighScoreScreen extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        loadToArray();
-        if(newScore != -1)adjustScore();
-        saveToFile();
-        displayHighscore();
+
         Button button = (Button)getView().findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -71,8 +69,19 @@ public class HighScoreScreen extends Fragment {
         });
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadToArray();
+        if(newScore != -1)nameDialog();
+        else {
+            saveToFile();
+            displayHighscore();
+        }
+    }
+
     /** PURPOSE:    To get the data need for the fragment
-     *  INPUT:      bundle              - The data being passed to the fragement
+     *  INPUT:      bundle              - The data being passed to the fragment
      *  OUTPUT:     NONE
      */
     public void passData(Bundle bundle){
@@ -91,7 +100,7 @@ public class HighScoreScreen extends Fragment {
             for(int i = 0; i < names.length; i++){
                 outputStream.write(names[i].getBytes());
                 outputStream.write("\n".getBytes());
-                outputStream.write(scores.toString().getBytes());
+                outputStream.write(Integer.toString(scores[i]).getBytes());
                 outputStream.write("\n".getBytes());
             }
             outputStream.close();
@@ -148,17 +157,10 @@ public class HighScoreScreen extends Fragment {
         int tempScore;
         String tempName;
         int curScore = newScore;
-        String curName = "NONAME";
+        String curName = newName;
 
         for(int i = 0; i < scores.length; i++){
             if(scores[i] < curScore){
-                if(curScore == newScore){
-                    NameInputDialogFragment dialog = new NameInputDialogFragment();
-                    dialog.show(getActivity().getSupportFragmentManager(),"input");
-                    if(!dialog.isVisible()){
-                        curName = dialog.getInput();
-                    }
-                }
                 tempScore = scores[i];
                 tempName = names[i];
                 scores[i] = curScore;
@@ -182,34 +184,28 @@ public class HighScoreScreen extends Fragment {
         }
     }
 
-    public static class NameInputDialogFragment extends DialogFragment {
-        private String input;
+    /** PURPOSE:    Pops up dialog box for the players name
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void nameDialog(){
+        newName = "NONAME";
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            input = "NONAME";
-
-            // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-            builder.setView(inflater.inflate(R.layout.name_input_dialog,null))
-                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        EditText temp = (EditText) getView().findViewById(R.id.namebox);
-                        input = temp.toString();
-                    }
-                })
-                .setTitle("Enter Name");
-
-            // Create the AlertDialog object and return it
-            return builder.create();
-        }
-
-        public String getInput(){
-            return input;
-        }
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.name_input_dialog,null);
+        builder.setView(view);
+        final EditText temp = (EditText) view.findViewById(R.id.namebox);
+        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                newName = temp.getText().toString();
+                adjustScore();
+                saveToFile();
+                displayHighscore();
+            }
+        });
+        builder.setTitle("Enter Name");
+        builder.show();
     }
 }

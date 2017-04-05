@@ -65,6 +65,6 @@ public class GameScreen extends Fragment implements GameSurfaceView.GameOver {
     public void gameOver(int score){
         Bundle bundle = new Bundle();
         bundle.putInt("score",score);
-        ((MainActivity)getActivity()).changeFrags("StartScreen");
+        ((MainActivity)getActivity()).changeFrags("HighscoreScreen",bundle);
     }
 }
