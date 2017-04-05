@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -60,13 +61,31 @@ public class HighScoreScreen extends Fragment {
     public void onStart() {
         super.onStart();
 
-        Button button = (Button)getView().findViewById(R.id.button);
+        Button button = (Button)getView().findViewById(R.id.main_page_button);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 ((MainActivity)getActivity()).changeFrags("StartScreen");
             }
         });
+        if(newScore == -1){
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    2.0f
+            );
+            button.setLayoutParams(param);
+            button = (Button)getView().findViewById(R.id.playagain_button);
+            button.setVisibility(View.GONE);
+        }else {
+            button = (Button) getView().findViewById(R.id.playagain_button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((MainActivity) getActivity()).changeFrags("GameScreen");
+                }
+            });
+        }
     }
 
     @Override
