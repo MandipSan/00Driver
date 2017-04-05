@@ -196,9 +196,10 @@ public class HighScoreScreen extends Fragment {
      */
     public void displayHighscore(){
         String temp;
+        TextView text = (TextView) getView().findViewById(R.id.highScoreBox);
+        text.setText("");
         for(int i = 0; i < scores.length; i++){
             temp = names[i] + scores[i]+"\n";
-            TextView text = (TextView) getView().findViewById(R.id.highScoreBox);
             text.setText(text.getText()+temp);
         }
     }
