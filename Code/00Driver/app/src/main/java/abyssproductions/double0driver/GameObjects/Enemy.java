@@ -8,6 +8,7 @@ import java.util.Random;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
+import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
@@ -60,12 +61,14 @@ public class Enemy extends Sprite {
                 loadSingleWeapon(WeaponTypes.Spike);
                 break;
         }
-        //TODO:Double check on final pass
-        increaseMaxAmmo(getWeaponType(),1000);
-        increaseAmmo(getWeaponType(),1000);
-        increaseHealth(20);
-        increaseMaxHealth(20);
-        //TODO:^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        increaseMaxAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultAmmo));
+        increaseAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultAmmo));
+        increaseMaxHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultHealth));
+        increaseHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultHealth));
 
         movement = true;
         //Resize object to current display limits
@@ -124,7 +127,6 @@ public class Enemy extends Sprite {
                 }
                 break;
             case DronePickup:
-                //TODO:Uncomment when merge to test with Drone projectile
                 if(myDim.left < playerX && myDim.right > playerX
                         && Math.abs(myDim.centerY()-playerY) <=
                         GameGlobals.getInstance().getFiringDistance()){
@@ -136,7 +138,6 @@ public class Enemy extends Sprite {
                 }
                 break;
             case SpikeVan:
-                //TODO:Uncomment when merge to test with Spike projectile
                 if(myDim.left < playerX && myDim.right > playerX && myDim.centerY() < playerY
                         && Math.abs(myDim.centerY()-playerY) <=
                         GameGlobals.getInstance().getFiringDistance()){

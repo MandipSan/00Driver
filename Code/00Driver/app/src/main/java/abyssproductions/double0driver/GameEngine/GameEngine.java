@@ -54,7 +54,6 @@ public class GameEngine {
         gGInstance = GameGlobals.getInstance();
         gGInstance.loadPointers();
         gameBackground = new Background();
-        //TODO:Value need to be changed
         int tempWidth = gGInstance.getImageResources().getInteger(R.integer.VehicleImageWidth);
         int tempHeight = gGInstance.getImageResources().getInteger(R.integer.PlayerImageHeight);
         player = new Player(gGInstance.getImages().getPlayerImage(),tempWidth,tempHeight);
@@ -334,7 +333,6 @@ public class GameEngine {
                 if(myEnemies[i].getCollisionBounds().intersects(tempDimP.left,tempDimP.top,
                         tempDimP.right,tempDimP.bottom)){
                     myEnemies[i] = null;
-                    //TODO:Fill in what happens when enemy and player collide
                     player.decreaseHealth((int)(player.getMaxHealth()*.25));
                 }
             }
@@ -467,7 +465,6 @@ public class GameEngine {
                         //Log.d("spawnEnemies: ", "H ");
                         break;
                     }
-                    //TODO:Hard code value need to change
                     //Last two values passed rescaled the image to appropriate size for the
                     //  different displays
                     myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x, y,
@@ -490,8 +487,8 @@ public class GameEngine {
         //Calls the enemy spawn method when the delay is up
         if(enemySpawnDelay == 0) {
             spawnEnemies();
-            //TODO:Needs to be set to game config file values
-            enemySpawnDelay = 5;
+            enemySpawnDelay = GameGlobals.getInstance().getImageResources()
+                    .getInteger(R.integer.EnemyDefaultSpawnDelayMax);
         }
         enemySpawnDelay--;
 

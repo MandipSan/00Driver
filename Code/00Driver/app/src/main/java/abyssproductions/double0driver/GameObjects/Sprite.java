@@ -49,7 +49,7 @@ public class Sprite extends GameObject {
     public Sprite(Bitmap image, int imageWidth, int imageHeight, Boolean loadAllWeapons) {
         super(image, imageWidth, imageHeight);
         myMaxHealth = myHealth = GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.DefaultStartHealth);
+                getInteger(R.integer.DefaultHealth);
         myHealthBarDim = new Rect((int)getDimensions().left,(int)getDimensions().centerY()-5,
                 (int)getDimensions().right, (int)(int)getDimensions().centerY()+5);
         displayHealthBar = false;
@@ -58,16 +58,21 @@ public class Sprite extends GameObject {
             myWeaponType = WeaponTypes.MachineGun;
             weaponArrAdjustment = 0;
             myWeapons = new Weapon[WeaponTypes.values().length];
-            myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(100,100,5,
+            myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultMachineGunDelay),
                     new MachineGunProjectile());
-            myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(100,100,20,
-                    new MissileLauncherProjectile() );
-            myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(100,100,0,
-                    new FlameThrowerProjectile() );
-            myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(100,100,0,
-                    new LaserBeamProjectile() );
-            myWeapons[WeaponTypes.Spike.ordinal()] = new Weapon(100,100,10,
-                    new SpikeProjectile() );
+            myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultMissileDelay),
+                    new MissileLauncherProjectile());
+            myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultFlamethrowerDelay),
+                    new FlameThrowerProjectile());
+            myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultLaserDelay),
+                    new LaserBeamProjectile());
+            myWeapons[WeaponTypes.Spike.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultSpikeDelay),
+                    new SpikeProjectile());
         }
     }
 
@@ -91,29 +96,34 @@ public class Sprite extends GameObject {
         myWeaponType = weapon;
         switch (weapon){
             case MachineGun:
-                myWeapons[0] = new Weapon(10,10,10, new MachineGunProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultMachineGunDelay), new MachineGunProjectile());
                 myWeaponType = WeaponTypes.MachineGun;
-                weaponArrAdjustment = 0;
+                weaponArrAdjustment = WeaponTypes.MachineGun.ordinal();
                 break;
             case Missile:
-                myWeapons[0] = new Weapon(10,10,10, new MissileLauncherProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultMissileDelay), new MissileLauncherProjectile());
                 myWeaponType = WeaponTypes.Missile;
-                weaponArrAdjustment = 1;
+                weaponArrAdjustment = WeaponTypes.Missile.ordinal();
                 break;
             case Flamethrower:
-                myWeapons[0] = new Weapon(10,10,10, new FlameThrowerProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultFlamethrowerDelay), new FlameThrowerProjectile());
                 myWeaponType = WeaponTypes.Flamethrower;
-                weaponArrAdjustment = 2;
+                weaponArrAdjustment = WeaponTypes.Flamethrower.ordinal();
                 break;
             case Laser:
-                myWeapons[0] = new Weapon(10,10,10,new LaserBeamProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultLaserDelay),new LaserBeamProjectile());
                 myWeaponType = WeaponTypes.Laser;
-                weaponArrAdjustment = 3;
+                weaponArrAdjustment = WeaponTypes.Laser.ordinal();
                 break;
             case Spike:
-                myWeapons[0] = new Weapon(10,10,10,new SpikeProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultSpikeDelay),new SpikeProjectile());
                 myWeaponType = WeaponTypes.Spike;
-                weaponArrAdjustment = 4;
+                weaponArrAdjustment = WeaponTypes.Spike.ordinal();
                 break;
         }
     }
@@ -159,12 +169,12 @@ public class Sprite extends GameObject {
      */
     public void reset(){
         myMaxHealth = myHealth = GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.DefaultStartHealth);
+                getInteger(R.integer.DefaultHealth);
         myWeaponType = WeaponTypes.MachineGun;
         for (Weapon W: myWeapons) {
             W.myProjectile.setDamageLevel(1);
-            W.ammo = 100;
-            W.maxAmmo = 100;
+            W.ammo = 0;
+            W.maxAmmo = 0;
             W.sinceDelay = 0;
         }
     }

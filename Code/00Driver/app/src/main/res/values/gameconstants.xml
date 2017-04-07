@@ -10,18 +10,38 @@
     <integer name="ItemsArraySize">10</integer>
     <integer name="ItemYVelocity">10</integer>
     <!-->Sprite related constants<-->
-    <integer name="DefaultStartHealth">100</integer>
+    <integer name="DefaultHealth">0</integer>
+    <integer name="DefaultMachineGunDelay">5</integer>
+    <integer name="DefaultMissileDelay">20</integer>
+    <integer name="DefaultFlamethrowerDelay">0</integer>
+    <integer name="DefaultLaserDelay">0</integer>
+    <integer name="DefaultSpikeDelay">10</integer>
     <!-->Enemy related constants<-->
     <integer name="EnemyArraySize">15</integer>
+    <integer name="EnemyDefaultSpawnDelayMax">5</integer>
     <integer name="EnemyYVelocity">10</integer>
+    <integer name="EnemyDefaultHealth">20</integer>
+    <integer name="EnemyDefaultAmmo">1000</integer>
     <!-->Projectile related constants<-->
     <integer name="ProjectileArraySize">50</integer>
     <integer name="MGProYVelocity">25</integer>
     <integer name="MLProYVelocity">25</integer>
     <integer name="LProYVelocity">25</integer>
     <integer name="FProYVelocity">25</integer>
+    <integer name="MGProDefaultDamage">10</integer>
+    <integer name="MLProDefaultDamage">10</integer>
+    <integer name="LProDefaultDamage">10</integer>
+    <integer name="FProDefaultDamage">10</integer>
+    <integer name="SProDefaultDamage">10</integer>
+    <integer name="FProLifeCountMax">10</integer>
+    <integer name="FProXVelSpreadMax">21</integer>
     <!-->Player related constants<-->
     <integer name="PlayerHorVelocity">20</integer>
+    <integer name="PlayerFlickerTimeMax">30</integer>
+    <integer name="PlayerDefaultWeaponAmmo">10</integer>
+    <integer name="PlayerDefaultWeaponAmmoMax">10</integer>
+    <integer name="PlayerDefaultWeapon">0</integer>
+    <integer name="PlayerDefaultHealth">100</integer>
     <!-->Sound effect related constants<-->
     <integer name="SEExplosionID">0</integer>
     <integer name="SEMachineGunID">1</integer>
