@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         creditScreen = CreditScreen.newInstance();
         helpScreen = HelpScreen.newInstance();
         settingScreen = SettingScreen.newInstance();
-        highScoreScreen = highScoreScreen.newInstance();
+        highScoreScreen = HighScoreScreen.newInstance();
+        upgradeScreen = UpgradeScreen.newInstance();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 temp = settingScreen;
                 break;
             case "UpgradeScreen":
+                upgradeScreen.passData(bundle);
                 temp = upgradeScreen;
                 break;
             case "HighscoreScreen":
