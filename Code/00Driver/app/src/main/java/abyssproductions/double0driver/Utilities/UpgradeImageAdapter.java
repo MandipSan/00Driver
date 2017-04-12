@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import abyssproductions.double0driver.GameMenu.UpgradeScreen;
 import abyssproductions.double0driver.R;
 
 /**
@@ -17,16 +18,15 @@ import abyssproductions.double0driver.R;
 
 public class UpgradeImageAdapter extends BaseAdapter {
     private Context context;
-    private enum ItemsList{Health, MachineGunDamage, MissileLauncherDamage, LaserBeamDamage,
-        FlameThrowerDamage, MachineGunAmmo, MissileLauncherAmmo, LaserBeamAmmo, FlameThrowerAmmo,
-        FillMachineGunAmmo, FillMissileLauncherAmmo, FillLaserBeamAmmo, FillFlameThrowerAmmo,};
+    private UpgradeScreen upScreen;
 
-    public UpgradeImageAdapter(Context c) {
+    public UpgradeImageAdapter(Context c, UpgradeScreen screen) {
         context = c;
+        upScreen = screen;
     }
 
     public int getCount() {
-        return ItemsList.values().length;
+        return UpgradeScreen.ItemsList.values().length;
     }
 
     public Object getItem(int position) {
@@ -44,13 +44,17 @@ public class UpgradeImageAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             view = inflater.inflate(R.layout.single_grid_tile, null);
-            view.setBackgroundResource(R.drawable.ammobox);
-            TextView textView = (TextView) view.findViewById(R.id.Items);
-            ItemsList item =ItemsList.values()[position];
-            textView.setText(item.toString());
         } else {
             view = convertView;
         }
+        view.setBackgroundResource(R.drawable.healthbox);
+        TextView textView = (TextView) view.findViewById(R.id.Items);
+        UpgradeScreen.ItemsList item = UpgradeScreen.ItemsList.values()[position];
+        String temp = "Increase: " + item.toString() + " " + upScreen.getCurrentValue(position) +
+                " by " + upScreen.getIncreaseValue(position);
+        textView.setText(temp);
+        textView = (TextView) view.findViewById(R.id.Cost);
+        textView.setText("Cost: " + upScreen.getCost(position));
         return view;
     }
 
