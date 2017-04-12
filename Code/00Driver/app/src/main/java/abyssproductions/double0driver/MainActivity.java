@@ -39,29 +39,12 @@ public class MainActivity extends AppCompatActivity {
         creditScreen = CreditScreen.newInstance();
         helpScreen = HelpScreen.newInstance();
         settingScreen = SettingScreen.newInstance();
-        highScoreScreen = HighScoreScreen.newInstance();
-        upgradeScreen = UpgradeScreen.newInstance();
+        highScoreScreen = highScoreScreen.newInstance();
 
-        Bundle bundle = new Bundle();
-        bundle.putInt("score",1000);
-        bundle.putInt("health",10);
-        bundle.putInt("MGDamage",10);
-        bundle.putInt("MLDamage",10);
-        bundle.putInt("LBDamage",10);
-        bundle.putInt("FTDamage",10);
-        bundle.putInt("MGMaxAmmo",10);
-        bundle.putInt("MLMaxAmmo",10);
-        bundle.putInt("LBMaxAmmo",10);
-        bundle.putInt("FTMaxAmmo",10);
-        bundle.putInt("MGAmmo",10);
-        bundle.putInt("MLAmmo",10);
-        bundle.putInt("LBAmmo",10);
-        bundle.putInt("FTAmmo",10);
-        upgradeScreen.passData(bundle);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.activity_main, upgradeScreen, "UpgradeScreen")
+                    .add(R.id.activity_main, startScreen, "StartScreen")
                     .commit();
         }
     }
