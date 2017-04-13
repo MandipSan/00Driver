@@ -1,6 +1,7 @@
 package abyssproductions.double0driver.GameMenu;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -70,21 +71,22 @@ public class UpgradeScreen extends Fragment {
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                Resources res = getResources();
                 Bundle bundle = new Bundle();
-                bundle.putInt("score",Score);
-                bundle.putInt("MaxHealth",buttonVars[ItemsList.MaxHealth.ordinal()]);
-                bundle.putInt("MGDamage",buttonVars[ItemsList.MachineGunDamage.ordinal()]);
-                bundle.putInt("MLDamage",buttonVars[ItemsList.MissileLauncherDamage.ordinal()]);
-                bundle.putInt("LBDamage",buttonVars[ItemsList.LaserBeamDamage.ordinal()]);
-                bundle.putInt("FTDamage",buttonVars[ItemsList.FlameThrowerDamage.ordinal()]);
-                bundle.putInt("MGMaxAmmo",buttonVars[ItemsList.MachineGunMaxAmmo.ordinal()]);
-                bundle.putInt("MLMaxAmmo",buttonVars[ItemsList.MissileLauncherMaxAmmo.ordinal()]);
-                bundle.putInt("LBMaxAmmo",buttonVars[ItemsList.LaserBeamMaxAmmo.ordinal()]);
-                bundle.putInt("FTMaxAmmo",buttonVars[ItemsList.FlameThrowerMaxAmmo.ordinal()]);
-                bundle.putInt("MGAmmo",buttonVars[ItemsList.FillMachineGunAmmo.ordinal()]);
-                bundle.putInt("MLAmmo",buttonVars[ItemsList.FillMissileLauncherAmmo.ordinal()]);
-                bundle.putInt("LBAmmo",buttonVars[ItemsList.FillLaserBeamAmmo.ordinal()]);
-                bundle.putInt("FTAmmo",buttonVars[ItemsList.FillFlameThrowerAmmo.ordinal()]);
+                bundle.putInt(res.getString(R.string.Score),Score);
+                bundle.putInt(res.getString(R.string.MaxHealth),buttonVars[ItemsList.MaxHealth.ordinal()]);
+                bundle.putInt(res.getString(R.string.MGDamage),buttonVars[ItemsList.MachineGunDamage.ordinal()]);
+                bundle.putInt(res.getString(R.string.MLDamage),buttonVars[ItemsList.MissileLauncherDamage.ordinal()]);
+                bundle.putInt(res.getString(R.string.LBDamage),buttonVars[ItemsList.LaserBeamDamage.ordinal()]);
+                bundle.putInt(res.getString(R.string.FTDamage),buttonVars[ItemsList.FlameThrowerDamage.ordinal()]);
+                bundle.putInt(res.getString(R.string.MGMaxAmmo),buttonVars[ItemsList.MachineGunMaxAmmo.ordinal()]);
+                bundle.putInt(res.getString(R.string.MLMaxAmmo),buttonVars[ItemsList.MissileLauncherMaxAmmo.ordinal()]);
+                bundle.putInt(res.getString(R.string.LBMaxAmmo),buttonVars[ItemsList.LaserBeamMaxAmmo.ordinal()]);
+                bundle.putInt(res.getString(R.string.FTMaxAmmo),buttonVars[ItemsList.FlameThrowerMaxAmmo.ordinal()]);
+                bundle.putInt(res.getString(R.string.MGAmmo),buttonVars[ItemsList.FillMachineGunAmmo.ordinal()]);
+                bundle.putInt(res.getString(R.string.MLAmmo),buttonVars[ItemsList.FillMissileLauncherAmmo.ordinal()]);
+                bundle.putInt(res.getString(R.string.LBAmmo),buttonVars[ItemsList.FillLaserBeamAmmo.ordinal()]);
+                bundle.putInt(res.getString(R.string.FTAmmo),buttonVars[ItemsList.FillFlameThrowerAmmo.ordinal()]);
                 ((MainActivity)getActivity()).changeFrags("GameScreen",bundle);
             }
         });
@@ -104,6 +106,7 @@ public class UpgradeScreen extends Fragment {
      *  OUTPUT:     NONE
      */
     public void passData(Bundle bundle){
+        Resources res = getResources();
         if(buttonVars == null){
             buttonVars = new int[ItemsList.values().length];
             increaseValues = new int[ItemsList.values().length];
@@ -114,20 +117,20 @@ public class UpgradeScreen extends Fragment {
             }
         }
         if(bundle != null){
-            Score = bundle.getInt("score");
-            buttonVars[ItemsList.MaxHealth.ordinal()] = bundle.getInt("MaxHealth");
-            buttonVars[ItemsList.MachineGunDamage.ordinal()] = bundle.getInt("MGDamage");
-            buttonVars[ItemsList.MissileLauncherDamage.ordinal()] = bundle.getInt("MLDamage");
-            buttonVars[ItemsList.LaserBeamDamage.ordinal()] = bundle.getInt("LBDamage");
-            buttonVars[ItemsList.FlameThrowerDamage.ordinal()] = bundle.getInt("FTDamage");
-            buttonVars[ItemsList.MachineGunMaxAmmo.ordinal()] = bundle.getInt("MGMaxAmmo");
-            buttonVars[ItemsList.MissileLauncherMaxAmmo.ordinal()] = bundle.getInt("MLMaxAmmo");
-            buttonVars[ItemsList.LaserBeamMaxAmmo.ordinal()] = bundle.getInt("LBMaxAmmo");
-            buttonVars[ItemsList.FlameThrowerMaxAmmo.ordinal()] = bundle.getInt("FTMaxAmmo");
-            buttonVars[ItemsList.FillMachineGunAmmo.ordinal()] = bundle.getInt("MGAmmo");
-            buttonVars[ItemsList.FillMissileLauncherAmmo.ordinal()] = bundle.getInt("MLAmmo");
-            buttonVars[ItemsList.FillLaserBeamAmmo.ordinal()] = bundle.getInt("LBAmmo");
-            buttonVars[ItemsList.FillFlameThrowerAmmo.ordinal()] = bundle.getInt("FTAmmo");
+            Score = bundle.getInt(res.getString(R.string.Score));
+            buttonVars[ItemsList.MaxHealth.ordinal()] = bundle.getInt(res.getString(R.string.MaxHealth));
+            buttonVars[ItemsList.MachineGunDamage.ordinal()] = bundle.getInt(res.getString(R.string.MGDamage));
+            buttonVars[ItemsList.MissileLauncherDamage.ordinal()] = bundle.getInt(res.getString(R.string.MLDamage));
+            buttonVars[ItemsList.LaserBeamDamage.ordinal()] = bundle.getInt(res.getString(R.string.LBDamage));
+            buttonVars[ItemsList.FlameThrowerDamage.ordinal()] = bundle.getInt(res.getString(R.string.FTDamage));
+            buttonVars[ItemsList.MachineGunMaxAmmo.ordinal()] = bundle.getInt(res.getString(R.string.MGMaxAmmo));
+            buttonVars[ItemsList.MissileLauncherMaxAmmo.ordinal()] = bundle.getInt(res.getString(R.string.MLMaxAmmo));
+            buttonVars[ItemsList.LaserBeamMaxAmmo.ordinal()] = bundle.getInt(res.getString(R.string.LBMaxAmmo));
+            buttonVars[ItemsList.FlameThrowerMaxAmmo.ordinal()] = bundle.getInt(res.getString(R.string.FTMaxAmmo));
+            buttonVars[ItemsList.FillMachineGunAmmo.ordinal()] = bundle.getInt(res.getString(R.string.MGAmmo));
+            buttonVars[ItemsList.FillMissileLauncherAmmo.ordinal()] = bundle.getInt(res.getString(R.string.MLAmmo));
+            buttonVars[ItemsList.FillLaserBeamAmmo.ordinal()] = bundle.getInt(res.getString(R.string.LBAmmo));
+            buttonVars[ItemsList.FillFlameThrowerAmmo.ordinal()] = bundle.getInt(res.getString(R.string.FTAmmo));
         }else{
             for(int i = 0; i < buttonVars.length; i++){
                 buttonVars[i] = -1;
