@@ -36,7 +36,8 @@ public class Player extends Sprite {
      */
     public Player(Bitmap image, int imageWidth, int imageHeight){
         super(image, imageWidth, imageHeight);
-        mySecondaryWeapon = WeaponTypes.MachineGun;
+        mySecondaryWeapon = WeaponTypes.values()[GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultWeapon)];
         velocityReset = 0;
         velocityResetMax = 10;
         weaponImage = GameGlobals.getInstance().getImages().getMachineGunImage();
@@ -45,6 +46,17 @@ public class Player extends Sprite {
         weaponImageHeight = GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.MachineGunImageHeight);
         flickerTimer = 0;
+        setWeaponType(WeaponTypes.values()[GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultWeapon)]);
+        increaseMaxAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultWeaponAmmoMax));
+        increaseAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultWeaponAmmo));
+        switchWeaponImage();
+        increaseMaxHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultHealth));
+        increaseHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultHealth));
     }
 
     /*  PURPOSE:    Updates the player's logic
@@ -81,9 +93,20 @@ public class Player extends Sprite {
     @Override
     public void reset(){
         super.reset();
-        setWeaponType(WeaponTypes.MachineGun);
-        mySecondaryWeapon = WeaponTypes.MachineGun;
+        setWeaponType(WeaponTypes.values()[GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultWeapon)]);
+        increaseMaxAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultWeaponAmmoMax));
+        increaseAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultWeaponAmmo));
+        mySecondaryWeapon = WeaponTypes.values()[GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultWeapon)];
+        switchWeaponImage();
         flickerTimer = 0;
+        increaseMaxHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultHealth));
+        increaseHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultHealth));
     }
 
     /*  PURPOSE:    Moves the player to the left
@@ -143,28 +166,7 @@ public class Player extends Sprite {
         WeaponTypes temp = getWeaponType();
         setWeaponType(mySecondaryWeapon);
         mySecondaryWeapon = temp;
-        switch (getWeaponType()){
-            case MachineGun:
-                weaponImage = GameGlobals.getInstance().getImages().getMachineGunImage();
-                weaponImageHeight = GameGlobals.getInstance().getImageResources().
-                        getInteger(R.integer.MachineGunImageHeight);
-                break;
-            case Missile:
-                weaponImage = GameGlobals.getInstance().getImages().getMissileLauncherImage();
-                weaponImageHeight = GameGlobals.getInstance().getImageResources().
-                        getInteger(R.integer.MissileLauncherImageHeight);
-                break;
-            case Laser:
-                weaponImage = GameGlobals.getInstance().getImages().getLaserCannonImage();
-                weaponImageHeight = GameGlobals.getInstance().getImageResources().
-                        getInteger(R.integer.LaserCannonImageHeight);
-                break;
-            case Flamethrower:
-                weaponImage = GameGlobals.getInstance().getImages().getFlameThrowerImage();
-                weaponImageHeight = GameGlobals.getInstance().getImageResources().
-                        getInteger(R.integer.FlameThrowerImageHeight);
-                break;
-        }
+        switchWeaponImage();
     }
 
     /*  PURPOSE:    Increase the player’s max ammo capacity by amount given for the weapon type
@@ -203,7 +205,8 @@ public class Player extends Sprite {
             changeAniState(GameGlobals.getInstance().getImageResources().
                     getInteger(R.integer.NormalAnimateState));
             increaseHealth(getMaxHealth());
-            flickerTimer = 30;
+            flickerTimer = GameGlobals.getInstance().getImageResources().
+                    getInteger(R.integer.PlayerFlickerTimeMax);
             return true;
         }
         return false;
@@ -241,5 +244,34 @@ public class Player extends Sprite {
      */
     public WeaponTypes getMySecondaryWeapon(){
         return mySecondaryWeapon;
+    }
+  
+    /*  PURPOSE:    Change the weapon image to the current active weapon
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    private void  switchWeaponImage(){
+        switch (getWeaponType()){
+            case MachineGun:
+                weaponImage = GameGlobals.getInstance().getImages().getMachineGunImage();
+                weaponImageHeight = GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.MachineGunImageHeight);
+                break;
+            case Missile:
+                weaponImage = GameGlobals.getInstance().getImages().getMissileLauncherImage();
+                weaponImageHeight = GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.MissileLauncherImageHeight);
+                break;
+            case Laser:
+                weaponImage = GameGlobals.getInstance().getImages().getLaserCannonImage();
+                weaponImageHeight = GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.LaserCannonImageHeight);
+                break;
+            case Flamethrower:
+                weaponImage = GameGlobals.getInstance().getImages().getFlameThrowerImage();
+                weaponImageHeight = GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.FlameThrowerImageHeight);
+                break;
+        }
     }
 }

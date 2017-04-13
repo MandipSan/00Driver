@@ -21,8 +21,8 @@ public class SpikeProjectile extends Projectile {
         */
     private SpikeProjectile(Bitmap image, int imageWidth, int imageHeight) {
         super(image, imageWidth, imageHeight, 2, 1);
-        //TODO:Damage amount to be checked
-        myDamage = 10;
+        myDamage = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.SProDefaultDamage);
     }
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
@@ -63,7 +63,7 @@ public class SpikeProjectile extends Projectile {
      */
     @Override
     public void setDamageLevel(int newDamageLevel){
-        //TODO:Need to change value from hard coded
-        myDamage = 10*newDamageLevel;
+        myDamage = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.SProDefaultDamage)*newDamageLevel;
     }
 }
