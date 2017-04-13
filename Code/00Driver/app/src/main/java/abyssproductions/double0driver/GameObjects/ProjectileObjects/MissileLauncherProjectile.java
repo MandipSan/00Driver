@@ -23,8 +23,8 @@ public class MissileLauncherProjectile extends Projectile {
         */
     private MissileLauncherProjectile(Bitmap image, int imageWidth, int imageHeight) {
         super(image, imageWidth, imageHeight, 3, 1);
-        //TODO:Damage amount to be checked
-        myDamage = 50;
+        myDamage = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.MLProDefaultDamage);
     }
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
@@ -50,6 +50,7 @@ public class MissileLauncherProjectile extends Projectile {
                         getInteger(R.integer.MissileProImageWidth),
                 GameGlobals.getInstance().getImageResources().
                         getInteger(R.integer.MissileProImageHeight));
+        //TODO:Need to change value from hard coded
         p.setMyCollisionBounds(new Rect(0,0,10,16));
         p.resetWidthAndHeight(10,16);
         p.setDamage(myDamage);
@@ -66,8 +67,8 @@ public class MissileLauncherProjectile extends Projectile {
      */
     @Override
     public void setDamageLevel(int newDamageLevel){
-        //TODO:Need to change value from hard coded
-        myDamage = 10*newDamageLevel;
+        myDamage = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.MLProDefaultDamage)*newDamageLevel;
     }
 
 }

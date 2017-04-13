@@ -3,25 +3,51 @@
     <!-->Animation related constants<-->
     <integer name="NormalAnimateState">0</integer>
     <integer name="DestroyAnimateState">1</integer>
+
     <!-->Background related constants<-->
     <integer name="MaximumLaneSize">200</integer>
     <integer name="MinimumNumberOfLanes">6</integer>
+
     <!-->Items related constants<-->
     <integer name="ItemsArraySize">10</integer>
     <integer name="ItemYVelocity">10</integer>
     <!-->Sprite related constants<-->
-    <integer name="DefaultStartHealth">100</integer>
+    <integer name="DefaultStartHealth">0</integer>
+    <integer name="DefaultMachineGunDelay">5</integer>
+    <integer name="DefaultMissileDelay">20</integer>
+    <integer name="DefaultFlamethrowerDelay">0</integer>
+    <integer name="DefaultLaserDelay">0</integer>
+    <integer name="DefaultSpikeDelay">10</integer>
+
     <!-->Enemy related constants<-->
     <integer name="EnemyArraySize">15</integer>
+    <integer name="EnemyDefaultSpawnDelayMax">5</integer>
     <integer name="EnemyYVelocity">10</integer>
+    <integer name="EnemyDefaultHealth">20</integer>
+    <integer name="EnemyDefaultAmmo">1000</integer>
+
     <!-->Projectile related constants<-->
     <integer name="ProjectileArraySize">50</integer>
     <integer name="MGProYVelocity">25</integer>
     <integer name="MLProYVelocity">25</integer>
     <integer name="LProYVelocity">25</integer>
     <integer name="FProYVelocity">25</integer>
+    <integer name="MGProDefaultDamage">10</integer>
+    <integer name="MLProDefaultDamage">10</integer>
+    <integer name="LProDefaultDamage">10</integer>
+    <integer name="FProDefaultDamage">10</integer>
+    <integer name="SProDefaultDamage">10</integer>
+    <integer name="FProLifeCountMax">10</integer>
+    <integer name="FProXVelSpreadMax">21</integer>
+
     <!-->Player related constants<-->
     <integer name="PlayerHorVelocity">20</integer>
+    <integer name="PlayerFlickerTimeMax">30</integer>
+    <integer name="PlayerDefaultWeaponAmmo">10</integer>
+    <integer name="PlayerDefaultWeaponAmmoMax">10</integer>
+    <integer name="PlayerDefaultWeapon">0</integer>
+    <integer name="PlayerDefaultHealth">100</integer>
+
     <!-->Sound effect related constants<-->
     <integer name="SEExplosionID">0</integer>
     <integer name="SEMachineGunID">1</integer>
@@ -29,6 +55,7 @@
     <integer name="SEFireID">3</integer>
     <integer name="SEMissileID">4</integer>
     <integer name="SEAmbulanceID">5</integer>
+
     <!-->Image related constants<-->
     <integer name="VehicleImageWidth">102</integer>
     <integer name="PlayerImageHeight">121</integer>
@@ -56,4 +83,21 @@
     <integer name="LaserCannonImageHeight">17</integer>
     <integer name="FlameThrowerImageHeight">16</integer>
     <integer name="ButtonImageSize">200</integer>
+
+    <!-->Upgrade pass data related constants<-->
+    <string name="Score">score</string>
+    <string name="MaxHealth">maxHealth</string>
+    <string name="MGDamage">mGDamage</string>
+    <string name="MLDamage">mLDamage</string>
+    <string name="LBDamage">lBDamage</string>
+    <string name="FTDamage">fTDamage</string>
+    <string name="MGMaxAmmo">mGMaxAmmo</string>
+    <string name="MLMaxAmmo">mLMaxAmmo</string>
+    <string name="LBMaxAmmo">lBMaxAmmo</string>
+    <string name="FTMaxAmmo">fTMaxAmmo</string>
+    <string name="MGAmmo">mGAmmo</string>
+    <string name="MLAmmo">mLAmmo</string>
+    <string name="LBAmmo">lBAmmo</string>
+    <string name="FTAmmo">fTAmmo</string>
+
 </resources>

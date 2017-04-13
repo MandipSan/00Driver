@@ -10,10 +10,6 @@ import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Projectile;
 import abyssproductions.double0driver.R;
 
-import static android.R.attr.direction;
-import static android.R.attr.x;
-import static android.R.attr.y;
-
 /**
  * Created by Mark Reffel on 2/8/17.
  * Lasted Edited by Mandip Sangha on 2/26/17
@@ -29,8 +25,8 @@ public class FlameThrowerProjectile extends Projectile {
      */
     private FlameThrowerProjectile (Bitmap image, int imageWidth, int imageHeight) {
         super(image, imageWidth, imageHeight);
-        //TODO:Damage amount to be checked
-        myDamage = 10;
+        myDamage = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.FProDefaultDamage);
     }
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
@@ -68,14 +64,16 @@ public class FlameThrowerProjectile extends Projectile {
                         getInteger(R.integer.FlameProImageWidth),
                 GameGlobals.getInstance().getImageResources().
                         getInteger(R.integer.FlameProImageHeight));
+        //TODO:Change from Hardcoded value
         p.setMyCollisionBounds(new Rect(0,0,10,17));
         p.resetWidthAndHeight(10,17);
         p.setDamage(myDamage);
-        int temp = random.nextInt(21)-10;
-        p.myVelocity.set(temp,direction*GameGlobals.getInstance().getImageResources().
+        int flameSpread = random.nextInt(GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.FProXVelSpreadMax))-10;
+        p.myVelocity.set(flameSpread,direction*GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.FProYVelocity));
-        //TODO:Change from Hardcoded value
-        p.lifeCount = random.nextInt(10)+1;
+        p.lifeCount = random.nextInt(GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.FProLifeCountMax))+1;
 
         //GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
         //        getImageResources().getInteger(R.integer.SEFireID));
@@ -88,7 +86,7 @@ public class FlameThrowerProjectile extends Projectile {
      */
     @Override
     public void setDamageLevel(int newDamageLevel){
-        //TODO:Need to change value from hard coded
-        myDamage = 10*newDamageLevel;
+        myDamage = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.FProDefaultDamage)*newDamageLevel;
     }
 }
