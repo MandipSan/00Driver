@@ -56,7 +56,6 @@ public class GameScreen extends Fragment implements GameSurfaceView.ScreenChange
     @Override
     public void onDestroyView(){
         super.onDestroyView();
-
     }
 
     @Override
@@ -64,5 +63,14 @@ public class GameScreen extends Fragment implements GameSurfaceView.ScreenChange
         Bundle bundle = new Bundle();
         bundle.putInt("score",score);
         ((MainActivity)getActivity()).changeFrags("HighscoreScreen",bundle);
+    }
+
+    @Override
+    public void sentUpgradeData(Bundle bundle){
+        ((MainActivity)getActivity()).changeFrags("UpgradeScreen",bundle);
+    }
+
+    public void passData(Bundle bundle){
+        game.receivedUpgradeData(bundle);
     }
 }
