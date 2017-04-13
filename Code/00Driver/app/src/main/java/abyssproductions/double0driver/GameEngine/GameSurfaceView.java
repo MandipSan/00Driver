@@ -3,9 +3,8 @@ package abyssproductions.double0driver.GameEngine;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
-import android.util.DisplayMetrics;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
@@ -28,8 +27,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private GestureDetectorCompat mDetector;
     //  PURPOSE:    Holds the context passed to the view
     private Context contexts;
-    //  PURPOSE:    Pointer for gameover method implementation
-    private GameOver gameover;
+    //  PURPOSE:    Pointer for screenChange method implementation
+    private ScreenChange screenChange;
 
 
     /** PURPOSE:    Constructor for the GameSurfaceView that set the default value for the view
@@ -41,7 +40,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         getHolder().addCallback(this);
         contexts = context;
         GameGlobals.getInstance().setImageResources(getResources());
-        gameover = (GameOver)gameScreen;
+        screenChange = (ScreenChange)gameScreen;
     }
 
     /** PURPOSE:    Starts the thread and set the other variable need when the surface is created
@@ -114,7 +113,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     public void update(){
         gameEngine.update();
         if(gameEngine.getGameOver()) {
-            gameover.gameOver(gameEngine.getScore());
+            screenChange.gameOver(gameEngine.getScore());
+        }
+        if(gameEngine.getUpgradeScreenActivated()){
+            screenChange.sentUpgradeData(gameEngine.getUpgradeData());
         }
     }
 
@@ -145,7 +147,16 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         gameEngine.resetGame();
     }
 
-    public interface GameOver{
+    /** PURPOSE:    The data received from upgrades
+     *  INPUT:      bundle              - The upgrade data
+     *  OUTPUT:     NONE
+     */
+    public void receivedUpgradeData(Bundle bundle){
+        gameEngine.setUpgradeData(bundle);
+    }
+
+    public interface ScreenChange {
         void gameOver(int score);
+        void sentUpgradeData(Bundle bundle);
     }
 }

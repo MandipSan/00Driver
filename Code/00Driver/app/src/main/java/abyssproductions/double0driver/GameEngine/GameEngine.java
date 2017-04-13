@@ -1,5 +1,6 @@
 package abyssproductions.double0driver.GameEngine;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -10,6 +11,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import java.util.Random;
+
+import abyssproductions.double0driver.GameObjects.Sprite;
 import abyssproductions.double0driver.Utilities.Background;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Enemy;
@@ -31,6 +34,8 @@ public class GameEngine {
     private boolean playerFire;
     //  PURPOSE:    Holds whether the game is over
     private boolean gameOver;
+    //  PURPOSE:    Used to trigger upgrade screen
+    private boolean upgradeScreenActivated;
     //  PURPOSE:    Holds the array of the active items in the game
     private Items [] gameItems;
     //  PURPOSE:    Holds an array of the enemies
@@ -97,6 +102,7 @@ public class GameEngine {
         gHUD = new HUD(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
         playerFire = false;
         gameOver = false;
+        upgradeScreenActivated = false;
     }
 
     /** PURPOSE:    Updates the logic for the game
@@ -195,6 +201,57 @@ public class GameEngine {
         playerFire = false;
         gHUD.reset(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
         gameOver = false;
+        upgradeScreenActivated = false;
+    }
+
+    /** PURPOSE:    Sets the upgrade data received
+     *  INPUT:      bundle              - The data for the upgrades
+     *  OUTPUT:     NONE
+     */
+    public void setUpgradeData(Bundle bundle){
+        Resources res = gGInstance.getImageResources();
+        gHUD.reduceScoreBy(gHUD.getScore() - bundle.getInt(res.getString(R.string.Score)));
+        player.increaseMaxHealth(bundle.getInt(res.getString(R.string.MaxHealth)) - player.getMaxHealth());
+        int temp = bundle.getInt(res.getString(R.string.MGDamage))/player.getWeaponDamage(Sprite.WeaponTypes.MachineGun);
+        if( temp != 1){
+            player.increaseDamageLevel(Sprite.WeaponTypes.MachineGun,temp);
+        }
+        temp = bundle.getInt(res.getString(R.string.MLDamage))/player.getWeaponDamage(Sprite.WeaponTypes.Missile);
+        if( temp != 1){
+            player.increaseDamageLevel(Sprite.WeaponTypes.Missile,temp);
+        }
+        temp = bundle.getInt(res.getString(R.string.LBDamage))/player.getWeaponDamage(Sprite.WeaponTypes.Laser);
+        if( temp != 1){
+            player.increaseDamageLevel(Sprite.WeaponTypes.Laser,temp);
+        }
+        temp = bundle.getInt(res.getString(R.string.FTDamage))/player.getWeaponDamage(Sprite.WeaponTypes.Flamethrower);
+        if( temp != 1){
+            player.increaseDamageLevel(Sprite.WeaponTypes.Flamethrower,temp);
+        }
+        player.increaseMaxAmmo(Sprite.WeaponTypes.MachineGun,
+                bundle.getInt(res.getString(R.string.MGMaxAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.MachineGun));
+        player.increaseMaxAmmo(Sprite.WeaponTypes.Missile,
+                bundle.getInt(res.getString(R.string.MLMaxAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.Missile));
+        player.increaseMaxAmmo(Sprite.WeaponTypes.Laser,
+                bundle.getInt(res.getString(R.string.LBMaxAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.Laser));
+        player.increaseMaxAmmo(Sprite.WeaponTypes.Flamethrower,
+                bundle.getInt(res.getString(R.string.FTMaxAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.Flamethrower));
+        player.increaseAmmo(Sprite.WeaponTypes.MachineGun,
+                bundle.getInt(res.getString(R.string.MGAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.MachineGun));
+        player.increaseAmmo(Sprite.WeaponTypes.Missile,
+                bundle.getInt(res.getString(R.string.MLAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.Missile));
+        player.increaseAmmo(Sprite.WeaponTypes.Laser,
+                bundle.getInt(res.getString(R.string.LBAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.Laser));
+        player.increaseAmmo(Sprite.WeaponTypes.Flamethrower,
+                bundle.getInt(res.getString(R.string.FTAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.Flamethrower));
     }
 
     /** PURPOSE:    Calls the players fire when the pressed is set true
@@ -249,12 +306,44 @@ public class GameEngine {
         return gameOver;
     }
 
+    /** PURPOSE:    Return if the upgrade screen needs to be activated
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a boolean of the upgradeScreenActivated
+     */
+    public boolean getUpgradeScreenActivated(){
+        return upgradeScreenActivated;
+    }
+
     /** PURPOSE:    Return the game score
      *  INPUT:      NONE
      *  OUTPUT:     Return a int containing the score
      */
     public int getScore(){
         return gHUD.getScore();
+    }
+
+    /** PURPOSE:    Return the bundle that contains all the values that the upgrade uses
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a bundle object contain the upgrade data
+     */
+    public Bundle getUpgradeData(){
+        Resources res = gGInstance.getImageResources();
+        Bundle bundle = new Bundle();
+        bundle.putInt(res.getString(R.string.Score),gHUD.getScore());
+        bundle.putInt(res.getString(R.string.MaxHealth),player.getMaxHealth());
+        bundle.putInt(res.getString(R.string.MGDamage),player.getWeaponDamage(Sprite.WeaponTypes.MachineGun));
+        bundle.putInt(res.getString(R.string.MLDamage),player.getWeaponDamage(Sprite.WeaponTypes.Missile));
+        bundle.putInt(res.getString(R.string.LBDamage),player.getWeaponDamage(Sprite.WeaponTypes.Laser));
+        bundle.putInt(res.getString(R.string.FTDamage),player.getWeaponDamage(Sprite.WeaponTypes.Flamethrower));
+        bundle.putInt(res.getString(R.string.MGMaxAmmo),player.getMaxAmmo(Sprite.WeaponTypes.MachineGun));
+        bundle.putInt(res.getString(R.string.MLMaxAmmo),player.getMaxAmmo(Sprite.WeaponTypes.Missile));
+        bundle.putInt(res.getString(R.string.LBMaxAmmo),player.getMaxAmmo(Sprite.WeaponTypes.Laser));
+        bundle.putInt(res.getString(R.string.FTMaxAmmo),player.getMaxAmmo(Sprite.WeaponTypes.Flamethrower));
+        bundle.putInt(res.getString(R.string.MGAmmo),player.getAmmo(Sprite.WeaponTypes.MachineGun));
+        bundle.putInt(res.getString(R.string.MLAmmo),player.getAmmo(Sprite.WeaponTypes.Missile));
+        bundle.putInt(res.getString(R.string.LBAmmo),player.getAmmo(Sprite.WeaponTypes.Laser));
+        bundle.putInt(res.getString(R.string.FTAmmo),player.getAmmo(Sprite.WeaponTypes.Flamethrower));
+        return bundle;
     }
 
     /** PURPOSE:    Checks the collision of the various game objects
