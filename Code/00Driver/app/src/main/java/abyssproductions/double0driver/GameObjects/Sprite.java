@@ -247,6 +247,22 @@ public class Sprite extends GameObject {
         }
     }
 
+    /*  PURPOSE:    Increase the specified weapons damage to the given level
+           INPUT:      weaponType          - The weapon type of the ammo amount to return
+                       newLevel            - The weapon's new level
+           OUTPUT:     NONE
+        */
+    public void increaseDamageLevel(WeaponTypes weaponType, int newLevel){
+        if(myWeapons != null ) {
+            if ((myWeapons.length == 1 && weaponType == myWeaponType) || (myWeapons.length > 1)) {
+                if(newLevel > 0){
+                    myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].
+                            myProjectile.setDamageLevel(newLevel);
+                }
+            }
+        }
+    }
+
     /*  PURPOSE:    Returns the current health
         INPUT:      NONE
         OUTPUT:     Returns an int with the amount of the current health
@@ -273,20 +289,24 @@ public class Sprite extends GameObject {
                 ? myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo : 0;
     }
 
-    /*  PURPOSE:    Increase the specified weapons damage to the given level
-        INPUT:      weaponType          - The weapon type of the ammo amount to return
-                    newLevel            - The weapon's new level
-        OUTPUT:     NONE
+    /*  PURPOSE:    Returns the amount of max ammo for the selected weapon type
+        INPUT:      weaponType          - The weapon type of the max ammo amount to return
+        OUTPUT:     Returns an int of the max ammo amount
      */
-    public void increaseDamageLevel(WeaponTypes weaponType, int newLevel){
-        if(myWeapons != null ) {
-            if ((myWeapons.length == 1 && weaponType == myWeaponType) || (myWeapons.length > 1)) {
-                if(newLevel > 0){
-                    myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].
-                            myProjectile.setDamageLevel(newLevel);
-                }
-            }
-        }
+    public int getMaxAmmo(WeaponTypes weaponType) {
+        return (myWeapons != null &&
+                ((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)))
+                ? myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].maxAmmo : 0;
+    }
+
+    /*  PURPOSE:    Returns the amount of damage for the selected weapon type
+        INPUT:      weaponType          - The weapon type of the damage amount to return
+        OUTPUT:     Returns an int of the damage amount
+     */
+    public int getWeaponDamage(WeaponTypes weaponType){
+        return (myWeapons != null &&
+                ((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)))
+                ? myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].myProjectile.getMyDamage() : 0;
     }
 
     /*  PURPOSE:    Set's the weapon type of the current active weapon
