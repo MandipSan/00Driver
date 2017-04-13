@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import abyssproductions.double0driver.GameEngine.GameSurfaceView;
@@ -19,7 +17,7 @@ import abyssproductions.double0driver.R;
  * Created by Mandip Sangha on 3/25/2017.
  */
 
-public class GameScreen extends Fragment implements GameSurfaceView.GameOver {
+public class GameScreen extends Fragment implements GameSurfaceView.ScreenChange {
     private GameSurfaceView game;
     private ViewGroup layout;
     public static GameScreen newInstance(){
