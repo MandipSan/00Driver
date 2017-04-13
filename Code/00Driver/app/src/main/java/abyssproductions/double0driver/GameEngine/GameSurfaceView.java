@@ -147,6 +147,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         gameEngine.resetGame();
     }
 
+
     /** PURPOSE:    The data received from upgrades
      *  INPUT:      bundle              - The upgrade data
      *  OUTPUT:     NONE

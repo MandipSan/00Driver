@@ -49,7 +49,7 @@ public class Sprite extends GameObject {
     public Sprite(Bitmap image, int imageWidth, int imageHeight, Boolean loadAllWeapons) {
         super(image, imageWidth, imageHeight);
         myMaxHealth = myHealth = GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.DefaultHealth);
+                getInteger(R.integer.DefaultStartHealth);
         myHealthBarDim = new Rect((int)getDimensions().left,(int)getDimensions().centerY()-5,
                 (int)getDimensions().right, (int)(int)getDimensions().centerY()+5);
         displayHealthBar = false;
@@ -169,12 +169,12 @@ public class Sprite extends GameObject {
      */
     public void reset(){
         myMaxHealth = myHealth = GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.DefaultHealth);
+                getInteger(R.integer.DefaultStartHealth);
         myWeaponType = WeaponTypes.MachineGun;
         for (Weapon W: myWeapons) {
             W.myProjectile.setDamageLevel(1);
-            W.ammo = 0;
-            W.maxAmmo = 0;
+            W.ammo = 100;
+            W.maxAmmo = 100;
             W.sinceDelay = 0;
         }
     }

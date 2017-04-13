@@ -11,9 +11,8 @@
     <!-->Items related constants<-->
     <integer name="ItemsArraySize">10</integer>
     <integer name="ItemYVelocity">10</integer>
-
     <!-->Sprite related constants<-->
-    <integer name="DefaultHealth">0</integer>
+    <integer name="DefaultStartHealth">0</integer>
     <integer name="DefaultMachineGunDelay">5</integer>
     <integer name="DefaultMissileDelay">20</integer>
     <integer name="DefaultFlamethrowerDelay">0</integer>
@@ -100,4 +99,5 @@
     <string name="MLAmmo">mLAmmo</string>
     <string name="LBAmmo">lBAmmo</string>
     <string name="FTAmmo">fTAmmo</string>
+
 </resources>

@@ -40,6 +40,7 @@ public class Player extends Sprite {
                 .getInteger(R.integer.PlayerDefaultWeapon)];
         velocityReset = 0;
         velocityResetMax = 10;
+        weaponImage = GameGlobals.getInstance().getImages().getMachineGunImage();
         weaponImageWidth = GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.VehicleImageWidth);
         weaponImageHeight = GameGlobals.getInstance().getImageResources().
@@ -52,9 +53,9 @@ public class Player extends Sprite {
         increaseAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
                 .getInteger(R.integer.PlayerDefaultWeaponAmmo));
         switchWeaponImage();
-        increaseHealth(GameGlobals.getInstance().getImageResources()
-                .getInteger(R.integer.PlayerDefaultHealth));
         increaseMaxHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultHealth));
+        increaseHealth(GameGlobals.getInstance().getImageResources()
                 .getInteger(R.integer.PlayerDefaultHealth));
     }
 
@@ -102,9 +103,9 @@ public class Player extends Sprite {
                 .getInteger(R.integer.PlayerDefaultWeapon)];
         switchWeaponImage();
         flickerTimer = 0;
-        increaseHealth(GameGlobals.getInstance().getImageResources()
-                .getInteger(R.integer.PlayerDefaultHealth));
         increaseMaxHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.PlayerDefaultHealth));
+        increaseHealth(GameGlobals.getInstance().getImageResources()
                 .getInteger(R.integer.PlayerDefaultHealth));
     }
 
@@ -244,7 +245,7 @@ public class Player extends Sprite {
     public WeaponTypes getMySecondaryWeapon(){
         return mySecondaryWeapon;
     }
-
+  
     /*  PURPOSE:    Change the weapon image to the current active weapon
         INPUT:      NONE
         OUTPUT:     NONE
