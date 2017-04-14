@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 temp = startScreen;
                 break;
             case "GameScreen":
+                gameScreen.passData(bundle);
                 temp = gameScreen;
                 break;
             case "CreditScreen":

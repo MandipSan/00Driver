@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
 import abyssproductions.double0driver.Utilities.UpgradeImageAdapter;
@@ -106,7 +107,7 @@ public class UpgradeScreen extends Fragment {
      *  OUTPUT:     NONE
      */
     public void passData(Bundle bundle){
-        Resources res = getResources();
+        Resources res = GameGlobals.getInstance().getImageResources();
         if(buttonVars == null){
             buttonVars = new int[ItemsList.values().length];
             increaseValues = new int[ItemsList.values().length];

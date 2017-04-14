@@ -252,6 +252,7 @@ public class GameEngine {
         player.increaseAmmo(Sprite.WeaponTypes.Flamethrower,
                 bundle.getInt(res.getString(R.string.FTAmmo))-
                         player.getMaxAmmo(Sprite.WeaponTypes.Flamethrower));
+        upgradeScreenActivated = false;
     }
 
     /** PURPOSE:    Calls the players fire when the pressed is set true
@@ -421,6 +422,8 @@ public class GameEngine {
                 //Checks if enemy collides with the player
                 if(myEnemies[i].getCollisionBounds().intersects(tempDimP.left,tempDimP.top,
                         tempDimP.right,tempDimP.bottom)){
+                    //TODO: NEED TO CHANGE
+                    if(myEnemies[i].getMyType() == Enemy.EnemyType.UpgradeTruck)upgradeScreenActivated = true;
                     myEnemies[i] = null;
                     player.decreaseHealth((int)(player.getMaxHealth()*.25));
                 }
@@ -457,7 +460,6 @@ public class GameEngine {
                 }
             }
         }
-
     }
 
     /** PURPOSE:    Spawns the enemies
