@@ -1,14 +1,15 @@
 package abyssproductions.double0driver;
 
+import android.support.v4.app.BundleCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
-
 import abyssproductions.double0driver.GameEngine.GameSurfaceView;
 import abyssproductions.double0driver.GameMenu.CreditScreen;
 import abyssproductions.double0driver.GameMenu.GameScreen;
 import abyssproductions.double0driver.GameMenu.HelpScreen;
+import abyssproductions.double0driver.GameMenu.HighScoreScreen;
 import abyssproductions.double0driver.GameMenu.SettingScreen;
 import abyssproductions.double0driver.GameMenu.StartScreen;
 import abyssproductions.double0driver.GameMenu.UpgradeScreen;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private SettingScreen settingScreen;
     //  PURPOSE:    Pointer to the upgrade screen fragment
     private UpgradeScreen upgradeScreen;
+    //  PURPOSE:    Pointer to the high score screen fragment
+    private HighScoreScreen highScoreScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
         creditScreen = CreditScreen.newInstance();
         helpScreen = HelpScreen.newInstance();
         settingScreen = SettingScreen.newInstance();
-      
+        highScoreScreen = HighScoreScreen.newInstance();
+        upgradeScreen = UpgradeScreen.newInstance();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -44,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
-  
+
     @Override
     public void onDestroy(){
         super.onDestroy();
@@ -53,15 +58,25 @@ public class MainActivity extends AppCompatActivity {
 
     /** PURPOSE:    Used to change to the specified fragment
      *  INPUT:      fragTag             - Holds the tag for the fragment to change too
-     *  OUTPUT:     Returns a boolean
+     *  OUTPUT:     NONE
      */
     public void changeFrags(String fragTag){
+        changeFrags(fragTag,null);
+    }
+
+    /** PURPOSE:    Used to change to the specified fragment
+     *  INPUT:      fragTag             - Holds the tag for the fragment to change too
+     *              bundle              - Holds data passed between fragments
+     *  OUTPUT:     NONE
+     */
+    public void changeFrags(String fragTag, Bundle bundle){
         Fragment temp = null;
         switch (fragTag){
             case "StartScreen":
                 temp = startScreen;
                 break;
             case "GameScreen":
+                gameScreen.passData(bundle);
                 temp = gameScreen;
                 break;
             case "CreditScreen":
@@ -74,7 +89,12 @@ public class MainActivity extends AppCompatActivity {
                 temp = settingScreen;
                 break;
             case "UpgradeScreen":
+                upgradeScreen.passData(bundle);
                 temp = upgradeScreen;
+                break;
+            case "HighscoreScreen":
+                highScoreScreen.passData(bundle);
+                temp = highScoreScreen;
                 break;
         }
         if(temp != null) {
