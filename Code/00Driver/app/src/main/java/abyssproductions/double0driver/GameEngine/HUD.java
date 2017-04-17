@@ -146,6 +146,14 @@ public class HUD {
         maxHealth = (int)newMaxHealth;
     }
 
+    /** PURPOSE:    Sets the number of current lives
+     *  INPUT:      newNumLives         - Holds the new number of lives
+     *  OUTPUT:     NONE
+     */
+    public void setNumLives(int newNumLives){
+        numLives = newNumLives;
+    }
+
     /** PURPOSE:    Decrease the number of lives by one when the curHealth is 0 and destroyed is true
      *  INPUT:      destroyed           - Holds whether the destroyed animation is complete
      *  OUTPUT:     NONE
@@ -178,14 +186,6 @@ public class HUD {
      */
     public void reduceScoreBy(int reduceBy){
         score -=reduceBy;
-    }
-
-    /** PURPOSE:    Increase the number of current lives by one
-     *  INPUT:      NONE
-     *  OUTPUT:     NONE
-     */
-    public void increaseNumLives(){
-        numLives++;
     }
 
     /** PURPOSE:    Sets the current button image for the primary and secondary active weapons
