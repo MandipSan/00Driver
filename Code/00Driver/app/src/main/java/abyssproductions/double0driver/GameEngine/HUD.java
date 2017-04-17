@@ -84,7 +84,7 @@ public class HUD {
                 R.integer.ButtonImageSize));
 
         Matrix tempMatrix = new Matrix();
-        tempMatrix.setScale(0.2f,0.2f);
+        tempMatrix.setScale(0.45f,0.45f);
         /*Rect orgImageSize = new Rect(0,0,GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.VehicleImageWidth),GameGlobals.getInstance().
                 getImageResources().getInteger(R.integer.PlayerImageHeight));
@@ -104,8 +104,13 @@ public class HUD {
         paint.setTextSize(healthBar.height());
         paint.setColor(Color.WHITE);
         canvas.drawText("Score: " + score,0, textYPos,paint);
-        canvas.drawText("Lives: ", GameGlobals.getInstance().getScreenWidth()-100, textYPos,paint);
-        canvas.drawBitmap(playerLifeImage,GameGlobals.getInstance().getScreenWidth()-75,0,paint);
+        int temp = GameGlobals.getInstance().getScreenWidth()-playerLifeImage.getWidth();
+        for(int i = 0; i < numLives; i++){
+            canvas.drawBitmap(playerLifeImage,temp,0,paint);
+            temp = temp - 2 - playerLifeImage.getWidth();
+        }
+        canvas.drawText("Lives: ", temp - 100, textYPos,paint);
+
         paint.setColor(Color.RED);
         canvas.drawRect(healthBar,paint);
         paint.setColor(Color.WHITE);
