@@ -443,13 +443,19 @@ public class GameEngine {
             for(int m = 0; m < gameItems.length; m++){
                 if(gameItems[m] != null){
                     tempDim = gameItems[m].getCollisionBounds();
-                    if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
-                            intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
+                    if((gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
+                            intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)) ||
+                            (player.getCollisionBounds().intersects(tempDim.left,tempDim.top,
+                                    tempDim.right,tempDim.bottom))){
                         //TODO:To do item affect
                         switch (gameItems[m].getItemType()){
                             case HealthBox:
+                                player.increaseHealth(gGInstance.getImageResources().
+                                        getInteger(R.integer.ItemsHealthIncreaseVal));
                                 break;
                             case AmmoBox:
+                                player.increaseAmmo(player.getMyPrimaryWeapon(),gGInstance.
+                                        getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
                                 break;
                             case MysteryBox:
                                 break;

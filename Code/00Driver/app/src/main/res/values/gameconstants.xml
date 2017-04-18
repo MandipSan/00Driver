@@ -11,6 +11,8 @@
     <!-->Items related constants<-->
     <integer name="ItemsArraySize">10</integer>
     <integer name="ItemYVelocity">10</integer>
+    <integer name="ItemsHealthIncreaseVal">10</integer>
+    <integer name="ItemsAmmoIncreaseVal">10</integer>
     <!-->Sprite related constants<-->
     <integer name="DefaultStartHealth">0</integer>
     <integer name="DefaultMachineGunDelay">5</integer>
