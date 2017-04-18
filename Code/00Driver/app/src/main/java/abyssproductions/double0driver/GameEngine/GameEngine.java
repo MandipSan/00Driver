@@ -242,16 +242,16 @@ public class GameEngine {
                         player.getMaxAmmo(Sprite.WeaponTypes.Flamethrower));
         player.increaseAmmo(Sprite.WeaponTypes.MachineGun,
                 bundle.getInt(res.getString(R.string.MGAmmo))-
-                        player.getMaxAmmo(Sprite.WeaponTypes.MachineGun));
+                        player.getAmmo(Sprite.WeaponTypes.MachineGun));
         player.increaseAmmo(Sprite.WeaponTypes.Missile,
                 bundle.getInt(res.getString(R.string.MLAmmo))-
-                        player.getMaxAmmo(Sprite.WeaponTypes.Missile));
+                        player.getAmmo(Sprite.WeaponTypes.Missile));
         player.increaseAmmo(Sprite.WeaponTypes.Laser,
                 bundle.getInt(res.getString(R.string.LBAmmo))-
-                        player.getMaxAmmo(Sprite.WeaponTypes.Laser));
+                        player.getAmmo(Sprite.WeaponTypes.Laser));
         player.increaseAmmo(Sprite.WeaponTypes.Flamethrower,
                 bundle.getInt(res.getString(R.string.FTAmmo))-
-                        player.getMaxAmmo(Sprite.WeaponTypes.Flamethrower));
+                        player.getAmmo(Sprite.WeaponTypes.Flamethrower));
         upgradeScreenActivated = false;
     }
 
