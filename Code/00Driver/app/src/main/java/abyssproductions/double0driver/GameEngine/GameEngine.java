@@ -581,6 +581,8 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void enemyUpdateLogic(){
+        //The height and width size of the drop items
+        int itemSize = (int)(gameBackground.getLaneSize() * .25);
         //Calls the enemy spawn method when the delay is up
         if(enemySpawnDelay == 0) {
             spawnEnemies();
@@ -618,8 +620,8 @@ public class GameEngine {
                                             getHealthBoxImage(), w, h,
                                             Items.ItemTypes.HealthBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
-                                            centerY(), new RectF(0, 0, 25, 25));
-                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,25,25));
+                                            centerY(), new RectF(0, 0, itemSize, itemSize));
+                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,itemSize,itemSize));
                                     set = true;
                                     break;
                                 case AmmoTruck:
@@ -627,8 +629,8 @@ public class GameEngine {
                                             getAmmoBoxImage(), w, h,
                                             Items.ItemTypes.AmmoBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
-                                            centerY(), new RectF(0, 0, 25, 25));
-                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,25,25));
+                                            centerY(), new RectF(0, 0, itemSize, itemSize));
+                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,itemSize,itemSize));
                                     set = true;
                                     break;
                                 case BasicCar:
