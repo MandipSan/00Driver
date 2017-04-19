@@ -98,11 +98,13 @@ public class Enemy extends Sprite {
      */
     public void update(int playerX, int playerY){
         super.update();
+        if(movement)move();
         if(getHealth() > 0) {
-            if(movement)move();
             if (myType == EnemyType.MachineGunCar || myType == EnemyType.DronePickup ||
                     myType == EnemyType.SpikeVan)
                 fire(playerX, playerY);
+        }else{
+            if(myVelocity.y < 0)myVelocity.y *= -1;
         }
         movement = true;
     }
@@ -187,12 +189,20 @@ public class Enemy extends Sprite {
         return myType;
     }
 
-    /*  PURPOSE:    Return's if the enemy is dead
+    /*  PURPOSE:    Return's if the enemy is dead and the animation is finished
         INPUT:      NONE
-        OUTPUT:     Return a boolean if the health equals zero
+        OUTPUT:     Return a boolean if the health equals zero and the animation is finished
      */
     public boolean isDead(){
         return getHealth() <= 0 && getDestroyedFinish();
+    }
+
+    /*  PURPOSE:    Return's if the enemy is dead and the animation is not finished
+        INPUT:      NONE
+        OUTPUT:     Return a boolean if the health equals zero and the animation is finished
+     */
+    public boolean isInDestroyState(){
+        return getHealth() <= 0 && !getDestroyedFinish();
     }
 
     /*  PURPOSE:    Enemy's movement logic

@@ -358,7 +358,7 @@ public class GameEngine {
         Rect tempDimP = player.getCollisionBounds();
         //Checks if the player or projectiles collide with an enemy
         for(int i = 0; i < myEnemies.length; i++) {
-            if(myEnemies[i] != null){
+            if(myEnemies[i] != null && !myEnemies[i].isInDestroyState()){
                 //Stop enemies from colliding into player when in a lane that goes with the traffic
                 myLane = calculateInLane(myEnemies[i].getDimensions().centerX());
                 if (myLane >= (gameBackground.getNumLanes() / 2) && myEnemies[i].carRunning()) {
@@ -375,7 +375,7 @@ public class GameEngine {
                     //Stop enemies from colliding into enemies when in a lane that goes with the
                     //  traffic
                     for (int j = 0; j != myEnemies.length; j++) {
-                        if (myEnemies[j] != null && i != j) {
+                        if (myEnemies[j] != null && i != j && !myEnemies[j].isInDestroyState()) {
                             //Check if the enemies are in the same lane or not
                             if (myLane == calculateInLane(myEnemies[j].getDimensions().centerX())) {
                                 //Checks for which enemy is higher than the other
