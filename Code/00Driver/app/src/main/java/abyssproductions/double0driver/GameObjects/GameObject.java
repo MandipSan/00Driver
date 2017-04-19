@@ -194,7 +194,7 @@ public class GameObject {
     protected void animate(){
         if(myAniDelay <= 0) {
             if (myCurAniState >= myColumn) myCurAniState = 0;
-            myCurFrameLoc.set(myImageWidth * myCurFrameNum, myCurAniState,
+            myCurFrameLoc.set(myImageWidth * myCurFrameNum, myImageHeight *myCurAniState,
                     myImageWidth * (myCurFrameNum + 1), myImageHeight * (myCurAniState + 1));
             myCurFrameNum++;
             if (myCurFrameNum == myRow && myCurAniState != GameGlobals.getInstance().getImageResources().
