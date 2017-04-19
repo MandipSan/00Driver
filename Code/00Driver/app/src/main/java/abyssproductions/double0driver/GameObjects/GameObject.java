@@ -214,6 +214,7 @@ public class GameObject {
         if(newState < myRow) {
             myCurAniState = newState;
             myCurFrameNum = 0;
+            animate();
         }
     }
 
