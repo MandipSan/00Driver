@@ -47,6 +47,8 @@ public class Enemy extends Sprite {
     public Enemy(Bitmap image, int imageWidth, int imageHeight, EnemyType enemyType, float x,
                  float y, int displayWidth, int displayHeight){
         super(image, imageWidth, imageHeight, false);
+        setMyAniDelayMax(GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState),2);
         changeMovement = 0;
         random = new Random();
         myType = enemyType;
