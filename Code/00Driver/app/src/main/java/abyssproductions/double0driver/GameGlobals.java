@@ -47,7 +47,7 @@ public class GameGlobals {
      */
     public boolean loadPointers(){
         if(imageResources != null){
-            images = new GameImages(imageResources);
+            images = new GameImages();
             myProjectiles = new Projectile[imageResources.getInteger(R.integer.ProjectileArraySize)];
             for(int i =0; i < myProjectiles.length; i++){
                 myProjectiles[i] = null;

@@ -65,13 +65,21 @@ public class GameImages {
     //  PURPOSE:    Hold's the flame thrower button's image
     private static Bitmap flameThrowerButtonImage;
 
-    /** PURPOSE:    Constructor for the object that loads all the games images
-     *  INPUT:      resources           - Apps resource decoder
+    /** PURPOSE:    Constructor for the object
+     *  INPUT:      NONE
      *  OUTPUT:     NONE
      */
-    public GameImages(Resources resources){
-        GameGlobals instance =GameGlobals.getInstance();
+    public GameImages(){
 
+    }
+
+    /** PURPOSE:    Loads all the game images
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void loadGameImages(){
+        GameGlobals instance =GameGlobals.getInstance();
+        Resources resources = instance.getImageResources();
         //Vehicle Image Sheets
         int vehicleWidth = instance.getImageResources().getInteger(R.integer.VehicleImageWidth);
         playerImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.playersheet),
@@ -152,6 +160,48 @@ public class GameImages {
         laserCannonButtonImage = setMyImage(
                 BitmapFactory.decodeResource(resources, R.drawable.lasercannonbutton), 1, 1,
                 buttonSize, buttonSize);
+        /*flameThrowerButtonImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.flamethrowerbutton),
+                1,1,vehicleWidth,
+                instance.getImageResources().getInteger(R.integer.FlameThrowerImageHeight));*/
+    }
+
+    /** PURPOSE:    Unloads all the images
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void unloadGameImages(){
+        //Vehicle Image Sheets
+        playerImage = null;
+        basicCarAImage = null;
+        basicCarBImage = null;
+        basicCarCImage = null;
+        ambulanceImage = null;
+        ammoTruckImage = null;
+        upgradeTruckImage = null;
+        vanImage = null;
+        pickupImage = null;
+        sportCarImage = null;
+
+        //Weapon Images
+        machineGunImage = null;
+        missileLauncherImage = null;
+        laserCannonImage = null;
+        flameThrowerImage = null;
+
+        //Project Image Sheets
+        machineGunProImage = null;
+        laserProImage = null;
+        missileProImage = null;
+        spikeProImage = null;
+
+        //Items Image
+        healthBoxImage = null;
+        ammoBoxImage = null;
+
+        //HUD Button Images
+        machineGunButtonImage = null;
+        missileLauncherButtonImage = null;
+        laserCannonButtonImage = null;
         /*flameThrowerButtonImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.flamethrowerbutton),
                 1,1,vehicleWidth,
                 instance.getImageResources().getInteger(R.integer.FlameThrowerImageHeight));*/

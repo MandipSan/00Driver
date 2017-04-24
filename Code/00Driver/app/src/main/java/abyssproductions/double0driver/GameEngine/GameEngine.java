@@ -58,6 +58,7 @@ public class GameEngine {
     public GameEngine(){
         gGInstance = GameGlobals.getInstance();
         gGInstance.loadPointers();
+        GameGlobals.getInstance().getImages().loadGameImages();
         gameBackground = new Background();
         int tempWidth = gGInstance.getImageResources().getInteger(R.integer.VehicleImageWidth);
         int tempHeight = gGInstance.getImageResources().getInteger(R.integer.PlayerImageHeight);
