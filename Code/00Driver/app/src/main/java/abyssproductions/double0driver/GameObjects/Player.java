@@ -57,6 +57,8 @@ public class Player extends Sprite {
                 .getInteger(R.integer.PlayerDefaultHealth));
         increaseHealth(GameGlobals.getInstance().getImageResources()
                 .getInteger(R.integer.PlayerDefaultHealth));
+        setMyAniDelayMax(GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState),2);
     }
 
     /*  PURPOSE:    Updates the player's logic
