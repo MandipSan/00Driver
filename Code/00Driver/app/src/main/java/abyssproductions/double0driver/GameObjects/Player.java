@@ -171,16 +171,6 @@ public class Player extends Sprite {
         switchWeaponImage();
     }
 
-    /*  PURPOSE:    Increase the player’s max ammo capacity by amount given for the weapon type
-                        given
-        INPUT:      weaponType          - The weapon type to increase the max ammo for capacity
-                    upgradeMaxAmmoBy    - The amount to increase the max ammo capacity by
-        OUTPUT:     NONE
-     */
-    public void upgradeAmmo(WeaponTypes weaponType, int upgradeMaxAmmoBy){
-        increaseMaxAmmo(weaponType,upgradeMaxAmmoBy);
-    }
-
     /*  PURPOSE:    Calculates the max velocity reset need for lane transition
         INPUT:      laneSize            - The size of the lanes
         OUTPUT:     NONE
