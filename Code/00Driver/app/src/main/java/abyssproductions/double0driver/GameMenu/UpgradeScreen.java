@@ -14,13 +14,11 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import abyssproductions.double0driver.GameGlobals;
-import abyssproductions.double0driver.GameObjects.Items;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
 import abyssproductions.double0driver.Utilities.UpgradeImageAdapter;
 
 import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.MachineGun;
-import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.MissileLauncher;
 import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.SelectPrimaryWeapon;
 import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.SelectSecondaryWeapon;
 
@@ -30,13 +28,21 @@ import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.Se
  */
 
 public class UpgradeScreen extends Fragment {
+    //  PURPOSE:    Holds the current score
     private int Score;
+    //  PURPOSE:    Holds the values for each button that is passed and received
     private int [] buttonVars;
+    //  PURPOSE:    Holds how much the button value will increase
     private int [] increaseValues;
+    //  PURPOSE:    Holds the cost of increase the button value
     private int [] costValues;
+    //  PURPOSE:    Holds where the primary or secondary weapon is the selectable
     private boolean primarySelectorActive;
+    //  PURPOSE:    Holds the adapter for the grid buttons
     private UpgradeImageAdapter adapter;
+    //  PURPOSE:    Holds the grid
     private GridView gridview;
+    //  PURPOSE:    Holds the names and what each button in the grid is
     public enum ItemsList{NumberLives, MaxHealth, MachineGunDamage, MissileLauncherDamage, LaserBeamDamage,
         FlameThrowerDamage, MachineGunMaxAmmo, MissileLauncherMaxAmmo, LaserBeamMaxAmmo,
         FlameThrowerMaxAmmo, FillMachineGunAmmo, FillMissileLauncherAmmo, FillLaserBeamAmmo,
@@ -154,6 +160,7 @@ public class UpgradeScreen extends Fragment {
                 costValues[i] = 100;
             }
         }
+        //Sets the data passed to the correct button value holding position
         if(bundle != null){
             Score = bundle.getInt(res.getString(R.string.Score));
             buttonVars[ItemsList.MaxHealth.ordinal()] = bundle.getInt(res.getString(R.string.MaxHealth));
@@ -208,6 +215,7 @@ public class UpgradeScreen extends Fragment {
                     break;
             }
         }else{
+            //Used in case the fragment started but no data was passed
             for(int i = 0; i < buttonVars.length; i++){
                 buttonVars[i] = -1;
             }
@@ -236,5 +244,13 @@ public class UpgradeScreen extends Fragment {
      */
     public int getIncreaseValue(int position){
         return increaseValues[position];
+    }
+
+    /** PURPOSE:    Return's the value in primarySelectorActive
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a boolean value
+     */
+    public boolean getPrimarySelectorActive(){
+        return primarySelectorActive;
     }
 }
