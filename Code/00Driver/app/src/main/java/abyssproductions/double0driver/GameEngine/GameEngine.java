@@ -253,6 +253,11 @@ public class GameEngine {
         player.increaseAmmo(Sprite.WeaponTypes.Flamethrower,
                 bundle.getInt(res.getString(R.string.FTAmmo))-
                         player.getAmmo(Sprite.WeaponTypes.Flamethrower));
+        gHUD.setNumLives(bundle.getInt(res.getString(R.string.NumLife)));
+        player.changeWeaponLoadOut(1, Sprite.WeaponTypes.values()
+                [bundle.getInt(res.getString(R.string.PrimaryWeapon))]);
+        player.changeWeaponLoadOut(2, Sprite.WeaponTypes.values()
+                [bundle.getInt(res.getString(R.string.SecondaryWeapon))]);
         upgradeScreenActivated = false;
     }
 
@@ -345,6 +350,9 @@ public class GameEngine {
         bundle.putInt(res.getString(R.string.MLAmmo),player.getAmmo(Sprite.WeaponTypes.Missile));
         bundle.putInt(res.getString(R.string.LBAmmo),player.getAmmo(Sprite.WeaponTypes.Laser));
         bundle.putInt(res.getString(R.string.FTAmmo),player.getAmmo(Sprite.WeaponTypes.Flamethrower));
+        bundle.putInt(res.getString(R.string.NumLife),gHUD.getNumLives());
+        bundle.putInt(res.getString(R.string.PrimaryWeapon),player.getMyPrimaryWeapon().ordinal());
+        bundle.putInt(res.getString(R.string.SecondaryWeapon),player.getMySecondaryWeapon().ordinal());
         return bundle;
     }
 

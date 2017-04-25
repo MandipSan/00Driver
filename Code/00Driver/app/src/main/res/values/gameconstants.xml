@@ -101,5 +101,8 @@
     <string name="MLAmmo">mLAmmo</string>
     <string name="LBAmmo">lBAmmo</string>
     <string name="FTAmmo">fTAmmo</string>
+    <string name="NumLife">numLife</string>
+    <string name="PrimaryWeapon">pWeapon</string>
+    <string name="SecondaryWeapon">sWeapon</string>
 
 </resources>
