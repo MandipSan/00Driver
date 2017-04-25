@@ -80,6 +80,8 @@
     <integer name="SpikeProImageHeight">25</integer>
     <integer name="ItemBoxImageWidth">100</integer>
     <integer name="ItemBoxImageHeight">100</integer>
+    <integer name="UpgradePadImageWidth">81</integer>
+    <integer name="UpgradePadImageHeight">121</integer>
     <integer name="MachineGunImageHeight">19</integer>
     <integer name="MissileLauncherImageHeight">17</integer>
     <integer name="LaserCannonImageHeight">17</integer>

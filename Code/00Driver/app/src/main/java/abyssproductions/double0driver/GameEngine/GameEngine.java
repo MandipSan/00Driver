@@ -431,8 +431,6 @@ public class GameEngine {
                 //Checks if enemy collides with the player
                 if(myEnemies[i].getCollisionBounds().intersects(tempDimP.left,tempDimP.top,
                         tempDimP.right,tempDimP.bottom)){
-                    //TODO: NEED TO CHANGE
-                    if(myEnemies[i].getMyType() == Enemy.EnemyType.UpgradeTruck)upgradeScreenActivated = true;
                     myEnemies[i] = null;
                     player.decreaseHealth((int)(player.getMaxHealth()*.25));
                 }
@@ -452,11 +450,9 @@ public class GameEngine {
             for(int m = 0; m < gameItems.length; m++){
                 if(gameItems[m] != null){
                     tempDim = gameItems[m].getCollisionBounds();
+                    //TODO: Separate into two parts for now need to discuss
                     if((gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
-                            intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)) ||
-                            (player.getCollisionBounds().intersects(tempDim.left,tempDim.top,
-                                    tempDim.right,tempDim.bottom))){
-                        //TODO:To do item affect
+                            intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom))){
                         switch (gameItems[m].getItemType()){
                             case HealthBox:
                                 player.increaseHealth(gGInstance.getImageResources().
@@ -468,6 +464,14 @@ public class GameEngine {
                                 break;
                             case MysteryBox:
                                 break;
+                        }
+                        if(player.getCollisionBounds().intersects(tempDim.left,tempDim.top,
+                                tempDim.right,tempDim.bottom)){
+                            switch (gameItems[m].getItemType()){
+                                case UpgradePad:
+                                    upgradeScreenActivated = true;
+                                    break;
+                            }
                         }
                         gameItems[m] = null;
                         gGInstance.myProjectiles[k] = null;
@@ -640,6 +644,26 @@ public class GameEngine {
                                             centerX(), myEnemies[j].getDimensions().
                                             centerY(), new RectF(0, 0, itemSize, itemSize));
                                     gameItems[k].setMyCollisionBounds(new Rect(0,0,itemSize,itemSize));
+                                    set = true;
+                                    break;
+                                case UpgradeTruck:
+                                    //Sets up the upgrade pad that scale with vehicles sizes
+                                    int uPWidth = (int) (gGInstance.getImageResources().
+                                            getInteger(R.integer.UpgradePadImageWidth) *
+                                            ((float) gameBackground.getLaneSize() /
+                                            (float) gGInstance.getImageResources().
+                                                    getInteger(R.integer.VehicleImageWidth)));
+                                    gameItems[k] = new Items(gGInstance.getImages().
+                                            getUpgradePadImage(), gGInstance.getImageResources().
+                                            getInteger(R.integer.UpgradePadImageWidth),
+                                            gGInstance.getImageResources().
+                                                    getInteger(R.integer.UpgradePadImageHeight),
+                                            Items.ItemTypes.UpgradePad, myEnemies[j].getDimensions().
+                                            left+1, myEnemies[j].getDimensions().centerY(),
+                                            new RectF(0, 0, uPWidth, gGInstance.getImageResources().
+                                            getInteger(R.integer.UpgradePadImageHeight)));
+                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,uPWidth,gGInstance.getImageResources().
+                                            getInteger(R.integer.UpgradePadImageHeight)));
                                     set = true;
                                     break;
                                 case BasicCar:
