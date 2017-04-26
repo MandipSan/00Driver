@@ -258,6 +258,7 @@ public class GameEngine {
                 [bundle.getInt(res.getString(R.string.PrimaryWeapon))]);
         player.changeWeaponLoadOut(2, Sprite.WeaponTypes.values()
                 [bundle.getInt(res.getString(R.string.SecondaryWeapon))]);
+        gHUD.currentWeaponTypes(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
         upgradeScreenActivated = false;
     }
 
@@ -437,7 +438,7 @@ public class GameEngine {
             }
         }
 
-
+        //Checks if a projectile collides with the player or items
         for(int k = 0; k < gGInstance.myProjectiles.length;k++){
             //Checks if a projectile collides with the player
             if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
@@ -445,14 +446,13 @@ public class GameEngine {
                 player.decreaseHealth(gGInstance.myProjectiles[k].getMyDamage());
                 gGInstance.myProjectiles[k] = null;
             }
-
+//TODO: Separate into two parts for now need to discuss
             //Checks if the projectile collides with item boxes
             for(int m = 0; m < gameItems.length; m++){
                 if(gameItems[m] != null){
                     tempDim = gameItems[m].getCollisionBounds();
-                    //TODO: Separate into two parts for now need to discuss
-                    if((gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
-                            intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom))){
+                    if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
+                            intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
                         switch (gameItems[m].getItemType()){
                             case HealthBox:
                                 player.increaseHealth(gGInstance.getImageResources().
@@ -476,6 +476,22 @@ public class GameEngine {
                         gameItems[m] = null;
                         gGInstance.myProjectiles[k] = null;
                     }
+                }
+            }
+        }
+
+        //Checks for if player collide with item
+        for(int m = 0; m < gameItems.length; m++) {
+            if(gameItems[m] != null) {
+                tempDim = gameItems[m].getCollisionBounds();
+                if (player.getCollisionBounds().intersects(tempDim.left, tempDim.top,
+                        tempDim.right, tempDim.bottom)) {
+                    switch (gameItems[m].getItemType()) {
+                        case UpgradePad:
+                            upgradeScreenActivated = true;
+                            break;
+                    }
+                    gameItems[m] = null;
                 }
             }
         }
