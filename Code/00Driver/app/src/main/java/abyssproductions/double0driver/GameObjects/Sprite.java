@@ -216,6 +216,7 @@ public class Sprite extends GameObject {
      */
     public void increaseMaxHealth(int amount) {
         myMaxHealth += amount;
+        myHealth = myMaxHealth;
     }
 
     /*  PURPOSE:    Increase the ammo amount for the give weapon type up to its max ammo
