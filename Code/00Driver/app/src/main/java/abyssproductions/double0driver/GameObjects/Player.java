@@ -214,6 +214,7 @@ public class Player extends Sprite {
     public boolean changeWeaponLoadOut(int weaponPos, WeaponTypes newWeaponType){
         if(weaponPos == 1){
             setWeaponType(newWeaponType);
+            switchWeaponImage();
             return true;
         }else if(weaponPos == 2){
             mySecondaryWeapon = newWeaponType;
