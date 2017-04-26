@@ -11,6 +11,8 @@
     <!-->Items related constants<-->
     <integer name="ItemsArraySize">10</integer>
     <integer name="ItemYVelocity">10</integer>
+    <integer name="ItemsHealthIncreaseVal">10</integer>
+    <integer name="ItemsAmmoIncreaseVal">10</integer>
     <!-->Sprite related constants<-->
     <integer name="DefaultStartHealth">0</integer>
     <integer name="DefaultMachineGunDelay">5</integer>
@@ -78,6 +80,8 @@
     <integer name="SpikeProImageHeight">25</integer>
     <integer name="ItemBoxImageWidth">100</integer>
     <integer name="ItemBoxImageHeight">100</integer>
+    <integer name="UpgradePadImageWidth">81</integer>
+    <integer name="UpgradePadImageHeight">121</integer>
     <integer name="MachineGunImageHeight">19</integer>
     <integer name="MissileLauncherImageHeight">17</integer>
     <integer name="LaserCannonImageHeight">17</integer>
@@ -99,5 +103,8 @@
     <string name="MLAmmo">mLAmmo</string>
     <string name="LBAmmo">lBAmmo</string>
     <string name="FTAmmo">fTAmmo</string>
+    <string name="NumLife">numLife</string>
+    <string name="PrimaryWeapon">pWeapon</string>
+    <string name="SecondaryWeapon">sWeapon</string>
 
 </resources>

@@ -16,7 +16,7 @@ public class Items extends GameObject {
     //  PURPOSE:    Holds the item’s type
     private ItemTypes myType;
     //  PURPOSE:    Holds the different type of items
-    public enum ItemTypes{HealthBox, AmmoBox, MysteryBox}
+    public enum ItemTypes{HealthBox, AmmoBox, MysteryBox, UpgradePad}
 
     /*  PURPOSE:    Constructor for the items that sets the default values for the object
         INPUT:      image               - The image of the object

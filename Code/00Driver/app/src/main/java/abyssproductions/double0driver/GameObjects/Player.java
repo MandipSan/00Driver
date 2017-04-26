@@ -57,6 +57,8 @@ public class Player extends Sprite {
                 .getInteger(R.integer.PlayerDefaultHealth));
         increaseHealth(GameGlobals.getInstance().getImageResources()
                 .getInteger(R.integer.PlayerDefaultHealth));
+        setMyAniDelayMax(GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState),2);
     }
 
     /*  PURPOSE:    Updates the player's logic
@@ -167,16 +169,6 @@ public class Player extends Sprite {
         setWeaponType(mySecondaryWeapon);
         mySecondaryWeapon = temp;
         switchWeaponImage();
-    }
-
-    /*  PURPOSE:    Increase the player’s max ammo capacity by amount given for the weapon type
-                        given
-        INPUT:      weaponType          - The weapon type to increase the max ammo for capacity
-                    upgradeMaxAmmoBy    - The amount to increase the max ammo capacity by
-        OUTPUT:     NONE
-     */
-    public void upgradeAmmo(WeaponTypes weaponType, int upgradeMaxAmmoBy){
-        increaseMaxAmmo(weaponType,upgradeMaxAmmoBy);
     }
 
     /*  PURPOSE:    Calculates the max velocity reset need for lane transition

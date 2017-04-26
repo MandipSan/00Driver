@@ -56,6 +56,8 @@ public class GameImages {
     private static Bitmap healthBoxImage;
     //  PURPOSE:    Hold's the ammo box's image sheet
     private static Bitmap ammoBoxImage;
+    //  PURPOSE:    Hold's the upgrade pad's image sheet
+    private static Bitmap upgradePadImage;
     //  PURPOSE:    Hold's the machine gun button's image
     private static Bitmap machineGunButtonImage;
     //  PURPOSE:    Hold's the missile launcher button's image
@@ -65,13 +67,21 @@ public class GameImages {
     //  PURPOSE:    Hold's the flame thrower button's image
     private static Bitmap flameThrowerButtonImage;
 
-    /** PURPOSE:    Constructor for the object that loads all the games images
-     *  INPUT:      resources           - Apps resource decoder
+    /** PURPOSE:    Constructor for the object
+     *  INPUT:      NONE
      *  OUTPUT:     NONE
      */
-    public GameImages(Resources resources){
-        GameGlobals instance =GameGlobals.getInstance();
+    public GameImages(){
 
+    }
+
+    /** PURPOSE:    Loads all the game images
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void loadGameImages(){
+        GameGlobals instance =GameGlobals.getInstance();
+        Resources resources = instance.getImageResources();
         //Vehicle Image Sheets
         int vehicleWidth = instance.getImageResources().getInteger(R.integer.VehicleImageWidth);
         playerImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.playersheet),
@@ -140,6 +150,9 @@ public class GameImages {
                 R.drawable.healthbox), 1, 1, iWidth, iHeight);
         ammoBoxImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.ammobox),
                 1, 1, iWidth, iHeight);
+        upgradePadImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.upgradepad),
+                1, 1, instance.getImageResources().getInteger(R.integer.UpgradePadImageWidth),
+                instance.getImageResources().getInteger(R.integer.UpgradePadImageHeight));
 
         //HUD Button Images
         int buttonSize = instance.getImageResources().getInteger(R.integer.ButtonImageSize);
@@ -152,6 +165,48 @@ public class GameImages {
         laserCannonButtonImage = setMyImage(
                 BitmapFactory.decodeResource(resources, R.drawable.lasercannonbutton), 1, 1,
                 buttonSize, buttonSize);
+        /*flameThrowerButtonImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.flamethrowerbutton),
+                1,1,vehicleWidth,
+                instance.getImageResources().getInteger(R.integer.FlameThrowerImageHeight));*/
+    }
+
+    /** PURPOSE:    Unloads all the images
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void unloadGameImages(){
+        //Vehicle Image Sheets
+        playerImage = null;
+        basicCarAImage = null;
+        basicCarBImage = null;
+        basicCarCImage = null;
+        ambulanceImage = null;
+        ammoTruckImage = null;
+        upgradeTruckImage = null;
+        vanImage = null;
+        pickupImage = null;
+        sportCarImage = null;
+
+        //Weapon Images
+        machineGunImage = null;
+        missileLauncherImage = null;
+        laserCannonImage = null;
+        flameThrowerImage = null;
+
+        //Project Image Sheets
+        machineGunProImage = null;
+        laserProImage = null;
+        missileProImage = null;
+        spikeProImage = null;
+
+        //Items Image
+        healthBoxImage = null;
+        ammoBoxImage = null;
+
+        //HUD Button Images
+        machineGunButtonImage = null;
+        missileLauncherButtonImage = null;
+        laserCannonButtonImage = null;
         /*flameThrowerButtonImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.flamethrowerbutton),
                 1,1,vehicleWidth,
                 instance.getImageResources().getInteger(R.integer.FlameThrowerImageHeight));*/
@@ -309,6 +364,14 @@ public class GameImages {
      */
     public Bitmap getAmmoBoxImage(){
         return ammoBoxImage;
+    }
+
+    /** PURPOSE:    Returns upgrade pad's image sheet
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing upgrade pad's image sheet
+     */
+    public Bitmap getUpgradePadImage(){
+        return upgradePadImage;
     }
 
     /** PURPOSE:    Returns machine gun button's image
