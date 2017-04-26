@@ -38,6 +38,7 @@ public class SettingScreen extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        final GameGlobals instance = GameGlobals.getInstance();
         final View view = getView();
         Button button = (Button)view.findViewById(R.id.back);
         button.setOnClickListener(new View.OnClickListener(){
@@ -49,12 +50,12 @@ public class SettingScreen extends Fragment {
 
         //Sound Effect Volume related objects
         SeekBar bar = (SeekBar) view.findViewById(R.id.soundEffectSeekBar);
-        bar.setMax(100);
+        bar.setMax((int)(instance.mySoundEffects.getVolumeLevel()*100));
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                progress = progresValue;
+            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
+                progress = progressValue;
             }
 
             @Override
@@ -63,7 +64,7 @@ public class SettingScreen extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                GameGlobals.getInstance().mySoundEffects.changeVolume(progress/100);
+                instance.mySoundEffects.changeVolume(progress/100);
             }
         });
         CheckBox checkBox = (CheckBox)view.findViewById(R.id.muteSoundEffect);
@@ -71,9 +72,12 @@ public class SettingScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
+                    instance.mySoundEffects.mute();
                     ((SeekBar) view.findViewById(R.id.soundEffectSeekBar)).setProgress(0);
                 }else{
-
+                    instance.mySoundEffects.mute();
+                    ((SeekBar) view.findViewById(R.id.soundEffectSeekBar)).
+                            setProgress((int)(instance.mySoundEffects.getVolumeLevel()*100));
                 }
 
             }
@@ -114,11 +118,7 @@ public class SettingScreen extends Fragment {
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox) v).isChecked()) {
-                }else{
-
-                }
-
+                instance.setDisplayMiniHealthBar(((CheckBox) v).isChecked());
             }
         });
     }
