@@ -61,6 +61,7 @@ public class UpgradeScreen extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState){
+        primarySelectorActive = true;
         if(buttonVars == null||buttonVars[0] == -1)((MainActivity)getActivity()).changeFrags("StartScreen");
         View view = inflater.inflate(R.layout.upgrade_screen,container,false);
         final TextView textView = ((TextView)view.findViewById(R.id.Score));
@@ -76,8 +77,6 @@ public class UpgradeScreen extends Fragment {
                     increaseValues[position] += 100;
                     costValues[position] += 100;
                     textView.setText("Score: "+Score);
-                    adapter.notifyDataSetChanged();
-                    gridview.invalidateViews();
                 }else if(position == SelectPrimaryWeapon.ordinal()){
                     primarySelectorActive = true;
                 }else if(position == SelectSecondaryWeapon.ordinal()){
@@ -85,19 +84,21 @@ public class UpgradeScreen extends Fragment {
                 }else {
                     //Used to determine which weapon was activate
                     if (primarySelectorActive) {
-                        for (int i = MachineGun.ordinal(); i <= ItemsList.values().length; i++) {
+                        for (int i = MachineGun.ordinal(); i < ItemsList.values().length; i++) {
                             if (buttonVars[i] == 1) buttonVars[i] = 0;
                         }
                         buttonVars[position] = 1;
                     } else {
                         if (buttonVars[position] != 1) {
-                            for (int i = MachineGun.ordinal(); i <= ItemsList.values().length; i++) {
+                            for (int i = MachineGun.ordinal(); i < ItemsList.values().length; i++) {
                                 if (buttonVars[i] == 2) buttonVars[i] = 0;
                             }
                             buttonVars[position] = 2;
                         }
                     }
                 }
+                adapter.notifyDataSetChanged();
+                gridview.invalidateViews();
             }
         });
 

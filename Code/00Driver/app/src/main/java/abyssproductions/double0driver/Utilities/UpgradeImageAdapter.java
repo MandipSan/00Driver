@@ -70,6 +70,8 @@ public class UpgradeImageAdapter extends BaseAdapter {
                 view.setBackgroundColor(Color.WHITE);
             }
             textView.setText(temp);
+            textView = (TextView) view.findViewById(R.id.Cost);
+            textView.setText("");
         //Sets whether secondary weapon selector is active or not button
         }else if(position == UpgradeScreen.ItemsList.SelectSecondaryWeapon.ordinal()){
             if(upScreen.getPrimarySelectorActive()){
@@ -80,6 +82,8 @@ public class UpgradeImageAdapter extends BaseAdapter {
                 view.setBackgroundColor(Color.GREEN);
             }
             textView.setText(temp);
+            textView = (TextView) view.findViewById(R.id.Cost);
+            textView.setText("");
         }else {
             //Sets the active weapons buttons value
             if(upScreen.getCurrentValue(position) == 1){
@@ -93,6 +97,8 @@ public class UpgradeImageAdapter extends BaseAdapter {
                 temp = "Weapon Not Selected " + item.toString();
             }
             textView.setText(temp);
+            textView = (TextView) view.findViewById(R.id.Cost);
+            textView.setText("");
         }
         return view;
     }
