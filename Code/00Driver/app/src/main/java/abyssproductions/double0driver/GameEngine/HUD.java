@@ -3,9 +3,10 @@ package abyssproductions.double0driver.GameEngine;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
+import android.graphics.RectF;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Sprite;
@@ -34,12 +35,14 @@ public class HUD {
     private Bitmap fireButtonImage;
     //  PURPOSE:    Holds the switch button's image
     private Bitmap switchButtonImage;
+    //  PURPOSE:    Holds the player's life image
+    private Bitmap playerLifeImage;
     //  PURPOSE:    Holds the current score
     private int score;
     //  PURPOSE:    Holds the Y location for the text
     private int healthTextYPos;
     //  PURPOSE:    Holds the Y location for the text
-    private int scoreTextYPos;
+    private int textYPos;
     //  PURPOSE:    Holds the primary weapon ammo amount
     private int primaryWeaponAmmo;
     //  PURPOSE:    Holds the paint setting for the drawable objects
@@ -72,13 +75,25 @@ public class HUD {
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(healthBar.height());
-        scoreTextYPos = (int)paint.getTextSize();
+        textYPos = (int)paint.getTextSize();
         healthTextYPos = healthBar.top+(int)paint.getTextSize();
         currentWeaponTypes(primaryWeaponType,secondaryWeaponType);
 
         buttonsImageSize = new Rect(0,0,GameGlobals.getInstance().getImageResources().getInteger(
                 R.integer.ButtonImageSize),GameGlobals.getInstance().getImageResources().getInteger(
                 R.integer.ButtonImageSize));
+
+        Matrix tempMatrix = new Matrix();
+        tempMatrix.setScale(0.45f,0.45f);
+        /*Rect orgImageSize = new Rect(0,0,GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.VehicleImageWidth),GameGlobals.getInstance().
+                getImageResources().getInteger(R.integer.PlayerImageHeight));
+        RectF newImageSize = new RectF(0,0,(textYPos/GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.VehicleImageWidth))*textYPos,textYPos);*/
+        playerLifeImage = Bitmap.createBitmap(GameGlobals.getInstance().getImages().
+                getPlayerImage(),0,0, GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.VehicleImageWidth),GameGlobals.getInstance().
+                getImageResources().getInteger(R.integer.PlayerImageHeight),tempMatrix,false);
     }
 
     /** PURPOSE:    Draws the HUD
@@ -88,7 +103,14 @@ public class HUD {
     public void draw(Canvas canvas){
         paint.setTextSize(healthBar.height());
         paint.setColor(Color.WHITE);
-        canvas.drawText("Score: " + score,0,scoreTextYPos,paint);
+        canvas.drawText("Score: " + score,0, textYPos,paint);
+        int temp = GameGlobals.getInstance().getScreenWidth()-playerLifeImage.getWidth();
+        for(int i = 0; i < numLives; i++){
+            canvas.drawBitmap(playerLifeImage,temp,0,paint);
+            temp = temp - 2 - playerLifeImage.getWidth();
+        }
+        canvas.drawText("Lives: ", temp - 100, textYPos,paint);
+
         paint.setColor(Color.RED);
         canvas.drawRect(healthBar,paint);
         paint.setColor(Color.WHITE);
@@ -124,6 +146,14 @@ public class HUD {
         maxHealth = (int)newMaxHealth;
     }
 
+    /** PURPOSE:    Sets the number of current lives
+     *  INPUT:      newNumLives         - Holds the new number of lives
+     *  OUTPUT:     NONE
+     */
+    public void setNumLives(int newNumLives){
+        numLives = newNumLives;
+    }
+
     /** PURPOSE:    Decrease the number of lives by one when the curHealth is 0 and destroyed is true
      *  INPUT:      destroyed           - Holds whether the destroyed animation is complete
      *  OUTPUT:     NONE
@@ -156,14 +186,6 @@ public class HUD {
      */
     public void reduceScoreBy(int reduceBy){
         score -=reduceBy;
-    }
-
-    /** PURPOSE:    Increase the number of current lives by one
-     *  INPUT:      NONE
-     *  OUTPUT:     NONE
-     */
-    public void increaseNumLives(){
-        numLives++;
     }
 
     /** PURPOSE:    Sets the current button image for the primary and secondary active weapons
