@@ -465,6 +465,14 @@ public class GameEngine {
                             case MysteryBox:
                                 break;
                         }
+                        if(player.getCollisionBounds().intersects(tempDim.left,tempDim.top,
+                                tempDim.right,tempDim.bottom)){
+                            switch (gameItems[m].getItemType()){
+                                case UpgradePad:
+                                    upgradeScreenActivated = true;
+                                    break;
+                            }
+                        }
                         gameItems[m] = null;
                         gGInstance.myProjectiles[k] = null;
                     }
