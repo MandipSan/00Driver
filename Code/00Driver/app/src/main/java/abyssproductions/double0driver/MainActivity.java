@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        GameGlobals.getInstance().setImageResources(getResources());
         startScreen = StartScreen.newInstance();
         gameScreen = GameScreen.newInstance();
         creditScreen = CreditScreen.newInstance();

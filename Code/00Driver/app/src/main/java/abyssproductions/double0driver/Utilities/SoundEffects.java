@@ -70,12 +70,16 @@ public class SoundEffects {
     }
 
     /** PURPOSE:    Changes the volume to mute
-     *  INPUT:      NONE
+     *  INPUT:      activateMute        - Holds whether or not to activate mute
      *  OUTPUT:     NONE
      */
-    public void mute(){
-        muteVolume = volume;
-        volume = 0f;
+    public void mute(boolean activateMute){
+        if(activateMute) {
+            muteVolume = volume;
+            volume = 0f;
+        }else{
+            volume = muteVolume;
+        }
     }
 
     /** PURPOSE:    Release from memory all the load sound effects
