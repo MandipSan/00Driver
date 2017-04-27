@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
+import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
  * Created by Mandip Sangha on 3/25/2017.
@@ -39,6 +40,7 @@ public class SettingScreen extends Fragment {
     public void onStart() {
         super.onStart();
         final GameGlobals instance = GameGlobals.getInstance();
+        if(instance.mySoundEffects == null)instance.mySoundEffects = new SoundEffects(getContext());
         final View view = getView();
         Button button = (Button)view.findViewById(R.id.back);
         button.setOnClickListener(new View.OnClickListener(){
@@ -50,7 +52,8 @@ public class SettingScreen extends Fragment {
 
         //Sound Effect Volume related objects
         SeekBar bar = (SeekBar) view.findViewById(R.id.soundEffectSeekBar);
-        bar.setMax((int)(instance.mySoundEffects.getVolumeLevel()*100));
+        bar.setMax(100);
+        bar.setProgress((int)(instance.mySoundEffects.getVolumeLevel()*100));
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
             @Override
