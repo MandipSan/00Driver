@@ -225,11 +225,14 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void increaseAmmo(WeaponTypes weaponType, int increaseBy) {
-        if(myWeapons != null ){
+        if(myWeapons != null && increaseBy > 0){
             if((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)){
                 if (myWeapons[weaponType.ordinal() - weaponArrAdjustment].ammo +
                         increaseBy <= myWeapons[weaponType.ordinal() -weaponArrAdjustment].maxAmmo){
                     myWeapons[weaponType.ordinal() - weaponArrAdjustment].ammo += increaseBy;
+                }else{
+                    myWeapons[weaponType.ordinal() - weaponArrAdjustment].ammo =
+                            myWeapons[weaponType.ordinal() -weaponArrAdjustment].maxAmmo;
                 }
             }
         }
@@ -237,22 +240,22 @@ public class Sprite extends GameObject {
 
     /*  PURPOSE:    Increase the max ammo by amount given for the given weapon type
         INPUT:      weaponType          - The weapon type to increase the ammo for
-                    amount              - The amount to set max ammo
+                    increaseBy          - The amount to set max ammo
         OUTPUT:     NONE
      */
-    public void increaseMaxAmmo(WeaponTypes weaponType, int amount) {
-        if(myWeapons != null){
+    public void increaseMaxAmmo(WeaponTypes weaponType, int increaseBy) {
+        if(myWeapons != null && increaseBy > 0){
             if((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)) {
-                myWeapons[weaponType.ordinal() - weaponArrAdjustment].maxAmmo += amount;
+                myWeapons[weaponType.ordinal() - weaponArrAdjustment].maxAmmo += increaseBy;
             }
         }
     }
 
     /*  PURPOSE:    Increase the specified weapons damage to the given level
-           INPUT:      weaponType          - The weapon type of the ammo amount to return
-                       newLevel            - The weapon's new level
-           OUTPUT:     NONE
-        */
+        INPUT:      weaponType          - The weapon type of the ammo amount to return
+                    newLevel            - The weapon's new level
+        OUTPUT:     NONE
+     */
     public void increaseDamageLevel(WeaponTypes weaponType, int newLevel){
         if(myWeapons != null ) {
             if ((myWeapons.length == 1 && weaponType == myWeaponType) || (myWeapons.length > 1)) {
