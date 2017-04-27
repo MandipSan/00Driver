@@ -27,8 +27,6 @@ public class GameGlobals {
     private int stoppingDistance;
     //  PURPOSE:    Holds the firing distance need for the enemy to fire
     private int firingDistance;
-    //  PURPOSE:    Holds the y velocity for all enemies
-    public final static int enemiesUniVelocity = 10;
     //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
     public Projectile [] myProjectiles;
     //  PURPOSE:    Hold the pointer to the game sound effects

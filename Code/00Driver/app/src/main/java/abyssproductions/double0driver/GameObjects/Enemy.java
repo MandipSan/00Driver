@@ -77,12 +77,13 @@ public class Enemy extends Sprite {
         resetWidthAndHeight(displayWidth, displayHeight);
         //Sets enemy velocity
         RectF temp = getDimensions();
+        int velocity = GameGlobals.getInstance().getImageResources().getInteger(R.integer.EnemyYVelocity);
         if(enemyType != EnemyType.Helicopter) {
             if(y > (GameGlobals.getInstance().getScreenHeight()/2)){
-                myVelocity.set(0,-1*GameGlobals.enemiesUniVelocity);
+                myVelocity.set(0,-1*velocity);
                 temp.offsetTo(x,y);
             }else{
-                myVelocity.set(0,GameGlobals.enemiesUniVelocity);
+                myVelocity.set(0,velocity);
                 setImageFlip();
                 temp.offsetTo(x,y-temp.height());
             }
@@ -90,7 +91,7 @@ public class Enemy extends Sprite {
         }else {
             temp.offsetTo(x,0-temp.bottom);
             setMyDimensions(temp);
-            myVelocity.set(0,GameGlobals.enemiesUniVelocity);
+            myVelocity.set(0,velocity);
         }
     }
 
@@ -225,6 +226,7 @@ public class Enemy extends Sprite {
             }
             //Randomly picks the helicopter next movement pattern
             if(changeMovement <= 0 && heliReady){
+                int velocity = GameGlobals.getInstance().getImageResources().getInteger(R.integer.EnemyYVelocity);
                 int rand = random.nextInt(8);
                 switch (rand){
                     //Stop
@@ -233,35 +235,35 @@ public class Enemy extends Sprite {
                         break;
                     //Move Right
                     case 1:
-                        myVelocity.set(GameGlobals.enemiesUniVelocity, 0);
+                        myVelocity.set(velocity, 0);
                         break;
                     //Move Left
                     case 2:
-                        myVelocity.set(-GameGlobals.enemiesUniVelocity, 0);
+                        myVelocity.set(-velocity, 0);
                         break;
                     //Move Up
                     case 3:
-                        myVelocity.set(0, -GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(0, -velocity);
                         break;
                     //Move Down
                     case 4:
-                        myVelocity.set(0, GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(0, velocity);
                         break;
                     //Move Up Right
                     case 5:
-                        myVelocity.set(GameGlobals.enemiesUniVelocity,-GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(velocity,-velocity);
                         break;
                     //Move Up Left
                     case 6:
-                        myVelocity.set(-GameGlobals.enemiesUniVelocity,-GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(-velocity,-velocity);
                         break;
                     //Move Down Right
                     case 7:
-                        myVelocity.set(GameGlobals.enemiesUniVelocity,GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(velocity,velocity);
                         break;
                     //Move Down Left
                     case 8:
-                        myVelocity.set(-GameGlobals.enemiesUniVelocity,GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(-velocity,velocity);
                         break;
                 }
                 changeMovement = changeMovementMax;

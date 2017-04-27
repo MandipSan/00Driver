@@ -131,8 +131,9 @@ public class GameEngine {
         }
 
         //Used to make sure the last vehicle that spawn in the lane is out of over lap distances
+        int velocity = GameGlobals.getInstance().getImageResources().getInteger(R.integer.EnemyYVelocity);
         for (int j = 0; j < (gameBackground.getNumLanes()-2); j++){
-            if(laneLastSpawnSpace[j] > 0)laneLastSpawnSpace[j]-=GameGlobals.enemiesUniVelocity;
+            if(laneLastSpawnSpace[j] > 0)laneLastSpawnSpace[j]-=velocity;
         }
 
         enemyUpdateLogic();
