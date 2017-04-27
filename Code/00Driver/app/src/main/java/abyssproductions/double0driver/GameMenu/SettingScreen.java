@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.SeekBar;
 
+import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
 
@@ -35,11 +38,82 @@ public class SettingScreen extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Button button = (Button)getView().findViewById(R.id.back);
+        final GameGlobals instance = GameGlobals.getInstance();
+        final View view = getView();
+        Button button = (Button)view.findViewById(R.id.back);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 ((MainActivity)getActivity()).changeFrags("StartScreen");
+            }
+        });
+
+        //Sound Effect Volume related objects
+        SeekBar bar = (SeekBar) view.findViewById(R.id.soundEffectSeekBar);
+        bar.setMax((int)(instance.mySoundEffects.getVolumeLevel()*100));
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
+                progress = progressValue;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                instance.mySoundEffects.changeVolume(progress/100);
+            }
+        });
+        CheckBox checkBox = (CheckBox)view.findViewById(R.id.muteSoundEffect);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                instance.mySoundEffects.mute(((CheckBox) v).isChecked());
+                ((SeekBar) view.findViewById(R.id.soundEffectSeekBar)).
+                        setProgress((int)(instance.mySoundEffects.getVolumeLevel()*100));
+
+            }
+        });
+
+        //Music Volume related objects
+        bar = (SeekBar) view.findViewById(R.id.musicSeekBar);
+        bar.setMax(100);
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        checkBox = (CheckBox)view.findViewById(R.id.muteMusic);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    ((SeekBar) view.findViewById(R.id.musicSeekBar)).setProgress(0);
+                }else{
+
+                }
+
+            }
+        });
+
+        checkBox = (CheckBox)view.findViewById(R.id.healthCheckBox);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                instance.setDisplayMiniHealthBar(((CheckBox) v).isChecked());
             }
         });
     }

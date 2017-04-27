@@ -3,6 +3,53 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:text="Settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="Music Volume Level"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/musicSeekBar" />
+
+    <CheckBox
+        android:text="Mute Music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/muteMusic" />
+
+    <TextView
+        android:text="Sound Effect Volume Level"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/soundEffectSeekBar" />
+
+    <CheckBox
+        android:text="Mute Sound Effect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/muteSoundEffect" />
+
+    <CheckBox
+        android:text="Display Mini Health Bars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/healthCheckBox" />
+
     <Button
         android:text="Back"
         android:layout_width="match_parent"
