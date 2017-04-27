@@ -27,6 +27,7 @@
     <integer name="EnemyYVelocity">10</integer>
     <integer name="EnemyDefaultHealth">20</integer>
     <integer name="EnemyDefaultAmmo">1000</integer>
+    <integer name="EnemyLevelIncreaseMod">500</integer>
 
     <!-->Projectile related constants<-->
     <integer name="ProjectileArraySize">50</integer>

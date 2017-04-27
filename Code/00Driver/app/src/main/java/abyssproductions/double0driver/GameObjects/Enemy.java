@@ -42,10 +42,11 @@ public class Enemy extends Sprite {
                                             object)
                     displayWidth        - The width that the object should have when displayed
                     displayHeight       - The height that the object should have when displayed
+                    myLevel             - The level that the enemy is spawning at
         OUTPUT:     NONE
      */
     public Enemy(Bitmap image, int imageWidth, int imageHeight, EnemyType enemyType, float x,
-                 float y, int displayWidth, int displayHeight){
+                 float y, int displayWidth, int displayHeight, int myLevel){
         super(image, imageWidth, imageHeight, false);
         setMyAniDelayMax(GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.DestroyAnimateState),2);
@@ -67,10 +68,7 @@ public class Enemy extends Sprite {
                 .getInteger(R.integer.EnemyDefaultAmmo));
         increaseAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
                 .getInteger(R.integer.EnemyDefaultAmmo));
-        increaseMaxHealth(GameGlobals.getInstance().getImageResources()
-                .getInteger(R.integer.EnemyDefaultHealth));
-        increaseHealth(GameGlobals.getInstance().getImageResources()
-                .getInteger(R.integer.EnemyDefaultHealth));
+        setEnemyLevel(myLevel);
 
         movement = true;
         //Resize object to current display limits
@@ -284,5 +282,17 @@ public class Enemy extends Sprite {
             moveHorizontal(myVelocity.x);
             moveVertical(myVelocity.y);
         }
+    }
+
+    /*  PURPOSE:    Sets the enemy current level
+        INPUT:      newLevel            - The level that the enemy is at
+        OUTPUT:     NONE
+     */
+    private void setEnemyLevel(int newLevel){
+        increaseDamageLevel(getWeaponType(),newLevel);
+        increaseMaxHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultHealth)*newLevel);
+        increaseHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultHealth)*newLevel);
     }
 }

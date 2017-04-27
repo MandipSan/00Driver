@@ -42,6 +42,8 @@ public class GameEngine {
     private Enemy [] myEnemies;
     //  PURPOSE:    Used to delay enemy spawn time
     private int enemySpawnDelay;
+    //  PURPOSE:    Holds the level that the enemies should spawn at
+    private int enemyLevel;
     //  PURPOSE:    Used get random values
     private Random random;
     //  PURPOSE:    Holds the pointer to the HUD object
@@ -99,6 +101,7 @@ public class GameEngine {
         }
 
         enemySpawnDelay = 0;
+        enemyLevel = 1;
         random = new Random();
         gHUD = new HUD(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
         playerFire = false;
@@ -597,7 +600,7 @@ public class GameEngine {
                     //  different displays
                     myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x, y,
                             tempGameLaneSize-10,(int) (tempGameLaneSize *
-                            ((float) tempHeight / (float) tempWidth)));
+                            ((float) tempHeight / (float) tempWidth)),enemyLevel);
                     myEnemies[i].setMyCollisionBounds(new Rect(0, 0, tempColWidth-10, tempColHeight));
                     laneLastSpawnSpace[lane-1] = (int)(tempGameLaneSize *
                             ((float) tempHeight / (float) tempWidth));
@@ -717,6 +720,12 @@ public class GameEngine {
                     }
                 }
             }
+        }
+
+        //Calculate the new level the enemies should spawn at
+        if(gHUD.getScore() % gGInstance.getImageResources().
+                getInteger(R.integer.EnemyLevelIncreaseMod) == 0){
+            enemyLevel++;
         }
     }
 
