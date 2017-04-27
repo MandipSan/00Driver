@@ -180,11 +180,11 @@ public class Sprite extends GameObject {
     }
 
     /*  PURPOSE:    Turns health bar on and off
-        INPUT:      NONE
+        INPUT:      activate            - Hold whether to activate the health bar or not
         OUTPUT:     NONE
      */
-    public void displayHealthBar(){
-        displayHealthBar = (displayHealthBar) ? false : true;
+    public void displayHealthBar(boolean activate){
+        displayHealthBar = activate;
     }
 
     /*  PURPOSE:    Increase the current health by the amount given up to the max health
