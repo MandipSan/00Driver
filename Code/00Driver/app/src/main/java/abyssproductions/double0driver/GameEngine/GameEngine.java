@@ -150,6 +150,7 @@ public class GameEngine {
 
         if(playerFire)player.fireWeapon();
         player.update();
+        player.displayHealthBar(gGInstance.getDisplayMiniHealthBar());
 
         //Checks if player is on the dirt road and decrease the health
         float pCX = player.getDimensions().centerX();
@@ -626,6 +627,7 @@ public class GameEngine {
             if(myEnemies[j]!=null){
                 myEnemies[j].update((int)player.getDimensions().centerX(),
                         (int)player.getDimensions().centerY());
+                myEnemies[j].displayHealthBar(gGInstance.getDisplayMiniHealthBar());
                 if(myEnemies[j].getDimensions().top >= gGInstance.getScreenHeight() +
                                 myEnemies[j].getDimensions().height()+1||
                         myEnemies[j].getDimensions().bottom <= -10 ){
