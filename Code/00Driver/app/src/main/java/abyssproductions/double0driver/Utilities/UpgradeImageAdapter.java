@@ -13,6 +13,12 @@ import android.widget.TextView;
 import abyssproductions.double0driver.GameMenu.UpgradeScreen;
 import abyssproductions.double0driver.R;
 
+import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.FlameThrowerMaxAmmo;
+import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.LaserBeamMaxAmmo;
+import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.MachineGun;
+import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.MachineGunMaxAmmo;
+import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.MissileLauncherMaxAmmo;
+
 /**
  * Created by Mandip Sangha on 4/7/2017.
  */
@@ -40,7 +46,8 @@ public class UpgradeImageAdapter extends BaseAdapter {
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        String temp;
+        String itemString;
+        String costString;
         View view;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,54 +59,55 @@ public class UpgradeImageAdapter extends BaseAdapter {
 
         TextView textView = (TextView) view.findViewById(R.id.Items);
         UpgradeScreen.ItemsList item = UpgradeScreen.ItemsList.values()[position];
-        //Sets up the basic buttons
-        if(position < UpgradeScreen.ItemsList.SelectPrimaryWeapon.ordinal()) {
-            view.setBackgroundResource(R.drawable.healthbox);
-            temp = "Increase: " + item.toString() + " " + upScreen.getCurrentValue(position) +
-                    " by " + upScreen.getIncreaseValue(position);
-            textView.setText(temp);
-            textView = (TextView) view.findViewById(R.id.Cost);
-            textView.setText("Cost: " + upScreen.getCost(position));
-        //Sets whether primary weapon selector is active or not button
+        itemString = "Increase: " + item.toString() + " " + upScreen.getCurrentValue(position) +
+                " by " + upScreen.getIncreaseValue(position);
+        costString = "Cost: " + upScreen.getCost(position);
+        view.setBackgroundResource(R.drawable.healthbox);
+
+        if(position >= UpgradeScreen.ItemsList.FillMachineGunAmmo.ordinal() &&
+                position <= UpgradeScreen.ItemsList.FillFlameThrowerAmmo.ordinal()) {
+            itemString = item.toString() + " " + upScreen.getCurrentValue(position) +
+                    " to max ";
+            //Sets whether primary weapon selector is active or not button
         }else if(position == UpgradeScreen.ItemsList.SelectPrimaryWeapon.ordinal()){
+            costString = "";
+            view.setBackgroundResource(0);
             if(upScreen.getPrimarySelectorActive()){
-                temp = "Primary weapon selector active";
+                itemString = "Primary weapon selector active";
                 view.setBackgroundColor(Color.GREEN);
             }else{
-                temp = "Primary weapon selector not active";
+                itemString = "Primary weapon selector not active";
                 view.setBackgroundColor(Color.WHITE);
             }
-            textView.setText(temp);
-            textView = (TextView) view.findViewById(R.id.Cost);
-            textView.setText("");
-        //Sets whether secondary weapon selector is active or not button
+            //Sets whether secondary weapon selector is active or not button
         }else if(position == UpgradeScreen.ItemsList.SelectSecondaryWeapon.ordinal()){
+            costString = "";
+            view.setBackgroundResource(0);
             if(upScreen.getPrimarySelectorActive()){
-                temp = "Secondary weapon selector not active";
+                itemString = "Secondary weapon selector not active";
                 view.setBackgroundColor(Color.WHITE);
             }else{
-                temp = "Secondary weapon selector active";
+                itemString = "Secondary weapon selector active";
                 view.setBackgroundColor(Color.GREEN);
             }
-            textView.setText(temp);
-            textView = (TextView) view.findViewById(R.id.Cost);
-            textView.setText("");
-        }else {
+        }else if (position >= UpgradeScreen.ItemsList.SelectSecondaryWeapon.ordinal()) {
+            costString = "";
+            view.setBackgroundResource(0);
             //Sets the active weapons buttons value
             if(upScreen.getCurrentValue(position) == 1){
+                itemString = "Current Active Primary Weapon " + item.toString();
                 view.setBackgroundColor(Color.CYAN);
-                temp = "Current Active Primary Weapon " + item.toString();
             }else if(upScreen.getCurrentValue(position) == 2){
+                itemString = "Current Active Secondary Weapon " + item.toString();
                 view.setBackgroundColor(Color.YELLOW);
-                temp = "Current Active Secondary Weapon " + item.toString();
             }else{
+                itemString = "Weapon Not Selected " + item.toString();
                 view.setBackgroundColor(Color.WHITE);
-                temp = "Weapon Not Selected " + item.toString();
             }
-            textView.setText(temp);
-            textView = (TextView) view.findViewById(R.id.Cost);
-            textView.setText("");
         }
+        textView.setText(itemString);
+        textView = (TextView) view.findViewById(R.id.Cost);
+        textView.setText(costString);
         return view;
     }
 }
