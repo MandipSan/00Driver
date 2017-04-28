@@ -67,7 +67,7 @@ public class UpgradeImageAdapter extends BaseAdapter {
         if(position >= UpgradeScreen.ItemsList.FillMachineGunAmmo.ordinal() &&
                 position <= UpgradeScreen.ItemsList.FillFlameThrowerAmmo.ordinal()) {
             itemString = item.toString() + " " + upScreen.getCurrentValue(position) +
-                    " to max ";
+                    " to ammo max "+ upScreen.getCurrentValue(position-4);
             //Sets whether primary weapon selector is active or not button
         }else if(position == UpgradeScreen.ItemsList.SelectPrimaryWeapon.ordinal()){
             costString = "";
