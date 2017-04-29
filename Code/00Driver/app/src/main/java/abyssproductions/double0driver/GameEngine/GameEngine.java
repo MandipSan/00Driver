@@ -458,26 +458,7 @@ public class GameEngine {
                     tempDim = gameItems[m].getCollisionBounds();
                     if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
                             intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
-                        switch (gameItems[m].getItemType()){
-                            case HealthBox:
-                                player.increaseHealth(gGInstance.getImageResources().
-                                        getInteger(R.integer.ItemsHealthIncreaseVal));
-                                break;
-                            case AmmoBox:
-                                player.increaseAmmo(player.getMyPrimaryWeapon(),gGInstance.
-                                        getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
-                                break;
-                            case MysteryBox:
-                                break;
-                        }
-                        if(player.getCollisionBounds().intersects(tempDim.left,tempDim.top,
-                                tempDim.right,tempDim.bottom)){
-                            switch (gameItems[m].getItemType()){
-                                case UpgradePad:
-                                    upgradeScreenActivated = true;
-                                    break;
-                            }
-                        }
+                        itemAffect(gameItems[m].getItemType());
                         gameItems[m] = null;
                         gGInstance.myProjectiles[k] = null;
                     }
@@ -616,7 +597,7 @@ public class GameEngine {
      */
     private void enemyUpdateLogic(){
         //The height and width size of the drop items
-        int itemSize = (int)(gameBackground.getLaneSize() * .25);
+        int itemSize = (int)(gameBackground.getLaneSize() * .5);
         //Calls the enemy spawn method when the delay is up
         if(enemySpawnDelay == 0) {
             spawnEnemies();
@@ -639,16 +620,31 @@ public class GameEngine {
                 }
                 //Second null check is for in case object was null for out of bounds
                 if(myEnemies[j]!=null && myEnemies[j].isDead()) {
+                    //TODO:Remove hard coded value
+                    int w = gGInstance.getImageResources().
+                            getInteger(R.integer.ItemBoxImageWidth);
+                    int h = gGInstance.getImageResources().
+                            getInteger(R.integer.ItemBoxImageHeight);
+                    int spawnMBox = random.nextInt(10)+1;
+                    if(spawnMBox == 1) {
+                        for (int m = 0; m < gameItems.length; m++) {
+                            if(gameItems[m]==null){
+                                gameItems[m] = new Items(gGInstance.getImages().
+                                        getMysteryBoxImage(), w, h,
+                                        Items.ItemTypes.MysteryBox, myEnemies[j].getDimensions().
+                                        centerX(), myEnemies[j].getDimensions().
+                                        top, new RectF(0, 0, itemSize, itemSize));
+                                gameItems[m].setMyCollisionBounds(new Rect(0,0,itemSize,itemSize));
+                                break;
+                            }
+                        }
+                    }
                     //TODO:Set correct enemy value for all enemies when defeat
                     //Spawns the items if an item drop vehicle was destroy
                     boolean set;
                     for (int k = 0; k < gameItems.length; k++){
                         set = false;
                         if(gameItems[k] == null) {
-                            int w = gGInstance.getImageResources().
-                                    getInteger(R.integer.ItemBoxImageWidth);
-                            int h = gGInstance.getImageResources().
-                                    getInteger(R.integer.ItemBoxImageHeight);
                             switch (myEnemies[j].getMyType()) {
                                 case Ambulance:
                                     gameItems[k] = new Items(gGInstance.getImages().
@@ -726,6 +722,27 @@ public class GameEngine {
         if(gHUD.getScore() % gGInstance.getImageResources().
                 getInteger(R.integer.EnemyLevelIncreaseMod) == 0){
             enemyLevel++;
+        }
+    }
+
+    /** PURPOSE:    Does the resulting affect for the item type given
+     *  INPUT:      itemTypes           - The item type whose affect should happen
+     *  OUTPUT:     NONE
+     */
+    private void itemAffect(Items.ItemTypes itemTypes){
+        switch (itemTypes){
+            case HealthBox:
+                player.increaseHealth(gGInstance.getImageResources().
+                        getInteger(R.integer.ItemsHealthIncreaseVal));
+                break;
+            case AmmoBox:
+                player.increaseAmmo(player.getMyPrimaryWeapon(),gGInstance.
+                        getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                break;
+            case MysteryBox:
+                int box = random.nextInt(Items.ItemTypes.values().length-2)-1;
+                itemAffect(Items.ItemTypes.values()[box]);
+                break;
         }
     }
 
