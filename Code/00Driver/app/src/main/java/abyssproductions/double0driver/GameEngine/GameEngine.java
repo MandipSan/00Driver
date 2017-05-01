@@ -459,7 +459,7 @@ public class GameEngine {
                     tempDim = gameItems[m].getCollisionBounds();
                     if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
                             intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
-                        itemAffect(gameItems[m].getItemType());
+                        //itemAffect(gameItems[m].getItemType());
                         gameItems[m] = null;
                         gGInstance.myProjectiles[k] = null;
                     }
@@ -476,6 +476,9 @@ public class GameEngine {
                     switch (gameItems[m].getItemType()) {
                         case UpgradePad:
                             upgradeScreenActivated = true;
+                            break;
+                        default:
+                            itemAffect(gameItems[m].getItemType());
                             break;
                     }
                     gameItems[m] = null;
