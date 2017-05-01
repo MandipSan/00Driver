@@ -18,9 +18,6 @@ import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
 import abyssproductions.double0driver.Utilities.UpgradeImageAdapter;
 
-import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.MachineGun;
-import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.SelectPrimaryWeapon;
-import static abyssproductions.double0driver.GameMenu.UpgradeScreen.ItemsList.SelectSecondaryWeapon;
 
 
 /**
@@ -47,7 +44,7 @@ public class UpgradeScreen extends Fragment {
         FlameThrowerDamage, MachineGunMaxAmmo, MissileLauncherMaxAmmo, LaserBeamMaxAmmo,
         FlameThrowerMaxAmmo, FillMachineGunAmmo, FillMissileLauncherAmmo, FillLaserBeamAmmo,
         FillFlameThrowerAmmo,SelectPrimaryWeapon,SelectSecondaryWeapon,MachineGun, MissileLauncher,
-        LaserBeam, FlameThrower};
+        LaserBeam, FlameThrower}
 
     public static UpgradeScreen newInstance(){
         return new UpgradeScreen();
@@ -61,6 +58,7 @@ public class UpgradeScreen extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState){
+        final Resources res = getResources();
         primarySelectorActive = true;
         if(buttonVars == null||buttonVars[0] == -1)((MainActivity)getActivity()).changeFrags("StartScreen");
         View view = inflater.inflate(R.layout.upgrade_screen,container,false);
@@ -70,32 +68,100 @@ public class UpgradeScreen extends Fragment {
         gridview.setAdapter(adapter);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if(Score - costValues[position] > 0 && position < SelectPrimaryWeapon.ordinal()){
-                    Score -= costValues[position];
-                    buttonVars[position] += increaseValues[position];
-                    //TODO:Change from hardcode value
-                    increaseValues[position] += 100;
-                    costValues[position] += 100;
-                    textView.setText("Score: "+Score);
-                }else if(position == SelectPrimaryWeapon.ordinal()){
-                    primarySelectorActive = true;
-                }else if(position == SelectSecondaryWeapon.ordinal()){
-                    primarySelectorActive = false;
-                }else {
-                    //Used to determine which weapon was activate
-                    if (primarySelectorActive) {
-                        for (int i = MachineGun.ordinal(); i < ItemsList.values().length; i++) {
-                            if (buttonVars[i] == 1) buttonVars[i] = 0;
+                switch (ItemsList.values()[position]){
+                    case NumberLives:
+                        updateButton(position,res.getInteger(R.integer.NewLifeCost), res.
+                                getInteger(R.integer.NewLifeIncreaseBy));
+                        break;
+                    case MaxHealth:
+                        updateButton(position,res.getInteger(R.integer.IncreaseMaxHealthCost), res.
+                                getInteger(R.integer.IncreaseMaxHealthIncreaseBy));
+                        break;
+                    case MachineGunDamage:
+                        updateButton(position,res.getInteger(R.integer.MGDamageCost), res.
+                                getInteger(R.integer.MGDamageIncreaseBy));
+                        break;
+                    case MissileLauncherDamage:
+                        updateButton(position,res.getInteger(R.integer.MLDamageCost), res.
+                                getInteger(R.integer.MLDamageIncreaseBy));
+                        break;
+                    case LaserBeamDamage:
+                        updateButton(position,res.getInteger(R.integer.LBDamageCost), res.
+                                getInteger(R.integer.LBDamageIncreaseBy));
+                        break;
+                    case FlameThrowerDamage:
+                        updateButton(position,res.getInteger(R.integer.FTDamageCost), res.
+                                getInteger(R.integer.FTDamageIncreaseBy));
+                        break;
+                    case MachineGunMaxAmmo:
+                        updateButton(position,res.getInteger(R.integer.MGMaxAmmoCost), res.
+                                getInteger(R.integer.MGMaxAmmoIncreaseBy));
+                        break;
+                    case MissileLauncherMaxAmmo:
+                        updateButton(position,res.getInteger(R.integer.MLMaxAmmoCost), res.
+                                getInteger(R.integer.MLMaxAmmoIncreaseBy));
+                        break;
+                    case LaserBeamMaxAmmo:
+                        updateButton(position,res.getInteger(R.integer.LBMaxAmmoCost), res.
+                                getInteger(R.integer.LBMaxAmmoIncreaseBy));
+                        break;
+                    case FlameThrowerMaxAmmo:
+                        updateButton(position,res.getInteger(R.integer.FTMaxAmmoCost), res.
+                                getInteger(R.integer.FTMaxAmmoIncreaseBy));
+                        break;
+                    case FillMachineGunAmmo:
+                        if(buttonVars[position] <
+                                buttonVars[ItemsList.MachineGunMaxAmmo.ordinal()]){
+                            updateButton(position,res.getInteger(R.integer.MGAmmoCost),0);
+                            buttonVars[position] = buttonVars[ItemsList.MachineGunMaxAmmo.ordinal()];
                         }
-                        buttonVars[position] = 1;
-                    } else {
-                        if (buttonVars[position] != 1) {
-                            for (int i = MachineGun.ordinal(); i < ItemsList.values().length; i++) {
-                                if (buttonVars[i] == 2) buttonVars[i] = 0;
+                        break;
+                    case FillMissileLauncherAmmo:
+                        if(buttonVars[position] <
+                                buttonVars[ItemsList.MissileLauncherMaxAmmo.ordinal()]){
+                            updateButton(position,res.getInteger(R.integer.MLAmmoCost),0);
+                            buttonVars[position] = buttonVars[ItemsList.MissileLauncherMaxAmmo.ordinal()];
+                        }
+                        break;
+                    case FillLaserBeamAmmo:
+                        if(buttonVars[position] <
+                                buttonVars[ItemsList.LaserBeamMaxAmmo.ordinal()]){
+                            updateButton(position,res.getInteger(R.integer.LBAmmoCost),0);
+                            buttonVars[position] = buttonVars[ItemsList.LaserBeamMaxAmmo.ordinal()];
+                        }
+                        break;
+                    case FillFlameThrowerAmmo:
+                        if(buttonVars[position] <
+                                buttonVars[ItemsList.FlameThrowerMaxAmmo.ordinal()]){
+                            updateButton(position,res.getInteger(R.integer.FTAmmoCost),0);
+                            buttonVars[position] = buttonVars[ItemsList.FlameThrowerMaxAmmo.ordinal()];
+                        }
+                        break;
+                    case SelectPrimaryWeapon:
+                        primarySelectorActive = true;
+                        break;
+                    case SelectSecondaryWeapon:
+                        primarySelectorActive = false;
+                        break;
+                    case MachineGun:
+                    case MissileLauncher:
+                    case LaserBeam:
+                    case FlameThrower:
+                        //Used to determine which weapon was activate
+                        if (primarySelectorActive) {
+                            for (int i = ItemsList.MachineGun.ordinal(); i < ItemsList.values().length; i++) {
+                                if (buttonVars[i] == 1) buttonVars[i] = 0;
                             }
-                            buttonVars[position] = 2;
+                            buttonVars[position] = 1;
+                        } else {
+                            if (buttonVars[position] != 1) {
+                                for (int i = ItemsList.MachineGun.ordinal(); i < ItemsList.values().length; i++) {
+                                    if (buttonVars[i] == 2) buttonVars[i] = 0;
+                                }
+                                buttonVars[position] = 2;
+                            }
                         }
-                    }
+                        break;
                 }
                 adapter.notifyDataSetChanged();
                 gridview.invalidateViews();
@@ -106,7 +172,6 @@ public class UpgradeScreen extends Fragment {
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Resources res = getResources();
                 Bundle bundle = new Bundle();
                 bundle.putInt(res.getString(R.string.Score),Score);
                 bundle.putInt(res.getString(R.string.MaxHealth),buttonVars[ItemsList.MaxHealth.ordinal()]);
@@ -126,7 +191,7 @@ public class UpgradeScreen extends Fragment {
 
                 //Used to calculate the activate primary and secondary weapon to pass back
                 int j = 0;
-                for(int i = MachineGun.ordinal(); i != ItemsList.values().length; i++){
+                for(int i = ItemsList.MachineGun.ordinal(); i != ItemsList.values().length; i++){
                     if(buttonVars[i] == 1)bundle.putInt(res.getString(R.string.PrimaryWeapon),j);
                     if(buttonVars[i] == 2)bundle.putInt(res.getString(R.string.SecondaryWeapon),j);
                     j++;
@@ -151,16 +216,8 @@ public class UpgradeScreen extends Fragment {
      */
     public void passData(Bundle bundle){
         Resources res = GameGlobals.getInstance().getImageResources();
-        if(buttonVars == null){
-            buttonVars = new int[ItemsList.values().length];
-            increaseValues = new int[ItemsList.values().length];
-            costValues =  new int[ItemsList.values().length];
-            for(int i  = 0; i < ItemsList.values().length; i++){
-                buttonVars[i] = 0;
-                increaseValues[i] = 100;
-                costValues[i] = 100;
-            }
-        }
+        //Used as a check and to set array variables if they weren't initialized
+        initialVarLoad();
         //Sets the data passed to the correct button value holding position
         if(bundle != null){
             Score = bundle.getInt(res.getString(R.string.Score));
@@ -181,7 +238,7 @@ public class UpgradeScreen extends Fragment {
             //Used to set the current active weapons
             switch (bundle.getInt(res.getString(R.string.PrimaryWeapon))){
                 case 0:
-                    buttonVars[MachineGun.ordinal()] = 1;
+                    buttonVars[ItemsList.MachineGun.ordinal()] = 1;
                     break;
                 case 1:
                     buttonVars[ItemsList.MissileLauncher.ordinal()] = 1;
@@ -197,19 +254,19 @@ public class UpgradeScreen extends Fragment {
             }
             switch (bundle.getInt(res.getString(R.string.SecondaryWeapon))){
                 case 0:
-                    if(buttonVars[MachineGun.ordinal()] != 1)
-                        buttonVars[MachineGun.ordinal()] = 2;
+                    if(buttonVars[ItemsList.MachineGun.ordinal()] != 1)
+                        buttonVars[ItemsList.MachineGun.ordinal()] = 2;
                     break;
                 case 1:
-                    if(buttonVars[MachineGun.ordinal()] != 1)
+                    if(buttonVars[ItemsList.MissileLauncher.ordinal()] != 1)
                         buttonVars[ItemsList.MissileLauncher.ordinal()] = 2;
                     break;
                 case 2:
-                    if(buttonVars[MachineGun.ordinal()] != 1)
+                    if(buttonVars[ItemsList.LaserBeam.ordinal()] != 1)
                         buttonVars[ItemsList.LaserBeam.ordinal()] = 2;
                     break;
                 case 3:
-                    if(buttonVars[MachineGun.ordinal()] != 1)
+                    if(buttonVars[ItemsList.MissileLauncher.ordinal()] != 1)
                         buttonVars[ItemsList.MissileLauncher.ordinal()] = 2;
                     break;
                 case 4:
@@ -253,5 +310,66 @@ public class UpgradeScreen extends Fragment {
      */
     public boolean getPrimarySelectorActive(){
         return primarySelectorActive;
+    }
+
+    /** PURPOSE:    Updates the button values
+     *  INPUT:      position            - The position button is in
+     *              increaseCostBy      - The new amount the cost is to increase by
+     *              increaseValueBy     - The new amount the value is to increase by
+     *  OUTPUT:     NONE
+     */
+    private void updateButton(int position, int increaseCostBy, int increaseValueBy){
+        if(Score - costValues[position] > 0){
+            Score -= costValues[position];
+            buttonVars[position] += increaseValues[position];
+            increaseValues[position] += increaseValueBy;
+            costValues[position] += increaseCostBy;
+        }
+    }
+
+    /** PURPOSE:    Setup the initial variable value if the variables not loaded
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    private void initialVarLoad(){
+        Resources res = GameGlobals.getInstance().getImageResources();
+        if(buttonVars == null){
+            buttonVars = new int[ItemsList.values().length];
+            increaseValues = new int[ItemsList.values().length];
+            costValues =  new int[ItemsList.values().length];
+            for(int i  = 0; i < ItemsList.values().length; i++){
+                buttonVars[i] = 0;
+                //increaseValues[i] = 100;
+                //costValues[i] = 100;
+            }
+            increaseValues[ItemsList.MaxHealth.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthIncreaseBy);
+            costValues[ItemsList.MaxHealth.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthCost);
+            increaseValues[ItemsList.MachineGunDamage.ordinal()] = res.getInteger(R.integer.MGDamageIncreaseBy);
+            costValues[ItemsList.MachineGunDamage.ordinal()] = res.getInteger(R.integer.MGDamageCost);
+            increaseValues[ItemsList.MissileLauncherDamage.ordinal()] = res.getInteger(R.integer.MLDamageIncreaseBy);
+            costValues[ItemsList.MissileLauncherDamage.ordinal()] = res.getInteger(R.integer.MLDamageCost);
+            increaseValues[ItemsList.LaserBeamDamage.ordinal()] = res.getInteger(R.integer.LBDamageIncreaseBy);
+            costValues[ItemsList.LaserBeamDamage.ordinal()] = res.getInteger(R.integer.LBDamageCost);
+            increaseValues[ItemsList.FlameThrowerDamage.ordinal()] = res.getInteger(R.integer.FTDamageIncreaseBy);
+            costValues[ItemsList.FlameThrowerDamage.ordinal()] = res.getInteger(R.integer.FTDamageCost);
+            increaseValues[ItemsList.MachineGunMaxAmmo.ordinal()] = res.getInteger(R.integer.MGMaxAmmoIncreaseBy);
+            costValues[ItemsList.MachineGunMaxAmmo.ordinal()] = res.getInteger(R.integer.MGMaxAmmoCost);
+            increaseValues[ItemsList.MissileLauncherMaxAmmo.ordinal()] = res.getInteger(R.integer.MLMaxAmmoIncreaseBy);
+            costValues[ItemsList.MissileLauncherMaxAmmo.ordinal()] = res.getInteger(R.integer.MLMaxAmmoCost);
+            increaseValues[ItemsList.LaserBeamMaxAmmo.ordinal()] = res.getInteger(R.integer.LBMaxAmmoIncreaseBy);
+            costValues[ItemsList.LaserBeamMaxAmmo.ordinal()] = res.getInteger(R.integer.LBMaxAmmoCost);
+            increaseValues[ItemsList.FlameThrowerMaxAmmo.ordinal()] = res.getInteger(R.integer.FTMaxAmmoIncreaseBy);
+            costValues[ItemsList.FlameThrowerMaxAmmo.ordinal()] = res.getInteger(R.integer.FTMaxAmmoCost);
+            increaseValues[ItemsList.FillMachineGunAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillMachineGunAmmo.ordinal()] = res.getInteger(R.integer.MGAmmoCost);
+            increaseValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = res.getInteger(R.integer.MLAmmoCost);
+            increaseValues[ItemsList.FillLaserBeamAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillLaserBeamAmmo.ordinal()] = res.getInteger(R.integer.LBAmmoCost);
+            increaseValues[ItemsList.FillFlameThrowerAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillFlameThrowerAmmo.ordinal()] = res.getInteger(R.integer.FTAmmoCost);
+            increaseValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.NewLifeIncreaseBy);
+            costValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthCost);
+        }
     }
 }
