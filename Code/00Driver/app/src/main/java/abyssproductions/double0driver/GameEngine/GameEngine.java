@@ -44,6 +44,8 @@ public class GameEngine {
     private int enemySpawnDelay;
     //  PURPOSE:    Holds the level that the enemies should spawn at
     private int enemyLevel;
+    //  PURPOSE:    Used to delay the random mystery item spawn
+    private int randomItemSpawnDelay;
     //  PURPOSE:    Used get random values
     private Random random;
     //  PURPOSE:    Holds the pointer to the HUD object
@@ -100,6 +102,7 @@ public class GameEngine {
             laneLastSpawnSpace[i] = 0;
         }
 
+        randomItemSpawnDelay = gGInstance.getImageResources().getInteger(R.integer.ItemRandomSpawnDelayMax);;
         enemySpawnDelay = 0;
         enemyLevel = 1;
         random = new Random();
@@ -118,6 +121,7 @@ public class GameEngine {
         gHUD.lifeLost(player.revivePlayer());
         gameOver = (gHUD.getNumLives() <= 0);
         gHUD.setCurrentWeaponAmmo(player.getAmmo(player.getMyPrimaryWeapon()));
+        randomItemSpawn();
         checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
@@ -756,10 +760,48 @@ public class GameEngine {
                 }
                 break;
             case MysteryBox:
-                int box = random.nextInt(Items.ItemTypes.values().length-2)-1;
+                int box = random.nextInt(Items.ItemTypes.values().length-2);
                 itemAffect(Items.ItemTypes.values()[box]);
                 break;
         }
+    }
+
+    /** PURPOSE:    Randomly spawns a mystery item
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    private void randomItemSpawn(){
+        //Randomly picks a number
+        float ranSpawn = random.nextInt(gGInstance.getImageResources().
+                getInteger(R.integer.ItemRandomSpawnMaxVal))+1;
+
+        if(randomItemSpawnDelay <= 0) {
+            if (gGInstance.getImageResources().getInteger(R.integer.ItemRandomSpawnEqualVal) <= ranSpawn) {
+                //Randomly pick which lane to spawn in
+                int ranLane = random.nextInt(4) + 1;
+                //The height and width size of the drop items
+                int itemSize = (int) (gameBackground.getLaneSize() * .5);
+
+                //Calculates the x position for the item
+                int x = (int) (gameBackground.getLaneSize() * .33) + gameBackground.getGrassSize() +
+                        (gameBackground.getLaneSize() * ranLane);
+                int w = gGInstance.getImageResources().
+                        getInteger(R.integer.ItemBoxImageWidth);
+                int h = gGInstance.getImageResources().
+                        getInteger(R.integer.ItemBoxImageHeight);
+                for (int m = 0; m < gameItems.length; m++) {
+                    if (gameItems[m] == null) {
+                        gameItems[m] = new Items(gGInstance.getImages().getMysteryBoxImage(), w, h,
+                                Items.ItemTypes.MysteryBox, x, 0, new RectF(0, 0, itemSize, itemSize));
+                        gameItems[m].setMyCollisionBounds(new Rect(0, 0, itemSize, itemSize));
+
+                        break;
+                    }
+                }
+            }
+            randomItemSpawnDelay = gGInstance.getImageResources().getInteger(R.integer.ItemRandomSpawnDelayMax);
+        }
+        randomItemSpawnDelay--;
     }
 
     /** PURPOSE:    Calculate's the lane the x provided is in and return the lane

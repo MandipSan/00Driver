@@ -13,6 +13,10 @@
     <integer name="ItemYVelocity">10</integer>
     <integer name="ItemsHealthIncreaseVal">10</integer>
     <integer name="ItemsAmmoIncreaseVal">10</integer>
+    <integer name="ItemRandomSpawnEqualVal">1</integer>
+    <integer name="ItemRandomSpawnMaxVal">100000</integer>
+    <integer name="ItemRandomSpawnDelayMax">450</integer>
+
     <!-->Sprite related constants<-->
     <integer name="DefaultStartHealth">0</integer>
     <integer name="DefaultMachineGunDelay">5</integer>
