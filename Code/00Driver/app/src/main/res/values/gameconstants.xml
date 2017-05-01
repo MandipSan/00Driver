@@ -89,23 +89,50 @@
     <integer name="FlameThrowerImageHeight">16</integer>
     <integer name="ButtonImageSize">200</integer>
 
-    <!-->Upgrade pass data related constants<-->
-    <string name="Score">score</string>
-    <string name="MaxHealth">maxHealth</string>
-    <string name="MGDamage">mGDamage</string>
-    <string name="MLDamage">mLDamage</string>
-    <string name="LBDamage">lBDamage</string>
-    <string name="FTDamage">fTDamage</string>
-    <string name="MGMaxAmmo">mGMaxAmmo</string>
-    <string name="MLMaxAmmo">mLMaxAmmo</string>
-    <string name="LBMaxAmmo">lBMaxAmmo</string>
-    <string name="FTMaxAmmo">fTMaxAmmo</string>
-    <string name="MGAmmo">mGAmmo</string>
-    <string name="MLAmmo">mLAmmo</string>
-    <string name="LBAmmo">lBAmmo</string>
-    <string name="FTAmmo">fTAmmo</string>
-    <string name="NumLife">numLife</string>
-    <string name="PrimaryWeapon">pWeapon</string>
-    <string name="SecondaryWeapon">sWeapon</string>
+    <!-->Upgrade menu related constants<-->
+        <!-->Upgrade pass data related constants<-->
+        <string name="Score">score</string>
+        <string name="MaxHealth">maxHealth</string>
+        <string name="MGDamage">mGDamage</string>
+        <string name="MLDamage">mLDamage</string>
+        <string name="LBDamage">lBDamage</string>
+        <string name="FTDamage">fTDamage</string>
+        <string name="MGMaxAmmo">mGMaxAmmo</string>
+        <string name="MLMaxAmmo">mLMaxAmmo</string>
+        <string name="LBMaxAmmo">lBMaxAmmo</string>
+        <string name="FTMaxAmmo">fTMaxAmmo</string>
+        <string name="MGAmmo">mGAmmo</string>
+        <string name="MLAmmo">mLAmmo</string>
+        <string name="LBAmmo">lBAmmo</string>
+        <string name="FTAmmo">fTAmmo</string>
+        <string name="NumLife">numLife</string>
+        <string name="PrimaryWeapon">pWeapon</string>
+        <string name="SecondaryWeapon">sWeapon</string>
+        <!-->Upgrade cost related constants<-->
+        <integer name="NewLifeCost">100</integer>
+        <integer name="IncreaseMaxHealthCost">100</integer>
+        <integer name="MGDamageCost">100</integer>
+        <integer name="MLDamageCost">100</integer>
+        <integer name="LBDamageCost">100</integer>
+        <integer name="FTDamageCost">100</integer>
+        <integer name="MGMaxAmmoCost">100</integer>
+        <integer name="MLMaxAmmoCost">100</integer>
+        <integer name="LBMaxAmmoCost">100</integer>
+        <integer name="FTMaxAmmoCost">100</integer>
+        <integer name="MGAmmoCost">100</integer>
+        <integer name="MLAmmoCost">100</integer>
+        <integer name="LBAmmoCost">100</integer>
+        <integer name="FTAmmoCost">100</integer>
+        <!-->Upgrade increase by value related constants<-->
+        <integer name="NewLifeIncreaseBy">1</integer>
+        <integer name="IncreaseMaxHealthIncreaseBy">100</integer>
+        <integer name="MGDamageIncreaseBy">100</integer>
+        <integer name="MLDamageIncreaseBy">100</integer>
+        <integer name="LBDamageIncreaseBy">100</integer>
+        <integer name="FTDamageIncreaseBy">100</integer>
+        <integer name="MGMaxAmmoIncreaseBy">100</integer>
+        <integer name="MLMaxAmmoIncreaseBy">100</integer>
+        <integer name="LBMaxAmmoIncreaseBy">100</integer>
+        <integer name="FTMaxAmmoIncreaseBy">100</integer>
 
 </resources>
