@@ -114,7 +114,7 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     public void update(){
-        gHUD.updateScore();
+        gHUD.update();
         gHUD.lifeLost(player.revivePlayer());
         gameOver = (gHUD.getNumLives() <= 0);
         gHUD.setCurrentWeaponAmmo(player.getAmmo(player.getMyPrimaryWeapon()));
@@ -166,6 +166,7 @@ public class GameEngine {
         }
 
         gHUD.setHealthLevels(player.getHealth(),player.getMaxHealth());
+        gHUD.setPopTextPos((int)player.getDimensions().left,(int)player.getDimensions().top);
     }
 
     /** PURPOSE:    Draws the whole game world
@@ -734,10 +735,22 @@ public class GameEngine {
             case HealthBox:
                 player.increaseHealth(gGInstance.getImageResources().
                         getInteger(R.integer.ItemsHealthIncreaseVal));
+                gHUD.setHealthIncreasePopText(gGInstance.getImageResources().
+                        getInteger(R.integer.ItemsHealthIncreaseVal));
                 break;
             case AmmoBox:
-                player.increaseAmmo(player.getMyPrimaryWeapon(),gGInstance.
-                        getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                int weaponPos = random.nextInt(2);
+                if(weaponPos == 0) {
+                    player.increaseAmmo(player.getMyPrimaryWeapon(), gGInstance.
+                            getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                    gHUD.setAmmoIncreasePopText(player.getMyPrimaryWeapon(), gGInstance.
+                            getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                }else{
+                    player.increaseAmmo(player.getMySecondaryWeapon(), gGInstance.
+                            getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                    gHUD.setAmmoIncreasePopText(player.getMySecondaryWeapon(), gGInstance.
+                            getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                }
                 break;
             case MysteryBox:
                 int box = random.nextInt(Items.ItemTypes.values().length-2)-1;
