@@ -56,6 +56,8 @@ public class GameImages {
     private static Bitmap healthBoxImage;
     //  PURPOSE:    Hold's the ammo box's image sheet
     private static Bitmap ammoBoxImage;
+    //  PURPOSE:    Hold's the mystery box's image sheet
+    private static Bitmap mysteryBoxImage;
     //  PURPOSE:    Hold's the upgrade pad's image sheet
     private static Bitmap upgradePadImage;
     //  PURPOSE:    Hold's the machine gun button's image
@@ -150,6 +152,8 @@ public class GameImages {
                 R.drawable.healthbox), 1, 1, iWidth, iHeight);
         ammoBoxImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.ammobox),
                 1, 1, iWidth, iHeight);
+        mysteryBoxImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.mysterybox),
+                1, 1, iWidth, iHeight);
         upgradePadImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.upgradepad),
                 1, 1, instance.getImageResources().getInteger(R.integer.UpgradePadImageWidth),
                 instance.getImageResources().getInteger(R.integer.UpgradePadImageHeight));
@@ -202,6 +206,8 @@ public class GameImages {
         //Items Image
         healthBoxImage = null;
         ammoBoxImage = null;
+        mysteryBoxImage = null;
+        upgradePadImage = null;
 
         //HUD Button Images
         machineGunButtonImage = null;
@@ -364,6 +370,14 @@ public class GameImages {
      */
     public Bitmap getAmmoBoxImage(){
         return ammoBoxImage;
+    }
+
+    /** PURPOSE:    Returns mystery box's image sheet
+     *  INPUT:      NONE
+     *  OUTPUT:     Return's a bitmap containing mystery box's image sheet
+     */
+    public Bitmap getMysteryBoxImage(){
+        return mysteryBoxImage;
     }
 
     /** PURPOSE:    Returns upgrade pad's image sheet
