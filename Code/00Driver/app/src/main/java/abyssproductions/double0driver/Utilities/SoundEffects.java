@@ -50,12 +50,13 @@ public class SoundEffects {
 
     /** PURPOSE:    Plays the sound effect whose id is given
      *  INPUT:      SoundEffect         - The id of the sound effect to play
-     *  OUTPUT:     NONE
+     *  OUTPUT:     Returns the sound id not sound effect id
      */
-    public void  playSoundEffect(int SoundEffect){
+    public int playSoundEffect(int SoundEffect){
         if(SoundEffect>= 0 && SoundEffect < soundEffectsArr.length){
-            soundPool.play(soundEffectsArr[SoundEffect],volume,volume,1,0,1);
+            return soundPool.play(soundEffectsArr[SoundEffect],volume,volume,1,0,1);
         }
+        return 0;
     }
 
     /** PURPOSE:    Changes the volume for the sound effects
@@ -89,6 +90,14 @@ public class SoundEffects {
     public void releaseSoundPool(){
         soundPool.release();
         soundPool = null;
+    }
+
+    /** PURPOSE:    Stops the sound effect by sound id
+     *  INPUT:      soundId             - The id for the sound effect
+     *  OUTPUT:     NONE
+     */
+    public void stopSoundEffect(int soundId){
+        soundPool.stop(soundId);
     }
 
     /** PURPOSE:    Returns the current volume level
