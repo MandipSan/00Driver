@@ -5,6 +5,11 @@
     android:layout_height="match_parent">
 
 
+    <ListView
+        android:layout_width="match_parent"
+        android:id="@+id/creditsListView"
+        android:layout_height="400dp" />
+
     <Button
         android:text="Back"
         android:layout_width="match_parent"
