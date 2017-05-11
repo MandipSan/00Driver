@@ -1,6 +1,9 @@
 package abyssproductions.double0driver.GameMenu;
 
+<<<<<<< HEAD
 import android.app.Activity;
+=======
+>>>>>>> a54c1b12b92b0426c65c138d852927e5add9aeb7
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -15,6 +19,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import android.widget.Button;
+
 
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;

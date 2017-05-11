@@ -1,15 +1,18 @@
 package abyssproductions.double0driver.GameEngine;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import java.util.Random;
 
+import abyssproductions.double0driver.GameObjects.Sprite;
 import abyssproductions.double0driver.Utilities.Background;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.Enemy;
@@ -29,12 +32,18 @@ public class GameEngine {
     private Player player;
     //  PURPOSE:    Holds whether the fire button is pressed down
     private boolean playerFire;
+    //  PURPOSE:    Holds whether the game is over
+    private boolean gameOver;
+    //  PURPOSE:    Used to trigger upgrade screen
+    private boolean upgradeScreenActivated;
     //  PURPOSE:    Holds the array of the active items in the game
     private Items [] gameItems;
     //  PURPOSE:    Holds an array of the enemies
     private Enemy [] myEnemies;
     //  PURPOSE:    Used to delay enemy spawn time
     private int enemySpawnDelay;
+    //  PURPOSE:    Holds the level that the enemies should spawn at
+    private int enemyLevel;
     //  PURPOSE:    Used get random values
     private Random random;
     //  PURPOSE:    Holds the pointer to the HUD object
@@ -51,13 +60,15 @@ public class GameEngine {
     public GameEngine(){
         gGInstance = GameGlobals.getInstance();
         gGInstance.loadPointers();
+        GameGlobals.getInstance().getImages().loadGameImages();
         gameBackground = new Background();
-        //TODO:Value need to be changed
         int tempWidth = gGInstance.getImageResources().getInteger(R.integer.VehicleImageWidth);
         int tempHeight = gGInstance.getImageResources().getInteger(R.integer.PlayerImageHeight);
         player = new Player(gGInstance.getImages().getPlayerImage(),tempWidth,tempHeight);
         player.setLaneTransitionMax(gameBackground.getLaneSize());
-        //Rescales image to screen size
+        //Rescales image to screen size (eliminates the need to call resetWidthAndHeight method in
+        //  the GameObject since it is adjusted by passing the temp rect object to the
+        //  setMyDimensions method call
         RectF temp = new RectF(0,0,gameBackground.getLaneSize(),
                 (int)(gameBackground.getLaneSize()*((float)tempHeight/(float)tempWidth)));
         //Offset the player to always start in right middle lane
@@ -90,10 +101,12 @@ public class GameEngine {
         }
 
         enemySpawnDelay = 0;
+        enemyLevel = 1;
         random = new Random();
-        gHUD = new HUD();
+        gHUD = new HUD(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
         playerFire = false;
-
+        gameOver = false;
+        upgradeScreenActivated = false;
     }
 
     /** PURPOSE:    Updates the logic for the game
@@ -101,11 +114,10 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     public void update(){
-        gHUD.updateScore();
+        gHUD.update();
         gHUD.lifeLost(player.revivePlayer());
-        if(gHUD.getNumLives() <= 0){
-            //TODO:DO SOMETHING WHEN NUMBER OF LIVE IS 0
-        }
+        gameOver = (gHUD.getNumLives() <= 0);
+        gHUD.setCurrentWeaponAmmo(player.getAmmo(player.getMyPrimaryWeapon()));
         checkCollision();
 
         //Updates the projectiles on the screen and checks out bound
@@ -122,8 +134,9 @@ public class GameEngine {
         }
 
         //Used to make sure the last vehicle that spawn in the lane is out of over lap distances
+        int velocity = GameGlobals.getInstance().getImageResources().getInteger(R.integer.EnemyYVelocity);
         for (int j = 0; j < (gameBackground.getNumLanes()-2); j++){
-            if(laneLastSpawnSpace[j] > 0)laneLastSpawnSpace[j]-=GameGlobals.enemiesUniVelocity;
+            if(laneLastSpawnSpace[j] > 0)laneLastSpawnSpace[j]-=velocity;
         }
 
         enemyUpdateLogic();
@@ -141,8 +154,7 @@ public class GameEngine {
 
         if(playerFire)player.fireWeapon();
         player.update();
-        //Revives the player if they still have extra lives
-        if(player.getHealth() == 0 && gHUD.getNumLives() != 0)player.revivePlayer();
+        player.displayHealthBar(gGInstance.getDisplayMiniHealthBar());
 
         //Checks if player is on the dirt road and decrease the health
         float pCX = player.getDimensions().centerX();
@@ -154,6 +166,7 @@ public class GameEngine {
         }
 
         gHUD.setHealthLevels(player.getHealth(),player.getMaxHealth());
+        gHUD.setPopTextPos((int)player.getDimensions().left,(int)player.getDimensions().top);
     }
 
     /** PURPOSE:    Draws the whole game world
@@ -173,6 +186,88 @@ public class GameEngine {
         gHUD.draw(canvas);
     }
 
+    /** PURPOSE:    Reset the game objects to the default value
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void resetGame(){
+        player.reset();
+        player.getDimensions().offsetTo((
+                (gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
+                gameBackground.getGrassSize(),gGInstance.getScreenHeight()/2);
+        for(int i =0; i < myEnemies.length; i++){
+            myEnemies[i] = null;
+        }
+        for(int i = 0; i < gameItems.length; i++){
+            gameItems[i] = null;
+        }
+        for (int i = 0; i < (gameBackground.getNumLanes()-2); i++){
+            laneLastSpawnSpace[i] = 0;
+        }
+        enemySpawnDelay = 0;
+        playerFire = false;
+        gHUD.reset(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
+        gameOver = false;
+        upgradeScreenActivated = false;
+    }
+
+    /** PURPOSE:    Sets the upgrade data received
+     *  INPUT:      bundle              - The data for the upgrades
+     *  OUTPUT:     NONE
+     */
+    public void setUpgradeData(Bundle bundle){
+        Resources res = gGInstance.getImageResources();
+        gHUD.reduceScoreBy(gHUD.getScore() - bundle.getInt(res.getString(R.string.Score)));
+        player.increaseMaxHealth(bundle.getInt(res.getString(R.string.MaxHealth)) - player.getMaxHealth());
+        int temp = bundle.getInt(res.getString(R.string.MGDamage))/player.getWeaponDamage(Sprite.WeaponTypes.MachineGun);
+        if( temp != 1){
+            player.increaseDamageLevel(Sprite.WeaponTypes.MachineGun,temp);
+        }
+        temp = bundle.getInt(res.getString(R.string.MLDamage))/player.getWeaponDamage(Sprite.WeaponTypes.Missile);
+        if( temp != 1){
+            player.increaseDamageLevel(Sprite.WeaponTypes.Missile,temp);
+        }
+        temp = bundle.getInt(res.getString(R.string.LBDamage))/player.getWeaponDamage(Sprite.WeaponTypes.Laser);
+        if( temp != 1){
+            player.increaseDamageLevel(Sprite.WeaponTypes.Laser,temp);
+        }
+        temp = bundle.getInt(res.getString(R.string.FTDamage))/player.getWeaponDamage(Sprite.WeaponTypes.Flamethrower);
+        if( temp != 1){
+            player.increaseDamageLevel(Sprite.WeaponTypes.Flamethrower,temp);
+        }
+        player.increaseMaxAmmo(Sprite.WeaponTypes.MachineGun,
+                bundle.getInt(res.getString(R.string.MGMaxAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.MachineGun));
+        player.increaseMaxAmmo(Sprite.WeaponTypes.Missile,
+                bundle.getInt(res.getString(R.string.MLMaxAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.Missile));
+        player.increaseMaxAmmo(Sprite.WeaponTypes.Laser,
+                bundle.getInt(res.getString(R.string.LBMaxAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.Laser));
+        player.increaseMaxAmmo(Sprite.WeaponTypes.Flamethrower,
+                bundle.getInt(res.getString(R.string.FTMaxAmmo))-
+                        player.getMaxAmmo(Sprite.WeaponTypes.Flamethrower));
+        player.increaseAmmo(Sprite.WeaponTypes.MachineGun,
+                bundle.getInt(res.getString(R.string.MGAmmo))-
+                        player.getAmmo(Sprite.WeaponTypes.MachineGun));
+        player.increaseAmmo(Sprite.WeaponTypes.Missile,
+                bundle.getInt(res.getString(R.string.MLAmmo))-
+                        player.getAmmo(Sprite.WeaponTypes.Missile));
+        player.increaseAmmo(Sprite.WeaponTypes.Laser,
+                bundle.getInt(res.getString(R.string.LBAmmo))-
+                        player.getAmmo(Sprite.WeaponTypes.Laser));
+        player.increaseAmmo(Sprite.WeaponTypes.Flamethrower,
+                bundle.getInt(res.getString(R.string.FTAmmo))-
+                        player.getAmmo(Sprite.WeaponTypes.Flamethrower));
+        gHUD.setNumLives(bundle.getInt(res.getString(R.string.NumLife)));
+        player.changeWeaponLoadOut(1, Sprite.WeaponTypes.values()
+                [bundle.getInt(res.getString(R.string.PrimaryWeapon))]);
+        player.changeWeaponLoadOut(2, Sprite.WeaponTypes.values()
+                [bundle.getInt(res.getString(R.string.SecondaryWeapon))]);
+        gHUD.currentWeaponTypes(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
+        upgradeScreenActivated = false;
+    }
+
     /** PURPOSE:    Calls the players fire when the pressed is set true
      *  INPUT:      pressed             - Holds whether the screen is pressed
      *              x                   - The x point that was pressed
@@ -181,7 +276,10 @@ public class GameEngine {
      */
     public void isPressed(boolean pressed, float x, float y){
         playerFire = pressed && gHUD.buttonPressed(0,x,y);
-        if(gHUD.buttonPressed(1,x,y) && !pressed)player.switchWeapon();
+        if(gHUD.buttonPressed(1,x,y) && !pressed){
+            player.switchWeapon();
+            gHUD.currentWeaponTypes(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
+        }
     }
 
     //  PURPOSE:    Class used to detected if the fling gesture occurred
@@ -214,6 +312,57 @@ public class GameEngine {
         }
     }
 
+    /** PURPOSE:    Return if the game is over
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a boolean of the game status
+     */
+    public boolean getGameOver(){
+        return gameOver;
+    }
+
+    /** PURPOSE:    Return if the upgrade screen needs to be activated
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a boolean of the upgradeScreenActivated
+     */
+    public boolean getUpgradeScreenActivated(){
+        return upgradeScreenActivated;
+    }
+
+    /** PURPOSE:    Return the game score
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a int containing the score
+     */
+    public int getScore(){
+        return gHUD.getScore();
+    }
+
+    /** PURPOSE:    Return the bundle that contains all the values that the upgrade uses
+     *  INPUT:      NONE
+     *  OUTPUT:     Return a bundle object contain the upgrade data
+     */
+    public Bundle getUpgradeData(){
+        Resources res = gGInstance.getImageResources();
+        Bundle bundle = new Bundle();
+        bundle.putInt(res.getString(R.string.Score),gHUD.getScore());
+        bundle.putInt(res.getString(R.string.MaxHealth),player.getMaxHealth());
+        bundle.putInt(res.getString(R.string.MGDamage),player.getWeaponDamage(Sprite.WeaponTypes.MachineGun));
+        bundle.putInt(res.getString(R.string.MLDamage),player.getWeaponDamage(Sprite.WeaponTypes.Missile));
+        bundle.putInt(res.getString(R.string.LBDamage),player.getWeaponDamage(Sprite.WeaponTypes.Laser));
+        bundle.putInt(res.getString(R.string.FTDamage),player.getWeaponDamage(Sprite.WeaponTypes.Flamethrower));
+        bundle.putInt(res.getString(R.string.MGMaxAmmo),player.getMaxAmmo(Sprite.WeaponTypes.MachineGun));
+        bundle.putInt(res.getString(R.string.MLMaxAmmo),player.getMaxAmmo(Sprite.WeaponTypes.Missile));
+        bundle.putInt(res.getString(R.string.LBMaxAmmo),player.getMaxAmmo(Sprite.WeaponTypes.Laser));
+        bundle.putInt(res.getString(R.string.FTMaxAmmo),player.getMaxAmmo(Sprite.WeaponTypes.Flamethrower));
+        bundle.putInt(res.getString(R.string.MGAmmo),player.getAmmo(Sprite.WeaponTypes.MachineGun));
+        bundle.putInt(res.getString(R.string.MLAmmo),player.getAmmo(Sprite.WeaponTypes.Missile));
+        bundle.putInt(res.getString(R.string.LBAmmo),player.getAmmo(Sprite.WeaponTypes.Laser));
+        bundle.putInt(res.getString(R.string.FTAmmo),player.getAmmo(Sprite.WeaponTypes.Flamethrower));
+        bundle.putInt(res.getString(R.string.NumLife),gHUD.getNumLives());
+        bundle.putInt(res.getString(R.string.PrimaryWeapon),player.getMyPrimaryWeapon().ordinal());
+        bundle.putInt(res.getString(R.string.SecondaryWeapon),player.getMySecondaryWeapon().ordinal());
+        return bundle;
+    }
+
     /** PURPOSE:    Checks the collision of the various game objects
      *  INPUT:      NONE
      *  OUTPUT:     NONE
@@ -225,7 +374,7 @@ public class GameEngine {
         Rect tempDimP = player.getCollisionBounds();
         //Checks if the player or projectiles collide with an enemy
         for(int i = 0; i < myEnemies.length; i++) {
-            if(myEnemies[i] != null){
+            if(myEnemies[i] != null && !myEnemies[i].isInDestroyState()){
                 //Stop enemies from colliding into player when in a lane that goes with the traffic
                 myLane = calculateInLane(myEnemies[i].getDimensions().centerX());
                 if (myLane >= (gameBackground.getNumLanes() / 2) && myEnemies[i].carRunning()) {
@@ -242,7 +391,7 @@ public class GameEngine {
                     //Stop enemies from colliding into enemies when in a lane that goes with the
                     //  traffic
                     for (int j = 0; j != myEnemies.length; j++) {
-                        if (myEnemies[j] != null && i != j) {
+                        if (myEnemies[j] != null && i != j && !myEnemies[j].isInDestroyState()) {
                             //Check if the enemies are in the same lane or not
                             if (myLane == calculateInLane(myEnemies[j].getDimensions().centerX())) {
                                 //Checks for which enemy is higher than the other
@@ -290,37 +439,27 @@ public class GameEngine {
                 if(myEnemies[i].getCollisionBounds().intersects(tempDimP.left,tempDimP.top,
                         tempDimP.right,tempDimP.bottom)){
                     myEnemies[i] = null;
-                    //TODO:Fill in what happens when enemy and player collide
                     player.decreaseHealth((int)(player.getMaxHealth()*.25));
                 }
             }
         }
 
-
+        //Checks if a projectile collides with the player or items
         for(int k = 0; k < gGInstance.myProjectiles.length;k++){
             //Checks if a projectile collides with the player
             if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
                     intersects(tempDimP.left,tempDimP.top,tempDimP.right,tempDimP.bottom)){
-                //TODO:Change to use projectile damage
-                /*player.decreaseHealth(5);
-                gGInstance.myProjectiles[k] = null;*/
+                player.decreaseHealth(gGInstance.myProjectiles[k].getMyDamage());
+                gGInstance.myProjectiles[k] = null;
             }
-
+//TODO: Separate into two parts for now need to discuss
             //Checks if the projectile collides with item boxes
             for(int m = 0; m < gameItems.length; m++){
                 if(gameItems[m] != null){
                     tempDim = gameItems[m].getCollisionBounds();
                     if(gGInstance.myProjectiles[k]!=null && gGInstance.myProjectiles[k].getCollisionBounds().
                             intersects(tempDim.left,tempDim.top,tempDim.right,tempDim.bottom)){
-                        //TODO:To do item affect
-                        switch (gameItems[m].getItemType()){
-                            case HealthBox:
-                                break;
-                            case AmmoBox:
-                                break;
-                            case MysteryBox:
-                                break;
-                        }
+                        itemAffect(gameItems[m].getItemType());
                         gameItems[m] = null;
                         gGInstance.myProjectiles[k] = null;
                     }
@@ -328,6 +467,21 @@ public class GameEngine {
             }
         }
 
+        //Checks for if player collide with item
+        for(int m = 0; m < gameItems.length; m++) {
+            if(gameItems[m] != null) {
+                tempDim = gameItems[m].getCollisionBounds();
+                if (player.getCollisionBounds().intersects(tempDim.left, tempDim.top,
+                        tempDim.right, tempDim.bottom)) {
+                    switch (gameItems[m].getItemType()) {
+                        case UpgradePad:
+                            upgradeScreenActivated = true;
+                            break;
+                    }
+                    gameItems[m] = null;
+                }
+            }
+        }
     }
 
     /** PURPOSE:    Spawns the enemies
@@ -356,7 +510,7 @@ public class GameEngine {
         //Randomly picks lane value between 1 and the number of lanes minus 2 for the dirt lanes
         int lane = random.nextInt((gameBackground.getNumLanes()-2))+1;
         //Calculates the X position for the enemy based on the lane it is going to be in
-        int x = 10+gameBackground.getGrassSize()+(tempGameLaneSize*lane);
+        int x = 5+gameBackground.getGrassSize()+(tempGameLaneSize*lane);
         //Calculates the Y position for the enemy based on the lane it is going to be in
         int y = (lane <=(gameBackground.getNumLanes()/2)-1) ? 0 : gGInstance.getScreenHeight();
 
@@ -424,10 +578,11 @@ public class GameEngine {
                         //Log.d("spawnEnemies: ", "H ");
                         break;
                     }
-                    //TODO:Hard code value need to change 
-                    myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x-5, y);
-                    myEnemies[i].resetWidthAndHeight(tempGameLaneSize-10, (int) (tempGameLaneSize *
-                            ((float) tempHeight / (float) tempWidth)));
+                    //Last two values passed rescaled the image to appropriate size for the
+                    //  different displays
+                    myEnemies[i] = new Enemy(tempImage, tempWidth, tempHeight, tempType, x, y,
+                            tempGameLaneSize-10,(int) (tempGameLaneSize *
+                            ((float) tempHeight / (float) tempWidth)),enemyLevel);
                     myEnemies[i].setMyCollisionBounds(new Rect(0, 0, tempColWidth-10, tempColHeight));
                     laneLastSpawnSpace[lane-1] = (int)(tempGameLaneSize *
                             ((float) tempHeight / (float) tempWidth));
@@ -442,11 +597,13 @@ public class GameEngine {
      *  OUTPUT:     NONE
      */
     private void enemyUpdateLogic(){
+        //The height and width size of the drop items
+        int itemSize = (int)(gameBackground.getLaneSize() * .5);
         //Calls the enemy spawn method when the delay is up
         if(enemySpawnDelay == 0) {
             spawnEnemies();
-            //TODO:Needs to be set to game config file values
-            enemySpawnDelay = 5;
+            enemySpawnDelay = GameGlobals.getInstance().getImageResources()
+                    .getInteger(R.integer.EnemyDefaultSpawnDelayMax);
         }
         enemySpawnDelay--;
 
@@ -456,6 +613,7 @@ public class GameEngine {
             if(myEnemies[j]!=null){
                 myEnemies[j].update((int)player.getDimensions().centerX(),
                         (int)player.getDimensions().centerY());
+                myEnemies[j].displayHealthBar(gGInstance.getDisplayMiniHealthBar());
                 if(myEnemies[j].getDimensions().top >= gGInstance.getScreenHeight() +
                                 myEnemies[j].getDimensions().height()+1||
                         myEnemies[j].getDimensions().bottom <= -10 ){
@@ -463,24 +621,39 @@ public class GameEngine {
                 }
                 //Second null check is for in case object was null for out of bounds
                 if(myEnemies[j]!=null && myEnemies[j].isDead()) {
+                    //TODO:Remove hard coded value
+                    int w = gGInstance.getImageResources().
+                            getInteger(R.integer.ItemBoxImageWidth);
+                    int h = gGInstance.getImageResources().
+                            getInteger(R.integer.ItemBoxImageHeight);
+                    int spawnMBox = random.nextInt(10)+1;
+                    if(spawnMBox == 1) {
+                        for (int m = 0; m < gameItems.length; m++) {
+                            if(gameItems[m]==null){
+                                gameItems[m] = new Items(gGInstance.getImages().
+                                        getMysteryBoxImage(), w, h,
+                                        Items.ItemTypes.MysteryBox, myEnemies[j].getDimensions().
+                                        centerX(), myEnemies[j].getDimensions().
+                                        top, new RectF(0, 0, itemSize, itemSize));
+                                gameItems[m].setMyCollisionBounds(new Rect(0,0,itemSize,itemSize));
+                                break;
+                            }
+                        }
+                    }
                     //TODO:Set correct enemy value for all enemies when defeat
                     //Spawns the items if an item drop vehicle was destroy
                     boolean set;
                     for (int k = 0; k < gameItems.length; k++){
                         set = false;
                         if(gameItems[k] == null) {
-                            int w = gGInstance.getImageResources().
-                                    getInteger(R.integer.ItemBoxImageWidth);
-                            int h = gGInstance.getImageResources().
-                                    getInteger(R.integer.ItemBoxImageHeight);
                             switch (myEnemies[j].getMyType()) {
                                 case Ambulance:
                                     gameItems[k] = new Items(gGInstance.getImages().
                                             getHealthBoxImage(), w, h,
                                             Items.ItemTypes.HealthBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
-                                            centerY(), new RectF(0, 0, 25, 25));
-                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,25,25));
+                                            centerY(), new RectF(0, 0, itemSize, itemSize));
+                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,itemSize,itemSize));
                                     set = true;
                                     break;
                                 case AmmoTruck:
@@ -488,8 +661,28 @@ public class GameEngine {
                                             getAmmoBoxImage(), w, h,
                                             Items.ItemTypes.AmmoBox, myEnemies[j].getDimensions().
                                             centerX(), myEnemies[j].getDimensions().
-                                            centerY(), new RectF(0, 0, 25, 25));
-                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,25,25));
+                                            centerY(), new RectF(0, 0, itemSize, itemSize));
+                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,itemSize,itemSize));
+                                    set = true;
+                                    break;
+                                case UpgradeTruck:
+                                    //Sets up the upgrade pad that scale with vehicles sizes
+                                    int uPWidth = (int) (gGInstance.getImageResources().
+                                            getInteger(R.integer.UpgradePadImageWidth) *
+                                            ((float) gameBackground.getLaneSize() /
+                                            (float) gGInstance.getImageResources().
+                                                    getInteger(R.integer.VehicleImageWidth)));
+                                    gameItems[k] = new Items(gGInstance.getImages().
+                                            getUpgradePadImage(), gGInstance.getImageResources().
+                                            getInteger(R.integer.UpgradePadImageWidth),
+                                            gGInstance.getImageResources().
+                                                    getInteger(R.integer.UpgradePadImageHeight),
+                                            Items.ItemTypes.UpgradePad, myEnemies[j].getDimensions().
+                                            left+1, myEnemies[j].getDimensions().centerY(),
+                                            new RectF(0, 0, uPWidth, gGInstance.getImageResources().
+                                            getInteger(R.integer.UpgradePadImageHeight)));
+                                    gameItems[k].setMyCollisionBounds(new Rect(0,0,uPWidth,gGInstance.getImageResources().
+                                            getInteger(R.integer.UpgradePadImageHeight)));
                                     set = true;
                                     break;
                                 case BasicCar:
@@ -524,6 +717,45 @@ public class GameEngine {
                     }
                 }
             }
+        }
+
+        //Calculate the new level the enemies should spawn at
+        if(gHUD.getScore() % gGInstance.getImageResources().
+                getInteger(R.integer.EnemyLevelIncreaseMod) == 0){
+            enemyLevel++;
+        }
+    }
+
+    /** PURPOSE:    Does the resulting affect for the item type given
+     *  INPUT:      itemTypes           - The item type whose affect should happen
+     *  OUTPUT:     NONE
+     */
+    private void itemAffect(Items.ItemTypes itemTypes){
+        switch (itemTypes){
+            case HealthBox:
+                player.increaseHealth(gGInstance.getImageResources().
+                        getInteger(R.integer.ItemsHealthIncreaseVal));
+                gHUD.setHealthIncreasePopText(gGInstance.getImageResources().
+                        getInteger(R.integer.ItemsHealthIncreaseVal));
+                break;
+            case AmmoBox:
+                int weaponPos = random.nextInt(2);
+                if(weaponPos == 0) {
+                    player.increaseAmmo(player.getMyPrimaryWeapon(), gGInstance.
+                            getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                    gHUD.setAmmoIncreasePopText(player.getMyPrimaryWeapon(), gGInstance.
+                            getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                }else{
+                    player.increaseAmmo(player.getMySecondaryWeapon(), gGInstance.
+                            getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                    gHUD.setAmmoIncreasePopText(player.getMySecondaryWeapon(), gGInstance.
+                            getImageResources().getInteger(R.integer.ItemsAmmoIncreaseVal));
+                }
+                break;
+            case MysteryBox:
+                int box = random.nextInt(Items.ItemTypes.values().length-2)-1;
+                itemAffect(Items.ItemTypes.values()[box]);
+                break;
         }
     }
 

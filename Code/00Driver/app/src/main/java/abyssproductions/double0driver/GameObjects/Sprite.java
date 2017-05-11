@@ -48,8 +48,8 @@ public class Sprite extends GameObject {
      */
     public Sprite(Bitmap image, int imageWidth, int imageHeight, Boolean loadAllWeapons) {
         super(image, imageWidth, imageHeight);
-        myHealth = 100;
-        myMaxHealth = 100;
+        myMaxHealth = myHealth = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DefaultStartHealth);
         myHealthBarDim = new Rect((int)getDimensions().left,(int)getDimensions().centerY()-5,
                 (int)getDimensions().right, (int)(int)getDimensions().centerY()+5);
         displayHealthBar = false;
@@ -58,16 +58,21 @@ public class Sprite extends GameObject {
             myWeaponType = WeaponTypes.MachineGun;
             weaponArrAdjustment = 0;
             myWeapons = new Weapon[WeaponTypes.values().length];
-            myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(100,100,5,WeaponTypes.MachineGun,
+            myWeapons[WeaponTypes.MachineGun.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultMachineGunDelay),
                     new MachineGunProjectile());
-            myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(100,100,20,WeaponTypes.Missile,
-                    new MissileLauncherProjectile() );
-            myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(100,100,0,WeaponTypes.Flamethrower,
-                    new FlameThrowerProjectile() );
-            myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(100,100,0,WeaponTypes.Laser,
-                    new LaserBeamProjectile() );
-            myWeapons[WeaponTypes.Spike.ordinal()] = new Weapon(100,100,10,WeaponTypes.Spike,
-                    new SpikeProjectile() );
+            myWeapons[WeaponTypes.Missile.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultMissileDelay),
+                    new MissileLauncherProjectile());
+            myWeapons[WeaponTypes.Flamethrower.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultFlamethrowerDelay),
+                    new FlameThrowerProjectile());
+            myWeapons[WeaponTypes.Laser.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultLaserDelay),
+                    new LaserBeamProjectile());
+            myWeapons[WeaponTypes.Spike.ordinal()] = new Weapon(0,0,GameGlobals.getInstance()
+                    .getImageResources().getInteger(R.integer.DefaultSpikeDelay),
+                    new SpikeProjectile());
         }
     }
 
@@ -91,34 +96,34 @@ public class Sprite extends GameObject {
         myWeaponType = weapon;
         switch (weapon){
             case MachineGun:
-                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.MachineGun,
-                        new MachineGunProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultMachineGunDelay), new MachineGunProjectile());
                 myWeaponType = WeaponTypes.MachineGun;
-                weaponArrAdjustment = 0;
+                weaponArrAdjustment = WeaponTypes.MachineGun.ordinal();
                 break;
             case Missile:
-                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Missile,
-                        new MissileLauncherProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultMissileDelay), new MissileLauncherProjectile());
                 myWeaponType = WeaponTypes.Missile;
-                weaponArrAdjustment = 1;
+                weaponArrAdjustment = WeaponTypes.Missile.ordinal();
                 break;
             case Flamethrower:
-                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Flamethrower,
-                        new FlameThrowerProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultFlamethrowerDelay), new FlameThrowerProjectile());
                 myWeaponType = WeaponTypes.Flamethrower;
-                weaponArrAdjustment = 2;
+                weaponArrAdjustment = WeaponTypes.Flamethrower.ordinal();
                 break;
             case Laser:
-                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Laser,
-                        new LaserBeamProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultLaserDelay),new LaserBeamProjectile());
                 myWeaponType = WeaponTypes.Laser;
-                weaponArrAdjustment = 3;
+                weaponArrAdjustment = WeaponTypes.Laser.ordinal();
                 break;
             case Spike:
-                myWeapons[0] = new Weapon(10,10,10,WeaponTypes.Spike,
-                        new SpikeProjectile());
+                myWeapons[0] = new Weapon(0,0,GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.DefaultSpikeDelay),new SpikeProjectile());
                 myWeaponType = WeaponTypes.Spike;
-                weaponArrAdjustment = 4;
+                weaponArrAdjustment = WeaponTypes.Spike.ordinal();
                 break;
         }
     }
@@ -158,12 +163,28 @@ public class Sprite extends GameObject {
         }
     }
 
-    /*  PURPOSE:    Turns health bar on and off
+    /*  PURPOSE:    Reset the sprite back to the default values
         INPUT:      NONE
         OUTPUT:     NONE
      */
-    public void displayHealthBar(){
-        displayHealthBar = (displayHealthBar) ? false : true;
+    public void reset(){
+        myMaxHealth = myHealth = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DefaultStartHealth);
+        myWeaponType = WeaponTypes.MachineGun;
+        for (Weapon W: myWeapons) {
+            W.myProjectile.setDamageLevel(1);
+            W.ammo = 100;
+            W.maxAmmo = 100;
+            W.sinceDelay = 0;
+        }
+    }
+
+    /*  PURPOSE:    Turns health bar on and off
+        INPUT:      activate            - Hold whether to activate the health bar or not
+        OUTPUT:     NONE
+     */
+    public void displayHealthBar(boolean activate){
+        displayHealthBar = activate;
     }
 
     /*  PURPOSE:    Increase the current health by the amount given up to the max health
@@ -180,7 +201,8 @@ public class Sprite extends GameObject {
      */
     public void decreaseHealth(int decreaseBy) {
         myHealth = (myHealth - decreaseBy < 0) ? 0 : myHealth - decreaseBy;
-        if(myHealth <= 0){
+        if(myHealth <= 0 && getAniState() != GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState)){
             changeAniState(GameGlobals.getInstance().getImageResources().
                     getInteger(R.integer.DestroyAnimateState));
             GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
@@ -194,6 +216,7 @@ public class Sprite extends GameObject {
      */
     public void increaseMaxHealth(int amount) {
         myMaxHealth += amount;
+        myHealth = myMaxHealth;
     }
 
     /*  PURPOSE:    Increase the ammo amount for the give weapon type up to its max ammo
@@ -202,11 +225,14 @@ public class Sprite extends GameObject {
         OUTPUT:     NONE
      */
     public void increaseAmmo(WeaponTypes weaponType, int increaseBy) {
-        if(myWeapons != null ){
+        if(myWeapons != null && increaseBy > 0){
             if((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)){
                 if (myWeapons[weaponType.ordinal() - weaponArrAdjustment].ammo +
                         increaseBy <= myWeapons[weaponType.ordinal() -weaponArrAdjustment].maxAmmo){
                     myWeapons[weaponType.ordinal() - weaponArrAdjustment].ammo += increaseBy;
+                }else{
+                    myWeapons[weaponType.ordinal() - weaponArrAdjustment].ammo =
+                            myWeapons[weaponType.ordinal() -weaponArrAdjustment].maxAmmo;
                 }
             }
         }
@@ -214,13 +240,29 @@ public class Sprite extends GameObject {
 
     /*  PURPOSE:    Increase the max ammo by amount given for the given weapon type
         INPUT:      weaponType          - The weapon type to increase the ammo for
-                    amount              - The amount to set max ammo
+                    increaseBy          - The amount to set max ammo
         OUTPUT:     NONE
      */
-    public void increaseMaxAmmo(WeaponTypes weaponType, int amount) {
-        if(myWeapons != null){
+    public void increaseMaxAmmo(WeaponTypes weaponType, int increaseBy) {
+        if(myWeapons != null && increaseBy > 0){
             if((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)) {
-                myWeapons[weaponType.ordinal() - weaponArrAdjustment].maxAmmo += amount;
+                myWeapons[weaponType.ordinal() - weaponArrAdjustment].maxAmmo += increaseBy;
+            }
+        }
+    }
+
+    /*  PURPOSE:    Increase the specified weapons damage to the given level
+        INPUT:      weaponType          - The weapon type of the ammo amount to return
+                    newLevel            - The weapon's new level
+        OUTPUT:     NONE
+     */
+    public void increaseDamageLevel(WeaponTypes weaponType, int newLevel){
+        if(myWeapons != null ) {
+            if ((myWeapons.length == 1 && weaponType == myWeaponType) || (myWeapons.length > 1)) {
+                if(newLevel > 0){
+                    myWeapons[weaponType.ordinal()-weaponArrAdjustment].
+                            myProjectile.setDamageLevel(newLevel);
+                }
             }
         }
     }
@@ -248,23 +290,27 @@ public class Sprite extends GameObject {
     public int getAmmo(WeaponTypes weaponType) {
         return (myWeapons != null &&
                 ((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)))
-                ? myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo : 0;
+                ? myWeapons[weaponType.ordinal()-weaponArrAdjustment].ammo : 0;
     }
 
-    /*  PURPOSE:    Increase the specified weapons damage to the given level
-        INPUT:      weaponType          - The weapon type of the ammo amount to return
-                    newLevel            - The weapon's new level
-        OUTPUT:     NONE
+    /*  PURPOSE:    Returns the amount of max ammo for the selected weapon type
+        INPUT:      weaponType          - The weapon type of the max ammo amount to return
+        OUTPUT:     Returns an int of the max ammo amount
      */
-    public void increaseDamageLevel(WeaponTypes weaponType, int newLevel){
-        if(myWeapons != null ) {
-            if ((myWeapons.length == 1 && weaponType == myWeaponType) || (myWeapons.length > 1)) {
-                if(newLevel > 0){
-                    myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].
-                            myProjectile.setDamageLevel(newLevel);
-                }
-            }
-        }
+    public int getMaxAmmo(WeaponTypes weaponType) {
+        return (myWeapons != null &&
+                ((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)))
+                ? myWeapons[weaponType.ordinal()-weaponArrAdjustment].maxAmmo : 0;
+    }
+
+    /*  PURPOSE:    Returns the amount of damage for the selected weapon type
+        INPUT:      weaponType          - The weapon type of the damage amount to return
+        OUTPUT:     Returns an int of the damage amount
+     */
+    public int getWeaponDamage(WeaponTypes weaponType){
+        return (myWeapons != null &&
+                ((myWeapons.length == 1 && weaponType == myWeaponType)||(myWeapons.length > 1)))
+                ? myWeapons[weaponType.ordinal()-weaponArrAdjustment].myProjectile.getMyDamage() : 0;
     }
 
     /*  PURPOSE:    Set's the weapon type of the current active weapon
@@ -321,8 +367,6 @@ public class Sprite extends GameObject {
         public int delayFire;
         //  PURPOSE:    Holds the time since delay
         public int sinceDelay;
-        //  PURPOSE:    Holds the weapon type
-        public Sprite.WeaponTypes myType;
         //  PURPOSE:    Holds the projectile for the weapon
         public Projectile myProjectile;
 
@@ -330,16 +374,13 @@ public class Sprite extends GameObject {
             INPUT:      newAmmo             - The new ammo amount to set
                         newMaxAmmo          - The new max ammo amount to set
                         newDelayFire        - The new delay amount for the weapon
-                        newType             - The type of weapon it is
                         newProjectile       - The projectile for this type of weapon
             OUTPUT:     NONE
          */
-        public Weapon(int newAmmo, int newMaxAmmo, int newDelayFire, Sprite.WeaponTypes newType,
-                      Projectile newProjectile) {
+        public Weapon(int newAmmo, int newMaxAmmo, int newDelayFire, Projectile newProjectile) {
             ammo = newAmmo;
             maxAmmo = newMaxAmmo;
             delayFire = newDelayFire;
-            myType = newType;
             myProjectile = newProjectile;
             sinceDelay = 0;
         }

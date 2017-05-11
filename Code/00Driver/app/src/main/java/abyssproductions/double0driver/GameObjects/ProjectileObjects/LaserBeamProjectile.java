@@ -22,8 +22,8 @@ public class LaserBeamProjectile extends Projectile {
         */
     private LaserBeamProjectile(Bitmap image, int imageWidth, int imageHeight) {
         super(image, imageWidth, imageHeight, 2, 1);
-        //TODO:Damage amount to be checked
-        myDamage = 5;
+        myDamage = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.LProDefaultDamage);
     }
 
     /*  PURPOSE:    Constructor for the projectile that sets the default values to null and 0
@@ -49,6 +49,7 @@ public class LaserBeamProjectile extends Projectile {
                         getInteger(R.integer.LaserProImageWidth),
                 GameGlobals.getInstance().getImageResources().
                         getInteger(R.integer.LaserProImageHeight));
+        //TODO:Need to change value from hard coded
         p.setMyCollisionBounds(new Rect(0,0,10,17));
         p.resetWidthAndHeight(10,17);
         p.setDamage(myDamage);
@@ -65,8 +66,8 @@ public class LaserBeamProjectile extends Projectile {
      */
     @Override
     public void setDamageLevel(int newDamageLevel){
-        //TODO:Need to change value from hard coded
-        myDamage = 10*newDamageLevel;
+        myDamage = GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.LProDefaultDamage)*newDamageLevel;
     }
 
 }

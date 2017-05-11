@@ -21,12 +21,12 @@ public class GameGlobals {
     private int screenWidth;
     //  PURPOSE:    Holds the images for the game
     private GameImages images;
+    //  PURPOSE:    Holds whether to display or not the mini health bar
+    private boolean displayMiniHealthBar;
     //  PURPOSE:    Holds the stopping distance for vehicle from one and another
     private int stoppingDistance;
     //  PURPOSE:    Holds the firing distance need for the enemy to fire
     private int firingDistance;
-    //  PURPOSE:    Holds the y velocity for all enemies
-    public final static int enemiesUniVelocity = 10;
     //  PURPOSE:    Holds an array of the projectiles used by the enemies and player
     public Projectile [] myProjectiles;
     //  PURPOSE:    Hold the pointer to the game sound effects
@@ -47,7 +47,7 @@ public class GameGlobals {
      */
     public boolean loadPointers(){
         if(imageResources != null){
-            images = new GameImages(imageResources);
+            images = new GameImages();
             myProjectiles = new Projectile[imageResources.getInteger(R.integer.ProjectileArraySize)];
             for(int i =0; i < myProjectiles.length; i++){
                 myProjectiles[i] = null;
@@ -80,6 +80,14 @@ public class GameGlobals {
      */
     public void setScreenWidth(int width){
         screenWidth = width;
+    }
+
+    /*  PURPOSE:    Set whether the mini health bar is active or not
+        INPUT:      active              - Whether to active the mini health bar or not
+        OUTPUT:     NONE
+    */
+    public void setDisplayMiniHealthBar(boolean active){
+        displayMiniHealthBar = active;
     }
 
     /*  PURPOSE:    Set the stopping distance
@@ -128,6 +136,14 @@ public class GameGlobals {
      */
     public int getScreenWidth(){
         return screenWidth;
+    }
+
+    /*  PURPOSE:    Returns the whether mini health bar is active
+        INPUT:      NONE
+        OUTPUT:     Return boolean of displayMiniHealthBar
+     */
+    public boolean getDisplayMiniHealthBar(){
+        return displayMiniHealthBar;
     }
 
     /*  PURPOSE:    Returns the stopping distance

@@ -19,6 +19,8 @@ public class SoundEffects {
     private int [] soundEffectsArr;
     //  PURPOSE:    Holds the sound effects volume
     private float volume;
+    //  PURPOSE:    Holds the sound effect volume level before mute
+    private float muteVolume;
 
     /** PURPOSE:    Constructor for the GameEngine that set the default value for the object
      *  INPUT:      context             - The context for the app
@@ -67,6 +69,19 @@ public class SoundEffects {
         }
     }
 
+    /** PURPOSE:    Changes the volume to mute
+     *  INPUT:      activateMute        - Holds whether or not to activate mute
+     *  OUTPUT:     NONE
+     */
+    public void mute(boolean activateMute){
+        if(activateMute) {
+            muteVolume = volume;
+            volume = 0f;
+        }else{
+            volume = muteVolume;
+        }
+    }
+
     /** PURPOSE:    Release from memory all the load sound effects
      *  INPUT:      NONE
      *  OUTPUT:     NONE
@@ -74,5 +89,13 @@ public class SoundEffects {
     public void releaseSoundPool(){
         soundPool.release();
         soundPool = null;
+    }
+
+    /** PURPOSE:    Returns the current volume level
+     *  INPUT:      NONE
+     *  OUTPUT:     Returns a float of the volume level
+     */
+    public float getVolumeLevel(){
+        return volume;
     }
 }

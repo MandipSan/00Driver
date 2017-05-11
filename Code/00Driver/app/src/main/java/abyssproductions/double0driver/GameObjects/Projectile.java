@@ -28,6 +28,8 @@ public class Projectile extends GameObject {
     public Projectile(Bitmap image, int imageWidth, int imageHeight, int imageSheetRow,
                       int imageSheetColumn){
         super(image, imageWidth, imageHeight, imageSheetRow, imageSheetColumn);
+        //Keep set to 1 for projectiles that don't use the lifeCount so as to not be unintentionally
+        //  removed
         lifeCount = 1;
     }
 
@@ -39,6 +41,8 @@ public class Projectile extends GameObject {
      */
     public Projectile(Bitmap image, int imageWidth, int imageHeight){
         super(image, imageWidth, imageHeight);
+        //Keep set to 1 for projectiles that don't use the lifeCount so as to not be unintentionally
+        //  removed
         lifeCount = 1;
     }
 

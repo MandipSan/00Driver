@@ -36,8 +36,8 @@ public class GameObject {
     private int myCurFrameNum;
     //  PURPOSE:    Holds the delay in the animation rate
     private int myAniDelay;
-    //  PURPOSE:    Holds the max delay in the animation rate
-    private int myAniDelayMax;
+    //  PURPOSE:    Holds the max delay in the animation rate for each column/animation state
+    private int [] myAniDelayMax;
     //  PURPOSE:    Holds the object's images
     private Bitmap myImage;
     //  PURPOSE:    Holds whether to flip the image or not
@@ -69,7 +69,8 @@ public class GameObject {
         myCurFrameNum = 0;
         myCurAniState = R.integer.NormalAnimateState;
         myAniDelay = 0;
-        myAniDelayMax = 15;
+        myAniDelayMax = new int[myColumn];
+        for(int i = 0; i < myAniDelayMax.length; i++)myAniDelayMax[i] = 15;
         myFlipped = false;
         myImage = image;
 
@@ -116,7 +117,9 @@ public class GameObject {
     */
     public void setMyDimensions(RectF newDimension){
         myDimensions.set(newDimension);
-        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
+        myCollisionBox.offsetTo(
+                (int)(myDimensions.left+((myDimensions.width()-myCollisionBox.width())/2)),
+                (int)myDimensions.top);
     }
 
     /*  PURPOSE:    Set's the game object's collision bounding box
@@ -125,7 +128,9 @@ public class GameObject {
     */
     public void setMyCollisionBounds(Rect newCollisionBox ){
         myCollisionBox.set(newCollisionBox);
-        myCollisionBox.offsetTo((int)myDimensions.left,(int)myDimensions.top);
+        myCollisionBox.offsetTo(
+                (int)(myDimensions.left+((myDimensions.width()-myCollisionBox.width())/2)),
+                (int)myDimensions.top);
     }
 
     /*  PURPOSE:    Resets the objects width and height if it is greater than 0
@@ -152,6 +157,15 @@ public class GameObject {
     */
     public RectF getDimensions(){
         return myDimensions;
+    }
+
+    /*  PURPOSE:    Sets a new amount for the max delay in animation for the state given
+        INPUT:      state               - The state that the max delay is being changed for
+                    newMaxDelay         - The new max delay amount
+        OUTPUT:     NONE
+     */
+    protected void setMyAniDelayMax(int state, int newMaxDelay){
+        if(state < myColumn)myAniDelayMax[state]=newMaxDelay;
     }
 
     /*  PURPOSE:    Set the flipped variable to true so that the image is flipped
@@ -181,23 +195,20 @@ public class GameObject {
     }
 
     /*  PURPOSE:    Runs the animation for the game object
-                        (NOTE: Image Frame must be in right order of Normal state row 0 and
-                        Destroyed state row 1 and only four frames per row and follow all guidelines
-                        for image frames)
         INPUT:      NONE
         OUTPUT:     NONE
     */
     protected void animate(){
         if(myAniDelay <= 0) {
             if (myCurAniState >= myColumn) myCurAniState = 0;
-            myCurFrameLoc.set(myImageWidth * myCurFrameNum, myCurAniState,
+            myCurFrameLoc.set(myImageWidth * myCurFrameNum, myImageHeight *myCurAniState,
                     myImageWidth * (myCurFrameNum + 1), myImageHeight * (myCurAniState + 1));
             myCurFrameNum++;
             if (myCurFrameNum == myRow && myCurAniState != GameGlobals.getInstance().getImageResources().
                     getInteger(R.integer.DestroyAnimateState)) {
                 myCurFrameNum = 0;
             }
-            myAniDelay =myAniDelayMax;
+            myAniDelay = myAniDelayMax[myCurAniState];
         }
         myAniDelay--;
     }
@@ -207,9 +218,10 @@ public class GameObject {
         OUTPUT:     NONE
     */
     protected void changeAniState(int newState){
-        if(newState < myRow) {
+        if(newState < myColumn) {
             myCurAniState = newState;
             myCurFrameNum = 0;
+            animate();
         }
     }
 
@@ -220,5 +232,9 @@ public class GameObject {
     protected boolean getDestroyedFinish() {
         return (myCurAniState == GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.DestroyAnimateState) && myCurFrameNum == myRow);
+    }
+
+    protected  int getAniState(){
+        return myCurAniState;
     }
 }

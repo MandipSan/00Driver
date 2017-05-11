@@ -8,6 +8,7 @@ import java.util.Random;
 
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.GameObjects.ProjectileObjects.MachineGunProjectile;
+import abyssproductions.double0driver.R;
 
 /**
  * Created by Mandip Sangha on 2/1/2017.
@@ -39,10 +40,16 @@ public class Enemy extends Sprite {
                                             object)
                     y                   - The y location to spawn the enemy from(The top in rect
                                             object)
+                    displayWidth        - The width that the object should have when displayed
+                    displayHeight       - The height that the object should have when displayed
+                    myLevel             - The level that the enemy is spawning at
         OUTPUT:     NONE
      */
-    public Enemy(Bitmap image, int imageWidth, int imageHeight, EnemyType enemyType, float x, float y){
+    public Enemy(Bitmap image, int imageWidth, int imageHeight, EnemyType enemyType, float x,
+                 float y, int displayWidth, int displayHeight, int myLevel){
         super(image, imageWidth, imageHeight, false);
+        setMyAniDelayMax(GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.DestroyAnimateState),2);
         changeMovement = 0;
         random = new Random();
         myType = enemyType;
@@ -57,31 +64,32 @@ public class Enemy extends Sprite {
                 loadSingleWeapon(WeaponTypes.Spike);
                 break;
         }
-        //TODO:Double check on final pass
-        increaseMaxAmmo(getWeaponType(),1000);
-        increaseAmmo(getWeaponType(),1000);
-        increaseHealth(20);
-        increaseMaxHealth(20);
-        //TODO:^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        increaseMaxAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultAmmo));
+        increaseAmmo(getWeaponType(),GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultAmmo));
+        setEnemyLevel(myLevel);
 
         movement = true;
+        //Resize object to current display limits
+        resetWidthAndHeight(displayWidth, displayHeight);
         //Sets enemy velocity
         RectF temp = getDimensions();
+        int velocity = GameGlobals.getInstance().getImageResources().getInteger(R.integer.EnemyYVelocity);
         if(enemyType != EnemyType.Helicopter) {
-
             if(y > (GameGlobals.getInstance().getScreenHeight()/2)){
-                myVelocity.set(0,-1*GameGlobals.enemiesUniVelocity);
+                myVelocity.set(0,-1*velocity);
                 temp.offsetTo(x,y);
             }else{
-                myVelocity.set(0,GameGlobals.enemiesUniVelocity);
+                myVelocity.set(0,velocity);
                 setImageFlip();
-                temp.offsetTo(x,y-imageHeight);
+                temp.offsetTo(x,y-temp.height());
             }
             setMyDimensions(temp);
         }else {
             temp.offsetTo(x,0-temp.bottom);
             setMyDimensions(temp);
-            myVelocity.set(0,GameGlobals.enemiesUniVelocity);
+            myVelocity.set(0,velocity);
         }
     }
 
@@ -91,11 +99,13 @@ public class Enemy extends Sprite {
      */
     public void update(int playerX, int playerY){
         super.update();
+        if(movement)move();
         if(getHealth() > 0) {
-            if(movement)move();
             if (myType == EnemyType.MachineGunCar || myType == EnemyType.DronePickup ||
                     myType == EnemyType.SpikeVan)
                 fire(playerX, playerY);
+        }else{
+            if(myVelocity.y < 0)myVelocity.y *= -1;
         }
         movement = true;
     }
@@ -120,7 +130,6 @@ public class Enemy extends Sprite {
                 }
                 break;
             case DronePickup:
-                //TODO:Uncomment when merge to test with Drone projectile
                 if(myDim.left < playerX && myDim.right > playerX
                         && Math.abs(myDim.centerY()-playerY) <=
                         GameGlobals.getInstance().getFiringDistance()){
@@ -132,7 +141,6 @@ public class Enemy extends Sprite {
                 }
                 break;
             case SpikeVan:
-                //TODO:Uncomment when merge to test with Spike projectile
                 if(myDim.left < playerX && myDim.right > playerX && myDim.centerY() < playerY
                         && Math.abs(myDim.centerY()-playerY) <=
                         GameGlobals.getInstance().getFiringDistance()){
@@ -182,12 +190,20 @@ public class Enemy extends Sprite {
         return myType;
     }
 
-    /*  PURPOSE:    Return's if the enemy is dead
+    /*  PURPOSE:    Return's if the enemy is dead and the animation is finished
         INPUT:      NONE
-        OUTPUT:     Return a boolean if the health equals zero
+        OUTPUT:     Return a boolean if the health equals zero and the animation is finished
      */
     public boolean isDead(){
         return getHealth() <= 0 && getDestroyedFinish();
+    }
+
+    /*  PURPOSE:    Return's if the enemy is dead and the animation is not finished
+        INPUT:      NONE
+        OUTPUT:     Return a boolean if the health equals zero and the animation is finished
+     */
+    public boolean isInDestroyState(){
+        return getHealth() <= 0 && !getDestroyedFinish();
     }
 
     /*  PURPOSE:    Enemy's movement logic
@@ -208,6 +224,7 @@ public class Enemy extends Sprite {
             }
             //Randomly picks the helicopter next movement pattern
             if(changeMovement <= 0 && heliReady){
+                int velocity = GameGlobals.getInstance().getImageResources().getInteger(R.integer.EnemyYVelocity);
                 int rand = random.nextInt(8);
                 switch (rand){
                     //Stop
@@ -216,35 +233,35 @@ public class Enemy extends Sprite {
                         break;
                     //Move Right
                     case 1:
-                        myVelocity.set(GameGlobals.enemiesUniVelocity, 0);
+                        myVelocity.set(velocity, 0);
                         break;
                     //Move Left
                     case 2:
-                        myVelocity.set(-GameGlobals.enemiesUniVelocity, 0);
+                        myVelocity.set(-velocity, 0);
                         break;
                     //Move Up
                     case 3:
-                        myVelocity.set(0, -GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(0, -velocity);
                         break;
                     //Move Down
                     case 4:
-                        myVelocity.set(0, GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(0, velocity);
                         break;
                     //Move Up Right
                     case 5:
-                        myVelocity.set(GameGlobals.enemiesUniVelocity,-GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(velocity,-velocity);
                         break;
                     //Move Up Left
                     case 6:
-                        myVelocity.set(-GameGlobals.enemiesUniVelocity,-GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(-velocity,-velocity);
                         break;
                     //Move Down Right
                     case 7:
-                        myVelocity.set(GameGlobals.enemiesUniVelocity,GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(velocity,velocity);
                         break;
                     //Move Down Left
                     case 8:
-                        myVelocity.set(-GameGlobals.enemiesUniVelocity,GameGlobals.enemiesUniVelocity);
+                        myVelocity.set(-velocity,velocity);
                         break;
                 }
                 changeMovement = changeMovementMax;
@@ -265,5 +282,17 @@ public class Enemy extends Sprite {
             moveHorizontal(myVelocity.x);
             moveVertical(myVelocity.y);
         }
+    }
+
+    /*  PURPOSE:    Sets the enemy current level
+        INPUT:      newLevel            - The level that the enemy is at
+        OUTPUT:     NONE
+     */
+    private void setEnemyLevel(int newLevel){
+        increaseDamageLevel(getWeaponType(),newLevel);
+        increaseMaxHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultHealth)*newLevel);
+        increaseHealth(GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultHealth)*newLevel);
     }
 }
