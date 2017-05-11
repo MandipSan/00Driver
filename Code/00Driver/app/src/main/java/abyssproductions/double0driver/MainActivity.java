@@ -36,20 +36,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.activity_main, StartScreen.newInstance(), "StartScreen")
-                    .commit();
-        }
-
-        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        gameView = new GameSurfaceView(this);
-        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        setContentView(gameView);//R.layout.activity_main);*/
-    }
         GameGlobals.getInstance().setImageResources(getResources());
         startScreen = StartScreen.newInstance();
         gameScreen = GameScreen.newInstance();

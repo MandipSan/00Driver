@@ -1,9 +1,6 @@
 package abyssproductions.double0driver.GameMenu;
 
-<<<<<<< HEAD
-import android.app.Activity;
-=======
->>>>>>> a54c1b12b92b0426c65c138d852927e5add9aeb7
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< HEAD
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -47,9 +43,10 @@ public class CreditScreen extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        View rootView = inflater.inflate(R.layout.credit_screen,container,false);
 
         // Find the ListView resource.
-        creditsView = (ListView) getActivity().findViewById( R.id.creditsListView );
+        creditsView = (ListView) rootView.findViewById( R.id.creditsListView );
 
         // Create and populate a List of planet names.
         String[] creditRows = new String[] {
@@ -69,7 +66,7 @@ public class CreditScreen extends Fragment {
 
         // Set the ArrayAdapter as the ListView's adapter.
         creditsView.setAdapter( creditsAdapter );
-        return inflater.inflate(R.layout.credit_screen,container,false);
+        return rootView;
     }
 
     @Override
