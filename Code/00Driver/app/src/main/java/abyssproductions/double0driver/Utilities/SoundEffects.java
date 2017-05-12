@@ -35,15 +35,15 @@ public class SoundEffects {
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.SEExplosionID)] = soundPool.load(context, R.raw.test,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEMachineGunID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEMachineGunID)] = soundPool.load(context, R.raw.semachinegun,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SELaserID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SELaserID)] = soundPool.load(context, R.raw.selaser,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.SEFireID)] = soundPool.load(context, R.raw.test,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEMissileID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEMissileID)] = soundPool.load(context, R.raw.semissile,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEAmbulanceID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEAmbulanceID)] = soundPool.load(context, R.raw.seambulance,1);
         volume = 0.5f;
         //TODO:add sound effects to the array
     }
