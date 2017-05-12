@@ -206,7 +206,7 @@ public class Sprite extends GameObject {
             changeAniState(GameGlobals.getInstance().getImageResources().
                     getInteger(R.integer.DestroyAnimateState));
             GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
-                    getImageResources().getInteger(R.integer.SEExplosionID));
+                    getImageResources().getInteger(R.integer.SEExplosionID),0);
         }
     }
 

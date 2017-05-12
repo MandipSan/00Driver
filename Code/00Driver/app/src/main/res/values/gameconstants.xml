@@ -62,6 +62,7 @@
     <integer name="SEFireID">3</integer>
     <integer name="SEMissileID">4</integer>
     <integer name="SEAmbulanceID">5</integer>
+    <integer name="SESpikeStripID">6</integer>
 
     <!-->Image related constants<-->
     <integer name="VehicleImageWidth">102</integer>

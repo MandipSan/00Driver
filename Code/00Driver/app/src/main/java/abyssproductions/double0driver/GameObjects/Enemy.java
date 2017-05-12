@@ -20,6 +20,8 @@ public class Enemy extends Sprite {
     private final static int changeMovementMax = 15;
     //  PURPOSE:    Timer before helicopter changes it movement
     private int changeMovement;
+    //  PURPOSE:    Holds the sound id for the ambulance playing sound effect
+    private int ambulanceSEId;
     //  PURPOSE:    Used to help randomize helicopters movement
     private Random random;
     //  PURPOSE:    Holds the enemy's type
@@ -91,6 +93,10 @@ public class Enemy extends Sprite {
             setMyDimensions(temp);
             myVelocity.set(0,velocity);
         }
+
+        if(myType == EnemyType.Ambulance)ambulanceSEId = GameGlobals.getInstance().mySoundEffects.
+                playSoundEffect(GameGlobals.getInstance().getImageResources().
+                        getInteger(R.integer.SEAmbulanceID),-1);
     }
 
     /*  PURPOSE:    Updates the basic enemy's logic
@@ -203,7 +209,11 @@ public class Enemy extends Sprite {
         OUTPUT:     Return a boolean if the health equals zero and the animation is finished
      */
     public boolean isInDestroyState(){
-        return getHealth() <= 0 && !getDestroyedFinish();
+        if(getHealth() <= 0 && !getDestroyedFinish()){
+            GameGlobals.getInstance().mySoundEffects.stopSoundEffect(ambulanceSEId);
+            return true;
+        }
+        return false;
     }
 
     /*  PURPOSE:    Enemy's movement logic

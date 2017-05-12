@@ -33,17 +33,19 @@ public class SoundEffects {
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundEffectsArr = new int [8];
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEExplosionID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEExplosionID)] = soundPool.load(context, R.raw.seexplosion,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.SEMachineGunID)] = soundPool.load(context, R.raw.semachinegun,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.SELaserID)] = soundPool.load(context, R.raw.selaser,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEFireID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEFireID)] = soundPool.load(context, R.raw.seflame,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.SEMissileID)] = soundPool.load(context, R.raw.semissile,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.SEAmbulanceID)] = soundPool.load(context, R.raw.seambulance,1);
+        soundEffectsArr[GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.SESpikeStripID)] = soundPool.load(context, R.raw.sespikechains,1);
         volume = 0.5f;
         //TODO:add sound effects to the array
     }
