@@ -48,13 +48,15 @@ public class SoundEffects {
         //TODO:add sound effects to the array
     }
 
-    /** PURPOSE:    Plays the sound effect whose id is given
-     *  INPUT:      SoundEffect         - The id of the sound effect to play
+    /** PURPOSE:    Plays the sound effect whose position is given
+     *  INPUT:      soundEffect         - The position of the sound effect to play
+     *              repeat              - Holds whether to loop sound effect or not
+     *                                      (0 for not -1 for)
      *  OUTPUT:     Returns the sound id not sound effect id
      */
-    public int playSoundEffect(int SoundEffect){
-        if(SoundEffect>= 0 && SoundEffect < soundEffectsArr.length){
-            return soundPool.play(soundEffectsArr[SoundEffect],volume,volume,1,0,1);
+    public int playSoundEffect(int soundEffect, int repeat){
+        if(soundEffect>= 0 && soundEffect < soundEffectsArr.length){
+            return soundPool.play(soundEffectsArr[soundEffect],volume,volume,1,repeat,1);
         }
         return 0;
     }
