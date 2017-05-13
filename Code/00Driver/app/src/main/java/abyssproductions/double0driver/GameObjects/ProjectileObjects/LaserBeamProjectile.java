@@ -55,8 +55,8 @@ public class LaserBeamProjectile extends Projectile {
         p.setDamage(myDamage);
         p.myVelocity.set(0,direction*GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.LProYVelocity));
-        //GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
-        //        getImageResources().getInteger(R.integer.SELaserID));
+        GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
+                getImageResources().getInteger(R.integer.SELaserID),0);
         super.launch(x, y, direction, p);
     }
 

@@ -56,8 +56,8 @@ public class MachineGunProjectile extends Projectile {
         p.setDamage(myDamage);
         p.myVelocity.set(0,direction*GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.MGProYVelocity));
-        //GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
-        //        getImageResources().getInteger(R.integer.SEMachineGunID));
+        GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
+                getImageResources().getInteger(R.integer.SEMachineGunID),0);
         super.launch(x, y, direction, p);
     }
 

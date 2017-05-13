@@ -33,29 +33,34 @@ public class SoundEffects {
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundEffectsArr = new int [8];
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEExplosionID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEExplosionID)] = soundPool.load(context, R.raw.seexplosion,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEMachineGunID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEMachineGunID)] = soundPool.load(context, R.raw.semachinegun,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SELaserID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SELaserID)] = soundPool.load(context, R.raw.selaser,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEFireID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEFireID)] = soundPool.load(context, R.raw.seflame,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEMissileID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEMissileID)] = soundPool.load(context, R.raw.semissile,1);
         soundEffectsArr[GameGlobals.getInstance().getImageResources().
-                getInteger(R.integer.SEAmbulanceID)] = soundPool.load(context, R.raw.test,1);
+                getInteger(R.integer.SEAmbulanceID)] = soundPool.load(context, R.raw.seambulance,1);
+        soundEffectsArr[GameGlobals.getInstance().getImageResources().
+                getInteger(R.integer.SESpikeStripID)] = soundPool.load(context, R.raw.sespikechains,1);
         volume = 0.5f;
         //TODO:add sound effects to the array
     }
 
-    /** PURPOSE:    Plays the sound effect whose id is given
-     *  INPUT:      SoundEffect         - The id of the sound effect to play
-     *  OUTPUT:     NONE
+    /** PURPOSE:    Plays the sound effect whose position is given
+     *  INPUT:      soundEffect         - The position of the sound effect to play
+     *              repeat              - Holds whether to loop sound effect or not
+     *                                      (0 for not -1 for)
+     *  OUTPUT:     Returns the sound id not sound effect id
      */
-    public void  playSoundEffect(int SoundEffect){
-        if(SoundEffect>= 0 && SoundEffect < soundEffectsArr.length){
-            soundPool.play(soundEffectsArr[SoundEffect],volume,volume,1,0,1);
+    public int playSoundEffect(int soundEffect, int repeat){
+        if(soundEffect>= 0 && soundEffect < soundEffectsArr.length){
+            return soundPool.play(soundEffectsArr[soundEffect],volume,volume,1,repeat,1);
         }
+        return 0;
     }
 
     /** PURPOSE:    Changes the volume for the sound effects
@@ -89,6 +94,30 @@ public class SoundEffects {
     public void releaseSoundPool(){
         soundPool.release();
         soundPool = null;
+    }
+
+    /** PURPOSE:    Stops the sound effect by sound id
+     *  INPUT:      soundId             - The id for the sound effect
+     *  OUTPUT:     NONE
+     */
+    public void stopSoundEffect(int soundId){
+        soundPool.stop(soundId);
+    }
+
+    /** PURPOSE:    Pauses all active sound effects
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void pauseAllSoundEffect(){
+        soundPool.autoPause();
+    }
+
+    /** PURPOSE:    Resume all pause sound effects
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void resumeAllSoundEffect(){
+        soundPool.autoResume();
     }
 
     /** PURPOSE:    Returns the current volume level

@@ -56,8 +56,8 @@ public class MissileLauncherProjectile extends Projectile {
         p.setDamage(myDamage);
         p.myVelocity.set(0,direction*GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.MLProYVelocity));
-        //GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
-        //        getImageResources().getInteger(R.integer.SEMissileID));
+        GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
+                getImageResources().getInteger(R.integer.SEMissileID),0);
         super.launch(x, y, direction, p);
     }
 

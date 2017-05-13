@@ -173,8 +173,8 @@ public class Sprite extends GameObject {
         myWeaponType = WeaponTypes.MachineGun;
         for (Weapon W: myWeapons) {
             W.myProjectile.setDamageLevel(1);
-            W.ammo = 100;
-            W.maxAmmo = 100;
+            W.ammo = 0;
+            W.maxAmmo = 0;
             W.sinceDelay = 0;
         }
     }
@@ -206,7 +206,7 @@ public class Sprite extends GameObject {
             changeAniState(GameGlobals.getInstance().getImageResources().
                     getInteger(R.integer.DestroyAnimateState));
             GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
-                    getImageResources().getInteger(R.integer.SEExplosionID));
+                    getImageResources().getInteger(R.integer.SEExplosionID),0);
         }
     }
 
