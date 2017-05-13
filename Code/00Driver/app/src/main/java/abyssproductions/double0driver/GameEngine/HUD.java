@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -45,6 +46,14 @@ public class HUD {
     private int textYPos;
     //  PURPOSE:    Holds the primary weapon ammo amount
     private int primaryWeaponAmmo;
+    //  PURPOSE:    Holds the amount of time that the pop text will appear
+    private int popTextTimer;
+    //  PURPOSE:    Holds the position for the pop text to appear
+    private Point popTextPos;
+    //  PURPOSE:    Holds the pop text that appears
+    private String popText;
+    //  PURPOSE:    Holds the paint setting for the pop textdrawable objects
+    private Paint popTextPaint;
     //  PURPOSE:    Holds the paint setting for the drawable objects
     private Paint paint;
 
@@ -75,6 +84,9 @@ public class HUD {
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(healthBar.height());
+        popTextPaint = new Paint();
+        popTextPaint.setStyle(Paint.Style.FILL);
+        popTextPaint.setTextSize(healthBar.height()/2);
         textYPos = (int)paint.getTextSize();
         healthTextYPos = healthBar.top+(int)paint.getTextSize();
         currentWeaponTypes(primaryWeaponType,secondaryWeaponType);
@@ -94,6 +106,9 @@ public class HUD {
                 getPlayerImage(),0,0, GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.VehicleImageWidth),GameGlobals.getInstance().
                 getImageResources().getInteger(R.integer.PlayerImageHeight),tempMatrix,false);
+        popTextPos =new Point(0,0);
+        popTextTimer = 0;
+        popText = "";
     }
 
     /** PURPOSE:    Draws the HUD
@@ -121,6 +136,7 @@ public class HUD {
         canvas.drawText("" + primaryWeaponAmmo,fireButtonDim.centerX()-(paint.getTextSize()),
                 fireButtonDim.centerY()+(paint.getTextSize()/2),paint);
         canvas.drawBitmap(switchButtonImage,buttonsImageSize,switchButtonDim,paint);
+        if(popTextTimer > 0)canvas.drawText(popText,popTextPos.x,popTextPos.y,popTextPaint);
     }
 
     /** PURPOSE:    Reset the HUD to initial state for new game
@@ -164,12 +180,14 @@ public class HUD {
         }
     }
 
-    /** PURPOSE:    Increase the score
+    /** PURPOSE:    Updates the HUD objects
      *  INPUT:      NONE
      *  OUTPUT:     NONE
      */
-    public void updateScore(){
+    public void update(){
         score++;
+        popTextTimer--;
+        if(popTextPaint.getAlpha()<=0)popTextPaint.setAlpha(popTextPaint.getAlpha()-9);
     }
 
     /** PURPOSE:    Increase the score by the amount given
@@ -230,6 +248,38 @@ public class HUD {
      */
     public void setCurrentWeaponAmmo(int amount){
         primaryWeaponAmmo = amount;
+    }
+
+    /** PURPOSE:    Sets the pop text for the ammo item the player retrieved
+     *  INPUT:      type                - The type of weapon that ammo is for
+     *              increaseAmount      - The amount the ammo increased by
+     *  OUTPUT:     NONE
+     */
+    public void setAmmoIncreasePopText(Sprite.WeaponTypes type, int increaseAmount){
+        popText = type.toString() + "ammo increased by " + increaseAmount;
+        popTextTimer = 30;
+        popTextPaint.setAlpha(255);
+    }
+
+    /** PURPOSE:    Sets the pop text for the health item the player retrieved
+     *              increaseAmount      - The amount the health increased by
+     *  OUTPUT:     NONE
+     */
+    public void setHealthIncreasePopText(int increaseAmount){
+        popText = "Health was restored by " + increaseAmount;
+        popTextTimer = 30;
+        popTextPaint.setAlpha(255);
+    }
+
+    /** PURPOSE:    Sets the pop text position
+     *              x                   - The x position for the text
+     *              y                   - The y position for the text
+     *  OUTPUT:     NONE
+     */
+    public void setPopTextPos(int x, int y){
+        Rect bounds = new Rect();
+        popTextPaint.getTextBounds(popText, 0, popText.length(), bounds);
+        popTextPos.set((int)Math.abs((x-(bounds.width()*.33))),y);
     }
 
     /** PURPOSE:    Checks if the a button was pressed returns the result

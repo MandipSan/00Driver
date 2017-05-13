@@ -54,6 +54,8 @@ public class SpikeProjectile extends Projectile {
         p.setDamage(myDamage);
         p.myVelocity.set(0,GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.EnemyYVelocity));
+        GameGlobals.getInstance().mySoundEffects.playSoundEffect(GameGlobals.getInstance().
+                getImageResources().getInteger(R.integer.SESpikeStripID),0);
         super.launch(x, y, direction, p);
     }
 

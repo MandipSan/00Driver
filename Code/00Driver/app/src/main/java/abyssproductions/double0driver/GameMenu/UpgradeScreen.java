@@ -227,7 +227,7 @@ public class UpgradeScreen extends Fragment {
      */
     public void passData(Bundle bundle){
         Resources res = GameGlobals.getInstance().getImageResources();
-        //Set up the array if its not set
+        //Used as a check and to set array variables if they weren't initialized
         initialVarLoad();
         //Sets the data passed to the correct button value holding position
         if(bundle != null){
@@ -389,6 +389,14 @@ public class UpgradeScreen extends Fragment {
             increaseValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.NewLifeIncreaseBy);
             costValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthCost);
             buttonImages[ItemsList.NumberLives.ordinal()] = R.drawable.ugnumberlives;
+            increaseValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = res.getInteger(R.integer.MLAmmoCost);
+            increaseValues[ItemsList.FillLaserBeamAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillLaserBeamAmmo.ordinal()] = res.getInteger(R.integer.LBAmmoCost);
+            increaseValues[ItemsList.FillFlameThrowerAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillFlameThrowerAmmo.ordinal()] = res.getInteger(R.integer.FTAmmoCost);
+            increaseValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.NewLifeIncreaseBy);
+            costValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthCost);
         }
     }
 }
