@@ -104,6 +104,22 @@ public class SoundEffects {
         soundPool.stop(soundId);
     }
 
+    /** PURPOSE:    Pauses all active sound effects
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void pauseAllSoundEffect(){
+        soundPool.autoPause();
+    }
+
+    /** PURPOSE:    Resume all pause sound effects
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    public void resumeAllSoundEffect(){
+        soundPool.autoResume();
+    }
+
     /** PURPOSE:    Returns the current volume level
      *  INPUT:      NONE
      *  OUTPUT:     Returns a float of the volume level

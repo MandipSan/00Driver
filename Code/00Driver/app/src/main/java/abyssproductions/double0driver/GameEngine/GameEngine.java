@@ -270,6 +270,7 @@ public class GameEngine {
                 [bundle.getInt(res.getString(R.string.SecondaryWeapon))]);
         gHUD.currentWeaponTypes(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
         upgradeScreenActivated = false;
+        gGInstance.mySoundEffects.resumeAllSoundEffect();
     }
 
     /** PURPOSE:    Calls the players fire when the pressed is set true
@@ -364,6 +365,7 @@ public class GameEngine {
         bundle.putInt(res.getString(R.string.NumLife),gHUD.getNumLives());
         bundle.putInt(res.getString(R.string.PrimaryWeapon),player.getMyPrimaryWeapon().ordinal());
         bundle.putInt(res.getString(R.string.SecondaryWeapon),player.getMySecondaryWeapon().ordinal());
+        gGInstance.mySoundEffects.pauseAllSoundEffect();
         return bundle;
     }
 
