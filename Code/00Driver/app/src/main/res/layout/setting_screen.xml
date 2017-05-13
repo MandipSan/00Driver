@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/menubackground">
 
     <TextView
         android:text="Settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="36sp"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="#000000"/>
 
     <TextView
         android:text="Music Volume Level"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="#000000"/>
 
     <SeekBar
         android:layout_width="match_parent"
@@ -25,13 +28,15 @@
         android:text="Mute Music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/muteMusic" />
+        android:id="@+id/muteMusic"
+        android:textColor="#000000"/>
 
     <TextView
         android:text="Sound Effect Volume Level"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="#000000"/>
 
     <SeekBar
         android:layout_width="match_parent"
@@ -42,13 +47,15 @@
         android:text="Mute Sound Effect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/muteSoundEffect" />
+        android:id="@+id/muteSoundEffect"
+        android:textColor="#000000"/>
 
     <CheckBox
         android:text="Display Mini Health Bars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/healthCheckBox" />
+        android:id="@+id/healthCheckBox"
+        android:textColor="#000000"/>
 
     <Button
         android:text="Back"
