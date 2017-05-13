@@ -2,6 +2,7 @@ package abyssproductions.double0driver.GameMenu;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.GameObjects.Items;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
 import abyssproductions.double0driver.Utilities.UpgradeImageAdapter;
@@ -39,6 +41,8 @@ public class UpgradeScreen extends Fragment {
     private UpgradeImageAdapter adapter;
     //  PURPOSE:    Holds the grid
     private GridView gridview;
+    //  PURPOSE:    Holds button images int reference
+    public int [] buttonImages;
     //  PURPOSE:    Holds the names and what each button in the grid is
     public enum ItemsList{NumberLives, MaxHealth, MachineGunDamage, MissileLauncherDamage, LaserBeamDamage,
         FlameThrowerDamage, MachineGunMaxAmmo, MissileLauncherMaxAmmo, LaserBeamMaxAmmo,
@@ -53,6 +57,13 @@ public class UpgradeScreen extends Fragment {
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+
+
     }
 
     @Nullable
@@ -216,7 +227,7 @@ public class UpgradeScreen extends Fragment {
      */
     public void passData(Bundle bundle){
         Resources res = GameGlobals.getInstance().getImageResources();
-        //Used as a check and to set array variables if they weren't initialized
+        //Set up the array if its not set
         initialVarLoad();
         //Sets the data passed to the correct button value holding position
         if(bundle != null){
@@ -337,13 +348,16 @@ public class UpgradeScreen extends Fragment {
             buttonVars = new int[ItemsList.values().length];
             increaseValues = new int[ItemsList.values().length];
             costValues =  new int[ItemsList.values().length];
+            buttonImages = new int[ItemsList.values().length];
             for(int i  = 0; i < ItemsList.values().length; i++){
                 buttonVars[i] = 0;
+                buttonImages[i] = R.drawable.healthbox;
                 //increaseValues[i] = 100;
                 //costValues[i] = 100;
             }
             increaseValues[ItemsList.MaxHealth.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthIncreaseBy);
             costValues[ItemsList.MaxHealth.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthCost);
+            buttonImages[ItemsList.MaxHealth.ordinal()] = R.drawable.ugmaxhealth;
             increaseValues[ItemsList.MachineGunDamage.ordinal()] = res.getInteger(R.integer.MGDamageIncreaseBy);
             costValues[ItemsList.MachineGunDamage.ordinal()] = res.getInteger(R.integer.MGDamageCost);
             increaseValues[ItemsList.MissileLauncherDamage.ordinal()] = res.getInteger(R.integer.MLDamageIncreaseBy);
@@ -362,14 +376,19 @@ public class UpgradeScreen extends Fragment {
             costValues[ItemsList.FlameThrowerMaxAmmo.ordinal()] = res.getInteger(R.integer.FTMaxAmmoCost);
             increaseValues[ItemsList.FillMachineGunAmmo.ordinal()] = 0;
             costValues[ItemsList.FillMachineGunAmmo.ordinal()] = res.getInteger(R.integer.MGAmmoCost);
+            buttonImages[ItemsList.FillMachineGunAmmo.ordinal()] = R.drawable.ugfillmachinegunammo;
             increaseValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = 0;
             costValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = res.getInteger(R.integer.MLAmmoCost);
+            buttonImages[ItemsList.FillMissileLauncherAmmo.ordinal()] = R.drawable.ugfillmissileammo;
             increaseValues[ItemsList.FillLaserBeamAmmo.ordinal()] = 0;
             costValues[ItemsList.FillLaserBeamAmmo.ordinal()] = res.getInteger(R.integer.LBAmmoCost);
+            buttonImages[ItemsList.FillLaserBeamAmmo.ordinal()] = R.drawable.ugfilllaserammo;
             increaseValues[ItemsList.FillFlameThrowerAmmo.ordinal()] = 0;
             costValues[ItemsList.FillFlameThrowerAmmo.ordinal()] = res.getInteger(R.integer.FTAmmoCost);
+            buttonImages[ItemsList.FillFlameThrowerAmmo.ordinal()] = R.drawable.ugfillflamethrowerammo;
             increaseValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.NewLifeIncreaseBy);
             costValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthCost);
+            buttonImages[ItemsList.NumberLives.ordinal()] = R.drawable.ugnumberlives;
         }
     }
 }

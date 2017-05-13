@@ -62,7 +62,7 @@ public class UpgradeImageAdapter extends BaseAdapter {
         itemString = "Increase: " + item.toString() + " " + upScreen.getCurrentValue(position) +
                 " by " + upScreen.getIncreaseValue(position);
         costString = "Cost: " + upScreen.getCost(position);
-        view.setBackgroundResource(R.drawable.healthbox);
+        view.setBackgroundResource(upScreen.buttonImages[position]);
 
         if(position >= UpgradeScreen.ItemsList.FillMachineGunAmmo.ordinal() &&
                 position <= UpgradeScreen.ItemsList.FillFlameThrowerAmmo.ordinal()) {
