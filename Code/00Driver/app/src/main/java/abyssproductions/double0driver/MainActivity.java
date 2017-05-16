@@ -15,6 +15,8 @@ import abyssproductions.double0driver.GameMenu.StartScreen;
 import abyssproductions.double0driver.GameMenu.UpgradeScreen;
 
 public class MainActivity extends AppCompatActivity {
+    //  PURPOSE:    Holds whether the any fragment has been activate yet
+    private boolean fragmentsActivated;
     //  PURPOSE:    Pointer to the start screen fragment
     private StartScreen startScreen;
     //  PURPOSE:    Pointer to the game screen fragment
@@ -44,10 +46,23 @@ public class MainActivity extends AppCompatActivity {
         upgradeScreen = UpgradeScreen.newInstance();
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
+            fragmentsActivated = false;
+            /*getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.activity_main, startScreen, "StartScreen")
-                    .commit();
+                    .commit();*/
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(!fragmentsActivated) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.activity_main, startScreen, "StartScreen")
+                .commit();
+            fragmentsActivated = true;
         }
     }
 
