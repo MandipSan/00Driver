@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import abyssproductions.double0driver.GameEngine.GameSurfaceView;
+import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
+import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
  * Created by Mandip Sangha on 3/25/2017.
@@ -40,6 +42,7 @@ public class GameScreen extends Fragment implements GameSurfaceView.ScreenChange
             View view = inflater.inflate(R.layout.game_screen,container,false);
             layout = (ViewGroup)view.findViewById(R.id.game_screen);
 
+            if(GameGlobals.getInstance().mySoundEffects == null)GameGlobals.getInstance().mySoundEffects = new SoundEffects(getContext());
             game = new GameSurfaceView(getContext(), this);
             game.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -54,8 +57,15 @@ public class GameScreen extends Fragment implements GameSurfaceView.ScreenChange
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
+        GameGlobals.getInstance().mySoundEffects.resumeAllSoundEffect();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        GameGlobals.getInstance().mySoundEffects.pauseAllSoundEffect();
     }
 
     @Override
