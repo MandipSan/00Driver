@@ -53,7 +53,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         if(gameEngine == null){
             GameGlobals.getInstance().setScreenHeight(this.getHeight());
             GameGlobals.getInstance().setScreenWidth(this.getWidth());
-            if(GameGlobals.getInstance().mySoundEffects == null)GameGlobals.getInstance().mySoundEffects = new SoundEffects(contexts);
+            //if(GameGlobals.getInstance().mySoundEffects == null)GameGlobals.getInstance().mySoundEffects = new SoundEffects(contexts);
             gameEngine = new GameEngine();
             mDetector = new GestureDetectorCompat(contexts,gameEngine.new GameGestureListener());
             setUpTouchDetection();

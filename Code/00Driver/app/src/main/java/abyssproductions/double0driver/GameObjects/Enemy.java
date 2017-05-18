@@ -180,6 +180,14 @@ public class Enemy extends Sprite {
         movement = false;
     }
 
+    /*  PURPOSE:    Kills the ambulance sound effect
+        INPUT:      NONE
+        OUTPUT:     NONE
+     */
+    public void killSoundEffect(){
+        if (myType == EnemyType.Ambulance)GameGlobals.getInstance().mySoundEffects.stopSoundEffect(ambulanceSEId);
+    }
+
     /*  PURPOSE:    Return's if the enemy is running
         INPUT:      NONE
         OUTPUT:     Return's a boolean of whether enemy is running or not
