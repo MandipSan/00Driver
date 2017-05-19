@@ -42,6 +42,8 @@ public class GameEngine {
     private Enemy [] myEnemies;
     //  PURPOSE:    Used to delay enemy spawn time
     private int enemySpawnDelay;
+    //  PURPOSE:    Currently max delay enemy spawn time
+    private int enemySpawnDelayMax;
     //  PURPOSE:    Holds the level that the enemies should spawn at
     private int enemyLevel;
     //  PURPOSE:    Used to delay the random mystery item spawn
@@ -104,6 +106,8 @@ public class GameEngine {
 
         randomItemSpawnDelay = gGInstance.getImageResources().getInteger(R.integer.ItemRandomSpawnDelayMax);;
         enemySpawnDelay = 0;
+        enemySpawnDelayMax = GameGlobals.getInstance().getImageResources()
+                .getInteger(R.integer.EnemyDefaultSpawnDelayMax);
         enemyLevel = 1;
         random = new Random();
         gHUD = new HUD(player.getMyPrimaryWeapon(),player.getMySecondaryWeapon());
@@ -516,7 +520,7 @@ public class GameEngine {
 
         //Calculation to determine new enemy type and position
         //Randomly picks value between 1 to 72
-        int value = random.nextInt(71)+1;
+        int value = random.nextInt(100)+1;
         //Randomly picks lane value between 1 and the number of lanes minus 2 for the dirt lanes
         int lane = random.nextInt((gameBackground.getNumLanes()-2))+1;
         //Calculates the X position for the enemy based on the lane it is going to be in
@@ -527,7 +531,7 @@ public class GameEngine {
         if(laneLastSpawnSpace[lane-1] <= 0) {
             for (int i = 0; i < myEnemies.length; i++) {
                 if (myEnemies[i] == null) {
-                    if (value <= 10) {
+                    if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.BasicCarImageHeight);
                         tempColHeight = tempHeight;
@@ -535,7 +539,8 @@ public class GameEngine {
                         tempImage = gGInstance.getImages().getBasicCarImage(random.nextInt(2));
                         tempType = Enemy.EnemyType.BasicCar;
                         //Log.d("spawnEnemies: ", "BC ");
-                    } else if (value <= 20) {
+                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.SportCarImageHeight);
                         tempColHeight = tempHeight;
@@ -544,7 +549,9 @@ public class GameEngine {
                         tempType = Enemy.EnemyType.MachineGunCar;
                         //Log.d("spawnEnemies: ", "MGC ");
                         //break;
-                    } else if (value <= 30) {
+                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.PickUpImageHeight);
                         tempColHeight = tempHeight;
@@ -552,13 +559,20 @@ public class GameEngine {
                         tempImage = gGInstance.getImages().getPickupImage();
                         tempType = Enemy.EnemyType.DronePickup;
                         //Log.d("spawnEnemies: ", "DP ");
-                    } else if (value <= 40) {
+                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.SpikeVanCarSpawnPercentChance)) {
                         tempHeight = gGInstance.getImageResources().getInteger(R.integer.VanImageHeight);
                         tempColHeight = tempHeight;
                         tempColWidth = (int) (72 * ((float) tempGameLaneSize / (float) tempColWidth));
                         tempImage = gGInstance.getImages().getVanImage();
                         tempType = Enemy.EnemyType.SpikeVan;
-                    } else if (value <= 50) {
+                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.SpikeVanCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.AmbulanceSpawnPercentChance)) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.AmbulanceImageHeight);
                         tempColHeight = tempHeight;
@@ -566,7 +580,12 @@ public class GameEngine {
                         tempImage = gGInstance.getImages().getAmbulanceImage();
                         tempType = Enemy.EnemyType.Ambulance;
                         //Log.d("spawnEnemies: ", "A ");
-                    } else if (value <= 60) {
+                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.SpikeVanCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.AmbulanceSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.AmmoTruckSpawnPercentChance)) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.AmmoTruckImageHeight);
                         tempColHeight = tempHeight;
@@ -574,7 +593,13 @@ public class GameEngine {
                         tempImage = gGInstance.getImages().getAmmoTruckImage();
                         tempType = Enemy.EnemyType.AmmoTruck;
                         //Log.d("spawnEnemies: ", "AT ");
-                    } else if (value <= 70) {
+                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.SpikeVanCarSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.AmbulanceSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.AmmoTruckSpawnPercentChance)+
+                            gGInstance.getImageResources().getInteger(R.integer.UpgradeTruckSpawnPercentChance)) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.UpgradeTruckImageHeight);
                         tempColHeight = tempHeight;
@@ -612,8 +637,7 @@ public class GameEngine {
         //Calls the enemy spawn method when the delay is up
         if(enemySpawnDelay == 0) {
             spawnEnemies();
-            enemySpawnDelay = GameGlobals.getInstance().getImageResources()
-                    .getInteger(R.integer.EnemyDefaultSpawnDelayMax);
+            enemySpawnDelay = enemySpawnDelayMax;
         }
         enemySpawnDelay--;
 
@@ -733,6 +757,11 @@ public class GameEngine {
         if(gHUD.getScore() % gGInstance.getImageResources().
                 getInteger(R.integer.EnemyLevelIncreaseMod) == 0){
             enemyLevel++;
+            if(enemySpawnDelayMax > gGInstance.getImageResources().
+                    getInteger(R.integer.EnemyLowestSpawnDelayMax)){
+                enemySpawnDelayMax -= gGInstance.getImageResources().
+                        getInteger(R.integer.EnemySpawnDelayMaxDecrease);
+            }
         }
     }
 

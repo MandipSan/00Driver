@@ -19,7 +19,7 @@
 
     <!-->Sprite related constants<-->
     <integer name="DefaultStartHealth">0</integer>
-    <integer name="DefaultMachineGunDelay">5</integer>
+    <integer name="DefaultMachineGunDelay">3</integer>
     <integer name="DefaultMissileDelay">20</integer>
     <integer name="DefaultFlamethrowerDelay">0</integer>
     <integer name="DefaultLaserDelay">0</integer>
@@ -27,11 +27,22 @@
 
     <!-->Enemy related constants<-->
     <integer name="EnemyArraySize">15</integer>
-    <integer name="EnemyDefaultSpawnDelayMax">5</integer>
+    <integer name="EnemyDefaultSpawnDelayMax">60</integer>
+    <integer name="EnemySpawnDelayMaxDecrease">5</integer>
+    <integer name="EnemyLowestSpawnDelayMax">5</integer>
     <integer name="EnemyYVelocity">10</integer>
     <integer name="EnemyDefaultHealth">20</integer>
     <integer name="EnemyDefaultAmmo">1000</integer>
-    <integer name="EnemyLevelIncreaseMod">500</integer>
+    <integer name="EnemyLevelIncreaseMod">1000</integer>
+        <!-->Enemy spawn constants<-->
+        <!-->Note percent must add up to hundred<-->
+        <integer name="BasicCarSpawnPercentChance">30</integer>
+        <integer name="MachinegunCarSpawnPercentChance">20</integer>
+        <integer name="PickupCarSpawnPercentChance">20</integer>
+        <integer name="SpikeVanCarSpawnPercentChance">15</integer>
+        <integer name="AmbulanceSpawnPercentChance">5</integer>
+        <integer name="AmmoTruckSpawnPercentChance">5</integer>
+        <integer name="UpgradeTruckSpawnPercentChance">5</integer>
 
     <!-->Projectile related constants<-->
     <integer name="ProjectileArraySize">50</integer>
@@ -39,9 +50,9 @@
     <integer name="MLProYVelocity">25</integer>
     <integer name="LProYVelocity">25</integer>
     <integer name="FProYVelocity">25</integer>
-    <integer name="MGProDefaultDamage">10</integer>
-    <integer name="MLProDefaultDamage">10</integer>
-    <integer name="LProDefaultDamage">10</integer>
+    <integer name="MGProDefaultDamage">2</integer>
+    <integer name="MLProDefaultDamage">20</integer>
+    <integer name="LProDefaultDamage">1</integer>
     <integer name="FProDefaultDamage">10</integer>
     <integer name="SProDefaultDamage">10</integer>
     <integer name="FProLifeCountMax">10</integer>
@@ -50,9 +61,9 @@
     <!-->Player related constants<-->
     <integer name="PlayerHorVelocity">20</integer>
     <integer name="PlayerFlickerTimeMax">30</integer>
-    <integer name="PlayerDefaultWeaponAmmo">10</integer>
-    <integer name="PlayerDefaultWeaponAmmoMax">10</integer>
-    <integer name="PlayerDefaultWeapon">0</integer>
+    <integer name="PlayerDefaultWeaponAmmo">50</integer>
+    <integer name="PlayerDefaultWeaponAmmoMax">50</integer>
+    <integer name="PlayerDefaultWeapon">1</integer>
     <integer name="PlayerDefaultHealth">100</integer>
 
     <!-->Sound effect related constants<-->
