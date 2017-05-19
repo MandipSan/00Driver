@@ -63,7 +63,7 @@
     <integer name="PlayerFlickerTimeMax">30</integer>
     <integer name="PlayerDefaultWeaponAmmo">50</integer>
     <integer name="PlayerDefaultWeaponAmmoMax">50</integer>
-    <integer name="PlayerDefaultWeapon">1</integer>
+    <integer name="PlayerDefaultWeapon">2</integer>
     <integer name="PlayerDefaultHealth">100</integer>
 
     <!-->Sound effect related constants<-->
@@ -89,8 +89,8 @@
     <integer name="MachineGunProImageHeight">100</integer>
     <integer name="LaserProImageWidth">75</integer>
     <integer name="LaserProImageHeight">125</integer>
-    <integer name="FlameProImageWidth">75</integer>
-    <integer name="FlameProImageHeight">125</integer>
+    <integer name="FlameProImageWidth">50</integer>
+    <integer name="FlameProImageHeight">50</integer>
     <integer name="MissileProImageWidth">82</integer>
     <integer name="MissileProImageHeight">125</integer>
     <integer name="SpikeProImageWidth">102</integer>
