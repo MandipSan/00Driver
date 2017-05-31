@@ -449,6 +449,7 @@ public class GameEngine {
                 //Checks if enemy collides with the player
                 if(myEnemies[i].getCollisionBounds().intersects(tempDimP.left,tempDimP.top,
                         tempDimP.right,tempDimP.bottom)){
+                    myEnemies[i].killSoundEffect();
                     myEnemies[i] = null;
                     player.decreaseHealth((int)(player.getMaxHealth()*.25));
                 }
@@ -511,6 +512,8 @@ public class GameEngine {
         Bitmap tempImage;
         //Holds the new enemy's type
         Enemy.EnemyType tempType;
+        //Holds the current spawn percents;
+        int [] percent = getEnemySpawnPercents();
         //Holds the collision boxes width
         int tempColWidth = tempWidth;
         //Holds the collision boxes height
@@ -531,7 +534,7 @@ public class GameEngine {
         if(laneLastSpawnSpace[lane-1] <= 0) {
             for (int i = 0; i < myEnemies.length; i++) {
                 if (myEnemies[i] == null) {
-                    if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)) {
+                    if (value <= percent[0]) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.BasicCarImageHeight);
                         tempColHeight = tempHeight;
@@ -539,8 +542,7 @@ public class GameEngine {
                         tempImage = gGInstance.getImages().getBasicCarImage(random.nextInt(2));
                         tempType = Enemy.EnemyType.BasicCar;
                         //Log.d("spawnEnemies: ", "BC ");
-                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)) {
+                    } else if (value <= percent[0] + percent[1]) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.SportCarImageHeight);
                         tempColHeight = tempHeight;
@@ -549,9 +551,7 @@ public class GameEngine {
                         tempType = Enemy.EnemyType.MachineGunCar;
                         //Log.d("spawnEnemies: ", "MGC ");
                         //break;
-                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)) {
+                    } else if (value <= percent[0] + percent[1] + percent[2]) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.PickUpImageHeight);
                         tempColHeight = tempHeight;
@@ -559,20 +559,13 @@ public class GameEngine {
                         tempImage = gGInstance.getImages().getPickupImage();
                         tempType = Enemy.EnemyType.DronePickup;
                         //Log.d("spawnEnemies: ", "DP ");
-                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.SpikeVanCarSpawnPercentChance)) {
+                    } else if (value <= percent[0] + percent[1] + percent[2] + percent[3]) {
                         tempHeight = gGInstance.getImageResources().getInteger(R.integer.VanImageHeight);
                         tempColHeight = tempHeight;
                         tempColWidth = (int) (72 * ((float) tempGameLaneSize / (float) tempColWidth));
                         tempImage = gGInstance.getImages().getVanImage();
                         tempType = Enemy.EnemyType.SpikeVan;
-                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.SpikeVanCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.AmbulanceSpawnPercentChance)) {
+                    } else if (value <= percent[0] + percent[1] + percent[2] + percent[3] + percent[4]) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.AmbulanceImageHeight);
                         tempColHeight = tempHeight;
@@ -580,12 +573,7 @@ public class GameEngine {
                         tempImage = gGInstance.getImages().getAmbulanceImage();
                         tempType = Enemy.EnemyType.Ambulance;
                         //Log.d("spawnEnemies: ", "A ");
-                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.SpikeVanCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.AmbulanceSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.AmmoTruckSpawnPercentChance)) {
+                    } else if (value <= percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.AmmoTruckImageHeight);
                         tempColHeight = tempHeight;
@@ -593,13 +581,7 @@ public class GameEngine {
                         tempImage = gGInstance.getImages().getAmmoTruckImage();
                         tempType = Enemy.EnemyType.AmmoTruck;
                         //Log.d("spawnEnemies: ", "AT ");
-                    } else if (value <= gGInstance.getImageResources().getInteger(R.integer.BasicCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.MachinegunCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.PickupCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.SpikeVanCarSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.AmbulanceSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.AmmoTruckSpawnPercentChance)+
-                            gGInstance.getImageResources().getInteger(R.integer.UpgradeTruckSpawnPercentChance)) {
+                    } else if (value <= percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5] + percent[6]) {
                         tempHeight = gGInstance.getImageResources().
                                 getInteger(R.integer.UpgradeTruckImageHeight);
                         tempColHeight = tempHeight;
@@ -849,5 +831,34 @@ public class GameEngine {
             }
         }
         return 0;
+    }
+
+    /** PURPOSE:    Returns the current percent array
+     *  INPUT:      NONE
+     *  OUTPUT:     NONE
+     */
+    private int [] getEnemySpawnPercents(){
+        int [] percentArray;
+        switch(enemyLevel){
+            case 1:
+                percentArray = gGInstance.getImageResources().getIntArray(R.array.Level1SpawnPercent);
+                break;
+            case 2:
+                percentArray = gGInstance.getImageResources().getIntArray(R.array.Level2SpawnPercent);
+                break;
+            case 3:
+                percentArray = gGInstance.getImageResources().getIntArray(R.array.Level3SpawnPercent);
+                break;
+            case 4:
+                percentArray = gGInstance.getImageResources().getIntArray(R.array.Level4SpawnPercent);
+                break;
+            case 5:
+                percentArray = gGInstance.getImageResources().getIntArray(R.array.Level5SpawnPercent);
+                break;
+            default:
+                percentArray = gGInstance.getImageResources().getIntArray(R.array.Level1SpawnPercent);
+                break;
+        }
+        return percentArray;
     }
 }

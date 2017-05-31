@@ -27,7 +27,7 @@
 
     <!-->Enemy related constants<-->
     <integer name="EnemyArraySize">15</integer>
-    <integer name="EnemyDefaultSpawnDelayMax">60</integer>
+    <integer name="EnemyDefaultSpawnDelayMax">30</integer>
     <integer name="EnemySpawnDelayMaxDecrease">5</integer>
     <integer name="EnemyLowestSpawnDelayMax">5</integer>
     <integer name="EnemyYVelocity">10</integer>
@@ -36,13 +36,51 @@
     <integer name="EnemyLevelIncreaseMod">1000</integer>
         <!-->Enemy spawn constants<-->
         <!-->Note percent must add up to hundred<-->
-        <integer name="BasicCarSpawnPercentChance">30</integer>
-        <integer name="MachinegunCarSpawnPercentChance">20</integer>
-        <integer name="PickupCarSpawnPercentChance">20</integer>
-        <integer name="SpikeVanCarSpawnPercentChance">15</integer>
-        <integer name="AmbulanceSpawnPercentChance">5</integer>
-        <integer name="AmmoTruckSpawnPercentChance">5</integer>
-        <integer name="UpgradeTruckSpawnPercentChance">5</integer>
+        <integer-array name="Level1SpawnPercent">
+            <item name="BasicCarSpawnPercentChance">75</item>
+            <item name="MachinegunCarSpawnPercentChance">10</item>
+            <item name="PickupCarSpawnPercentChance">1</item>
+            <item name="SpikeVanCarSpawnPercentChance">1</item>
+            <item name="AmbulanceSpawnPercentChance">5</item>
+            <item name="AmmoTruckSpawnPercentChance">4</item>
+            <item name="UpgradeTruckSpawnPercentChance">4</item>
+        </integer-array>
+        <integer-array name="Level2SpawnPercent">
+            <item name="BasicCarSpawnPercentChance">60</item>
+            <item name="MachinegunCarSpawnPercentChance">20</item>
+            <item name="PickupCarSpawnPercentChance">4</item>
+            <item name="SpikeVanCarSpawnPercentChance">1</item>
+            <item name="AmbulanceSpawnPercentChance">5</item>
+            <item name="AmmoTruckSpawnPercentChance">5</item>
+            <item name="UpgradeTruckSpawnPercentChance">5</item>
+        </integer-array>
+        <integer-array name="Level3SpawnPercent">
+            <item name="BasicCarSpawnPercentChance">45</item>
+            <item name="MachinegunCarSpawnPercentChance">30</item>
+            <item name="PickupCarSpawnPercentChance">9</item>
+            <item name="SpikeVanCarSpawnPercentChance">1</item>
+            <item name="AmbulanceSpawnPercentChance">5</item>
+            <item name="AmmoTruckSpawnPercentChance">5</item>
+            <item name="UpgradeTruckSpawnPercentChance">5</item>
+        </integer-array>
+        <integer-array name="Level4SpawnPercent">
+            <item name="BasicCarSpawnPercentChance">30</item>
+            <item name="MachinegunCarSpawnPercentChance">30</item>
+            <item name="PickupCarSpawnPercentChance">20</item>
+            <item name="SpikeVanCarSpawnPercentChance">5</item>
+            <item name="AmbulanceSpawnPercentChance">5</item>
+            <item name="AmmoTruckSpawnPercentChance">5</item>
+            <item name="UpgradeTruckSpawnPercentChance">5</item>
+        </integer-array>
+        <integer-array name="Level5SpawnPercent">
+            <item name="BasicCarSpawnPercentChance">15</item>
+            <item name="MachinegunCarSpawnPercentChance">30</item>
+            <item name="PickupCarSpawnPercentChance">30</item>
+            <item name="SpikeVanCarSpawnPercentChance">10</item>
+            <item name="AmbulanceSpawnPercentChance">5</item>
+            <item name="AmmoTruckSpawnPercentChance">5</item>
+            <item name="UpgradeTruckSpawnPercentChance">5</item>
+        </integer-array>
 
     <!-->Projectile related constants<-->
     <integer name="ProjectileArraySize">50</integer>
@@ -63,7 +101,7 @@
     <integer name="PlayerFlickerTimeMax">30</integer>
     <integer name="PlayerDefaultWeaponAmmo">50</integer>
     <integer name="PlayerDefaultWeaponAmmoMax">50</integer>
-    <integer name="PlayerDefaultWeapon">2</integer>
+    <integer name="PlayerDefaultWeapon">0</integer>
     <integer name="PlayerDefaultHealth">100</integer>
 
     <!-->Sound effect related constants<-->
