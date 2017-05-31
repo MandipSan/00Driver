@@ -31,7 +31,7 @@
     <integer name="EnemySpawnDelayMaxDecrease">5</integer>
     <integer name="EnemyLowestSpawnDelayMax">5</integer>
     <integer name="EnemyYVelocity">10</integer>
-    <integer name="EnemyDefaultHealth">20</integer>
+    <integer name="EnemyDefaultHealth">10</integer>
     <integer name="EnemyDefaultAmmo">1000</integer>
     <integer name="EnemyLevelIncreaseMod">1000</integer>
         <!-->Enemy spawn constants<-->
@@ -89,10 +89,10 @@
     <integer name="LProYVelocity">25</integer>
     <integer name="FProYVelocity">25</integer>
     <integer name="MGProDefaultDamage">2</integer>
-    <integer name="MLProDefaultDamage">20</integer>
+    <integer name="MLProDefaultDamage">25</integer>
     <integer name="LProDefaultDamage">1</integer>
     <integer name="FProDefaultDamage">10</integer>
-    <integer name="SProDefaultDamage">10</integer>
+    <integer name="SProDefaultDamage">20</integer>
     <integer name="FProLifeCountMax">10</integer>
     <integer name="FProXVelSpreadMax">21</integer>
 
