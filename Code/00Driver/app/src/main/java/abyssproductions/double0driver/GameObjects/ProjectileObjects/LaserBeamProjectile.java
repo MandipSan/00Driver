@@ -50,8 +50,8 @@ public class LaserBeamProjectile extends Projectile {
                 GameGlobals.getInstance().getImageResources().
                         getInteger(R.integer.LaserProImageHeight));
         //TODO:Need to change value from hard coded
-        p.setMyCollisionBounds(new Rect(0,0,10,17));
-        p.resetWidthAndHeight(10,17);
+        p.setMyCollisionBounds(new Rect(0,0,10,25));
+        p.resetWidthAndHeight(10,25);
         p.setDamage(myDamage);
         p.myVelocity.set(0,direction*GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.LProYVelocity));

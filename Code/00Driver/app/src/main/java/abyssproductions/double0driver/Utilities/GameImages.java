@@ -144,6 +144,10 @@ public class GameImages {
                 R.drawable.spikesheet), 2, 1, instance.getImageResources().
                 getInteger(R.integer.SpikeProImageWidth), instance.getImageResources().
                 getInteger(R.integer.SpikeProImageHeight));
+        flameProImage = setMyImage(BitmapFactory.decodeResource(resources,
+                R.drawable.flamesheet), 3, 1, instance.getImageResources().
+                getInteger(R.integer.FlameProImageWidth), instance.getImageResources().
+                getInteger(R.integer.FlameProImageHeight));
 
         //Items Image
         int iWidth = instance.getImageResources().getInteger(R.integer.ItemBoxImageWidth);
@@ -169,9 +173,9 @@ public class GameImages {
         laserCannonButtonImage = setMyImage(
                 BitmapFactory.decodeResource(resources, R.drawable.lasercannonbutton), 1, 1,
                 buttonSize, buttonSize);
-        /*flameThrowerButtonImage = setMyImage(BitmapFactory.decodeResource(resources, R.drawable.flamethrowerbutton),
-                1,1,vehicleWidth,
-                instance.getImageResources().getInteger(R.integer.FlameThrowerImageHeight));*/
+        flameThrowerButtonImage = setMyImage(
+                BitmapFactory.decodeResource(resources, R.drawable.flamethrowerbutton), 1, 1,
+                buttonSize, buttonSize);
     }
 
     /** PURPOSE:    Unloads all game images

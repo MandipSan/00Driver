@@ -125,23 +125,13 @@ public class Enemy extends Sprite {
         //TODO:TO BE DISCUSS FIRST THEN DESIGNED
         switch(myType){
             case MachineGunCar:
+            case DronePickup:
                 if(myDim.left <= playerX && myDim.right >= playerX
                         && Math.abs(myDim.centerY()-playerY) <=
                         GameGlobals.getInstance().getFiringDistance()){
-                    if(myVelocity.y <= 0){
+                    if(myVelocity.y <= 0 && myDim.top > playerY){
                         fire(myDim.centerX(),myDim.top,-1);
-                    }else if(myVelocity.y > 0){
-                        fire(myDim.centerX(),myDim.bottom,1);
-                    }
-                }
-                break;
-            case DronePickup:
-                if(myDim.left < playerX && myDim.right > playerX
-                        && Math.abs(myDim.centerY()-playerY) <=
-                        GameGlobals.getInstance().getFiringDistance()){
-                    if(myVelocity.y <= 0){
-                        fire(myDim.centerX(),myDim.top,-1);
-                    }else if(myVelocity.y > 0){
+                    }else if(myVelocity.y > 0 && myDim.top < playerY){
                         fire(myDim.centerX(),myDim.bottom,1);
                     }
                 }

@@ -65,8 +65,8 @@ public class FlameThrowerProjectile extends Projectile {
                 GameGlobals.getInstance().getImageResources().
                         getInteger(R.integer.FlameProImageHeight));
         //TODO:Change from Hardcoded value
-        p.setMyCollisionBounds(new Rect(0,0,10,17));
-        p.resetWidthAndHeight(10,17);
+        p.setMyCollisionBounds(new Rect(0,0,25,25));
+        p.resetWidthAndHeight(25,25);
         p.setDamage(myDamage);
         int flameSpread = random.nextInt(GameGlobals.getInstance().getImageResources().
                 getInteger(R.integer.FProXVelSpreadMax))-10;

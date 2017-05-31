@@ -338,7 +338,7 @@ public class Sprite extends GameObject {
     protected void fire(float x, float y, int direction) {
         RectF temp = getDimensions();
         if(myWeapons != null) {
-            if (myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo > 1 &&
+            if (myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].ammo > 0 &&
                     myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].sinceDelay == 0) {
                 if (myWeaponType == WeaponTypes.MachineGun) {
                     myWeapons[myWeaponType.ordinal()-weaponArrAdjustment].myProjectile.launch
