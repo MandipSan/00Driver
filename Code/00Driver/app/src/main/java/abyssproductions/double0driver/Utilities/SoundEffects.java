@@ -22,7 +22,7 @@ public class SoundEffects {
     //  PURPOSE:    Holds the sound effect volume level before mute
     private float muteVolume;
 
-    /** PURPOSE:    Constructor for the GameEngine that set the default value for the object
+    /** PURPOSE:    Constructor for the SoundEffects that set the default value for the object
      *  INPUT:      context             - The context for the app
      *  OUTPUT:     NONE
      */
