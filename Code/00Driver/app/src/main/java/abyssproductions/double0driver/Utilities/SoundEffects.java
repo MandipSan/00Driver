@@ -53,7 +53,7 @@ public class SoundEffects {
     /** PURPOSE:    Plays the sound effect whose position is given
      *  INPUT:      soundEffect         - The position of the sound effect to play
      *              repeat              - Holds whether to loop sound effect or not
-     *                                      (0 for not -1 for)
+     *                                      (0 for not loop and -1 for)
      *  OUTPUT:     Returns the sound id not sound effect id
      */
     public int playSoundEffect(int soundEffect, int repeat){
