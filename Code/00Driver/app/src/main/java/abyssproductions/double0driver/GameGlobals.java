@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import abyssproductions.double0driver.GameObjects.Enemy;
 import abyssproductions.double0driver.GameObjects.Projectile;
 import abyssproductions.double0driver.Utilities.GameImages;
+import abyssproductions.double0driver.Utilities.Music;
 import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
@@ -31,6 +32,8 @@ public class GameGlobals {
     public Projectile [] myProjectiles;
     //  PURPOSE:    Hold the pointer to the game sound effects
     public SoundEffects mySoundEffects;
+    //  PURPOSE:    Hold the pointer to the game music
+    public Music myMusic;
 
     /*  PURPOSE:    Constructor for the game globals that sets the default values for the object
         INPUT:      NONE

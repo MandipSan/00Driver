@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 
+import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
 
@@ -54,6 +55,7 @@ public class HighScoreScreen extends Fragment {
             scores[i] = 0;
             names[i] = "NONAME";
         }
+        GameGlobals.getInstance().myMusic.stopMusic();
         return inflater.inflate(R.layout.highscore_screen,container,false);
     }
 

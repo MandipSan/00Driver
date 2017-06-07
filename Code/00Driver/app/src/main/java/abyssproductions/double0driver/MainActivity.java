@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         GameGlobals.getInstance().mySoundEffects.releaseSoundPool();
+        GameGlobals.getInstance().myMusic.releaseMusic();
     }
 
     /** PURPOSE:    Used to change to the specified fragment

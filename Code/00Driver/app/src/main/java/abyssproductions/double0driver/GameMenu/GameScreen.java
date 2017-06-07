@@ -13,6 +13,7 @@ import abyssproductions.double0driver.GameEngine.GameSurfaceView;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
+import abyssproductions.double0driver.Utilities.Music;
 import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
@@ -43,6 +44,7 @@ public class GameScreen extends Fragment implements GameSurfaceView.ScreenChange
             layout = (ViewGroup)view.findViewById(R.id.game_screen);
 
             if(GameGlobals.getInstance().mySoundEffects == null)GameGlobals.getInstance().mySoundEffects = new SoundEffects(getContext());
+            if(GameGlobals.getInstance().myMusic == null)GameGlobals.getInstance().myMusic = new Music(getContext());
             game = new GameSurfaceView(getContext(), this);
             game.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -53,6 +55,7 @@ public class GameScreen extends Fragment implements GameSurfaceView.ScreenChange
                 resetGame = false;
             }
         }
+        GameGlobals.getInstance().myMusic.playMusic(GameGlobals.getInstance().getImageResources().getInteger(R.integer.MGameMusic));
         return layout;
     }
 

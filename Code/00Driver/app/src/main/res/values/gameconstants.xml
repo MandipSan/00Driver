@@ -113,6 +113,9 @@
     <integer name="SEAmbulanceID">5</integer>
     <integer name="SESpikeStripID">6</integer>
 
+    <!-->Music related constants<-->
+    <integer name="MGameMusic">0</integer>
+
     <!-->Image related constants<-->
     <integer name="VehicleImageWidth">102</integer>
     <integer name="PlayerImageHeight">121</integer>

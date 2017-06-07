@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import abyssproductions.double0driver.GameGlobals;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
+import abyssproductions.double0driver.Utilities.Music;
 import abyssproductions.double0driver.Utilities.SoundEffects;
 
 /**
@@ -41,6 +42,7 @@ public class SettingScreen extends Fragment {
         super.onStart();
         final GameGlobals instance = GameGlobals.getInstance();
         if(instance.mySoundEffects == null)instance.mySoundEffects = new SoundEffects(getContext());
+        if(GameGlobals.getInstance().myMusic == null)GameGlobals.getInstance().myMusic = new Music(getContext());
         final View view = getView();
         Button button = (Button)view.findViewById(R.id.back);
         button.setOnClickListener(new View.OnClickListener(){
@@ -84,11 +86,12 @@ public class SettingScreen extends Fragment {
         //Music Volume related objects
         bar = (SeekBar) view.findViewById(R.id.musicSeekBar);
         bar.setMax(100);
+        bar.setProgress((int)(instance.myMusic.getVolumeLevel()*100));
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 0;
+            int progress = (int)(instance.myMusic.getVolumeLevel()*100);
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                progress = progresValue;
+            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
+                progress = progressValue;
             }
 
             @Override
@@ -97,18 +100,16 @@ public class SettingScreen extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                instance.myMusic.changeVolume(progress/100);
             }
         });
         checkBox = (CheckBox)view.findViewById(R.id.muteMusic);
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox) v).isChecked()) {
-                    ((SeekBar) view.findViewById(R.id.musicSeekBar)).setProgress(0);
-                }else{
-
-                }
-
+                instance.myMusic.mute(((CheckBox) v).isChecked());
+                ((SeekBar) view.findViewById(R.id.musicSeekBar)).
+                        setProgress((int)(instance.myMusic.getVolumeLevel()*100));
             }
         });
 
