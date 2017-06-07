@@ -633,6 +633,7 @@ public class GameEngine {
                 if(myEnemies[j].getDimensions().top >= gGInstance.getScreenHeight() +
                                 myEnemies[j].getDimensions().height()+1||
                         myEnemies[j].getDimensions().bottom <= -10 ){
+                    myEnemies[j].killSoundEffect();
                     myEnemies[j] = null;
                 }
                 //Second null check is for in case object was null for out of bounds
@@ -727,6 +728,7 @@ public class GameEngine {
                             }
                         }
                         if (set) {
+                            myEnemies[j].killSoundEffect();
                             myEnemies[j] = null;
                             break;
                         }

@@ -201,7 +201,7 @@ public class HighScoreScreen extends Fragment {
         TextView text = (TextView) getView().findViewById(R.id.highScoreBox);
         text.setText("");
         for(int i = 0; i < scores.length; i++){
-            temp = names[i] + scores[i]+"\n";
+            temp = names[i]+ " - " + scores[i]+"\n";
             text.setText(text.getText()+temp);
         }
     }
@@ -222,6 +222,7 @@ public class HighScoreScreen extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 newName = temp.getText().toString();
+                if(newName.contentEquals("") || newName.contentEquals(" "))newName = "NONAME";
                 adjustScore();
                 saveToFile();
                 displayHighscore();

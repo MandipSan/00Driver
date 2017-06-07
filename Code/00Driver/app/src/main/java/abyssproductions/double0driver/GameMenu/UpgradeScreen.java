@@ -2,6 +2,7 @@ package abyssproductions.double0driver.GameMenu;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import abyssproductions.double0driver.GameGlobals;
+import abyssproductions.double0driver.GameObjects.Items;
 import abyssproductions.double0driver.MainActivity;
 import abyssproductions.double0driver.R;
 import abyssproductions.double0driver.Utilities.UpgradeImageAdapter;
@@ -35,10 +38,14 @@ public class UpgradeScreen extends Fragment {
     private int [] costValues;
     //  PURPOSE:    Holds where the primary or secondary weapon is the selectable
     private boolean primarySelectorActive;
+    //  PURPOSE:    Holds whether these type of weapon have been unlocked
+    private boolean mLUnlocked, lBUnlocked, fTUnlocked;
     //  PURPOSE:    Holds the adapter for the grid buttons
     private UpgradeImageAdapter adapter;
     //  PURPOSE:    Holds the grid
     private GridView gridview;
+    //  PURPOSE:    Holds button images int reference
+    public int [] buttonImages;
     //  PURPOSE:    Holds the names and what each button in the grid is
     public enum ItemsList{NumberLives, MaxHealth, MachineGunDamage, MissileLauncherDamage, LaserBeamDamage,
         FlameThrowerDamage, MachineGunMaxAmmo, MissileLauncherMaxAmmo, LaserBeamMaxAmmo,
@@ -55,6 +62,13 @@ public class UpgradeScreen extends Fragment {
         super.onAttach(context);
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState){
@@ -68,6 +82,7 @@ public class UpgradeScreen extends Fragment {
         gridview.setAdapter(adapter);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                boolean dropThrough = false;
                 switch (ItemsList.values()[position]){
                     case NumberLives:
                         updateButton(position,res.getInteger(R.integer.NewLifeCost), res.
@@ -78,42 +93,88 @@ public class UpgradeScreen extends Fragment {
                                 getInteger(R.integer.IncreaseMaxHealthIncreaseBy));
                         break;
                     case MachineGunDamage:
+                        for (int i = ItemsList.MachineGun.ordinal(); i < ItemsList.values().length; i++) {
+                            if (buttonVars[i] == 1) buttonVars[i] = 0;
+                        }
+                        buttonVars[ItemsList.MachineGun.ordinal()] = 1;
                         updateButton(position,res.getInteger(R.integer.MGDamageCost), res.
                                 getInteger(R.integer.MGDamageIncreaseBy));
                         break;
                     case MissileLauncherDamage:
+                        for (int i = ItemsList.MachineGun.ordinal(); i < ItemsList.values().length; i++) {
+                            if (buttonVars[i] == 1) buttonVars[i] = 0;
+                        }
+                        buttonVars[ItemsList.MissileLauncher.ordinal()] = 1;
                         updateButton(position,res.getInteger(R.integer.MLDamageCost), res.
                                 getInteger(R.integer.MLDamageIncreaseBy));
+                        if(!mLUnlocked) {
+                            buttonVars[ItemsList.MissileLauncherMaxAmmo.ordinal()] =  res.
+                                    getInteger(R.integer.MLMaxAmmoIncreaseBy);
+                            buttonVars[ItemsList.FillMissileLauncherAmmo.ordinal()] =  res.
+                                    getInteger(R.integer.MLMaxAmmoIncreaseBy);
+                            mLUnlocked = true;
+                        }
                         break;
                     case LaserBeamDamage:
+                        for (int i = ItemsList.MachineGun.ordinal(); i < ItemsList.values().length; i++) {
+                            if (buttonVars[i] == 1) buttonVars[i] = 0;
+                        }
+                        buttonVars[ItemsList.LaserBeam.ordinal()] = 1;
                         updateButton(position,res.getInteger(R.integer.LBDamageCost), res.
                                 getInteger(R.integer.LBDamageIncreaseBy));
+                        if(!lBUnlocked) {
+                            buttonVars[ItemsList.LaserBeamMaxAmmo.ordinal()] = res.
+                                    getInteger(R.integer.LBMaxAmmoIncreaseBy);
+                            buttonVars[ItemsList.FillLaserBeamAmmo.ordinal()] = res.
+                                    getInteger(R.integer.LBMaxAmmoIncreaseBy);
+                            lBUnlocked = true;
+                        }
                         break;
                     case FlameThrowerDamage:
+                        for (int i = ItemsList.MachineGun.ordinal(); i < ItemsList.values().length; i++) {
+                            if (buttonVars[i] == 1) buttonVars[i] = 0;
+                        }
+                        buttonVars[ItemsList.FlameThrower.ordinal()] = 1;
                         updateButton(position,res.getInteger(R.integer.FTDamageCost), res.
                                 getInteger(R.integer.FTDamageIncreaseBy));
+                        if(!fTUnlocked) {
+                            buttonVars[ItemsList.FlameThrowerMaxAmmo.ordinal()] = res.
+                                    getInteger(R.integer.FTMaxAmmoIncreaseBy);
+                            buttonVars[ItemsList.FillFlameThrowerAmmo.ordinal()] = res.
+                                    getInteger(R.integer.FTMaxAmmoIncreaseBy);
+                            fTUnlocked = true;
+                        }
                         break;
                     case MachineGunMaxAmmo:
                         updateButton(position,res.getInteger(R.integer.MGMaxAmmoCost), res.
                                 getInteger(R.integer.MGMaxAmmoIncreaseBy));
                         break;
                     case MissileLauncherMaxAmmo:
-                        updateButton(position,res.getInteger(R.integer.MLMaxAmmoCost), res.
+                        if(mLUnlocked)updateButton(position,res.getInteger(R.integer.MLMaxAmmoCost), res.
                                 getInteger(R.integer.MLMaxAmmoIncreaseBy));
+                        else Toast.makeText(getActivity(), "Weapon not unlocked",
+                                    Toast.LENGTH_SHORT).show();
                         break;
                     case LaserBeamMaxAmmo:
-                        updateButton(position,res.getInteger(R.integer.LBMaxAmmoCost), res.
+                        if(lBUnlocked)updateButton(position,res.getInteger(R.integer.LBMaxAmmoCost), res.
                                 getInteger(R.integer.LBMaxAmmoIncreaseBy));
+                        else Toast.makeText(getActivity(), "Weapon not unlocked",
+                                Toast.LENGTH_SHORT).show();
                         break;
                     case FlameThrowerMaxAmmo:
-                        updateButton(position,res.getInteger(R.integer.FTMaxAmmoCost), res.
+                        if(fTUnlocked)updateButton(position,res.getInteger(R.integer.FTMaxAmmoCost), res.
                                 getInteger(R.integer.FTMaxAmmoIncreaseBy));
+                        else Toast.makeText(getActivity(), "Weapon not unlocked",
+                                Toast.LENGTH_SHORT).show();
                         break;
                     case FillMachineGunAmmo:
                         if(buttonVars[position] <
                                 buttonVars[ItemsList.MachineGunMaxAmmo.ordinal()]){
                             updateButton(position,res.getInteger(R.integer.MGAmmoCost),0);
                             buttonVars[position] = buttonVars[ItemsList.MachineGunMaxAmmo.ordinal()];
+                        }else{
+                            Toast.makeText(getActivity(), "Ammo full",
+                                    Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case FillMissileLauncherAmmo:
@@ -121,6 +182,14 @@ public class UpgradeScreen extends Fragment {
                                 buttonVars[ItemsList.MissileLauncherMaxAmmo.ordinal()]){
                             updateButton(position,res.getInteger(R.integer.MLAmmoCost),0);
                             buttonVars[position] = buttonVars[ItemsList.MissileLauncherMaxAmmo.ordinal()];
+                        }else{
+                            if(!mLUnlocked) {
+                                Toast.makeText(getActivity(), "Weapon not unlocked",
+                                        Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getActivity(), "Ammo full",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                         break;
                     case FillLaserBeamAmmo:
@@ -128,6 +197,14 @@ public class UpgradeScreen extends Fragment {
                                 buttonVars[ItemsList.LaserBeamMaxAmmo.ordinal()]){
                             updateButton(position,res.getInteger(R.integer.LBAmmoCost),0);
                             buttonVars[position] = buttonVars[ItemsList.LaserBeamMaxAmmo.ordinal()];
+                        }else{
+                            if(!lBUnlocked) {
+                                Toast.makeText(getActivity(), "Weapon not unlocked",
+                                        Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getActivity(), "Ammo full",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                         break;
                     case FillFlameThrowerAmmo:
@@ -135,6 +212,14 @@ public class UpgradeScreen extends Fragment {
                                 buttonVars[ItemsList.FlameThrowerMaxAmmo.ordinal()]){
                             updateButton(position,res.getInteger(R.integer.FTAmmoCost),0);
                             buttonVars[position] = buttonVars[ItemsList.FlameThrowerMaxAmmo.ordinal()];
+                        }else{
+                            if(!fTUnlocked) {
+                                Toast.makeText(getActivity(), "Weapon not unlocked",
+                                        Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getActivity(), "Ammo full",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                         break;
                     case SelectPrimaryWeapon:
@@ -143,10 +228,27 @@ public class UpgradeScreen extends Fragment {
                     case SelectSecondaryWeapon:
                         primarySelectorActive = false;
                         break;
-                    case MachineGun:
-                    case MissileLauncher:
-                    case LaserBeam:
                     case FlameThrower:
+                        if(!fTUnlocked){
+                            Toast.makeText(getActivity(), "Weapon not unlocked",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        dropThrough = true;
+                    case MissileLauncher:
+                        if(!mLUnlocked && !dropThrough){
+                            Toast.makeText(getActivity(), "Weapon not unlocked",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        dropThrough = true;
+                    case LaserBeam:
+                        if(!lBUnlocked && !dropThrough){
+                            Toast.makeText(getActivity(), "Weapon not unlocked",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    case MachineGun:
                         //Used to determine which weapon was activate
                         if (primarySelectorActive) {
                             for (int i = ItemsList.MachineGun.ordinal(); i < ItemsList.values().length; i++) {
@@ -163,6 +265,8 @@ public class UpgradeScreen extends Fragment {
                         }
                         break;
                 }
+
+                textView.setText("Score: "+Score);
                 adapter.notifyDataSetChanged();
                 gridview.invalidateViews();
             }
@@ -337,31 +441,55 @@ public class UpgradeScreen extends Fragment {
             buttonVars = new int[ItemsList.values().length];
             increaseValues = new int[ItemsList.values().length];
             costValues =  new int[ItemsList.values().length];
+            buttonImages = new int[ItemsList.values().length];
             for(int i  = 0; i < ItemsList.values().length; i++){
                 buttonVars[i] = 0;
+                buttonImages[i] = R.drawable.healthbox;
                 //increaseValues[i] = 100;
                 //costValues[i] = 100;
             }
             increaseValues[ItemsList.MaxHealth.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthIncreaseBy);
             costValues[ItemsList.MaxHealth.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthCost);
+            buttonImages[ItemsList.MaxHealth.ordinal()] = R.drawable.ugmaxhealth;
             increaseValues[ItemsList.MachineGunDamage.ordinal()] = res.getInteger(R.integer.MGDamageIncreaseBy);
             costValues[ItemsList.MachineGunDamage.ordinal()] = res.getInteger(R.integer.MGDamageCost);
+            buttonImages[ItemsList.MachineGunDamage.ordinal()] = R.drawable.ugmachinegun;
             increaseValues[ItemsList.MissileLauncherDamage.ordinal()] = res.getInteger(R.integer.MLDamageIncreaseBy);
             costValues[ItemsList.MissileLauncherDamage.ordinal()] = res.getInteger(R.integer.MLDamageCost);
+            buttonImages[ItemsList.MissileLauncherDamage.ordinal()] = R.drawable.ugmissile;
             increaseValues[ItemsList.LaserBeamDamage.ordinal()] = res.getInteger(R.integer.LBDamageIncreaseBy);
             costValues[ItemsList.LaserBeamDamage.ordinal()] = res.getInteger(R.integer.LBDamageCost);
+            buttonImages[ItemsList.LaserBeamDamage.ordinal()] = R.drawable.uglaser;
             increaseValues[ItemsList.FlameThrowerDamage.ordinal()] = res.getInteger(R.integer.FTDamageIncreaseBy);
             costValues[ItemsList.FlameThrowerDamage.ordinal()] = res.getInteger(R.integer.FTDamageCost);
+            buttonImages[ItemsList.FlameThrowerDamage.ordinal()] = R.drawable.ugflamethrower;
             increaseValues[ItemsList.MachineGunMaxAmmo.ordinal()] = res.getInteger(R.integer.MGMaxAmmoIncreaseBy);
             costValues[ItemsList.MachineGunMaxAmmo.ordinal()] = res.getInteger(R.integer.MGMaxAmmoCost);
+            buttonImages[ItemsList.MachineGunMaxAmmo.ordinal()] = R.drawable.ugmachinegunmaxammo;
             increaseValues[ItemsList.MissileLauncherMaxAmmo.ordinal()] = res.getInteger(R.integer.MLMaxAmmoIncreaseBy);
             costValues[ItemsList.MissileLauncherMaxAmmo.ordinal()] = res.getInteger(R.integer.MLMaxAmmoCost);
+            buttonImages[ItemsList.MissileLauncherMaxAmmo.ordinal()] = R.drawable.ugmissilemaxammo;
             increaseValues[ItemsList.LaserBeamMaxAmmo.ordinal()] = res.getInteger(R.integer.LBMaxAmmoIncreaseBy);
             costValues[ItemsList.LaserBeamMaxAmmo.ordinal()] = res.getInteger(R.integer.LBMaxAmmoCost);
+            buttonImages[ItemsList.LaserBeamMaxAmmo.ordinal()] = R.drawable.uglasermaxammo;
             increaseValues[ItemsList.FlameThrowerMaxAmmo.ordinal()] = res.getInteger(R.integer.FTMaxAmmoIncreaseBy);
             costValues[ItemsList.FlameThrowerMaxAmmo.ordinal()] = res.getInteger(R.integer.FTMaxAmmoCost);
+            buttonImages[ItemsList.FlameThrowerMaxAmmo.ordinal()] = R.drawable.ugflamethrowermaxammo;
             increaseValues[ItemsList.FillMachineGunAmmo.ordinal()] = 0;
             costValues[ItemsList.FillMachineGunAmmo.ordinal()] = res.getInteger(R.integer.MGAmmoCost);
+            buttonImages[ItemsList.FillMachineGunAmmo.ordinal()] = R.drawable.ugfillmachinegunammo;
+            increaseValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = res.getInteger(R.integer.MLAmmoCost);
+            buttonImages[ItemsList.FillMissileLauncherAmmo.ordinal()] = R.drawable.ugfillmissileammo;
+            increaseValues[ItemsList.FillLaserBeamAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillLaserBeamAmmo.ordinal()] = res.getInteger(R.integer.LBAmmoCost);
+            buttonImages[ItemsList.FillLaserBeamAmmo.ordinal()] = R.drawable.ugfilllaserammo;
+            increaseValues[ItemsList.FillFlameThrowerAmmo.ordinal()] = 0;
+            costValues[ItemsList.FillFlameThrowerAmmo.ordinal()] = res.getInteger(R.integer.FTAmmoCost);
+            buttonImages[ItemsList.FillFlameThrowerAmmo.ordinal()] = R.drawable.ugfillflamethrowerammo;
+            increaseValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.NewLifeIncreaseBy);
+            costValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthCost);
+            buttonImages[ItemsList.NumberLives.ordinal()] = R.drawable.ugnumberlives;
             increaseValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = 0;
             costValues[ItemsList.FillMissileLauncherAmmo.ordinal()] = res.getInteger(R.integer.MLAmmoCost);
             increaseValues[ItemsList.FillLaserBeamAmmo.ordinal()] = 0;
@@ -370,6 +498,7 @@ public class UpgradeScreen extends Fragment {
             costValues[ItemsList.FillFlameThrowerAmmo.ordinal()] = res.getInteger(R.integer.FTAmmoCost);
             increaseValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.NewLifeIncreaseBy);
             costValues[ItemsList.NumberLives.ordinal()] = res.getInteger(R.integer.IncreaseMaxHealthCost);
+            mLUnlocked = lBUnlocked = fTUnlocked = false;
         }
     }
 }

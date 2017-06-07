@@ -90,9 +90,9 @@
     <integer name="FProYVelocity">25</integer>
     <integer name="MGProDefaultDamage">2</integer>
     <integer name="MLProDefaultDamage">25</integer>
-    <integer name="LProDefaultDamage">1</integer>
-    <integer name="FProDefaultDamage">10</integer>
-    <integer name="SProDefaultDamage">20</integer>
+    <integer name="LProDefaultDamage">10</integer>
+    <integer name="FProDefaultDamage">5</integer>
+    <integer name="SProDefaultDamage">25</integer>
     <integer name="FProLifeCountMax">10</integer>
     <integer name="FProXVelSpreadMax">21</integer>
 
@@ -167,29 +167,29 @@
         <string name="SecondaryWeapon">sWeapon</string>
         <!-->Upgrade cost related constants<-->
         <integer name="NewLifeCost">100</integer>
-        <integer name="IncreaseMaxHealthCost">100</integer>
-        <integer name="MGDamageCost">100</integer>
-        <integer name="MLDamageCost">100</integer>
+        <integer name="IncreaseMaxHealthCost">10</integer>
+        <integer name="MGDamageCost">25</integer>
+        <integer name="MLDamageCost">150</integer>
         <integer name="LBDamageCost">100</integer>
-        <integer name="FTDamageCost">100</integer>
-        <integer name="MGMaxAmmoCost">100</integer>
+        <integer name="FTDamageCost">10</integer>
+        <integer name="MGMaxAmmoCost">25</integer>
         <integer name="MLMaxAmmoCost">100</integer>
-        <integer name="LBMaxAmmoCost">100</integer>
-        <integer name="FTMaxAmmoCost">100</integer>
-        <integer name="MGAmmoCost">100</integer>
+        <integer name="LBMaxAmmoCost">75</integer>
+        <integer name="FTMaxAmmoCost">50</integer>
+        <integer name="MGAmmoCost">10</integer>
         <integer name="MLAmmoCost">100</integer>
-        <integer name="LBAmmoCost">100</integer>
-        <integer name="FTAmmoCost">100</integer>
+        <integer name="LBAmmoCost">150</integer>
+        <integer name="FTAmmoCost">200</integer>
         <!-->Upgrade increase by value related constants<-->
         <integer name="NewLifeIncreaseBy">1</integer>
         <integer name="IncreaseMaxHealthIncreaseBy">100</integer>
-        <integer name="MGDamageIncreaseBy">100</integer>
-        <integer name="MLDamageIncreaseBy">100</integer>
-        <integer name="LBDamageIncreaseBy">100</integer>
-        <integer name="FTDamageIncreaseBy">100</integer>
+        <integer name="MGDamageIncreaseBy">2</integer>
+        <integer name="MLDamageIncreaseBy">50</integer>
+        <integer name="LBDamageIncreaseBy">10</integer>
+        <integer name="FTDamageIncreaseBy">1</integer>
         <integer name="MGMaxAmmoIncreaseBy">100</integer>
-        <integer name="MLMaxAmmoIncreaseBy">100</integer>
-        <integer name="LBMaxAmmoIncreaseBy">100</integer>
-        <integer name="FTMaxAmmoIncreaseBy">100</integer>
+        <integer name="MLMaxAmmoIncreaseBy">50</integer>
+        <integer name="LBMaxAmmoIncreaseBy">10</integer>
+        <integer name="FTMaxAmmoIncreaseBy">200</integer>
 
 </resources>

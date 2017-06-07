@@ -42,7 +42,6 @@ public class GameScreen extends Fragment implements GameSurfaceView.ScreenChange
             resetGame = false;
             View view = inflater.inflate(R.layout.game_screen,container,false);
             layout = (ViewGroup)view.findViewById(R.id.game_screen);
-
             if(GameGlobals.getInstance().mySoundEffects == null)GameGlobals.getInstance().mySoundEffects = new SoundEffects(getContext());
             if(GameGlobals.getInstance().myMusic == null)GameGlobals.getInstance().myMusic = new Music(getContext());
             game = new GameSurfaceView(getContext(), this);

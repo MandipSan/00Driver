@@ -178,7 +178,7 @@ public class GameImages {
                 buttonSize, buttonSize);
     }
 
-    /** PURPOSE:    Unloads all the images
+    /** PURPOSE:    Unloads all game images
      *  INPUT:      NONE
      *  OUTPUT:     NONE
      */
@@ -423,6 +423,7 @@ public class GameImages {
     public Bitmap getFlameThrowerButtonImage(){
         return flameThrowerButtonImage;
     }
+
 
     /** PURPOSE:    Set's the image to the proper scaling and returns it
      *  INPUT:      image               - Image to set

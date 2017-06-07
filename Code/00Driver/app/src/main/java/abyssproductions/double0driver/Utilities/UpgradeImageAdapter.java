@@ -62,7 +62,7 @@ public class UpgradeImageAdapter extends BaseAdapter {
         itemString = "Increase: " + item.toString() + " " + upScreen.getCurrentValue(position) +
                 " by " + upScreen.getIncreaseValue(position);
         costString = "Cost: " + upScreen.getCost(position);
-        view.setBackgroundResource(R.drawable.healthbox);
+        view.setBackgroundResource(upScreen.buttonImages[position]);
 
         if(position >= UpgradeScreen.ItemsList.FillMachineGunAmmo.ordinal() &&
                 position <= UpgradeScreen.ItemsList.FillFlameThrowerAmmo.ordinal()) {
@@ -106,8 +106,25 @@ public class UpgradeImageAdapter extends BaseAdapter {
             }
         }
         textView.setText(itemString);
+        if( position < (UpgradeScreen.ItemsList.values().length -6)) {
+            textView.setBackgroundColor(Color.parseColor("#ffffff"));
+            textView.setAlpha(0.5f);
+        }else{
+            textView.setBackgroundColor(0);
+            textView.setTextColor(Color.parseColor("#000000"));
+            textView.setAlpha(1f);
+        }
         textView = (TextView) view.findViewById(R.id.Cost);
         textView.setText(costString);
+        if( position < (UpgradeScreen.ItemsList.values().length -6)) {
+            textView.setTextColor(Color.parseColor("#008000"));
+            textView.setAlpha(0.75f);
+            textView.setBackgroundColor(Color.parseColor("#ffffff"));
+        }else{
+            textView.setBackgroundColor(0);
+            textView.setTextColor(Color.parseColor("#000000"));
+            textView.setAlpha(1f);
+        }
         return view;
     }
 }
