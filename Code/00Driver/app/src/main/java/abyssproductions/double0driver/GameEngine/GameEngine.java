@@ -204,7 +204,7 @@ public class GameEngine {
                 (gameBackground.getNumLanes()/2)*gameBackground.getLaneSize())+
                 gameBackground.getGrassSize(),gGInstance.getScreenHeight()/2);
         for(int i =0; i < myEnemies.length; i++){
-            myEnemies[i].killSoundEffect();
+            if(myEnemies[i] != null)myEnemies[i].killSoundEffect();
             myEnemies[i] = null;
         }
         for(int i = 0; i < gameItems.length; i++){
